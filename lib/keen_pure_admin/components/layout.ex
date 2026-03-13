@@ -89,13 +89,14 @@ defmodule KPureAdmin.Components.Layout do
         <.footer>...</.footer>
       </.layout>
   """
+  attr(:id, :string, default: nil)
   attr(:class, :string, default: nil)
   attr(:rest, :global)
   slot(:inner_block, required: true)
 
   def layout(assigns) do
     ~H"""
-    <div class={build_classes("pa-layout", [], @class)} {@rest}>
+    <div id={@id} class={build_classes("pa-layout", [], @class)} {@rest}>
       <%= render_slot(@inner_block) %>
     </div>
     """
@@ -321,6 +322,44 @@ defmodule KPureAdmin.Components.Layout do
   def divider(assigns) do
     ~H"""
     <hr class={build_classes("pa-divider", [], @class)} {@rest} />
+    """
+  end
+
+  @doc """
+  Renders an inline script to prevent flash of unstyled content (FOUC).
+
+  Place inside `<body>` before `{@inner_content}` in your root layout.
+  Reads settings from localStorage and applies classes immediately,
+  before the page renders.
+
+  ## Examples
+
+      <body>
+        <.fouc_prevention_script />
+        {@inner_content}
+      </body>
+  """
+  def fouc_prevention_script(assigns) do
+    ~H"""
+    <script>
+      (function(){
+        var b=document.body,h=document.documentElement;
+        var m=localStorage.getItem('theme-mode');
+        if(m==='dark')b.classList.add('pa-mode-dark');
+        else if(m==='auto'&&window.matchMedia('(prefers-color-scheme:dark)').matches)b.classList.add('pa-mode-dark');
+        else b.classList.add('pa-mode-light');
+        var fs=localStorage.getItem('font-size');
+        if(fs&&fs!=='default')h.classList.add('font-size-'+fs);
+        var ff=localStorage.getItem('font-family');
+        if(ff&&ff!=='default')b.classList.add('font-family-'+ff);
+        var cw=localStorage.getItem('container-width');
+        if(cw&&cw!=='fluid')b.classList.add('pa-container-'+cw);
+        if(localStorage.getItem('sidebar-mode')==='sticky')b.classList.add('pa-layout--sticky');
+        if(localStorage.getItem('sidebar-hidden')==='true')b.classList.add('sidebar-hidden');
+        if(localStorage.getItem('compact-mode')==='true')b.classList.add('compact-mode');
+        if(localStorage.getItem('rtl-mode')==='true')h.setAttribute('dir','rtl');
+      })();
+    </script>
     """
   end
 

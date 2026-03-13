@@ -35,6 +35,7 @@ defmodule KPureAdmin.Components do
       import KPureAdmin.Components.Stat
       import KPureAdmin.Components.Table
       import KPureAdmin.Components.Timeline
+      import KPureAdmin.Components.SettingsPanel
       import KPureAdmin.Components.Toast
       import KPureAdmin.Components.Typography
     end
