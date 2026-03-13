@@ -2,17 +2,70 @@
   <.navbar>
     <:start>
       <.navbar_burger />
-      <a href="/" class="pa-navbar__brand">Pure Admin LiveView</a>
-      <nav class="pa-navbar__nav">
-        <a href="/" class="pa-navbar__link">Dashboard</a>
-        <a href="/buttons" class="pa-navbar__link">Buttons</a>
-        <a href="/cards" class="pa-navbar__link">Cards</a>
-        <a href="/tables" class="pa-navbar__link">Tables</a>
-        <a href="/forms" class="pa-navbar__link">Forms</a>
-      </nav>
+      <.navbar_brand>
+        <h1>Pure Admin</h1>
+      </.navbar_brand>
+      <.navbar_nav>
+        <.navbar_nav_item href="/">Dashboard</.navbar_nav_item>
+        <.navbar_nav_item href="/buttons" has_dropdown>
+          Components
+          <:dropdown>
+            <.navbar_dropdown>
+              <.navbar_nav_item href="/buttons">Buttons</.navbar_nav_item>
+              <.navbar_nav_item href="/cards">Cards</.navbar_nav_item>
+              <.navbar_nav_item href="/tabs">Tabs</.navbar_nav_item>
+              <.navbar_nav_item has_dropdown>
+                More ›
+                <:dropdown>
+                  <.navbar_dropdown is_level2>
+                    <.navbar_nav_item href="/badges">Badges</.navbar_nav_item>
+                    <.navbar_nav_item href="/modals">Modals</.navbar_nav_item>
+                    <.navbar_nav_item href="/loaders">Loaders</.navbar_nav_item>
+                    <.navbar_nav_item href="/lists">Lists</.navbar_nav_item>
+                    <.navbar_nav_item href="/code">Code</.navbar_nav_item>
+                    <.navbar_nav_item href="/callouts">Callouts</.navbar_nav_item>
+                    <.navbar_nav_item href="/typography">Typography</.navbar_nav_item>
+                    <.navbar_nav_item href="/stats">Stats</.navbar_nav_item>
+                  </.navbar_dropdown>
+                </:dropdown>
+              </.navbar_nav_item>
+            </.navbar_dropdown>
+          </:dropdown>
+        </.navbar_nav_item>
+        <.navbar_nav_item href="/forms">Forms</.navbar_nav_item>
+      </.navbar_nav>
     </:start>
+    <:center>
+      <.navbar_title>
+        <h2>{assigns[:page_title] || "Dashboard"}</h2>
+      </.navbar_title>
+    </:center>
     <:end_>
-      <span class="pa-navbar__text">KPureAdmin Demo</span>
+      <.navbar_nav position="end">
+        <.navbar_nav_item href="/alerts">Alerts</.navbar_nav_item>
+        <.navbar_nav_item href="/tables">Tables</.navbar_nav_item>
+      </.navbar_nav>
+      <.notifications count={3}>
+        <.notification_item variant="primary" icon="fa-solid fa-file-pen" is_unread>
+          <:title>New task assigned</:title>
+          <:text>Review the Q4 report by end of week</:text>
+          <:time>2 minutes ago</:time>
+        </.notification_item>
+        <.notification_item variant="success" icon="fa-solid fa-check" is_unread>
+          <:title>Build completed</:title>
+          <:text>Production deployment finished successfully</:text>
+          <:time>15 minutes ago</:time>
+        </.notification_item>
+        <.notification_item variant="warning" icon="fa-solid fa-triangle-exclamation">
+          <:title>Server maintenance</:title>
+          <:text>Scheduled downtime tonight at 11 PM</:text>
+          <:time>1 hour ago</:time>
+        </.notification_item>
+        <:footer_>
+          <a href="#">View all notifications</a>
+        </:footer_>
+      </.notifications>
+      <.navbar_profile_btn name="John Doe" phx-click={toggle_profile_panel()} />
     </:end_>
   </.navbar>
 
@@ -78,5 +131,18 @@
     </.layout_content>
   </.layout_inner>
 </.layout>
+
+<.profile_panel id="profile-panel" name="John Doe" email="john.doe@company.com" role="Administrator">
+  <:nav>
+    <.profile_nav_item href="#" icon="fa-solid fa-user">Profile Settings</.profile_nav_item>
+    <.profile_nav_item href="#" icon="fa-solid fa-lock">Security</.profile_nav_item>
+    <.profile_nav_item href="#" icon="fa-solid fa-bell">Notifications</.profile_nav_item>
+    <.profile_nav_item href="#" icon="fa-solid fa-gear">Preferences</.profile_nav_item>
+  </:nav>
+  <:footer_>
+    <button class="pa-btn pa-btn--secondary pa-btn--block">Switch Account</button>
+    <button class="pa-btn pa-btn--danger pa-btn--block">Sign Out</button>
+  </:footer_>
+</.profile_panel>
 
 <.settings_panel />
