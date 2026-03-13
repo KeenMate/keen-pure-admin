@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="csrf-token" content={get_csrf_token()} />
+    <.live_title default="Pure Admin Demo" suffix=" · KPureAdmin">
+      {assigns[:page_title]}
+    </.live_title>
+    <link rel="stylesheet" href={~p"/assets/css/pure-admin.css"} />
+    <link rel="stylesheet" href={~p"/assets/css/theme.css"} />
+    <link rel="stylesheet" href={~p"/assets/css/demo.css"} />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <script defer phx-track-static type="text/javascript" src={~p"/assets/js/app.js"}>
+    </script>
+  </head>
+  <body>
+    {@inner_content}
+  </body>
+</html>
