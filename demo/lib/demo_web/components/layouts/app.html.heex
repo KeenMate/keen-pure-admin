@@ -133,15 +133,65 @@
 </.layout>
 
 <.profile_panel id="profile-panel" name="John Doe" email="john.doe@company.com" role="Administrator">
-  <:nav>
-    <.profile_nav_item href="#" icon="fa-solid fa-user">Profile Settings</.profile_nav_item>
-    <.profile_nav_item href="#" icon="fa-solid fa-lock">Security</.profile_nav_item>
-    <.profile_nav_item href="#" icon="fa-solid fa-bell">Notifications</.profile_nav_item>
-    <.profile_nav_item href="#" icon="fa-solid fa-gear">Preferences</.profile_nav_item>
-  </:nav>
+  <:tabs>
+    <div class="pa-tabs pa-tabs--full">
+      <button class="pa-tabs__item pa-tabs__item--active" data-profile-tab="profile">
+        <i class="fa-solid fa-user"></i>
+        <span class="pa-profile-panel__tab-text">Profile</span>
+      </button>
+      <button class="pa-tabs__item" data-profile-tab="favorites">
+        <i class="fa-solid fa-star"></i>
+        <span class="pa-profile-panel__tab-text">Favorites</span>
+      </button>
+    </div>
+  </:tabs>
+
+  <div class="pa-tabs__panel pa-tabs__panel--active" data-profile-panel="profile">
+    <nav class="pa-profile-panel__nav">
+      <ul>
+        <.profile_nav_item href="#" icon="fa-solid fa-user">Profile Settings</.profile_nav_item>
+        <.profile_nav_item href="#" icon="fa-solid fa-lock">Security</.profile_nav_item>
+        <.profile_nav_item href="#" icon="fa-solid fa-bell">Notifications</.profile_nav_item>
+        <.profile_nav_item href="#" icon="fa-solid fa-gear">Preferences</.profile_nav_item>
+        <.profile_nav_item href="#" icon="fa-solid fa-circle-question">
+          Help & Support
+        </.profile_nav_item>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="pa-tabs__panel" data-profile-panel="favorites">
+    <div class="pa-profile-panel__favorites">
+      <ul>
+        <li>
+          <div class="pa-profile-panel__favorite-item" data-href="/">
+            <span class="pa-profile-panel__favorite-icon"><i class="fa-solid fa-gauge"></i></span>
+            <span class="pa-profile-panel__favorite-label">Dashboard</span>
+            <button class="pa-profile-panel__favorite-remove" title="Remove from favorites">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+        </li>
+        <li>
+          <div class="pa-profile-panel__favorite-item" data-href="/forms">
+            <span class="pa-profile-panel__favorite-icon"><i class="fa-solid fa-pen-to-square"></i></span>
+            <span class="pa-profile-panel__favorite-label">Forms</span>
+            <button class="pa-profile-panel__favorite-remove" title="Remove from favorites">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
   <:footer_>
-    <button class="pa-btn pa-btn--secondary pa-btn--block">Switch Account</button>
-    <button class="pa-btn pa-btn--danger pa-btn--block">Sign Out</button>
+    <button class="pa-btn pa-btn--secondary pa-btn--block">
+      <i class="fa-solid fa-right-left"></i> Switch Account
+    </button>
+    <button class="pa-btn pa-btn--danger pa-btn--block">
+      <i class="fa-solid fa-right-from-bracket"></i> Sign Out
+    </button>
   </:footer_>
 </.profile_panel>
 

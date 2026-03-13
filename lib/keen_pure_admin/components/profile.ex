@@ -42,7 +42,7 @@ defmodule KPureAdmin.Components.Profile do
 
   def profile_panel(assigns) do
     ~H"""
-    <div id={@id} class={profile_panel_classes(assigns)} {@rest}>
+    <div id={@id} class={profile_panel_classes(assigns)} phx-hook="PureAdminProfilePanel" {@rest}>
       <div class="pa-profile-panel__overlay" phx-click={close_profile_panel(@id)}></div>
 
       <div class="pa-profile-panel__content">

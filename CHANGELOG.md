@@ -19,6 +19,7 @@
 - `profile_panel/1` — full slide-out panel with overlay, avatar, name/email/role, `:nav`, `:tabs`, `:footer_` slots
 - `profile_nav_item/1` — navigation item within profile panel
 - `toggle_profile_panel/1`, `close_profile_panel/1` — JS commands
+- `PureAdminProfilePanel` JS hook — tab switching, favorites, click-outside-to-close
 
 ### Settings panel
 - `settings_panel/1` — floating settings panel (theme mode, layout width, sidebar, fonts, etc.)
@@ -33,7 +34,7 @@
 - Navbar uses three-section layout (start/center/end) matching pure-admin reference
 - Components dropdown with nested "More ›" submenu
 - Notifications bell with sample items
-- Profile panel with nav items and footer actions
+- Profile panel with tabs (Profile/Favorites), nav items, and footer actions
 
 ## v0.1.0
 
