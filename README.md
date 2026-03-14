@@ -162,7 +162,8 @@ Client-side settings panel for theme mode, layout width, sidebar options, fonts,
 | `table/1` | Data tables with sorting |
 | `tabs/1` | Tab navigation with panels |
 | `input/1`, `form_group/1` | Form inputs with labels, errors |
-| `grid/1`, `col/1` | 12-column grid system |
+| `grid/1`, `column/1` | Flexbox grid with percentage/fraction columns |
+| `section/1` | Content section with optional `title_text` heading |
 | `stat/1` | Stat cards (hero, square) |
 | `timeline/1` | Timeline displays |
 | `loader/1` | Loading spinners |
@@ -207,6 +208,8 @@ cd demo
 mix deps.get
 mix phx.server    # Visit http://localhost:4000
 ```
+
+The demo app includes pages for Cards, Grid, Buttons, Alerts, Forms, Lists, Stats, Modals, and Dashboard — each matching the Svelte pure-admin reference.
 
 ## License
 

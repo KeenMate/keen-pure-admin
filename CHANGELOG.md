@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.3.0
+
+### Components
+- `section/1` — added `title_text` attr that renders an `<h3 class="pa-section-title">` heading
+
+### Demo
+- **Cards page** — complete rewrite matching Svelte pure-admin reference (14 sections: same-height, basic, header three-part layout, colored, theme colors, bordered, ghost, underlined headers, statistics, statistics with trends, interactive, advanced features, data display, CSS classes reference)
+- **Grid page** — complete rewrite matching Svelte pure-admin reference (overview, basic usage, percentage columns, fraction columns, responsive grid, offsets, row alignment, no gutter, visibility utilities, nested grids, quick reference, code examples)
+
 ## v0.2.0
 
 ### Navbar subcomponents
