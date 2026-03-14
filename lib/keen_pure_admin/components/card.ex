@@ -62,6 +62,7 @@ defmodule KPureAdmin.Components.Card do
   end
 
   slot(:title_icon, doc: "Icon rendering before title")
+  slot(:subtitle, doc: "Rich subtitle content (alternative to subtitle_text)")
   slot(:description, doc: "Rich description content (alternative to description_text)")
   slot(:tools, doc: "Header tools/actions")
   slot(:meta, doc: "Metadata text in header")
@@ -74,7 +75,8 @@ defmodule KPureAdmin.Components.Card do
     has_structured_header =
       assigns.title != [] || assigns.title_text != nil || assigns.tools != [] ||
         assigns.meta != [] || assigns.tabs != [] || assigns.description != [] ||
-        assigns.description_text != nil || assigns.title_icon != []
+        assigns.description_text != nil || assigns.title_icon != [] ||
+        assigns.subtitle != [] || assigns.subtitle_text != nil
 
     has_header = assigns.header != [] || has_structured_header
 
@@ -101,17 +103,26 @@ defmodule KPureAdmin.Components.Card do
           <% end %>
         </div>
 
-        <%!-- Title area --%>
-        <div :if={@title != [] || @title_text != nil} class="pa-card__title">
+        <%!-- Title with icon: wrapped in pa-card__title div --%>
+        <div :if={@title_icon != [] && (@title != [] || @title_text != nil)} class="pa-card__title">
           <%= for title_icon <- @title_icon do %>
             <span class="pa-card__title-icon"><%= render_slot(title_icon) %></span>
           <% end %>
           <%= for title <- @title do %>
-            <span :if={title[:icon]} class="pa-card__title-icon"><%= title[:icon] %></span>
             <h3 class="pa-card__title-text"><%= title.text %></h3>
           <% end %>
           <h3 :if={@title == [] && @title_text != nil} class="pa-card__title-text"><%= @title_text %></h3>
         </div>
+        <%!-- Title with icon via :title slot attr --%>
+        <%= for title <- @title do %>
+          <div :if={@title_icon == [] && title[:icon]} class="pa-card__title">
+            <span class="pa-card__title-icon"><%= title[:icon] %></span>
+            <h3 class="pa-card__title-text"><%= title.text %></h3>
+          </div>
+          <h3 :if={@title_icon == [] && !title[:icon]}><%= title.text %></h3>
+        <% end %>
+        <%!-- Title text only: plain h3 --%>
+        <h3 :if={@title_icon == [] && @title == [] && @title_text != nil}><%= @title_text %></h3>
 
         <%!-- Description --%>
         <p :if={@description_text != nil && @description == []} class={
@@ -123,8 +134,11 @@ defmodule KPureAdmin.Components.Card do
           <p class="pa-card__description"><%= render_slot(description) %></p>
         <% end %>
 
-        <%!-- Subtitle (legacy) --%>
-        <p :if={@subtitle_text != nil} class="pa-card__subtitle"><%= @subtitle_text %></p>
+        <%!-- Subtitle --%>
+        <p :if={@subtitle_text != nil && @subtitle == []} class="pa-text pa-text--secondary"><%= @subtitle_text %></p>
+        <%= for subtitle <- @subtitle do %>
+          <p class="pa-text pa-text--secondary"><%= render_slot(subtitle) %></p>
+        <% end %>
 
         <%!-- Metadata --%>
         <%= for meta <- @meta do %>

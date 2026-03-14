@@ -13,7 +13,7 @@ defmodule KPureAdmin.Components.Code do
 
   def code(assigns) do
     ~H"""
-    <code class={build_classes("pa-code", [], @class)} {@rest}><%= render_slot(@inner_block) %></code>
+    <code class={@class} {@rest}><%= render_slot(@inner_block) %></code>
     """
   end
 

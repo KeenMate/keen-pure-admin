@@ -111,7 +111,8 @@ defmodule DemoWeb.Live.GridLive do
     </.card>
 
     <%!-- Basic Usage --%>
-    <.card title_text="Basic Usage" subtitle_text="Auto-equal width columns with .pa-col">
+    <.card title_text="Basic Usage">
+      <:subtitle>Auto-equal width columns with <.code>.pa-col</.code></:subtitle>
       <h4>Two Equal Columns</h4>
       <.grid class="mb-4">
         <.column>
@@ -136,7 +137,7 @@ defmodule DemoWeb.Live.GridLive do
       </.grid>
 
       <h4>Four Equal Columns</h4>
-      <.grid>
+      <.grid class="mb-4">
         <.column>
           <div class="grid-demo-cell">.pa-col</div>
         </.column>
@@ -150,10 +151,21 @@ defmodule DemoWeb.Live.GridLive do
           <div class="grid-demo-cell">.pa-col</div>
         </.column>
       </.grid>
+
+      <h4>Auto Width Column</h4>
+      <.grid>
+        <.column>
+          <div class="grid-demo-cell">.pa-col (fills remaining)</div>
+        </.column>
+        <.column size="auto">
+          <div class="grid-demo-cell">.pa-col-auto (content width)</div>
+        </.column>
+      </.grid>
     </.card>
 
     <%!-- Percentage Columns --%>
-    <.card title_text="Percentage Columns" subtitle_text="Fixed widths in 5% increments: .pa-col-5 through .pa-col-100">
+    <.card title_text="Percentage Columns">
+      <:subtitle>Fixed widths in 5% increments: <.code>.pa-col-5</.code> through <.code>.pa-col-100</.code></:subtitle>
       <.grid class="mb-2">
         <.column size="25"><div class="grid-demo-cell">.pa-col-25</div></.column>
         <.column size="75"><div class="grid-demo-cell">.pa-col-75</div></.column>
@@ -187,7 +199,8 @@ defmodule DemoWeb.Live.GridLive do
     </.card>
 
     <%!-- Fraction Columns --%>
-    <.card title_text="Fraction Columns" subtitle_text="Intuitive naming for common layouts: .pa-col-1-3, .pa-col-2-3, etc.">
+    <.card title_text="Fraction Columns">
+      <:subtitle>Intuitive naming for common layouts: <.code>.pa-col-1-3</.code>, <.code>.pa-col-2-3</.code>, etc.</:subtitle>
       <h4>Halves (1/2)</h4>
       <.grid class="mb-4">
         <.column size="1-2"><div class="grid-demo-cell">.pa-col-1-2 (50%)</div></.column>
@@ -287,7 +300,8 @@ defmodule DemoWeb.Live.GridLive do
     </.card>
 
     <%!-- Offsets --%>
-    <.card title_text="Offsets" subtitle_text="Push columns with left margin: .pa-offset-&#123;size&#125;">
+    <.card title_text="Offsets">
+      <:subtitle>Push columns with left margin: <.code>.pa-offset-{"{size}"}</.code></:subtitle>
       <h4>Centering with Offsets</h4>
       <.grid class="mb-2">
         <.column size="50" offset="25"><div class="grid-demo-cell">.pa-col-50 .pa-offset-25</div></.column>
@@ -357,7 +371,8 @@ defmodule DemoWeb.Live.GridLive do
     </.card>
 
     <%!-- No Gutter --%>
-    <.card title_text="No Gutter" subtitle_text="Remove spacing between columns with .pa-row--no-gutter">
+    <.card title_text="No Gutter">
+      <:subtitle>Remove spacing between columns with <.code>.pa-row--no-gutter</.code></:subtitle>
       <h4>Default (with gutter)</h4>
       <.grid class="mb-4">
         <.column size="1-3"><div class="grid-demo-cell">1/3</div></.column>

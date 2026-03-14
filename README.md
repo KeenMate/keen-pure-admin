@@ -157,7 +157,7 @@ Client-side settings panel for theme mode, layout width, sidebar options, fonts,
 | `button/1` | Buttons with variants, sizes, loading state |
 | `badge/1` | Inline badges/tags |
 | `alert/1` | Dismissible alerts |
-| `card/1` | Cards with header, body, footer, tabs |
+| `card/1` | Cards with header (title/subtitle/description), body, footer, tabs |
 | `modal/1` | Modal dialogs |
 | `table/1` | Data tables with sorting |
 | `tabs/1` | Tab navigation with panels |
@@ -169,7 +169,7 @@ Client-side settings panel for theme mode, layout width, sidebar options, fonts,
 | `loader/1` | Loading spinners |
 | `callout/1` | Callout/info boxes |
 | `list/1` | Styled lists |
-| `code/1` | Code blocks |
+| `code/1`, `code_block/1` | Inline code and code blocks |
 | `toast/1` | Toast notifications (LiveComponent) |
 
 ### JS Hooks

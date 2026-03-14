@@ -4,10 +4,15 @@
 
 ### Components
 - `section/1` — added `title_text` attr that renders an `<h3 class="pa-section-title">` heading
+- `code/1` — fixed to render plain `<code>` without `pa-code` class, matching Svelte reference
+- `card/1` — added `:subtitle` slot (rich HTML counterpart to `subtitle_text`)
+- `card/1` — fixed `subtitle_text` to render with `pa-text pa-text--secondary` class matching Svelte reference
+- `card/1` — fixed title rendering: plain `<h3>` without wrapper div when no icon is present, matching Svelte reference
 
 ### Demo
 - **Cards page** — complete rewrite matching Svelte pure-admin reference (14 sections: same-height, basic, header three-part layout, colored, theme colors, bordered, ghost, underlined headers, statistics, statistics with trends, interactive, advanced features, data display, CSS classes reference)
 - **Grid page** — complete rewrite matching Svelte pure-admin reference (overview, basic usage, percentage columns, fraction columns, responsive grid, offsets, row alignment, no gutter, visibility utilities, nested grids, quick reference, code examples)
+- **Sidebar** — reorganized to match Svelte pure-admin layout (Components submenu with Grid, separate Tables and Timeline submenus, Forms as top-level item)
 
 ## v0.2.0
 
