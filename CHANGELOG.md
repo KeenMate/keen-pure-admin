@@ -14,6 +14,7 @@
 - **Grid page** — complete rewrite matching Svelte pure-admin reference (overview, basic usage, percentage columns, fraction columns, responsive grid, offsets, row alignment, no gutter, visibility utilities, nested grids, quick reference, code examples)
 - **Buttons page** — complete rewrite matching Svelte pure-admin reference (variants, sizes, outline, states, block, button groups with gap sizes, vertical alignment, responsive direction, text truncation, icon buttons, icon-only, fixed width, text alignment, ripple effects, loading states, usage guide, CSS classes reference)
 - **Inputs page** — new page matching Svelte pure-admin reference (text inputs with states/sizes/validation/theme colors, input groups with prepend/append/buttons/toggle mode, input types, select dropdowns, textareas, checkboxes & radios with sizes, width variations, CSS classes reference)
+- **Validations page** — new page matching Svelte pure-admin reference (10 validation patterns: inline field errors, summary block, combined summary+inline, border+icon only, right-side indicators, helper text transforms, toast notifications, validation timing strategies, multi-field/cross-field, progressive multi-step, CSS classes reference)
 - **Sidebar** — reorganized to match Svelte pure-admin layout (Components submenu with Grid, separate Tables and Timeline submenus, Forms as top-level item)
 
 ## v0.2.0

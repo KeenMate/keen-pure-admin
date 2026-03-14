@@ -25,6 +25,7 @@ defmodule DemoWeb.Router do
       live "/grid", Live.GridLive, :index
       live "/forms", Live.FormsLive, :index
       live "/inputs", Live.InputsLive, :index
+      live "/validations", Live.ValidationsLive, :index
       live "/loaders", Live.LoadersLive, :index
       live "/lists", Live.ListsLive, :index
       live "/timeline", Live.TimelineLive, :index
