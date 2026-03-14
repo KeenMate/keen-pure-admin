@@ -18,6 +18,15 @@ defmodule DemoWeb.Live.ButtonsLive do
     ~H"""
     <.paragraph>Various button styles and sizes for actions and navigation.</.paragraph>
 
+    <script>
+      document.addEventListener("click", function(e) {
+        var btn = e.target.closest("[data-ripple]");
+        if (!btn) return;
+        btn.classList.add("pa-btn--ripple-active");
+        setTimeout(function() { btn.classList.remove("pa-btn--ripple-active"); }, 600);
+      });
+    </script>
+
     <%!-- Button Variants and Sizes --%>
     <.grid>
       <.column size="100" lg="1-2">
@@ -306,6 +315,13 @@ defmodule DemoWeb.Live.ButtonsLive do
             <.button variant="success" is_icon_only size="xs" title="Check"><i class="fa-solid fa-check"></i></.button>
             <.button variant="warning" is_icon_only size="xs" title="Warning"><i class="fa-solid fa-triangle-exclamation"></i></.button>
             <.button variant="info" is_icon_only size="xs" title="Download"><i class="fa-solid fa-download"></i></.button>
+          </.button_group>
+          <.paragraph class="mb-2">With ripple and loading states (click to test):</.paragraph>
+          <.button_group>
+            <.button variant="primary" is_icon_only is_ripple title="Save" is_loading={@loading_btn == "icon-save"} phx-click="toggle_loading" phx-value-btn="icon-save"><i class="fa-solid fa-floppy-disk"></i></.button>
+            <.button variant="secondary" is_icon_only is_ripple title="Refresh" is_loading={@loading_btn == "icon-refresh"} phx-click="toggle_loading" phx-value-btn="icon-refresh"><i class="fa-solid fa-rotate-right"></i></.button>
+            <.button variant="success" is_icon_only is_ripple title="Upload" is_loading={@loading_btn == "icon-upload"} phx-click="toggle_loading" phx-value-btn="icon-upload"><i class="fa-solid fa-upload"></i></.button>
+            <.button variant="danger" is_icon_only is_ripple title="Delete" is_loading={@loading_btn == "icon-delete"} phx-click="toggle_loading" phx-value-btn="icon-delete"><i class="fa-solid fa-trash"></i></.button>
           </.button_group>
         </.card>
       </.column>
