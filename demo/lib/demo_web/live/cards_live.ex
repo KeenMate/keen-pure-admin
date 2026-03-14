@@ -2,13 +2,7 @@ defmodule DemoWeb.Live.CardsLive do
   use DemoWeb, :live_view
 
   def mount(_params, _session, socket) do
-    orders = [
-      %{product: "Widget A", amount: "$99.00", status: "Paid", status_variant: "success"},
-      %{product: "Widget B", amount: "$149.00", status: "Pending", status_variant: "warning"},
-      %{product: "Widget C", amount: "$249.00", status: "Processing", status_variant: "info"}
-    ]
-
-    {:ok, assign(socket, page_title: "Cards", active_tab: "overview", orders: orders)}
+    {:ok, assign(socket, page_title: "Cards", active_tab: "tab1")}
   end
 
   def handle_event("switch_tab", %{"tab" => tab}, socket) do
@@ -17,212 +11,723 @@ defmodule DemoWeb.Live.CardsLive do
 
   def render(assigns) do
     ~H"""
-    <h1 class="pa-page-title">Cards</h1>
-    <p class="pa-page-subtitle">
-      Flexible content containers for organizing and displaying information.
-    </p>
+    <.paragraph>Flexible content containers for organizing and displaying information.</.paragraph>
 
     <%!-- Same Height Cards --%>
-    <.card title_text="Same Height Cards">
+    <.section title_text="Same Height Cards">
+      <.paragraph class="mb-2">
+        Use <code>sameHeight</code> on Grid to make all cards in a row match the height of the tallest card.
+      </.paragraph>
       <.grid is_same_height>
-        <.column size="33">
-          <.card>Short content.</.card>
-        </.column>
-        <.column size="33">
-          <.card>
-            <p>This card has more content to demonstrate the same-height behavior.</p>
-            <p>
-              It includes multiple paragraphs of text to make it taller than the other cards in the same row.
-            </p>
+        <.column size="100" md="1-3">
+          <.card title_text="Short Card">
+            <.paragraph>This card has minimal content.</.paragraph>
           </.card>
         </.column>
-        <.column size="33">
-          <.card>Medium length content here.</.card>
+        <.column size="100" md="1-3">
+          <.card title_text="Tall Card">
+            <.paragraph>This card has much more content than the others, making it naturally taller.</.paragraph>
+            <.paragraph>
+              All sibling cards will stretch to match this height thanks to the <code>sameHeight</code> prop on Grid.
+            </.paragraph>
+            <.paragraph>This is useful for dashboard layouts where visual consistency matters.</.paragraph>
+          </.card>
+        </.column>
+        <.column size="100" md="1-3">
+          <.card title_text="Medium Card">
+            <.paragraph>This card also stretches to match the tallest card in the row.</.paragraph>
+          </.card>
         </.column>
       </.grid>
-    </.card>
+    </.section>
 
     <%!-- Basic Cards --%>
-    <.grid>
-      <.column size="25">
-        <.card>
-          Simple card with just body content.
-        </.card>
-      </.column>
-      <.column size="25">
-        <.card>
-          <:header>
-            <h3>Card with Header</h3>
-          </:header>
-          Card body content with a header above.
-        </.card>
-      </.column>
-      <.column size="25">
-        <.card>
-          Card body content with a footer below.
-          <:footer>
-            <.button variant="primary" size="sm">Action</.button>
-          </:footer>
-        </.card>
-      </.column>
-      <.column size="25">
-        <.card title_text="Complete Card">
-          <:tools>
-            <.button variant="secondary" size="xs" is_icon_only title="Settings">
-              <i class="fa-solid fa-gear"></i>
-            </.button>
-          </:tools>
-          Complete card with title, tools, and footer.
-          <:actions>
-            <.button variant="primary" size="sm">Save</.button>
-            <.button variant="secondary" size="sm">Cancel</.button>
-          </:actions>
-        </.card>
-      </.column>
-    </.grid>
-
-    <%!-- Ghost Card --%>
-    <.card title_text="Ghost Card">
+    <.section title_text="Basic Cards">
       <.grid>
-        <.column size="33">
-          <.card is_ghost>
-            Ghost card with no background, border, or shadow.
-          </.card>
-        </.column>
-        <.column size="33">
+        <%!-- Simple Card --%>
+        <.column size="100" md="1-2">
           <.card>
-            Normal card for comparison.
+            <.heading level={4}>Simple Card</.heading>
+            <.paragraph>This is a basic card with just a body. Perfect for simple content display.</.paragraph>
           </.card>
         </.column>
-      </.grid>
-    </.card>
 
-    <%!-- Underlined Header Cards --%>
-    <.card title_text="Header Underline Styles">
-      <.grid>
-        <.column size="25">
-          <.card title_text="Default Underline" is_header_underlined>
-            Card with default underlined header.
+        <%!-- Card with Header --%>
+        <.column size="100" md="1-2">
+          <.card>
+            <:header>
+              <.heading level={4}>Card with Header</.heading>
+            </:header>
+            <.paragraph>This card includes a header section for titles and actions.</.paragraph>
           </.card>
         </.column>
-        <.column size="25">
-          <.card title_text="Success Underline" is_header_underlined header_underline_color="success">
-            Card with success-colored underline.
+
+        <%!-- Card with Footer --%>
+        <.column size="100" md="1-2">
+          <.card>
+            <.heading level={4}>Card with Footer</.heading>
+            <.paragraph>This card includes a footer section for actions or meta information.</.paragraph>
+            <:footer>
+              <.button variant="primary" size="sm">Action</.button>
+            </:footer>
           </.card>
         </.column>
-        <.column size="25">
-          <.card title_text="Warning Underline" is_header_underlined header_underline_color="warning">
-            Card with warning-colored underline.
-          </.card>
-        </.column>
-        <.column size="25">
-          <.card title_text="Danger Underline" is_header_underlined header_underline_color="danger">
-            Card with danger-colored underline.
+
+        <%!-- Complete Card --%>
+        <.column size="100" md="1-2">
+          <.card title_text="Complete Card">
+            <:tools>
+              <.button variant="secondary" size="xs">⚙</.button>
+            </:tools>
+            <.paragraph>A complete card with header, body, and footer sections.</.paragraph>
+            <:footer>
+              <span class="pa-card__meta">Updated 2 hours ago</span>
+              <div class="pa-card__actions">
+                <.button variant="secondary" size="sm">Cancel</.button>
+                <.button variant="primary" size="sm">Save</.button>
+              </div>
+            </:footer>
           </.card>
         </.column>
       </.grid>
-    </.card>
+    </.section>
+
+    <%!-- Card Header Three-Part Layout --%>
+    <.section title_text="Card Header Three-Part Layout">
+      <.paragraph class="mb-2">
+        Card headers support a flexible three-part layout: <strong>Title</strong> (fixed), <strong>Description</strong>
+        (flexible, truncates), and <strong>Actions</strong> (fixed). Elements are separated by automatic gaps.
+      </.paragraph>
+
+      <.grid>
+        <%!-- Full three-part layout --%>
+        <.column size="100" lg="1-2">
+          <.card
+            title_text="User Management"
+            description_text="Manage user accounts, permissions, and access controls for your organization"
+          >
+            <:tools>
+              <.button variant="primary" size="sm">Add User</.button>
+            </:tools>
+            <.paragraph>
+              Full three-part layout: title stays fixed, description fills available space and truncates with ellipsis, action button stays fixed on the right.
+            </.paragraph>
+          </.card>
+        </.column>
+
+        <%!-- Multiple action buttons --%>
+        <.column size="100" lg="1-2">
+          <.card
+            title_text="Reports"
+            description_text="Generate and download analytics reports for your dashboard metrics"
+          >
+            <:tools>
+              <.button_group>
+                <.button variant="secondary" size="sm">Export</.button>
+                <.button variant="primary" size="sm">Generate</.button>
+              </.button_group>
+            </:tools>
+            <.paragraph>
+              Multiple buttons can be grouped with <code>ButtonGroup</code>. The group stays fixed and won't shrink.
+            </.paragraph>
+          </.card>
+        </.column>
+
+        <%!-- Title + Description only --%>
+        <.column size="100" lg="1-2">
+          <.card
+            title_text="Settings"
+            description_text="Configure application preferences and system settings"
+          >
+            <.paragraph>Title + description without actions. The description expands to fill the remaining space.</.paragraph>
+          </.card>
+        </.column>
+
+        <%!-- Title + Actions only --%>
+        <.column size="100" lg="1-2">
+          <.card title_text="Notifications">
+            <:tools>
+              <.button_group>
+                <.button variant="secondary" size="sm">Mark All Read</.button>
+                <.button variant="danger" size="sm" is_outline>Clear</.button>
+              </.button_group>
+            </:tools>
+            <.paragraph>
+              Title + actions without description. The gap keeps them separated, and <code>justify-content: space-between</code> pushes actions to the right.
+            </.paragraph>
+          </.card>
+        </.column>
+      </.grid>
+
+      <.heading level={4} class="mt-4">Long Description Truncation</.heading>
+      <.paragraph class="mb-2">
+        When descriptions are too long, they automatically truncate with ellipsis (...) to maintain a single-line header.
+      </.paragraph>
+
+      <.grid>
+        <.column size="100" lg="1-2">
+          <.card
+            title_text="Analytics"
+            description_text="This is a very long description that explains the analytics dashboard features including real-time metrics, historical data analysis, custom reports, and export functionality for enterprise users"
+          >
+            <:tools>
+              <.button variant="primary" size="sm">View</.button>
+            </:tools>
+            <.paragraph>
+              The description truncates with ellipsis when it exceeds the available space. Hover or resize to see the effect.
+            </.paragraph>
+          </.card>
+        </.column>
+
+        <.column size="100" lg="1-2">
+          <.card
+            title_text="Inventory"
+            description_text="Track stock levels, manage suppliers, process purchase orders, and monitor warehouse capacity across multiple locations"
+          >
+            <:tools>
+              <.button_group>
+                <.button variant="secondary" size="sm">Import</.button>
+                <.button variant="secondary" size="sm">Export</.button>
+                <.button variant="primary" size="sm">Add Item</.button>
+              </.button_group>
+            </:tools>
+            <.paragraph>
+              Even with multiple action buttons, the description gracefully truncates to prevent overflow.
+            </.paragraph>
+          </.card>
+        </.column>
+      </.grid>
+
+      <.heading level={4} class="mt-4">With Tooltip for Full Description</.heading>
+      <.paragraph class="mb-2">
+        Add <code>pa-tooltip pa-tooltip--multiline</code> to the description paragraph to show the full text on hover.
+      </.paragraph>
+
+      <.grid>
+        <.column size="100" lg="1-2">
+          <.card>
+            <:header>
+              <h4>Dashboard</h4>
+              <p
+                class="pa-tooltip pa-tooltip--multiline pa-tooltip--bottom"
+                data-tooltip="View real-time metrics, KPIs, and performance indicators for your organization. Includes customizable widgets, drill-down reports, and automated alerts."
+              >
+                View real-time metrics, KPIs, and performance indicators for your organization. Includes customizable widgets, drill-down reports, and automated alerts.
+              </p>
+              <.button variant="primary" size="sm">Open</.button>
+            </:header>
+            <.paragraph>Hover over the truncated description to see the full text in a multiline tooltip.</.paragraph>
+          </.card>
+        </.column>
+
+        <.column size="100" lg="1-2">
+          <.card>
+            <:header>
+              <h4>Audit Log</h4>
+              <p
+                class="pa-tooltip pa-tooltip--multiline pa-tooltip--bottom"
+                data-tooltip="Complete history of system changes, user actions, and security events. Filter by date, user, action type, or resource. Export to CSV for compliance reporting."
+              >
+                Complete history of system changes, user actions, and security events. Filter by date, user, action type, or resource. Export to CSV for compliance reporting.
+              </p>
+              <.button_group>
+                <.button variant="secondary" size="sm">Export</.button>
+                <.button variant="primary" size="sm">View</.button>
+              </.button_group>
+            </:header>
+            <.paragraph>The tooltip provides full context while keeping the header compact and consistent.</.paragraph>
+          </.card>
+        </.column>
+      </.grid>
+
+      <.heading level={4} class="mt-4">Wrap Modifier</.heading>
+      <.paragraph class="mb-2">
+        Use <code>headerWrap</code> when you need the description to wrap onto its own line (useful for mobile or when full description visibility is important).
+      </.paragraph>
+
+      <.grid>
+        <.column size="100" lg="1-2">
+          <.card
+            header_wrap
+            title_text="Project Overview"
+            description_text="This card uses the wrap modifier so the description appears on its own line below the title and actions. This is useful when the full description text needs to be visible."
+          >
+            <:tools>
+              <.button_group>
+                <.button variant="secondary" size="sm">Edit</.button>
+                <.button variant="primary" size="sm">View</.button>
+              </.button_group>
+            </:tools>
+            <.paragraph>
+              With <code>headerWrap</code>, the description moves to a new line (via <code>flex-basis: 100%</code> and <code>order: 1</code>) and can display multiple lines.
+            </.paragraph>
+          </.card>
+        </.column>
+
+        <.column size="100" lg="1-2">
+          <.card
+            header_wrap
+            title_text="Documentation"
+            description_text="Complete API reference and integration guides for developers. Includes code samples, authentication flows, and best practices for building with our platform."
+          >
+            <:tools>
+              <.button variant="primary" size="sm">Open Docs</.button>
+            </:tools>
+            <.paragraph>
+              The wrap modifier is ideal for mobile layouts or when description content is essential to display in full.
+            </.paragraph>
+          </.card>
+        </.column>
+      </.grid>
+    </.section>
 
     <%!-- Colored Cards --%>
-    <.card title_text="Colored Cards">
+    <.section title_text="Colored Cards">
       <.grid>
-        <.column size="20">
-          <.card variant="primary" title_text="Primary">Primary card content.</.card>
+        <.column size="100" md="1-2">
+          <.card variant="primary">
+            <:header><.heading level={4}>Primary Card</.heading></:header>
+            <.paragraph>Card with primary color theme.</.paragraph>
+          </.card>
         </.column>
-        <.column size="20">
-          <.card variant="success" title_text="Success">Success card content.</.card>
+        <.column size="100" md="1-2">
+          <.card variant="success">
+            <:header><.heading level={4}>Success Card</.heading></:header>
+            <.paragraph>Card with success color theme.</.paragraph>
+          </.card>
         </.column>
-        <.column size="20">
-          <.card variant="warning" title_text="Warning">Warning card content.</.card>
+        <.column size="100" md="1-2">
+          <.card variant="warning">
+            <:header><.heading level={4}>Warning Card</.heading></:header>
+            <.paragraph>Card with warning color theme.</.paragraph>
+          </.card>
         </.column>
-        <.column size="20">
-          <.card variant="danger" title_text="Danger">Danger card content.</.card>
+        <.column size="100" md="1-2">
+          <.card variant="danger">
+            <:header><.heading level={4}>Danger Card</.heading></:header>
+            <.paragraph>Card with danger color theme.</.paragraph>
+          </.card>
         </.column>
-        <.column size="20">
-          <.card variant="info" title_text="Info">Info card content.</.card>
+        <.column size="100" md="1-2">
+          <.card variant="info">
+            <:header><.heading level={4}>Info Card</.heading></:header>
+            <.paragraph>Card with info color theme.</.paragraph>
+          </.card>
         </.column>
       </.grid>
-    </.card>
+    </.section>
 
-    <%!-- Title with Description --%>
-    <.card title_text="Card with Description" description_text="This is a description that provides additional context about the card content">
-      Cards can have inline description text in the header that truncates with ellipsis.
-    </.card>
+    <%!-- Theme Color Cards --%>
+    <.section title_text="Theme Color Cards">
+      <.paragraph class="mb-2">
+        Cards can use theme color slots (color-1 through color-9) for custom color schemes defined by your theme.
+      </.paragraph>
+      <.grid>
+        <.column :for={i <- 1..9} size="100" md="1-3">
+          <.card variant={"color-#{i}"}>
+            <:header><.heading level={4}>Color <%= i %></.heading></:header>
+            <.paragraph>Theme color slot <%= i %></.paragraph>
+          </.card>
+        </.column>
+      </.grid>
+    </.section>
+
+    <%!-- Bordered Cards --%>
+    <.section title_text="Bordered Cards">
+      <.paragraph class="mb-2">
+        Cards can have visible borders using the <code>pa-card--bordered</code> class.
+      </.paragraph>
+      <.grid>
+        <.column size="100" md="1-2">
+          <.card class="pa-card--bordered" title_text="Bordered Card">
+            <.paragraph>Card with visible border styling.</.paragraph>
+          </.card>
+        </.column>
+        <.column size="100" md="1-2">
+          <.card class="pa-card--bordered" variant="primary" title_text="Bordered Primary">
+            <.paragraph>Bordered card with color variant.</.paragraph>
+          </.card>
+        </.column>
+        <.column size="100" md="1-2">
+          <.card class="pa-card--bordered" variant="success" title_text="Bordered Success">
+            <.paragraph>Bordered card with success variant.</.paragraph>
+          </.card>
+        </.column>
+        <.column size="100" md="1-2">
+          <.card class="pa-card--bordered" variant="danger" title_text="Bordered Danger">
+            <.paragraph>Bordered card with danger variant.</.paragraph>
+          </.card>
+        </.column>
+      </.grid>
+    </.section>
+
+    <%!-- Ghost Card --%>
+    <.section title_text="Ghost Card">
+      <.paragraph class="mb-4">
+        Invisible container with no background, border, or shadow. Useful as a layout wrapper that maintains card spacing without visual chrome.
+      </.paragraph>
+      <.grid>
+        <.column size="1-3">
+          <.card is_ghost title_text="Ghost Card">
+            <.paragraph>No background, no border, no shadow. Just layout structure.</.paragraph>
+            <:footer>
+              <span class="pa-card__meta">Footer is also transparent</span>
+            </:footer>
+          </.card>
+        </.column>
+        <.column size="1-3">
+          <.card title_text="Normal Card">
+            <.paragraph>Standard card for comparison.</.paragraph>
+          </.card>
+        </.column>
+        <.column size="1-3">
+          <.card is_ghost>
+            <.paragraph>Ghost card with body only — no header or footer needed.</.paragraph>
+          </.card>
+        </.column>
+      </.grid>
+    </.section>
+
+    <%!-- Underlined Headers --%>
+    <.section title_text="Underlined Headers">
+      <.paragraph class="mb-4">
+        Add <code>isHeaderUnderlined</code> for an accent border under the heading. Combine with <code>headerUnderlineColor</code>
+        for semantic colors or <code>headerUnderlineThemeColor</code> for theme color slots.
+      </.paragraph>
+      <.grid>
+        <.column size="100" sm="50" lg="1-4">
+          <.card is_header_underlined title_text="Default Accent">
+            <.paragraph>Uses the theme's accent color.</.paragraph>
+          </.card>
+        </.column>
+        <.column size="100" sm="50" lg="1-4">
+          <.card is_header_underlined header_underline_color="success" title_text="Success">
+            <.paragraph>Green underline for positive context.</.paragraph>
+          </.card>
+        </.column>
+        <.column size="100" sm="50" lg="1-4">
+          <.card is_header_underlined header_underline_color="warning" title_text="Warning">
+            <.paragraph>Yellow underline for caution.</.paragraph>
+          </.card>
+        </.column>
+        <.column size="100" sm="50" lg="1-4">
+          <.card is_header_underlined header_underline_color="danger" title_text="Danger">
+            <.paragraph>Red underline for critical items.</.paragraph>
+          </.card>
+        </.column>
+      </.grid>
+      <.grid>
+        <.column size="100" sm="50" lg="1-4">
+          <.card is_header_underlined header_underline_color="info" title_text="Info">
+            <.paragraph>Blue underline for informational.</.paragraph>
+          </.card>
+        </.column>
+        <.column size="100" sm="50" lg="1-4">
+          <.card is_header_underlined header_class="pa-card__header--underline-color-1" title_text="Color 1">
+            <.paragraph>Theme color slot 1.</.paragraph>
+          </.card>
+        </.column>
+        <.column size="100" sm="50" lg="1-4">
+          <.card is_header_underlined header_class="pa-card__header--underline-color-3" title_text="Color 3">
+            <.paragraph>Theme color slot 3.</.paragraph>
+          </.card>
+        </.column>
+        <.column size="100" sm="50" lg="1-4">
+          <.card is_ghost is_header_underlined title_text="Ghost + Underlined">
+            <.paragraph>Works with ghost cards too.</.paragraph>
+          </.card>
+        </.column>
+      </.grid>
+    </.section>
 
     <%!-- Statistics Cards --%>
-    <.card title_text="Statistics Cards">
+    <.section title_text="Statistics Cards">
       <.grid>
-        <.column size="25">
+        <.column size="100" sm="1-2" lg="1-4">
           <.card variant="stat">
-            <.stat number="1,234" label_text="Total Users">
-              <:icon><i class="fa-solid fa-users"></i></:icon>
+            <.stat number="1,234" label_text="Total Users" icon_variant="primary">
+              <:icon>👥</:icon>
             </.stat>
           </.card>
         </.column>
-        <.column size="25">
+        <.column size="100" sm="1-2" lg="1-4">
           <.card variant="stat">
             <.stat number="$45,678" label_text="Revenue" icon_variant="success">
-              <:icon><i class="fa-solid fa-dollar-sign"></i></:icon>
+              <:icon>📊</:icon>
             </.stat>
           </.card>
         </.column>
-        <.column size="25">
+        <.column size="100" sm="1-2" lg="1-4">
           <.card variant="stat">
             <.stat number="567" label_text="Orders" icon_variant="warning">
-              <:icon><i class="fa-solid fa-box"></i></:icon>
+              <:icon>📦</:icon>
             </.stat>
           </.card>
         </.column>
-        <.column size="25">
+        <.column size="100" sm="1-2" lg="1-4">
           <.card variant="stat">
-            <.stat number="+12%" label_text="Growth"
-              change_text="+12%" change_direction="positive" icon_variant="success">
-              <:icon><i class="fa-solid fa-chart-line"></i></:icon>
+            <.stat number="+12%" label_text="Growth" icon_variant="info">
+              <:icon>📈</:icon>
             </.stat>
           </.card>
         </.column>
       </.grid>
-    </.card>
+    </.section>
 
-    <%!-- Data Display Card --%>
-    <.grid>
-      <.column size="50">
-        <.card has_padding={false} title_text="Recent Orders">
-          <.table rows={@orders} size="xs">
-            <:col :let={order} label="Product"><%= order.product %></:col>
-            <:col :let={order} label="Amount"><%= order.amount %></:col>
-            <:col :let={order} label="Status">
-              <.badge variant={order.status_variant} size="sm"><%= order.status %></.badge>
-            </:col>
-          </.table>
-        </.card>
-      </.column>
-      <.column size="50">
-        <.card title_text="Card with Metadata" description_text="Last updated: 5 min ago">
-          <:tools>
-            <.button variant="secondary" size="xs">Refresh</.button>
-          </:tools>
-          Card content with metadata displayed in the header.
-        </.card>
-      </.column>
-    </.grid>
+    <%!-- Statistics with Trends --%>
+    <.section title_text="Statistics with Trends">
+      <.paragraph class="mb-2">
+        Stats can display change indicators showing positive, negative, or neutral trends. Note: Change indicators only display when NOT using the icon layout.
+      </.paragraph>
+      <.grid>
+        <.column size="100" sm="1-2" lg="1-3">
+          <.card variant="stat">
+            <.stat number="1,234" label_text="Total Users" change_text="+12.5%" change_direction="positive" />
+          </.card>
+        </.column>
+        <.column size="100" sm="1-2" lg="1-3">
+          <.card variant="stat">
+            <.stat number="567" label_text="Orders" change_text="-5.2%" change_direction="negative" />
+          </.card>
+        </.column>
+        <.column size="100" sm="1-2" lg="1-3">
+          <.card variant="stat">
+            <.stat number="$89.50" label_text="Avg Order" change_text="0%" change_direction="neutral" />
+          </.card>
+        </.column>
+      </.grid>
+    </.section>
 
-    <%!-- Card with Tabs --%>
-    <.card title_text="Card with Tabs" has_inline_tabs>
-      <:tabs>
-        <.card_tab is_active={@active_tab == "overview"} phx-click="switch_tab" phx-value-tab="overview">
-          Overview
-        </.card_tab>
-        <.card_tab is_active={@active_tab == "details"} phx-click="switch_tab" phx-value-tab="details">
-          Details
-        </.card_tab>
-        <.card_tab is_active={@active_tab == "settings"} phx-click="switch_tab" phx-value-tab="settings">
-          Settings
-        </.card_tab>
-      </:tabs>
-      <p :if={@active_tab == "overview"}>This is the overview tab content.</p>
-      <p :if={@active_tab == "details"}>This is the details tab content with more information.</p>
-      <p :if={@active_tab == "settings"}>This is the settings tab content for configuration.</p>
+    <%!-- Interactive Cards --%>
+    <.section title_text="Interactive Cards">
+      <.grid>
+        <%!-- Collapsible Card --%>
+        <.column size="100" md="1-2">
+          <.card title_text="Collapsible Card">
+            <:tools>
+              <.button variant="secondary" size="xs">−</.button>
+            </:tools>
+            <.paragraph>
+              This card can be collapsed and expanded. Click the minus/plus button in the header.
+            </.paragraph>
+            <.paragraph>Content that can be hidden to save space when not needed.</.paragraph>
+          </.card>
+        </.column>
+
+        <%!-- Card with Tabs --%>
+        <.column size="100" md="1-2">
+          <.card>
+            <:header>
+              <.heading level={4}>Card with Tabs</.heading>
+            </:header>
+            <:tabs>
+              <.card_tab is_active={@active_tab == "tab1"} phx-click="switch_tab" phx-value-tab="tab1">
+                Overview
+              </.card_tab>
+              <.card_tab is_active={@active_tab == "tab2"} phx-click="switch_tab" phx-value-tab="tab2">
+                Details
+              </.card_tab>
+              <.card_tab is_active={@active_tab == "tab3"} phx-click="switch_tab" phx-value-tab="tab3">
+                Settings
+              </.card_tab>
+            </:tabs>
+            <.paragraph :if={@active_tab == "tab1"}>Overview content goes here. This is the default active tab.</.paragraph>
+            <.paragraph :if={@active_tab == "tab2"}>Detailed information is displayed in this tab.</.paragraph>
+            <.paragraph :if={@active_tab == "tab3"}>Settings and configuration options would be shown here.</.paragraph>
+          </.card>
+        </.column>
+      </.grid>
+    </.section>
+
+    <%!-- Advanced Card Features --%>
+    <.section title_text="Advanced Card Features">
+      <.grid>
+        <%!-- Card with Icon and Tools --%>
+        <.column size="100" md="1-2">
+          <.card title_text="Analytics Dashboard Overview">
+            <:title_icon>📊</:title_icon>
+            <:tools>
+              <.button variant="secondary" size="xs" title="Refresh">↻</.button>
+              <.button variant="secondary" size="xs" title="Settings">⚙</.button>
+              <.button variant="secondary" size="xs" title="More options">⋯</.button>
+            </:tools>
+            <.paragraph>
+              This card demonstrates icon in title with tool buttons. The title will truncate with ellipsis when it's too long.
+            </.paragraph>
+          </.card>
+        </.column>
+
+        <%!-- Card with Very Long Title --%>
+        <.column size="100" md="1-2">
+          <.card title_text="This is a Very Long Card Title That Should Be Truncated With Ellipsis When It Exceeds Available Space">
+            <:title_icon>🔒</:title_icon>
+            <:tools>
+              <.button variant="secondary" size="xs" title="Edit">✏️</.button>
+              <.button variant="secondary" size="xs" title="Delete">🗑️</.button>
+              <.button variant="secondary" size="xs" title="Export">⬇️</.button>
+              <.button variant="secondary" size="xs" title="Share">📤</.button>
+            </:tools>
+            <.paragraph>
+              Notice how the title truncates with ellipsis (...) when there's not enough space due to the tool buttons.
+            </.paragraph>
+          </.card>
+        </.column>
+
+        <%!-- Card with Different Icon Styles --%>
+        <.column size="100" md="1-2">
+          <.card title_text="Project Management">
+            <:title_icon>💼</:title_icon>
+            <:tools>
+              <.button variant="primary" size="xs">+ Add</.button>
+              <.button variant="secondary" size="xs" title="Filter">🔍</.button>
+            </:tools>
+            <.paragraph>Different combinations of icons and tool button styles work well together.</.paragraph>
+          </.card>
+        </.column>
+
+        <%!-- Card with Minimal Tools --%>
+        <.column size="100" md="1-2">
+          <.card title_text="Revenue Metrics and KPI Tracking System">
+            <:title_icon>📈</:title_icon>
+            <:tools>
+              <.button variant="secondary" size="xs" title="Maximize">⛶</.button>
+            </:tools>
+            <.paragraph>Even with fewer tools, the title still truncates appropriately to maintain layout.</.paragraph>
+          </.card>
+        </.column>
+      </.grid>
+    </.section>
+
+    <%!-- Data Display Cards --%>
+    <.section title_text="Data Display Cards">
+      <.grid>
+        <%!-- Table Card --%>
+        <.column size="100" lg="1-2">
+          <.card title_text="Recent Orders" has_padding={false}>
+            <:tools>
+              <.button variant="secondary" size="sm">View All</.button>
+            </:tools>
+            <table class="pa-table">
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Customer</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>#1234</td>
+                  <td>John Doe</td>
+                  <td>$299.99</td>
+                  <td><.badge variant="success">Completed</.badge></td>
+                </tr>
+                <tr>
+                  <td>#1235</td>
+                  <td>Jane Smith</td>
+                  <td>$149.50</td>
+                  <td><.badge variant="warning">Pending</.badge></td>
+                </tr>
+                <tr>
+                  <td>#1236</td>
+                  <td>Bob Johnson</td>
+                  <td>$89.99</td>
+                  <td><.badge variant="info">Processing</.badge></td>
+                </tr>
+              </tbody>
+            </table>
+          </.card>
+        </.column>
+
+        <%!-- List Card --%>
+        <.column size="100" lg="1-2">
+          <.card title_text="Activity Feed" has_padding={false}>
+            <.list>
+              <.list_item
+                title_text="User Registration"
+                subtitle_text="New user John Doe registered"
+                meta_text="2 minutes ago"
+              >
+                <:avatar>👤</:avatar>
+              </.list_item>
+              <.list_item
+                title_text="Payment Received"
+                subtitle_text="$299.99 from Order #1234"
+                meta_text="5 minutes ago"
+              >
+                <:avatar>💰</:avatar>
+              </.list_item>
+              <.list_item
+                title_text="Order Shipped"
+                subtitle_text="Order #1233 has been shipped"
+                meta_text="10 minutes ago"
+              >
+                <:avatar>📦</:avatar>
+              </.list_item>
+            </.list>
+          </.card>
+        </.column>
+      </.grid>
+    </.section>
+
+    <%!-- CSS Classes Reference --%>
+    <.card title_text="CSS Classes Reference">
+      <.heading level={4}>Card Base & Sections</.heading>
+      <ul class="pa-list pa-list--compact">
+        <li><code>pa-card</code> - Base card container</li>
+        <li><code>pa-card__header</code> - Card header with title/tools</li>
+        <li><code>pa-card__body</code> - Card body content area</li>
+        <li><code>pa-card__body--no-padding</code> - Remove body padding (for tables)</li>
+        <li><code>pa-card__footer</code> - Card footer with actions/meta</li>
+      </ul>
+
+      <.heading level={4} class="mt-4">Header Elements</.heading>
+      <ul class="pa-list pa-list--compact">
+        <li><code>pa-card__header</code> - Flexbox header with gap between children</li>
+        <li><code>pa-card__header--wrap</code> - Allow description to wrap to new line</li>
+        <li><code>h1-h6</code> (direct child) - Title, fixed width, won't shrink</li>
+        <li><code>p</code> (direct child) - Description, flexible, truncates with ellipsis</li>
+        <li><code>pa-card__title</code> - Title container with icon support</li>
+        <li><code>pa-card__title-icon</code> - Icon before title</li>
+        <li><code>pa-card__title-text</code> - Title text (auto-truncates)</li>
+        <li><code>pa-card__tools</code> - Tool buttons container (right side)</li>
+        <li><code>pa-card__actions</code> - Actions container, fixed width</li>
+        <li><code>pa-btn-group</code> - Button group in header, fixed width</li>
+      </ul>
+
+      <.heading level={4} class="mt-4">Footer Elements</.heading>
+      <ul class="pa-list pa-list--compact">
+        <li><code>pa-card__actions</code> - Action buttons container</li>
+        <li><code>pa-card__meta</code> - Meta text (timestamps, etc.)</li>
+      </ul>
+
+      <.heading level={4} class="mt-4">Color Variants</.heading>
+      <ul class="pa-list pa-list--compact">
+        <li><code>pa-card--primary</code> - Primary color header</li>
+        <li><code>pa-card--success</code> - Success color header</li>
+        <li><code>pa-card--warning</code> - Warning color header</li>
+        <li><code>pa-card--danger</code> - Danger color header</li>
+        <li><code>pa-card--color-1</code> through <code>pa-card--color-9</code> - Theme color slots with automatic contrast text</li>
+        <li><code>pa-card--stat</code> - Compact padding for stat cards</li>
+        <li><code>pa-card--ghost</code> - Invisible container (no background, border, or shadow)</li>
+      </ul>
+
+      <.heading level={4} class="mt-4">Card Tabs</.heading>
+      <ul class="pa-list pa-list--compact">
+        <li><code>pa-card__tabs</code> - Tab navigation container</li>
+        <li><code>pa-card__tabs--inline</code> - Inline tabs in header (same height as regular header)</li>
+        <li><code>pa-card__tab</code> - Individual tab button</li>
+        <li><code>pa-card__tab--active</code> - Active tab state</li>
+        <li><code>pa-card__tab-content</code> - Tab content panel</li>
+        <li><code>pa-card__tab-content--active</code> - Active content panel</li>
+      </ul>
+
+      <.heading level={4} class="mt-4">Section Helpers</.heading>
+      <ul class="pa-list pa-list--compact">
+        <li><code>pa-section</code> - Page section with margin</li>
+        <li><code>pa-section-title</code> - Standalone section title with accent border</li>
+      </ul>
     </.card>
     """
   end

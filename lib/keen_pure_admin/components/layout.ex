@@ -625,7 +625,14 @@ defmodule KPureAdmin.Components.Layout do
 
   @doc """
   Renders a content section with optional heading.
+
+  ## Examples
+
+      <.section title_text="My Section">
+        Section content here.
+      </.section>
   """
+  attr(:title_text, :string, default: nil, doc: "Section heading text (renders as h3)")
   attr(:class, :string, default: nil)
   attr(:rest, :global)
   slot(:inner_block, required: true)
@@ -633,6 +640,7 @@ defmodule KPureAdmin.Components.Layout do
   def section(assigns) do
     ~H"""
     <div class={build_classes("pa-section", [], @class)} {@rest}>
+      <h3 :if={@title_text} class="pa-section-title"><%= @title_text %></h3>
       <%= render_slot(@inner_block) %>
     </div>
     """
