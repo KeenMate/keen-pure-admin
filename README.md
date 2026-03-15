@@ -1,6 +1,6 @@
 # KPureAdmin
 
-Phoenix LiveView component library wrapping the [Pure Admin](https://github.com/nicorevin/pure-admin) CSS framework into function components and LiveComponents.
+Phoenix LiveView component library wrapping the [Pure Admin](https://github.com/KeenMate/pure-admin) CSS framework into function components and LiveComponents.
 
 Drop-in replacement for Phoenix `CoreComponents` — provides `button/1`, `badge/1`, `card/1`, `modal/1`, `table/1`, `input/1`, and 30+ more components with full BEM class support.
 
