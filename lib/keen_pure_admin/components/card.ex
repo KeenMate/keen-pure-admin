@@ -96,13 +96,6 @@ defmodule KPureAdmin.Components.Card do
 
       <%!-- Structured header --%>
       <div :if={@has_header && @header == []} class={header_classes(assigns)}>
-        <%!-- Tabs in header (when has_inline_tabs) --%>
-        <div :if={@tabs != [] && @has_inline_tabs} class="pa-card__tabs pa-card__tabs--inline">
-          <%= for tabs <- @tabs do %>
-            <%= render_slot(tabs) %>
-          <% end %>
-        </div>
-
         <%!-- Title with icon: wrapped in pa-card__title div --%>
         <div :if={@title_icon != [] && (@title != [] || @title_text != nil)} class="pa-card__title">
           <%= for title_icon <- @title_icon do %>
@@ -123,6 +116,13 @@ defmodule KPureAdmin.Components.Card do
         <% end %>
         <%!-- Title text only: plain h3 --%>
         <h3 :if={@title_icon == [] && @title == [] && @title_text != nil}><%= @title_text %></h3>
+
+        <%!-- Inline tabs (after title) --%>
+        <div :if={@tabs != [] && @has_inline_tabs} class="pa-card__tabs pa-card__tabs--inline">
+          <%= for tabs <- @tabs do %>
+            <%= render_slot(tabs) %>
+          <% end %>
+        </div>
 
         <%!-- Description --%>
         <p :if={@description_text != nil && @description == []} class={
@@ -150,12 +150,12 @@ defmodule KPureAdmin.Components.Card do
           <div class="pa-card__tools"><%= render_slot(tools) %></div>
         <% end %>
 
-        <%!-- Tabs (non-inline) --%>
-        <div :if={@tabs != [] && !@has_inline_tabs} class="pa-card__tabs">
-          <%= for tabs <- @tabs do %>
-            <%= render_slot(tabs) %>
-          <% end %>
-        </div>
+      </div>
+      <%!-- Tabs (non-inline, outside header) --%>
+      <div :if={@has_header && @header == [] && @tabs != [] && !@has_inline_tabs} class="pa-card__tabs">
+        <%= for tabs <- @tabs do %>
+          <%= render_slot(tabs) %>
+        <% end %>
       </div>
 
       <div class={body_classes(assigns)}>

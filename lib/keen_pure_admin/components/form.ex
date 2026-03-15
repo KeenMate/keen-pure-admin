@@ -156,17 +156,19 @@ defmodule KPureAdmin.Components.Form do
   attr(:id, :string, default: nil)
   attr(:value, :string, default: "true")
   attr(:checked, :boolean, default: false)
-  attr(:label, :string, default: nil)
+  attr(:label, :string, default: nil, doc: "Plain text label")
   attr(:size, :string, default: nil, values: [nil, "xs", "sm", "lg", "xl"])
   attr(:class, :string, default: nil)
   attr(:rest, :global, include: ~w(disabled required form phx-change phx-click phx-debounce))
+  slot(:label_content, doc: "Rich HTML label content (alternative to label attr)")
 
   def checkbox(assigns) do
     ~H"""
     <label class={checkbox_classes(assigns)}>
       <input type="checkbox" name={@name} id={@id} value={@value} checked={@checked} {@rest} />
       <span class="pa-checkbox__box"></span>
-      <span :if={@label} class="pa-checkbox__label"><%= @label %></span>
+      <span :if={@label && @label_content == []} class="pa-checkbox__label"><%= @label %></span>
+      <span :if={@label_content != []} class="pa-checkbox__label"><%= render_slot(@label_content) %></span>
     </label>
     """
   end
@@ -256,14 +258,15 @@ defmodule KPureAdmin.Components.Form do
   Renders a form label.
   """
   attr(:for, :string, default: nil)
+  attr(:is_required, :boolean, default: false, doc: "Adds asterisk indicator")
   attr(:class, :string, default: nil)
   attr(:rest, :global)
   slot(:inner_block, required: true)
 
   def form_label(assigns) do
     ~H"""
-    <label for={@for} class={build_classes("pa-form-label", [], @class)} {@rest}>
-      <%= render_slot(@inner_block) %>
+    <label for={@for} class={build_classes("pa-form-label", [{"pa-form-label--required", @is_required}], @class)} {@rest}>
+      <%= render_slot(@inner_block) %><span :if={@is_required} class="text-danger"> *</span>
     </label>
     """
   end

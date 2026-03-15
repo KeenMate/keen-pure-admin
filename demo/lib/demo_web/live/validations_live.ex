@@ -2,7 +2,71 @@ defmodule DemoWeb.Live.ValidationsLive do
   use DemoWeb, :live_view
 
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, page_title: "Validations")}
+    {:ok, assign(socket,
+      page_title: "Validations",
+      realtime_email: "",
+      realtime_touched: false,
+      blur_email: "",
+      blur_touched: false,
+      submit_email: "",
+      submit_touched: false,
+      password: "",
+      password_confirm: "",
+      start_date: "",
+      end_date: ""
+    )}
+  end
+
+  def handle_event("realtime_change", %{"realtime_email" => email}, socket) do
+    {:noreply, assign(socket, realtime_email: email, realtime_touched: true)}
+  end
+
+  def handle_event("blur_validate", %{"value" => email}, socket) do
+    {:noreply, assign(socket, blur_email: email, blur_touched: true)}
+  end
+
+  def handle_event("submit_validate", %{"submit_email" => email}, socket) do
+    {:noreply, assign(socket, submit_email: email, submit_touched: true)}
+  end
+
+  def handle_event("password_change", params, socket) do
+    {:noreply, assign(socket,
+      password: params["password"] || socket.assigns.password,
+      password_confirm: params["password_confirm"] || socket.assigns.password_confirm
+    )}
+  end
+
+  def handle_event("date_change", params, socket) do
+    {:noreply, assign(socket,
+      start_date: params["start_date"] || socket.assigns.start_date,
+      end_date: params["end_date"] || socket.assigns.end_date
+    )}
+  end
+
+  defp valid_email?(email) do
+    String.length(email) > 0 and String.contains?(email, "@") and String.contains?(email, ".")
+  end
+
+  defp password_strength(pw) do
+    cond do
+      String.length(pw) == 0 -> nil
+      String.length(pw) < 8 -> :weak
+      String.match?(pw, ~r/[A-Z]/) and String.match?(pw, ~r/[0-9]/) and String.match?(pw, ~r/[^A-Za-z0-9]/) -> :strong
+      String.match?(pw, ~r/[A-Z]/) and String.match?(pw, ~r/[0-9]/) -> :medium
+      true -> :weak
+    end
+  end
+
+  defp passwords_match?(pw, confirm) do
+    String.length(pw) > 0 and String.length(confirm) > 0 and pw == confirm
+  end
+
+  defp dates_valid?(start_date, end_date) do
+    cond do
+      start_date == "" or end_date == "" -> nil
+      start_date < end_date -> true
+      true -> false
+    end
   end
 
   def render(assigns) do
@@ -17,21 +81,21 @@ defmodule DemoWeb.Live.ValidationsLive do
         <.grid>
           <.column size="100" md="50">
             <.form_group validation="error">
-              <.form_label>Email Address</.form_label>
+              <.form_label is_required>Email Address</.form_label>
               <.input type="email" value="invalid-email" validation="error" />
               <.form_help variant="error">Please enter a valid email address</.form_help>
             </.form_group>
           </.column>
           <.column size="100" md="50">
             <.form_group validation="error">
-              <.form_label>Password</.form_label>
+              <.form_label is_required>Password</.form_label>
               <.input type="password" value="123" validation="error" />
               <.form_help variant="error">Password must be at least 8 characters</.form_help>
             </.form_group>
           </.column>
           <.column size="100" md="50">
             <.form_group validation="success">
-              <.form_label>Username</.form_label>
+              <.form_label is_required>Username</.form_label>
               <.input type="text" value="johndoe" validation="success" />
               <.form_help variant="success">Username is available</.form_help>
             </.form_group>
@@ -69,7 +133,7 @@ defmodule DemoWeb.Live.ValidationsLive do
         <.grid>
           <.column size="100" md="50">
             <.form_group validation="error">
-              <.form_label>First Name</.form_label>
+              <.form_label is_required>First Name</.form_label>
               <.input type="text" placeholder="Enter first name" validation="error" />
             </.form_group>
           </.column>
@@ -81,19 +145,21 @@ defmodule DemoWeb.Live.ValidationsLive do
           </.column>
           <.column size="100" md="50">
             <.form_group validation="error">
-              <.form_label>Email</.form_label>
+              <.form_label is_required>Email</.form_label>
               <.input type="email" value="not-an-email" validation="error" />
             </.form_group>
           </.column>
           <.column size="100" md="50">
             <.form_group validation="error">
-              <.form_label>Password</.form_label>
+              <.form_label is_required>Password</.form_label>
               <.input type="password" value="password" validation="error" />
             </.form_group>
           </.column>
           <.column size="100">
             <.form_group validation="error">
-              <.checkbox id="terms" label="I accept the terms and conditions" />
+              <.checkbox id="terms">
+                <:label_content>I accept the terms and conditions <span class="text-danger">*</span></:label_content>
+              </.checkbox>
             </.form_group>
           </.column>
         </.grid>
@@ -120,7 +186,7 @@ defmodule DemoWeb.Live.ValidationsLive do
         <.grid>
           <.column size="100" md="50">
             <.form_group validation="error">
-              <.form_label for="card-number">Card Number</.form_label>
+              <.form_label for="card-number" is_required>Card Number</.form_label>
               <.input type="text" id="card-number" value="1234-5678-XXXX" validation="error" />
               <.form_help variant="error">Invalid card number format. Please use 16 digits.</.form_help>
             </.form_group>
@@ -134,7 +200,7 @@ defmodule DemoWeb.Live.ValidationsLive do
           </.column>
           <.column size="100" md="25">
             <.form_group validation="error">
-              <.form_label for="cvv">CVV</.form_label>
+              <.form_label for="cvv" is_required>CVV</.form_label>
               <.input type="text" id="cvv" value="12" validation="error" />
               <.form_help variant="error">Must be 3 or 4 digits</.form_help>
             </.form_group>
@@ -235,18 +301,17 @@ defmodule DemoWeb.Live.ValidationsLive do
 
       <form class="pa-form">
         <.grid>
-          <.column size="100" md="50">
-            <.form_group>
+          <.column size="100">
+            <.form_group
+              id="bio-counter"
+              phx-hook="PureAdminCharCounter"
+              data-max-chars="100"
+              data-msg="Maximum {max} characters ({count}/{max})"
+              data-msg-over="Maximum {max} characters exceeded ({count}/{max})"
+            >
               <.form_label>Bio</.form_label>
               <.textarea rows={3} value="This is my bio text that keeps going and going..." />
-              <.form_help>Maximum 100 characters (85/100)</.form_help>
-            </.form_group>
-          </.column>
-          <.column size="100" md="50">
-            <.form_group validation="error">
-              <.form_label>Bio (Over Limit)</.form_label>
-              <.textarea rows={3} validation="error" value="This is my bio text that keeps going and going and going until it exceeds the character limit which causes a validation error..." />
-              <.form_help variant="error">Maximum 100 characters exceeded (142/100)</.form_help>
+              <.form_help></.form_help>
             </.form_group>
           </.column>
         </.grid>
@@ -292,32 +357,74 @@ defmodule DemoWeb.Live.ValidationsLive do
       <.paragraph class="mb-3">When to trigger validation affects user experience significantly.</.paragraph>
 
       <.grid>
+        <%!-- On Input (Real-time) --%>
         <.column size="100" md="1-3">
           <.card class="pa-card--bordered" variant="warning" title_text="On Input (Real-time)">
-            <.form_group validation="error">
-              <.form_label>Email</.form_label>
-              <.input type="email" value="user@" validation="error" placeholder="Type to see validation..." />
-              <.form_help variant="error">Email incomplete</.form_help>
-            </.form_group>
+            <form phx-change="realtime_change">
+              <.form_group validation={if @realtime_touched && !valid_email?(@realtime_email), do: "error", else: if @realtime_touched && valid_email?(@realtime_email), do: "success"}>
+                <.form_label>Email</.form_label>
+                <.input
+                  type="email"
+                  name="realtime_email"
+                  value={@realtime_email}
+                  validation={if @realtime_touched && !valid_email?(@realtime_email), do: "error", else: if @realtime_touched && valid_email?(@realtime_email), do: "success"}
+                  placeholder="Type to see validation..."
+                  phx-debounce="100"
+                />
+                <.form_help :if={@realtime_touched && !valid_email?(@realtime_email)} variant="error">
+                  <%= if @realtime_email == "", do: "Email is required", else: "Invalid email format" %>
+                </.form_help>
+                <.form_help :if={@realtime_touched && valid_email?(@realtime_email)} variant="success">Valid email</.form_help>
+                <.form_help :if={!@realtime_touched}>Type to see validation</.form_help>
+              </.form_group>
+            </form>
             <small class="mt-2 text-muted">Validates as user types. Can feel aggressive.</small>
           </.card>
         </.column>
+
+        <%!-- On Blur (Recommended) --%>
         <.column size="100" md="1-3">
           <.card class="pa-card--bordered" variant="success" title_text="On Blur (Recommended)">
-            <.form_group validation="error">
+            <.form_group validation={if @blur_touched && !valid_email?(@blur_email), do: "error", else: if @blur_touched && valid_email?(@blur_email), do: "success"}>
               <.form_label>Email</.form_label>
-              <.input type="email" value="invalid" validation="error" placeholder="Tab out to validate..." />
-              <.form_help variant="error">Invalid email format</.form_help>
+              <.input
+                type="email"
+                value={@blur_email}
+                validation={if @blur_touched && !valid_email?(@blur_email), do: "error", else: if @blur_touched && valid_email?(@blur_email), do: "success"}
+                placeholder="Tab out to validate..."
+                phx-blur="blur_validate"
+              />
+              <.form_help :if={@blur_touched && !valid_email?(@blur_email)} variant="error">
+                <%= if @blur_email == "", do: "Email is required", else: "Invalid email format" %>
+              </.form_help>
+              <.form_help :if={@blur_touched && valid_email?(@blur_email)} variant="success">Valid email</.form_help>
+              <.form_help :if={!@blur_touched}>Click away to validate</.form_help>
             </.form_group>
             <small class="mt-2 text-muted">Validates when field loses focus. Good balance.</small>
           </.card>
         </.column>
+
+        <%!-- On Submit --%>
         <.column size="100" md="1-3">
           <.card class="pa-card--bordered" variant="info" title_text="On Submit">
-            <.form_group>
-              <.form_label>Email</.form_label>
-              <.input type="email" value="anything" placeholder="No validation until submit" />
-            </.form_group>
+            <form phx-submit="submit_validate">
+              <.form_group validation={if @submit_touched && !valid_email?(@submit_email), do: "error", else: if @submit_touched && valid_email?(@submit_email), do: "success"}>
+                <.form_label>Email</.form_label>
+                <.input
+                  type="email"
+                  name="submit_email"
+                  value={@submit_email}
+                  validation={if @submit_touched && !valid_email?(@submit_email), do: "error", else: if @submit_touched && valid_email?(@submit_email), do: "success"}
+                  placeholder="No validation until submit"
+                />
+                <.form_help :if={@submit_touched && !valid_email?(@submit_email)} variant="error">
+                  <%= if @submit_email == "", do: "Email is required", else: "Invalid email format" %>
+                </.form_help>
+                <.form_help :if={@submit_touched && valid_email?(@submit_email)} variant="success">Valid email</.form_help>
+                <.form_help :if={!@submit_touched}>Submit to validate</.form_help>
+              </.form_group>
+              <.button variant="info" size="sm" type="submit" class="mt-2">Validate</.button>
+            </form>
             <small class="mt-2 text-muted">All errors shown at once on submit. Traditional approach.</small>
           </.card>
         </.column>
@@ -328,42 +435,69 @@ defmodule DemoWeb.Live.ValidationsLive do
     <.card title_text="9. Multi-field / Cross-field Validation">
       <.paragraph class="mb-3">When validation depends on multiple fields (e.g., password confirmation, date ranges).</.paragraph>
 
-      <form class="pa-form">
+      <%!-- Password confirmation --%>
+      <form class="pa-form" phx-change="password_change">
         <.grid>
           <.column size="100" md="50">
-            <.form_group validation="success">
+            <% pw_state = case password_strength(@password) do
+              :strong -> "success"
+              :medium -> "warning"
+              :weak -> "error"
+              nil -> nil
+            end %>
+            <.form_group validation={pw_state}>
               <.form_label>New Password</.form_label>
-              <.input type="password" value="SecurePass123!" validation="success" />
-              <.form_help variant="success">Strong password</.form_help>
+              <.input type="password" name="password" value={@password} validation={pw_state} placeholder="Enter password..." phx-debounce="200" />
+              <.form_help :if={password_strength(@password) == :strong} variant="success">Strong password</.form_help>
+              <.form_help :if={password_strength(@password) == :medium} variant="warning">Medium — add a special character</.form_help>
+              <.form_help :if={password_strength(@password) == :weak} variant="error">
+                <%= if String.length(@password) < 8, do: "Must be at least 8 characters", else: "Add uppercase and numbers" %>
+              </.form_help>
+              <.form_help :if={@password == ""}>Min 8 chars, uppercase, number, special char</.form_help>
             </.form_group>
           </.column>
           <.column size="100" md="50">
-            <.form_group validation="error">
+            <% confirm_state = cond do
+              @password_confirm == "" -> nil
+              passwords_match?(@password, @password_confirm) -> "success"
+              true -> "error"
+            end %>
+            <.form_group validation={confirm_state}>
               <.form_label>Confirm Password</.form_label>
-              <.input type="password" value="SecurePass123" validation="error" />
-              <.form_help variant="error">Passwords do not match</.form_help>
+              <.input type="password" name="password_confirm" value={@password_confirm} validation={confirm_state} placeholder="Confirm password..." phx-debounce="200" />
+              <.form_help :if={passwords_match?(@password, @password_confirm)} variant="success">Passwords match</.form_help>
+              <.form_help :if={@password_confirm != "" && !passwords_match?(@password, @password_confirm)} variant="error">Passwords do not match</.form_help>
+              <.form_help :if={@password_confirm == ""}>Re-enter your password</.form_help>
             </.form_group>
           </.column>
         </.grid>
+      </form>
 
-        <.divider />
+      <.divider />
 
+      <%!-- Date range --%>
+      <form class="pa-form" phx-change="date_change">
         <.grid>
           <.column size="100" md="50">
-            <.form_group validation="error">
+            <.form_group validation={if dates_valid?(@start_date, @end_date) == false, do: "error", else: if dates_valid?(@start_date, @end_date), do: "success"}>
               <.form_label>Start Date</.form_label>
-              <.input type="date" value="2025-12-31" validation="error" />
+              <.input type="date" name="start_date" value={@start_date} validation={if dates_valid?(@start_date, @end_date) == false, do: "error", else: if dates_valid?(@start_date, @end_date), do: "success"} />
             </.form_group>
           </.column>
           <.column size="100" md="50">
-            <.form_group validation="error">
+            <.form_group validation={if dates_valid?(@start_date, @end_date) == false, do: "error", else: if dates_valid?(@start_date, @end_date), do: "success"}>
               <.form_label>End Date</.form_label>
-              <.input type="date" value="2025-01-01" validation="error" />
+              <.input type="date" name="end_date" value={@end_date} validation={if dates_valid?(@start_date, @end_date) == false, do: "error", else: if dates_valid?(@start_date, @end_date), do: "success"} />
             </.form_group>
           </.column>
-          <.column size="100">
+          <.column :if={dates_valid?(@start_date, @end_date) == false} size="100">
             <.alert variant="danger">
               End date must be after start date
+            </.alert>
+          </.column>
+          <.column :if={dates_valid?(@start_date, @end_date) == true} size="100">
+            <.alert variant="success">
+              Valid date range
             </.alert>
           </.column>
         </.grid>
@@ -398,7 +532,7 @@ defmodule DemoWeb.Live.ValidationsLive do
         <.grid>
           <.column size="100" md="50">
             <.form_group validation="error">
-              <.form_label>Display Name</.form_label>
+              <.form_label is_required>Display Name</.form_label>
               <.input type="text" placeholder="Enter display name" validation="error" />
               <.form_help variant="error">Display name is required</.form_help>
             </.form_group>

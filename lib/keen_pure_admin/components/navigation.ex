@@ -38,8 +38,20 @@ defmodule KPureAdmin.Components.Navigation do
 
   def tabs(assigns) do
     ~H"""
-    <div id={@id} class={tabs_classes(assigns)} {@rest}>
-      <%= render_slot(@inner_block) %>
+    <div id={@id} class={tabs_classes(assigns)} data-tabs-scroll={if @overflow == "scrollable", do: ""} {@rest}>
+      <%= if @overflow == "scrollable" do %>
+        <button class="pa-tabs__scroll-btn pa-tabs__scroll-btn--start" onclick="this.nextElementSibling.scrollBy({left: -200, behavior: 'smooth'})">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <div class="pa-tabs__scroll-container">
+          <%= render_slot(@inner_block) %>
+        </div>
+        <button class="pa-tabs__scroll-btn pa-tabs__scroll-btn--end" onclick="this.previousElementSibling.scrollBy({left: 200, behavior: 'smooth'})">
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
+      <% else %>
+        <%= render_slot(@inner_block) %>
+      <% end %>
     </div>
     """
   end
@@ -86,10 +98,15 @@ defmodule KPureAdmin.Components.Navigation do
   slot(:inner_block, required: true)
 
   def tab_item(assigns) do
+    tab_item_id = "tab-btn-#{assigns.target}"
+    assigns = assign(assigns, :tab_item_id, tab_item_id)
+
     ~H"""
     <button
+      id={@tab_item_id}
       class={tab_item_classes(assigns)}
-      phx-click={switch_tab(@target, @tabs_id)}
+      phx-click={switch_tab(@target, @tabs_id, @tab_item_id)}
+      data-tab-target={@target}
       {@rest}
     >
       <%= for icon <- @icon do %>
@@ -115,13 +132,14 @@ defmodule KPureAdmin.Components.Navigation do
   @doc """
   Renders a tab content container.
   """
+  attr(:id, :string, default: nil, doc: "Content container ID (use {tabs_id}-content for scoped switching)")
   attr(:class, :string, default: nil)
   attr(:rest, :global)
   slot(:inner_block, required: true)
 
   def tabs_content(assigns) do
     ~H"""
-    <div class={build_classes("pa-tabs__content", [], @class)} {@rest}>
+    <div id={@id} class={build_classes("pa-tabs__content", [], @class)} {@rest}>
       <%= render_slot(@inner_block) %>
     </div>
     """
@@ -195,16 +213,17 @@ defmodule KPureAdmin.Components.Navigation do
 
   Deactivates all sibling tabs and panels, then activates the target.
   """
-  @spec switch_tab(String.t(), String.t() | nil) :: JS.t()
-  def switch_tab(target_panel_id, _tabs_id \\ nil) do
+  @spec switch_tab(String.t(), String.t() | nil, String.t() | nil) :: JS.t()
+  def switch_tab(target_panel_id, tabs_id \\ nil, tab_item_id \\ nil) do
+    tab_scope = if tabs_id, do: "##{tabs_id} .pa-tabs__item", else: ".pa-tabs__item"
+    tab_scope = if tab_item_id, do: "#{tab_scope}:not(##{tab_item_id})", else: tab_scope
+    # Scope panels to a content container with id derived from tabs id
+    panel_scope = if tabs_id, do: "##{tabs_id}-content .pa-tabs__panel", else: ".pa-tabs__panel"
+
     %JS{}
-    |> JS.remove_class("pa-tabs__item--active",
-      to: ".pa-tabs__item"
-    )
     |> JS.add_class("pa-tabs__item--active")
-    |> JS.remove_class("pa-tabs__panel--active",
-      to: ".pa-tabs__panel"
-    )
+    |> JS.remove_class("pa-tabs__item--active", to: tab_scope)
     |> JS.add_class("pa-tabs__panel--active", to: "##{target_panel_id}")
+    |> JS.remove_class("pa-tabs__panel--active", to: "#{panel_scope}:not(##{target_panel_id})")
   end
 end

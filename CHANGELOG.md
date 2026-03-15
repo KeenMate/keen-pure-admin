@@ -8,6 +8,16 @@
 - `card/1` — added `:subtitle` slot (rich HTML counterpart to `subtitle_text`)
 - `card/1` — fixed `subtitle_text` to render with `pa-text pa-text--secondary` class matching Svelte reference
 - `card/1` — fixed title rendering: plain `<h3>` without wrapper div when no icon is present, matching Svelte reference
+- `card/1` — fixed non-inline tabs to render outside header as sibling (matching reference DOM structure)
+- `card/1` — fixed inline tabs to render after title (not before), matching reference order
+- `form_label/1` — added `is_required` attr that renders asterisk indicator
+- `checkbox/1` — added `:label_content` slot (rich HTML counterpart to `label` attr)
+- `tabs/1` — scrollable overflow now renders proper scroll buttons and scroll container
+- `tab_item/1` — added deterministic `id` and `:not()` exclusion to prevent 2px flash on tab switch
+- `switch_tab/3` — scoped tab/panel switching via `tabs_id` + content container id to prevent cross-group interference
+
+### JS Hooks
+- `PureAdminCharCounter` — new hook for textarea/input character counting with configurable max, translatable message templates via `data-msg`/`data-msg-over` with `{count}`/`{max}` placeholders
 
 ### Demo
 - **Cards page** — complete rewrite matching Svelte pure-admin reference (14 sections: same-height, basic, header three-part layout, colored, theme colors, bordered, ghost, underlined headers, statistics, statistics with trends, interactive, advanced features, data display, CSS classes reference)
@@ -15,6 +25,8 @@
 - **Buttons page** — complete rewrite matching Svelte pure-admin reference (variants, sizes, outline, states, block, button groups with gap sizes, vertical alignment, responsive direction, text truncation, icon buttons, icon-only, fixed width, text alignment, ripple effects, loading states, usage guide, CSS classes reference)
 - **Inputs page** — new page matching Svelte pure-admin reference (text inputs with states/sizes/validation/theme colors, input groups with prepend/append/buttons/toggle mode, input types, select dropdowns, textareas, checkboxes & radios with sizes, width variations, CSS classes reference)
 - **Validations page** — new page matching Svelte pure-admin reference (10 validation patterns: inline field errors, summary block, combined summary+inline, border+icon only, right-side indicators, helper text transforms, toast notifications, validation timing strategies, multi-field/cross-field, progressive multi-step, CSS classes reference)
+- **Tabs page** — complete rewrite matching Svelte pure-admin reference (card header tabs, standalone, icons, fixed width, pills, vertical, boxed, sizes, badges, centered, full width, border-top, icon-only horizontal/vertical, standalone page-level, standalone vertical, bordered horizontal/vertical, long titles with wrap/collapse/scrollable, inline tabs in header)
+- **Validations page** — interactive demos: char counter with JS hook, validation timing strategies (real-time/blur/submit), cross-field validation (password match, date range)
 - **Sidebar** — reorganized to match Svelte pure-admin layout (Components submenu with Grid, separate Tables and Timeline submenus, Forms as top-level item)
 
 ## v0.2.0

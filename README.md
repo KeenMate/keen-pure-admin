@@ -184,6 +184,7 @@ Client-side settings panel for theme mode, layout width, sidebar options, fonts,
 | `PureAdminCommandPalette` | Command palette keyboard navigation |
 | `PureAdminDetailPanel` | Detail panel toggle |
 | `PureAdminSidebarResize` | Drag-to-resize sidebar |
+| `PureAdminCharCounter` | Character counter with translatable messages |
 
 ## CSS Framework
 
