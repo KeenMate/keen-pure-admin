@@ -1,8 +1,65 @@
 defmodule DemoWeb.Live.BadgesLive do
   use DemoWeb, :live_view
 
+  @project_tags [
+    %{label: "React", variant: "primary"},
+    %{label: "TypeScript", variant: "info"},
+    %{label: "Node.js", variant: "success"},
+    %{label: "Express", variant: "warning"},
+    %{label: "PostgreSQL", variant: "secondary"},
+    %{label: "Redux", variant: "primary"},
+    %{label: "Sass", variant: "info"},
+    %{label: "Docker", variant: "success"},
+    %{label: "AWS", variant: "warning"},
+    %{label: "Redis", variant: "danger"},
+    %{label: "GraphQL", variant: "secondary"},
+    %{label: "Jest", variant: "primary"},
+    %{label: "Webpack", variant: "info"},
+    %{label: "ESLint", variant: "success"},
+    %{label: "GitHub Actions", variant: "dark"}
+  ]
+
+  @user_skills [
+    %{label: "JavaScript", variant: "primary"},
+    %{label: "Python", variant: "info"},
+    %{label: "Java", variant: "success"},
+    %{label: "C++", variant: "warning"},
+    %{label: "Ruby", variant: "secondary"},
+    %{label: "Go", variant: "primary"},
+    %{label: "Rust", variant: "info"}
+  ]
+
+  @status_badges [
+    %{label: "Approved", variant: "success"},
+    %{label: "Pending", variant: "warning"},
+    %{label: "Rejected", variant: "danger"},
+    %{label: "Review", variant: "info"},
+    %{label: "Draft", variant: "secondary"},
+    %{label: "Published", variant: "primary"},
+    %{label: "Archived", variant: "light"},
+    %{label: "Deleted", variant: "dark"}
+  ]
+
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, page_title: "Badges")}
+    {:ok, assign(socket,
+      page_title: "Badges",
+      project_tags: @project_tags,
+      project_tags_expanded: false,
+      user_skills: @user_skills,
+      status_badges: @status_badges
+    )}
+  end
+
+  def handle_event("expand_project_tags", _params, socket) do
+    {:noreply, assign(socket, project_tags_expanded: !socket.assigns.project_tags_expanded)}
+  end
+
+  def handle_event("badge_label_click", %{"label" => label}, socket) do
+    {:noreply, put_flash(socket, :info, "Viewing details for: #{label}")}
+  end
+
+  def handle_event("badge_button_click", %{"label" => label, "action" => action}, socket) do
+    {:noreply, put_flash(socket, :info, "Action '#{action}' on: #{label}")}
   end
 
   def render(assigns) do
@@ -234,64 +291,52 @@ defmodule DemoWeb.Live.BadgesLive do
       </.grid>
     </.card>
 
-    <%!-- Badge Groups --%>
-    <.card title_text="Badge Groups">
-      <:description>Display many badges with automatic wrapping</:description>
+    <%!-- Badge Groups with Limits --%>
+    <.card title_text="Badge Groups with Limits">
+      <:description>Display many badges with automatic overflow handling - shows 5 badges and "... N more" indicator</:description>
       <.grid>
         <.column size="100">
-          <.heading level={4}>Project Tags</.heading>
-          <.badge_group>
-            <.badge variant="primary">React</.badge>
-            <.badge variant="info">TypeScript</.badge>
-            <.badge variant="success">Node.js</.badge>
-            <.badge variant="warning">Express</.badge>
-            <.badge variant="secondary">PostgreSQL</.badge>
-            <.badge variant="primary">Redux</.badge>
-            <.badge variant="info">Sass</.badge>
-            <.badge variant="success">Docker</.badge>
-            <.badge variant="warning">AWS</.badge>
-            <.badge variant="danger">Redis</.badge>
-            <.badge variant="secondary">GraphQL</.badge>
-            <.badge variant="primary">Jest</.badge>
-            <.badge variant="info">Webpack</.badge>
-            <.badge variant="success">ESLint</.badge>
-            <.badge variant="dark">GitHub Actions</.badge>
+          <.heading level={4}>Server-side: Project Tags (15 total, click loads from server)</.heading>
+          <% visible_tags = if @project_tags_expanded, do: @project_tags, else: Enum.take(@project_tags, 5) %>
+          <.badge_group limit={5} total={length(@project_tags)} is_expanded={@project_tags_expanded} on_toggle="expand_project_tags" class="mb-3">
+            <.badge :for={tag <- visible_tags} variant={tag.variant}><%= tag.label %></.badge>
+          </.badge_group>
+
+          <.heading level={4}>Client-side: User Skills (7 total, JS toggle, no server round-trip)</.heading>
+          <.badge_group limit={5} total={length(@user_skills)} class="mb-3">
+            <.badge :for={skill <- @user_skills} is_pill variant={skill.variant}><%= skill.label %></.badge>
+          </.badge_group>
+
+          <.heading level={4}>Client-side: Status Badges (8 total, small size)</.heading>
+          <.badge_group limit={5} total={length(@status_badges)}>
+            <.badge :for={status <- @status_badges} size="sm" variant={status.variant}><%= status.label %></.badge>
           </.badge_group>
         </.column>
       </.grid>
 
-      <.grid class="mt-4">
-        <.column size="100">
-          <.heading level={4}>User Skills (Pill Style)</.heading>
-          <.badge_group>
-            <.badge is_pill variant="primary">JavaScript</.badge>
-            <.badge is_pill variant="info">Python</.badge>
-            <.badge is_pill variant="success">Java</.badge>
-            <.badge is_pill variant="warning">C++</.badge>
-            <.badge is_pill variant="secondary">Ruby</.badge>
-            <.badge is_pill variant="primary">Go</.badge>
-            <.badge is_pill variant="info">Rust</.badge>
-          </.badge_group>
-        </.column>
-      </.grid>
+      <.alert variant="info" class="mt-4">
+        <small><strong>Two modes:</strong> Set <code>on_toggle="event_name"</code> for server-side loading (fires LiveView event). Omit it for client-side JS toggle (no round-trip). Both support <code>limit</code>, <code>total</code>, and translatable <code>more_text</code>/<code>collapse_text</code>.</small>
+      </.alert>
 
       <.grid class="mt-4">
         <.column size="100" md="1-3">
           <.heading level={4}>Narrow Container</.heading>
-          <.badge_group>
-            <.badge size="sm" variant="primary">React</.badge>
-            <.badge size="sm" variant="info">Vue</.badge>
-            <.badge size="sm" variant="success">Angular</.badge>
-            <.badge size="sm" variant="warning">Svelte</.badge>
-            <.badge size="sm" variant="secondary">Solid</.badge>
-            <.badge size="sm" variant="primary">TypeScript</.badge>
-            <.badge size="sm" variant="info">JavaScript</.badge>
-            <.badge size="sm" variant="success">Python</.badge>
+          <.badge_group limit={5} total={length(@project_tags)}>
+            <.badge :for={tag <- @project_tags} variant={tag.variant}><%= tag.label %></.badge>
           </.badge_group>
         </.column>
         <.column size="100" md="2-3">
           <.heading level={4}>Full Width Comparison</.heading>
-          <.badge_group>
+          <.badge_group limit={5} total={length(@project_tags)}>
+            <.badge :for={tag <- @project_tags} variant={tag.variant}><%= tag.label %></.badge>
+          </.badge_group>
+        </.column>
+      </.grid>
+
+      <.grid class="mt-4">
+        <.column size="100" md="1-6">
+          <.heading level={4}>Wrapping Demo (Static)</.heading>
+          <.badge_group is_show_all>
             <.badge size="sm" variant="primary">React</.badge>
             <.badge size="sm" variant="info">Vue</.badge>
             <.badge size="sm" variant="success">Angular</.badge>
@@ -300,6 +345,29 @@ defmodule DemoWeb.Live.BadgesLive do
             <.badge size="sm" variant="primary">TypeScript</.badge>
             <.badge size="sm" variant="info">JavaScript</.badge>
             <.badge size="sm" variant="success">Python</.badge>
+            <.badge size="sm" variant="warning">Go</.badge>
+            <.badge size="sm" variant="danger">Rust</.badge>
+            <.badge size="sm" variant="secondary">Java</.badge>
+            <.badge size="sm" variant="primary">C++</.badge>
+            <.badge size="sm" variant="info">Elixir</.badge>
+          </.badge_group>
+        </.column>
+        <.column size="100" md="5-6">
+          <.heading level={4}>Full Width Comparison</.heading>
+          <.badge_group is_show_all>
+            <.badge size="sm" variant="primary">React</.badge>
+            <.badge size="sm" variant="info">Vue</.badge>
+            <.badge size="sm" variant="success">Angular</.badge>
+            <.badge size="sm" variant="warning">Svelte</.badge>
+            <.badge size="sm" variant="secondary">Solid</.badge>
+            <.badge size="sm" variant="primary">TypeScript</.badge>
+            <.badge size="sm" variant="info">JavaScript</.badge>
+            <.badge size="sm" variant="success">Python</.badge>
+            <.badge size="sm" variant="warning">Go</.badge>
+            <.badge size="sm" variant="danger">Rust</.badge>
+            <.badge size="sm" variant="secondary">Java</.badge>
+            <.badge size="sm" variant="primary">C++</.badge>
+            <.badge size="sm" variant="info">Elixir</.badge>
           </.badge_group>
         </.column>
       </.grid>
@@ -307,26 +375,46 @@ defmodule DemoWeb.Live.BadgesLive do
 
     <%!-- Fixed-Width Badges with Ellipsis --%>
     <.card title_text="Fixed-Width Badges with Ellipsis">
-      <:description>Badges with constrained width show ellipsis for overflow text</:description>
+      <:description>Badges with constrained width show ellipsis for overflow text. Hover for tooltip with full text.</:description>
       <.grid>
         <.column size="100" md="1-2">
           <.heading level={4}>Various Fixed Widths</.heading>
           <div class="component-showcase">
-            <.badge variant="primary" class="wr-3 text-truncate">Short</.badge>
-            <.badge variant="info" class="wr-4 text-truncate">This is medium text</.badge>
-            <.badge variant="success" class="wr-5 text-truncate">This is longer text that will be truncated</.badge>
-            <.badge variant="warning" class="wr-6 text-truncate">Very long badge text that definitely needs ellipsis</.badge>
-            <.badge variant="danger" class="wr-7 text-truncate">Super extremely long badge text example</.badge>
+            <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="Short">
+              <.badge variant="primary" width="3x">Short</.badge>
+            </span>
+            <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="This is medium text">
+              <.badge variant="info" width="4x">This is medium text</.badge>
+            </span>
+            <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="This is longer text that will be truncated">
+              <.badge variant="success" width="5x">This is longer text that will be truncated</.badge>
+            </span>
+            <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="Very long badge text that definitely needs ellipsis">
+              <.badge variant="warning" width="6x">Very long badge text that definitely needs ellipsis</.badge>
+            </span>
+            <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="Super extremely long badge text example">
+              <.badge variant="danger" width="7x">Super extremely long badge text example</.badge>
+            </span>
           </div>
         </.column>
         <.column size="100" md="1-2">
           <.heading level={4}>Small Fixed-Width Badges</.heading>
           <div class="component-showcase">
-            <.badge size="sm" variant="primary" class="wr-2 text-truncate">OK</.badge>
-            <.badge size="sm" variant="info" class="wr-3 text-truncate">Status</.badge>
-            <.badge size="sm" variant="success" class="wr-4 text-truncate">Completed Task</.badge>
-            <.badge size="sm" variant="warning" class="wr-5 text-truncate">Pending Review Process</.badge>
-            <.badge size="sm" variant="danger" class="wr-6 text-truncate">Critical Error in Production</.badge>
+            <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="OK">
+              <.badge size="sm" variant="primary" width="2x">OK</.badge>
+            </span>
+            <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="Status">
+              <.badge size="sm" variant="info" width="3x">Status</.badge>
+            </span>
+            <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="Completed Task">
+              <.badge size="sm" variant="success" width="4x">Completed Task</.badge>
+            </span>
+            <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="Pending Review Process">
+              <.badge size="sm" variant="warning" width="5x">Pending Review Process</.badge>
+            </span>
+            <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="Critical Error in Production">
+              <.badge size="sm" variant="danger" width="6x">Critical Error in Production</.badge>
+            </span>
           </div>
         </.column>
       </.grid>
@@ -335,18 +423,51 @@ defmodule DemoWeb.Live.BadgesLive do
         <.column size="100">
           <.heading level={4}>Practical Example: Tags with Consistent Width</.heading>
           <div class="component-showcase">
-            <.badge is_pill variant="secondary" class="wr-5 text-truncate">JavaScript</.badge>
-            <.badge is_pill variant="secondary" class="wr-5 text-truncate">TypeScript</.badge>
-            <.badge is_pill variant="secondary" class="wr-5 text-truncate">React</.badge>
-            <.badge is_pill variant="secondary" class="wr-5 text-truncate">Node.js</.badge>
-            <.badge is_pill variant="secondary" class="wr-5 text-truncate">PostgreSQL Database</.badge>
-            <.badge is_pill variant="secondary" class="wr-5 text-truncate">Express.js Framework</.badge>
+            <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="JavaScript">
+              <.badge is_pill variant="secondary" width="5x">JavaScript</.badge>
+            </span>
+            <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="TypeScript">
+              <.badge is_pill variant="secondary" width="5x">TypeScript</.badge>
+            </span>
+            <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="React">
+              <.badge is_pill variant="secondary" width="5x">React</.badge>
+            </span>
+            <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="Node.js">
+              <.badge is_pill variant="secondary" width="5x">Node.js</.badge>
+            </span>
+            <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="PostgreSQL Database">
+              <.badge is_pill variant="secondary" width="5x">PostgreSQL Database</.badge>
+            </span>
+            <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="Express.js Framework">
+              <.badge is_pill variant="secondary" width="5x">Express.js Framework</.badge>
+            </span>
+          </div>
+        </.column>
+      </.grid>
+
+      <.grid class="mt-4">
+        <.column size="100">
+          <.heading level={4}>Left-Side Ellipsis (Path/Hierarchy Display)</.heading>
+          <.paragraph class="text-xs mb-2">When the important part is at the end (breadcrumbs, file paths, etc.)</.paragraph>
+          <div class="component-showcase">
+            <span class="pa-tooltip pa-tooltip--bottom pa-tooltip--multiline" data-tooltip="Settings > User Preferences > Notifications > Email">
+              <.badge variant="secondary" width="6x" is_ellipsis_start>Settings > User Preferences > Notifications > Email</.badge>
+            </span>
+            <span class="pa-tooltip pa-tooltip--bottom pa-tooltip--multiline" data-tooltip="/var/www/html/application/config/database.php">
+              <.badge variant="info" width="7x" is_ellipsis_start>/var/www/html/application/config/database.php</.badge>
+            </span>
+            <span class="pa-tooltip pa-tooltip--bottom pa-tooltip--multiline" data-tooltip="Components > Forms > Inputs > TextArea.svelte">
+              <.badge variant="primary" width="6x" is_ellipsis_start>Components > Forms > Inputs > TextArea.svelte</.badge>
+            </span>
+            <span class="pa-tooltip pa-tooltip--bottom pa-tooltip--multiline" data-tooltip="Europe > Germany > Berlin > Mitte > Alexanderplatz">
+              <.badge variant="warning" width="5x" is_ellipsis_start>Europe > Germany > Berlin > Mitte > Alexanderplatz</.badge>
+            </span>
           </div>
         </.column>
       </.grid>
 
       <.alert variant="info" class="mt-3">
-        <small><strong>Note:</strong> Use utility width classes like <code>wr-3</code> to <code>wr-10</code> combined with <code>text-truncate</code> for fixed-width badges.</small>
+        <small><strong>Note:</strong> Use <code>width="3x"</code> to <code>width="10x"</code> for fixed-width badges. Use <code>is_ellipsis_start</code> to truncate from the left side instead.</small>
       </.alert>
     </.card>
 
@@ -357,23 +478,54 @@ defmodule DemoWeb.Live.BadgesLive do
         <.column size="100" md="1-2">
           <.heading level={4}>Standard Color Variations</.heading>
           <div class="component-showcase">
-            <.composite_badge variant="primary" icon="✓" label="Primary" count="×" />
-            <.composite_badge variant="secondary" icon="⚙" label="Secondary" count="×" />
-            <.composite_badge variant="success" icon="★" label="Success" count="×" />
-            <.composite_badge variant="danger" icon="🔥" label="Danger" count="×" />
-            <.composite_badge variant="warning" icon="⚠" label="Warning" count="×" />
-            <.composite_badge variant="info" icon="ℹ" label="Info" count="×" />
+            <.composite_badge variant="primary" icon="✓" label="Primary" button_text="×" is_interactive />
+            <.composite_badge variant="secondary" icon="⚙" label="Secondary" button_text="×" is_interactive />
+            <.composite_badge variant="success" icon="★" label="Success" button_text="×" is_interactive />
+            <.composite_badge variant="danger" icon="🔥" label="Danger" button_text="×" is_interactive />
+            <.composite_badge variant="warning" icon="⚠" label="Warning" button_text="×" is_interactive />
+            <.composite_badge variant="info" icon="ℹ" label="Info" button_text="×" is_interactive />
+            <.composite_badge variant="light" icon="◇" label="Light" button_text="×" is_interactive />
+            <.composite_badge variant="dark" icon="◆" label="Dark" button_text="×" is_interactive />
           </div>
         </.column>
         <.column size="100" md="1-2">
           <.heading level={4}>More Examples</.heading>
           <div class="component-showcase">
-            <.composite_badge variant="danger" icon="🔥" label="Critical" count="×" />
-            <.composite_badge variant="light" icon="◇" label="Draft" count="↗" />
-            <.composite_badge variant="dark" icon="◆" label="Published" count="⚙" />
+            <.composite_badge variant="danger" icon="🔥" label="Critical" button_text="×" is_interactive />
+            <.composite_badge variant="light" icon="◇" label="Draft" button_text="↗" is_interactive />
+            <.composite_badge variant="dark" icon="◆" label="Published" button_text="⚙" is_interactive />
           </div>
         </.column>
       </.grid>
+
+      <.grid class="mt-4">
+        <.column size="100">
+          <.heading level={4}>Advanced: Mixed Section Colors</.heading>
+          <.paragraph class="text-sm text-secondary mb-3">
+            For advanced customization, you can mix individual section colors using separate classes.
+          </.paragraph>
+          <div class="component-showcase">
+            <.composite_badge variant="primary" label_variant="secondary" button_variant="danger" icon="📁" label="Project Alpha" button_text="×" is_interactive />
+            <.composite_badge variant="success" label_variant="light" button_variant="warning" icon="🎯" label="Target Met" button_text="⋯" is_interactive />
+            <.composite_badge variant="dark" label_variant="primary" button_variant="info" icon="⚡" label="High Performance" button_text="↑" is_interactive />
+            <.composite_badge variant="secondary" label_variant="warning" button_variant="success" icon="🔧" label="Maintenance" button_text="✓" is_interactive />
+          </div>
+        </.column>
+      </.grid>
+    </.card>
+
+    <%!-- Interactive Composite Badges --%>
+    <.card title_text="Interactive Composite Badges">
+      <:description>Examples with click handlers and dynamic behavior</:description>
+      <div class="component-showcase">
+        <.composite_badge variant="info" icon="📋" label="Task #1234" button_text="×" is_interactive on_label_click="badge_label_click" on_button_click="badge_button_click" />
+        <.composite_badge variant="success" icon="👤" label="John Doe" button_text="✎" is_interactive on_label_click="badge_label_click" on_button_click="badge_button_click" />
+        <.composite_badge variant="warning" icon="🏷️" label="v2.1.0" button_text="↓" is_interactive on_label_click="badge_label_click" on_button_click="badge_button_click" />
+      </div>
+
+      <.alert variant="primary" class="mt-4">
+        <small><strong>Try it:</strong> Click label text to see details flash, click the button (×, ✎, ↓) for action flash. Uses <code>on_label_click</code> and <code>on_button_click</code> attrs with separate LiveView events.</small>
+      </.alert>
     </.card>
 
     <%!-- Usage Examples --%>

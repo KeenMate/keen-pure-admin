@@ -15,6 +15,10 @@
 - `tabs/1` — scrollable overflow now renders proper scroll buttons and scroll container
 - `tab_item/1` — added deterministic `id` and `:not()` exclusion to prevent 2px flash on tab switch
 - `switch_tab/3` — scoped tab/panel switching via `tabs_id` + content container id to prevent cross-group interference
+- `label/1` — fixed outline to use `pa-label--outline` class (not `pa-label--outline-{variant}`), matching Svelte reference; added `xs`/`xl` size support
+- `badge_group/1` — added `limit`, `total`, `is_expanded`, `on_toggle`, `more_text`, `collapse_text` attrs for expand/collapse with two modes: server-side (fires LiveView event for lazy loading) and client-side (CSS-based hiding with JS class toggle, survives LiveView DOM patching)
+- `badge/1` — added `width` attr (`pa-badge--w-{size}` BEM class) and `is_ellipsis_start` for left-side truncation
+- `composite_badge/1` — added `is_interactive`, `on_label_click`, `on_button_click`, `label_variant`, `button_variant`, `button_text`, `:icon_content` slot for full interactive support with separate label/button click events
 
 ### JS Hooks
 - `PureAdminCharCounter` — new hook for textarea/input character counting with configurable max, translatable message templates via `data-msg`/`data-msg-over` with `{count}`/`{max}` placeholders

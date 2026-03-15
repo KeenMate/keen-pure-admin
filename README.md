@@ -155,7 +155,7 @@ Client-side settings panel for theme mode, layout width, sidebar options, fonts,
 | Component | Description |
 |---|---|
 | `button/1` | Buttons with variants, sizes, loading state |
-| `badge/1` | Inline badges/tags |
+| `badge/1`, `label/1`, `composite_badge/1`, `badge_group/1` | Badges, labels, composite badges with expand/collapse |
 | `alert/1` | Dismissible alerts |
 | `card/1` | Cards with header (title/subtitle/description), body, footer, tabs |
 | `modal/1` | Modal dialogs |
