@@ -102,6 +102,17 @@ defmodule DemoWeb.Live.CheckboxListsLive do
           <div class="d-flex flex-column gap-12">
             <.checkbox id="unchecked-demo" label="Unchecked" checked={@cb_unchecked} phx-click="toggle" phx-value-id="cb_unchecked" />
             <.checkbox id="checked-demo" label="Checked" checked={@cb_checked} phx-click="toggle" phx-value-id="cb_checked" />
+            <.checkbox id="indeterminate-demo" label="Indeterminate" is_indeterminate />
+          </div>
+        </.column>
+        <.column size="100" md="50">
+          <.heading level={4}>X Mark Modifier</.heading>
+          <div class="d-flex flex-column gap-12">
+            <.checkbox id="xmark-xs" label="Extra Small with X" size="xs" is_x_mark checked={@xmark_xs} phx-click="toggle" phx-value-id="xmark_xs" />
+            <.checkbox id="xmark-sm" label="Small with X" size="sm" is_x_mark checked={@xmark_sm} phx-click="toggle" phx-value-id="xmark_sm" />
+            <.checkbox id="xmark-default" label="Default with X" is_x_mark checked={@xmark_default} phx-click="toggle" phx-value-id="xmark_default" />
+            <.checkbox id="xmark-lg" label="Large with X" size="lg" is_x_mark checked={@xmark_lg} phx-click="toggle" phx-value-id="xmark_lg" />
+            <.checkbox id="xmark-xl" label="Extra Large with X" size="xl" is_x_mark checked={@xmark_xl} phx-click="toggle" phx-value-id="xmark_xl" />
           </div>
         </.column>
         <.column size="100" md="50">
@@ -126,6 +137,7 @@ defmodule DemoWeb.Live.CheckboxListsLive do
               id="select-all-fruits"
               label={"Select All Fruits (#{@fruit_count}/4)"}
               checked={@fruit_count == 4}
+              is_indeterminate={@fruit_count > 0 && @fruit_count < 4}
               phx-click="select_all_fruits"
               class="font-weight-500"
             />
@@ -163,6 +175,7 @@ defmodule DemoWeb.Live.CheckboxListsLive do
       <div class="d-flex flex-wrap gap-2xl">
         <.checkbox id="disabled-unchecked" label="Disabled unchecked" disabled />
         <.checkbox id="disabled-checked" label="Disabled checked" disabled checked />
+        <.checkbox id="disabled-indeterminate" label="Disabled indeterminate" disabled is_indeterminate />
       </div>
     </.card>
 

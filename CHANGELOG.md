@@ -11,7 +11,8 @@
 - `card/1` — fixed non-inline tabs to render outside header as sibling (matching reference DOM structure)
 - `card/1` — fixed inline tabs to render after title (not before), matching reference order
 - `form_label/1` — added `is_required` attr that renders asterisk indicator
-- `checkbox/1` — added `:label_content` slot (rich HTML counterpart to `label` attr)
+- `checkbox/1` — added `:label_content` slot, `is_indeterminate` (via PureAdminCheckbox hook), `is_x_mark`
+- `checkbox_box/1` — added `is_indeterminate` support
 - `tabs/1` — scrollable overflow now renders proper scroll buttons and scroll container
 - `tab_item/1` — added deterministic `id` and `:not()` exclusion to prevent 2px flash on tab switch
 - `switch_tab/3` — scoped tab/panel switching via `tabs_id` + content container id to prevent cross-group interference
@@ -28,6 +29,7 @@
 
 ### JS Hooks
 - `PureAdminCharCounter` — new hook for textarea/input character counting with configurable max, translatable message templates via `data-msg`/`data-msg-over` with `{count}`/`{max}` placeholders
+- `PureAdminCheckbox` — new hook for syncing `indeterminate` property from `data-indeterminate` attribute (required for tri-state checkboxes)
 
 ### Demo
 - **Cards page** — complete rewrite matching Svelte pure-admin reference (14 sections: same-height, basic, header three-part layout, colored, theme colors, bordered, ghost, underlined headers, statistics, statistics with trends, interactive, advanced features, data display, CSS classes reference)

@@ -23,18 +23,27 @@ defmodule KPureAdmin.Components.CheckboxList do
   attr(:value, :string, default: "true")
   attr(:checked, :boolean, default: false)
   attr(:disabled, :boolean, default: false)
+  attr(:is_indeterminate, :boolean, default: false, doc: "Indeterminate/partial state (requires PureAdminCheckbox hook)")
   attr(:is_x_mark, :boolean, default: false, doc: "X mark instead of checkmark")
   attr(:size, :string, default: nil, values: [nil, "xs", "sm", "lg", "xl"])
   attr(:class, :string, default: nil)
   attr(:rest, :global, include: ~w(phx-click phx-change phx-value-id))
 
   def checkbox_box(assigns) do
+    hook_id = if assigns.is_indeterminate, do: assigns.id || "cb-box-#{:erlang.phash2(assigns)}"
+    assigns = assign(assigns, :hook_id, hook_id)
+
     ~H"""
-    <label class={build_classes("pa-checkbox", [
-      {"pa-checkbox--#{@size}", @size != nil},
-      {"pa-checkbox--x", @is_x_mark},
-      {"pa-checkbox--disabled", @disabled}
-    ], @class)}>
+    <label
+      class={build_classes("pa-checkbox", [
+        {"pa-checkbox--#{@size}", @size != nil},
+        {"pa-checkbox--x", @is_x_mark},
+        {"pa-checkbox--disabled", @disabled}
+      ], @class)}
+      id={@hook_id}
+      phx-hook={if @is_indeterminate, do: "PureAdminCheckbox"}
+      data-indeterminate={to_string(@is_indeterminate)}
+    >
       <input type="checkbox" id={@id} name={@name} value={@value} checked={@checked} disabled={@disabled} {@rest} />
       <span class="pa-checkbox__box"></span>
     </label>

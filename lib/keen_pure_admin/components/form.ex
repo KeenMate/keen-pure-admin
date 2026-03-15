@@ -156,6 +156,8 @@ defmodule KPureAdmin.Components.Form do
   attr(:id, :string, default: nil)
   attr(:value, :string, default: "true")
   attr(:checked, :boolean, default: false)
+  attr(:is_indeterminate, :boolean, default: false, doc: "Indeterminate/partial state (requires PureAdminCheckbox hook)")
+  attr(:is_x_mark, :boolean, default: false, doc: "X mark instead of checkmark")
   attr(:label, :string, default: nil, doc: "Plain text label")
   attr(:size, :string, default: nil, values: [nil, "xs", "sm", "lg", "xl"])
   attr(:class, :string, default: nil)
@@ -163,8 +165,17 @@ defmodule KPureAdmin.Components.Form do
   slot(:label_content, doc: "Rich HTML label content (alternative to label attr)")
 
   def checkbox(assigns) do
+    # Generate a stable hook id when indeterminate is used
+    hook_id = if assigns.is_indeterminate, do: assigns.id || "cb-#{:erlang.phash2(assigns)}"
+    assigns = assign(assigns, :hook_id, hook_id)
+
     ~H"""
-    <label class={checkbox_classes(assigns)}>
+    <label
+      class={checkbox_classes(assigns)}
+      id={@hook_id}
+      phx-hook={if @is_indeterminate, do: "PureAdminCheckbox"}
+      data-indeterminate={to_string(@is_indeterminate)}
+    >
       <input type="checkbox" name={@name} id={@id} value={@value} checked={@checked} {@rest} />
       <span class="pa-checkbox__box"></span>
       <span :if={@label && @label_content == []} class="pa-checkbox__label"><%= @label %></span>
@@ -177,7 +188,9 @@ defmodule KPureAdmin.Components.Form do
     build_classes(
       "pa-checkbox",
       [
-        {"pa-checkbox--#{assigns.size}", assigns.size != nil}
+        {"pa-checkbox--#{assigns.size}", assigns.size != nil},
+        {"pa-checkbox--x", assigns.is_x_mark},
+        {"pa-checkbox--disabled", Map.get(assigns, :disabled, false)}
       ],
       assigns.class
     )

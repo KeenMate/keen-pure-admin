@@ -187,6 +187,7 @@ Client-side settings panel for theme mode, layout width, sidebar options, fonts,
 | `PureAdminDetailPanel` | Detail panel toggle |
 | `PureAdminSidebarResize` | Drag-to-resize sidebar |
 | `PureAdminCharCounter` | Character counter with translatable messages |
+| `PureAdminCheckbox` | Tri-state checkbox indeterminate sync |
 
 ## CSS Framework
 
