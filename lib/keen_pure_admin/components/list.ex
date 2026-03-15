@@ -2,12 +2,123 @@ defmodule KPureAdmin.Components.List do
   @moduledoc """
   List components for Pure Admin.
 
-  Provides `list/1` for the container and `list_item/1` for individual items.
-  ListItem supports structured content with avatar, title, subtitle, and meta.
+  Provides basic HTML lists (`basic_list/1`, `ordered_list/1`, `definition_list/1`)
+  and complex structured lists (`list/1`, `list_item/1`).
   """
   use Phoenix.Component
 
   import KPureAdmin.Helpers
+
+  # ─── Basic HTML Lists ───
+
+  @doc """
+  Renders a styled unordered list.
+
+  ## Examples
+
+      <.basic_list>
+        <li>Item one</li>
+        <li>Item two</li>
+      </.basic_list>
+
+      <.basic_list spacing="compact" has_icon icon_variant="danger">
+        <li>Error one</li>
+        <li>Error two</li>
+      </.basic_list>
+  """
+  attr(:spacing, :string, default: nil, values: [nil, "compact", "spacious"])
+  attr(:is_unstyled, :boolean, default: false, doc: "Remove bullets and padding")
+  attr(:is_inline, :boolean, default: false, doc: "Display items inline (horizontal)")
+  attr(:is_bordered, :boolean, default: false, doc: "Add borders between items")
+  attr(:is_striped, :boolean, default: false, doc: "Zebra striping on even rows")
+  attr(:has_icon, :boolean, default: false, doc: "Show icons (checkmarks by default)")
+  attr(:icon_variant, :string, default: "success", values: ["success", "danger", "info", "warning"],
+    doc: "Icon variant (when has_icon is true)")
+  attr(:class, :string, default: nil)
+  attr(:rest, :global)
+  slot(:inner_block, required: true)
+
+  def basic_list(assigns) do
+    ~H"""
+    <ul class={basic_list_classes(assigns)} {@rest}>
+      <%= render_slot(@inner_block) %>
+    </ul>
+    """
+  end
+
+  defp basic_list_classes(assigns) do
+    build_classes(
+      "pa-list-basic",
+      [
+        {"pa-list-basic--#{assigns.spacing}", assigns.spacing != nil},
+        {"pa-list-basic--unstyled", assigns.is_unstyled},
+        {"pa-list-basic--inline", assigns.is_inline},
+        {"pa-list-basic--bordered", assigns.is_bordered},
+        {"pa-list-basic--striped", assigns.is_striped},
+        {"pa-list-basic--icon", assigns.has_icon},
+        {"pa-list-basic--#{assigns.icon_variant}", assigns.has_icon && assigns.icon_variant != "success"}
+      ],
+      assigns.class
+    )
+  end
+
+  @doc """
+  Renders a styled ordered list.
+
+  ## Examples
+
+      <.ordered_list>
+        <li>Step one</li>
+        <li>Step two</li>
+      </.ordered_list>
+
+      <.ordered_list style="roman">
+        <li>Chapter I</li>
+        <li>Chapter II</li>
+      </.ordered_list>
+  """
+  attr(:style, :string, default: nil, values: [nil, "roman", "alpha"])
+  attr(:class, :string, default: nil)
+  attr(:rest, :global)
+  slot(:inner_block, required: true)
+
+  def ordered_list(assigns) do
+    ~H"""
+    <ol class={build_classes("pa-list-ordered", [{"pa-list-ordered--#{@style}", @style != nil}], @class)} {@rest}>
+      <%= render_slot(@inner_block) %>
+    </ol>
+    """
+  end
+
+  @doc """
+  Renders a styled definition list.
+
+  ## Examples
+
+      <.definition_list>
+        <dt>Term</dt>
+        <dd>Definition</dd>
+      </.definition_list>
+
+      <.definition_list is_inline>
+        <dt>Status</dt>
+        <dd>Active</dd>
+      </.definition_list>
+  """
+  attr(:is_inline, :boolean, default: false, doc: "Horizontal key-value layout")
+  attr(:class, :string, default: nil)
+  attr(:rest, :global)
+  slot(:inner_block, required: true)
+
+  def definition_list(assigns) do
+    ~H"""
+    <dl class={build_classes("pa-list-definition", [{"pa-list-definition--inline", @is_inline}], @class)} {@rest}>
+      <%= render_slot(@inner_block) %>
+    </dl>
+    """
+  end
+
+  # ─── Complex Structured Lists ───
 
   @doc "Renders a styled list container."
   attr(:is_bordered, :boolean, default: false, doc: "Add borders between items")

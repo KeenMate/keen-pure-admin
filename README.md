@@ -168,7 +168,8 @@ Client-side settings panel for theme mode, layout width, sidebar options, fonts,
 | `timeline/1` | Timeline displays |
 | `loader/1` | Loading spinners |
 | `callout/1` | Callout/info boxes |
-| `list/1` | Styled lists |
+| `basic_list/1`, `ordered_list/1`, `definition_list/1` | HTML lists with spacing, icons, borders |
+| `list/1`, `list_item/1` | Complex lists with avatar, title, subtitle, meta |
 | `code/1`, `code_block/1` | Inline code and code blocks |
 | `toast/1` | Toast notifications (LiveComponent) |
 
