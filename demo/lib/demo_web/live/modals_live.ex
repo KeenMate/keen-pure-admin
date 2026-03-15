@@ -116,13 +116,13 @@ defmodule DemoWeb.Live.ModalsLive do
 
     <.modal id="modal-xl" size="xl" title_text="Extra Large Modal">
       <.grid>
-        <.column size="33">
+        <.column size="1-3">
           <.card>Column 1</.card>
         </.column>
-        <.column size="33">
+        <.column size="1-3">
           <.card>Column 2</.card>
         </.column>
-        <.column size="33">
+        <.column size="1-3">
           <.card>Column 3</.card>
         </.column>
       </.grid>

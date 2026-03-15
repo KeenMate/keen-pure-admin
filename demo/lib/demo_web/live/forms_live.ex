@@ -179,17 +179,17 @@ defmodule DemoWeb.Live.FormsLive do
     <%!-- Select --%>
     <.card title_text="Select Inputs">
       <.grid>
-        <.column size="33">
+        <.column size="1-3">
           <.form_group label="Standard Select">
             <.select options={["Option 1", "Option 2", "Option 3"]} />
           </.form_group>
         </.column>
-        <.column size="33">
+        <.column size="1-3">
           <.form_group label="Disabled Select">
             <.select options={["Cannot change"]} disabled />
           </.form_group>
         </.column>
-        <.column size="33">
+        <.column size="1-3">
           <.form_group label="With Placeholder">
             <.select options={["", "Red", "Green", "Blue"]} prompt="Choose a color..." />
           </.form_group>
@@ -200,32 +200,32 @@ defmodule DemoWeb.Live.FormsLive do
     <%!-- Compact Three Column Layout --%>
     <.card title_text="Compact Form Layout">
       <.grid>
-        <.column size="33">
+        <.column size="1-3">
           <.form_group label="First Name">
             <.input type="text" placeholder="First Name" size="sm" />
           </.form_group>
         </.column>
-        <.column size="33">
+        <.column size="1-3">
           <.form_group label="Last Name">
             <.input type="text" placeholder="Last Name" size="sm" />
           </.form_group>
         </.column>
-        <.column size="33">
+        <.column size="1-3">
           <.form_group label="Email">
             <.input type="email" placeholder="Email" size="sm" />
           </.form_group>
         </.column>
-        <.column size="33">
+        <.column size="1-3">
           <.form_group label="Phone">
             <.input type="text" placeholder="Phone" size="sm" />
           </.form_group>
         </.column>
-        <.column size="33">
+        <.column size="1-3">
           <.form_group label="Country">
             <.select options={["USA", "UK", "Germany", "France", "Czech Republic"]} size="sm" />
           </.form_group>
         </.column>
-        <.column size="33">
+        <.column size="1-3">
           <.form_group label="ZIP Code">
             <.input type="text" placeholder="ZIP" size="sm" />
           </.form_group>

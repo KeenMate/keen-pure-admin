@@ -57,7 +57,10 @@ defmodule KPureAdmin.Components.Grid do
   Renders a grid column.
 
   Column sizes use Pure Admin's naming: percentage (5-100 in 5% increments)
-  or fractions (1-2, 1-3, 2-3, 1-4, 3-4, etc.).
+  or fractions (1-2, 1-3, 2-3, 1-4, 3-4, 1-5, 2-5, 3-5, 4-5, 1-6, 5-6, 1-12, 5-12, 7-12, 11-12).
+
+  Note: Only multiples of 5 are valid for percentage widths (e.g. 25, 50, 75).
+  For thirds use fractions: `1-3`, `2-3`. There is no `33` or `66`.
 
   ## Examples
 

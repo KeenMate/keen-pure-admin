@@ -48,7 +48,7 @@ defmodule DemoWeb.Live.DashboardLive do
 
     <%!-- Charts row --%>
     <.grid>
-      <.column size="66">
+      <.column size="2-3">
         <.card title_text="Top Sales Products">
           <div
             style="height: 200px; display: flex; align-items: center; justify-content: center; background: var(--pa-bg-light); border-radius: 4px;"
@@ -59,7 +59,7 @@ defmodule DemoWeb.Live.DashboardLive do
           </div>
         </.card>
       </.column>
-      <.column size="33">
+      <.column size="1-3">
         <.card title_text="Key Performance">
           <.stat number="87%" label_text="Completion Rate" icon_variant="primary">
             <:icon><i class="fa-solid fa-check-circle"></i></:icon>
@@ -124,7 +124,7 @@ defmodule DemoWeb.Live.DashboardLive do
 
     <%!-- Bottom row --%>
     <.grid>
-      <.column size="33">
+      <.column size="1-3">
         <.card title_text="System Status">
           <.list>
             <.list_item title_text="API Services" meta_text="Operational">
@@ -142,7 +142,7 @@ defmodule DemoWeb.Live.DashboardLive do
           </.list>
         </.card>
       </.column>
-      <.column size="33">
+      <.column size="1-3">
         <.card title_text="Quick Actions">
           <.button_group is_vertical>
             <.button variant="primary" is_block>New Order</.button>

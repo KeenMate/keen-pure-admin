@@ -29,7 +29,7 @@ defmodule DemoWeb.Live.StatsLive do
 
     <.card title_text="Stats with Trends">
       <.grid>
-        <.column size="33">
+        <.column size="1-3">
           <.stat
             number="$847,392"
             label_text="Total Revenue"
@@ -37,7 +37,7 @@ defmodule DemoWeb.Live.StatsLive do
             change_direction="positive"
           />
         </.column>
-        <.column size="33">
+        <.column size="1-3">
           <.stat
             number="24,583"
             label_text="Active Users"
@@ -45,7 +45,7 @@ defmodule DemoWeb.Live.StatsLive do
             change_direction="negative"
           />
         </.column>
-        <.column size="33">
+        <.column size="1-3">
           <.stat number="3.47%" label_text="Conversion Rate" change_text="0%" change_direction="neutral" />
         </.column>
       </.grid>
@@ -78,15 +78,15 @@ defmodule DemoWeb.Live.StatsLive do
 
     <.card title_text="Hero Stats">
       <.grid>
-        <.column size="33">
+        <.column size="1-3">
           <.stat variant="hero" number="$847,392" label_text="Total Revenue"
             change_text="+12.5%" change_direction="positive" />
         </.column>
-        <.column size="33">
+        <.column size="1-3">
           <.stat variant="hero" number="24,583" label_text="Active Users"
             change_text="-5.2%" change_direction="negative" />
         </.column>
-        <.column size="33">
+        <.column size="1-3">
           <.stat variant="hero-compact" number="3.47%" label_text="Conversion Rate"
             change_text="0%" change_direction="neutral" />
         </.column>
