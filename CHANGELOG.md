@@ -43,6 +43,7 @@
 - **Lists page** — complete rewrite matching Svelte pure-admin reference (basic unordered lists with spacing variants, ordered lists with numeric/roman/alpha, definition lists with standard/inline, icon lists with success/danger/info/warning, bordered/striped, inline/unstyled, complex lists with avatars, implementation guide)
 - **Checkbox Lists page** — new page matching Svelte reference (tri-state checkboxes, select-all pattern, disabled states, checkbox lists with descriptions, item states, list variants, task list with actions, inline/grid/multi-column layouts, interactive table with row selection and select-all)
 - **Alerts page** — rewrite matching Svelte reference (basic alerts with strong labels, text icon alerts, dismissible alerts, rich content with heading/list/actions, outline alerts, compact alerts in responsive grid)
+- **Callouts page** — rewrite matching Svelte reference (basic callouts, headings, icons, lists, sizes, code, links, grid layout, callout vs alert comparison)
 - **Sidebar** — reorganized to match Svelte pure-admin layout (Components submenu with Grid, separate Tables and Timeline submenus, Forms as top-level item)
 
 ## v0.2.0
