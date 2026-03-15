@@ -7,132 +7,145 @@ defmodule DemoWeb.Live.AlertsLive do
 
   def render(assigns) do
     ~H"""
-    <h1 class="pa-page-title">Alerts</h1>
-    <p class="pa-page-subtitle">
-      Contextual feedback messages for typical user actions with flexible alert messages.
-    </p>
+    <.paragraph>Contextual feedback messages for typical user actions with flexible alert messages.</.paragraph>
 
     <%!-- Basic Alerts --%>
     <.card title_text="Basic Alerts">
-      <div style="display: flex; flex-direction: column; gap: 12px;">
-        <.alert variant="primary">This is a primary alert — check it out!</.alert>
-        <.alert variant="secondary">This is a secondary alert — check it out!</.alert>
-        <.alert variant="success">This is a success alert — check it out!</.alert>
-        <.alert variant="danger">This is a danger alert — check it out!</.alert>
-        <.alert variant="warning">This is a warning alert — check it out!</.alert>
-        <.alert variant="info">This is an info alert — check it out!</.alert>
-        <.alert variant="light">This is a light alert — check it out!</.alert>
-        <.alert variant="dark">This is a dark alert — check it out!</.alert>
-      </div>
+      <.alert variant="primary">
+        <strong>Primary!</strong> This is a primary alert — check it out!
+      </.alert>
+      <.alert variant="secondary">
+        <strong>Secondary!</strong> This is a secondary alert — check it out!
+      </.alert>
+      <.alert variant="success">
+        <strong>Success!</strong> This is a success alert — your operation completed successfully.
+      </.alert>
+      <.alert variant="danger">
+        <strong>Danger!</strong> This is a danger alert — something went wrong!
+      </.alert>
+      <.alert variant="warning">
+        <strong>Warning!</strong> This is a warning alert — please review before proceeding.
+      </.alert>
+      <.alert variant="info">
+        <strong>Info!</strong> This is an info alert — here's some useful information.
+      </.alert>
+      <.alert variant="light">
+        <strong>Light!</strong> This is a light alert — subtle but important.
+      </.alert>
+      <.alert variant="dark">
+        <strong>Dark!</strong> This is a dark alert — for high contrast messaging.
+      </.alert>
     </.card>
 
     <%!-- Alerts with Icons --%>
     <.card title_text="Alerts with Icons">
-      <div style="display: flex; flex-direction: column; gap: 12px;">
-        <.alert variant="success">
-          <:icon><i class="fa-solid fa-circle-check"></i></:icon>
-          Operation completed successfully!
-        </.alert>
-        <.alert variant="danger">
-          <:icon><i class="fa-solid fa-circle-exclamation"></i></:icon>
-          An error occurred while processing your request.
-        </.alert>
-        <.alert variant="warning">
-          <:icon><i class="fa-solid fa-triangle-exclamation"></i></:icon>
-          Please review your input before continuing.
-        </.alert>
-        <.alert variant="info">
-          <:icon><i class="fa-solid fa-circle-info"></i></:icon>
-          A new software update is available for download.
-        </.alert>
-      </div>
+      <.alert variant="success">
+        <:icon>✓</:icon>
+        <strong>Success!</strong> Your changes have been saved successfully.
+      </.alert>
+      <.alert variant="danger">
+        <:icon>⚠</:icon>
+        <strong>Error!</strong> Unable to process your request. Please try again.
+      </.alert>
+      <.alert variant="warning">
+        <:icon>!</:icon>
+        <strong>Warning!</strong> Your session will expire in 5 minutes.
+      </.alert>
+      <.alert variant="info">
+        <:icon>ⓘ</:icon>
+        <strong>Information!</strong> New features are now available in your account.
+      </.alert>
     </.card>
 
     <%!-- Dismissible Alerts --%>
     <.card title_text="Dismissible Alerts">
-      <div style="display: flex; flex-direction: column; gap: 12px;">
-        <.alert id="dismiss-success" variant="success" is_dismissible>
-          <:icon><i class="fa-solid fa-circle-check"></i></:icon>
-          Your changes have been saved successfully!
-        </.alert>
-        <.alert id="dismiss-danger" variant="danger" is_dismissible>
-          <:icon><i class="fa-solid fa-circle-exclamation"></i></:icon>
-          Failed to delete the record. Please try again.
-        </.alert>
-        <.alert id="dismiss-warning" variant="warning" is_dismissible>
-          <:icon><i class="fa-solid fa-triangle-exclamation"></i></:icon>
-          Your session will expire in 5 minutes.
-        </.alert>
-        <.alert id="dismiss-info" variant="info" is_dismissible>
-          <:icon><i class="fa-solid fa-circle-info"></i></:icon>
-          New features are available. Check the changelog.
-        </.alert>
-      </div>
+      <.alert id="dismiss-success" variant="success" is_dismissible>
+        <strong>Well done!</strong> You successfully read this important alert message.
+      </.alert>
+      <.alert id="dismiss-danger" variant="danger" is_dismissible>
+        <strong>Oh snap!</strong> Change a few things and try submitting again.
+      </.alert>
+      <.alert id="dismiss-warning" variant="warning" is_dismissible>
+        <strong>Warning!</strong> Better check yourself, you're not looking too good.
+      </.alert>
+      <.alert id="dismiss-info" variant="info" is_dismissible>
+        <strong>Heads up!</strong> This alert needs your attention, but it's not super important.
+      </.alert>
     </.card>
 
     <%!-- Alerts with Additional Content --%>
-    <.grid>
-      <.column size="50">
-        <.card title_text="Alert with Rich Content">
+    <.card title_text="Alerts with Additional Content">
+      <.grid>
+        <.column size="100" md="1-2">
           <.alert variant="success">
-            <:heading>Well done!</:heading>
-            <p>
-              You have successfully completed the setup process. Your account is now active and ready to use.
-            </p>
-            <hr style="margin: 8px 0; opacity: 0.3;" />
-            <p style="margin: 0;">Whenever you need to, be sure to check back for updates.</p>
+            <:heading>Success!</:heading>
+            <.paragraph>
+              Aww yeah, you successfully read this important alert message. This example text is
+              going to run a bit longer so that you can see how spacing within an alert works with
+              this kind of content.
+            </.paragraph>
+            <hr />
+            <.paragraph class="mb-0">
+              Whenever you need to, be sure to use margin utilities to keep things nice and tidy.
+            </.paragraph>
           </.alert>
-        </.card>
-      </.column>
-      <.column size="50">
-        <.card title_text="Alert with Actions">
+        </.column>
+
+        <.column size="100" md="1-2">
           <.alert variant="info">
-            <:icon><i class="fa-solid fa-circle-info"></i></:icon>
             <:heading>System Update</:heading>
-            <p>A new system update is available with the following improvements:</p>
-            <ul style="margin: 8px 0; padding-left: 20px;">
+            <.paragraph>A new version of the application is available. This update includes:</.paragraph>
+            <.basic_list class="pa-alert__list">
               <li>Performance improvements</li>
               <li>Bug fixes</li>
-              <li>New features</li>
-            </ul>
+              <li>New dashboard features</li>
+            </.basic_list>
             <:actions>
-              <.button variant="info" size="sm">Update Now</.button>
-              <.button variant="light" size="sm">Remind Me Later</.button>
+              <.button variant="primary" size="sm">Update Now</.button>
+              <.button variant="secondary" size="sm">Remind Me Later</.button>
             </:actions>
           </.alert>
-        </.card>
-      </.column>
-    </.grid>
+        </.column>
+      </.grid>
+    </.card>
 
     <%!-- Outline Alerts --%>
     <.card title_text="Outline Alerts">
-      <div style="display: flex; flex-direction: column; gap: 12px;">
-        <.alert variant="primary" is_outline>This is an outline primary alert.</.alert>
-        <.alert variant="success" is_outline>This is an outline success alert.</.alert>
-        <.alert variant="danger" is_outline>This is an outline danger alert.</.alert>
-        <.alert variant="warning" is_outline>This is an outline warning alert.</.alert>
-        <.alert variant="info" is_outline>This is an outline info alert.</.alert>
-      </div>
+      <.alert is_outline variant="primary">
+        <strong>Primary Outline!</strong> This is a primary outline alert.
+      </.alert>
+      <.alert is_outline variant="success">
+        <strong>Success Outline!</strong> This is a success outline alert.
+      </.alert>
+      <.alert is_outline variant="danger">
+        <strong>Danger Outline!</strong> This is a danger outline alert.
+      </.alert>
+      <.alert is_outline variant="warning">
+        <strong>Warning Outline!</strong> This is a warning outline alert.
+      </.alert>
+      <.alert is_outline variant="info">
+        <strong>Info Outline!</strong> This is an info outline alert.
+      </.alert>
     </.card>
 
-    <%!-- Compact Alerts --%>
+    <%!-- Compact Alerts in Grid --%>
     <.card title_text="Compact Alerts in Grid">
       <.grid>
-        <.column size="33">
-          <.alert variant="success" size="sm">
-            <:icon><i class="fa-solid fa-check"></i></:icon>
+        <.column size="100" md="1-3">
+          <.alert size="sm" variant="success">
+            <:icon>✓</:icon>
             Saved
           </.alert>
         </.column>
-        <.column size="33">
-          <.alert variant="warning" size="sm">
-            <:icon><i class="fa-solid fa-exclamation"></i></:icon>
+        <.column size="100" md="1-3">
+          <.alert size="sm" variant="warning">
+            <:icon>!</:icon>
             Pending
           </.alert>
         </.column>
-        <.column size="33">
-          <.alert variant="danger" size="sm">
-            <:icon><i class="fa-solid fa-xmark"></i></:icon>
+        <.column size="100" md="1-3">
+          <.alert size="sm" variant="danger">
+            <:icon>×</:icon>
             Failed
           </.alert>
         </.column>
