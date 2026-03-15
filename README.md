@@ -191,9 +191,22 @@ Client-side settings panel for theme mode, layout width, sidebar options, fonts,
 
 ## CSS Framework
 
-This library generates HTML with BEM classes matching `@keenmate/pure-admin-core`. You need to include the Pure Admin CSS in your project separately.
+This library generates HTML with BEM classes matching [`@keenmate/pure-admin-core`](https://www.npmjs.com/package/@keenmate/pure-admin-core). You need to include the Pure Admin CSS in your project separately.
 
 All classes follow the pattern: `pa-{block}`, `pa-{block}--{modifier}`, `pa-{block}__{element}`.
+
+Browse the live component showcase and theme previews at [pureadmin.io](https://pureadmin.io).
+
+### Available Themes
+
+| Theme | Package |
+|---|---|
+| Default | `@keenmate/pure-admin-core` |
+| Audi | `@keenmate/pure-admin-theme-audi` |
+| Corporate | `@keenmate/pure-admin-theme-corporate` |
+| Dark | `@keenmate/pure-admin-theme-dark` |
+| Express | `@keenmate/pure-admin-theme-express` |
+| Minimal | `@keenmate/pure-admin-theme-minimal` |
 
 ## Development
 
