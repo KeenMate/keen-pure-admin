@@ -1,6 +1,8 @@
 defmodule DemoWeb.Live.ToastsLive do
   use DemoWeb, :live_view
 
+  import KPureAdmin.Components.Toast, only: [push_toast: 5]
+
   @toast_messages %{
     "primary" => %{title: "Primary", message: "This is a primary toast notification."},
     "success" => %{title: "Success!", message: "Your action was completed successfully."},
@@ -10,11 +12,7 @@ defmodule DemoWeb.Live.ToastsLive do
   }
 
   def mount(_params, _session, socket) do
-    {:ok, assign(socket,
-      page_title: "Toasts",
-      toasts: [],
-      toast_counter: 0
-    )}
+    {:ok, assign(socket, page_title: "Toasts")}
   end
 
   def handle_event("add_toast", params, socket) do
@@ -24,83 +22,30 @@ defmodule DemoWeb.Live.ToastsLive do
     title = params["title"] || @toast_messages[variant].title
     message = params["message"] || @toast_messages[variant].message
 
-    id = "toast-#{socket.assigns.toast_counter}"
+    {:noreply, push_toast(socket, variant, title, message, duration: duration, position: position)}
+  end
 
-    toast = %{
-      id: id,
-      variant: variant,
-      title: title,
-      message: message,
-      position: position
-    }
-
-    toasts = socket.assigns.toasts ++ [toast]
-
-    socket = assign(socket, toasts: toasts, toast_counter: socket.assigns.toast_counter + 1)
-
-    # Auto-dismiss after duration (unless persistent)
-    if duration > 0 do
-      Process.send_after(self(), {:dismiss_toast, id}, duration)
-    end
+  def handle_event("show_multiple", _params, socket) do
+    socket =
+      socket
+      |> push_toast("success", "First Toast", "This is the first notification")
+      |> push_toast("warning", "Second Toast", "This is the second notification")
+      |> push_toast("info", "Third Toast", "This is the third notification")
 
     {:noreply, socket}
   end
 
-  def handle_event("dismiss_toast", %{"id" => id}, socket) do
-    toasts = Enum.reject(socket.assigns.toasts, &(&1.id == id))
-    {:noreply, assign(socket, :toasts, toasts)}
-  end
-
-  def handle_event("show_multiple", _params, socket) do
-    base_id = socket.assigns.toast_counter
-
-    new_toasts = [
-      %{id: "toast-#{base_id}", variant: "success", title: "First Toast", message: "This is the first notification", position: "top-end"},
-      %{id: "toast-#{base_id + 1}", variant: "warning", title: "Second Toast", message: "This is the second notification", position: "top-end"},
-      %{id: "toast-#{base_id + 2}", variant: "info", title: "Third Toast", message: "This is the third notification", position: "top-end"}
-    ]
-
-    toasts = socket.assigns.toasts ++ new_toasts
-
-    for t <- new_toasts do
-      Process.send_after(self(), {:dismiss_toast, t.id}, 5000)
-    end
-
-    {:noreply, assign(socket, toasts: toasts, toast_counter: base_id + 3)}
-  end
-
-  def handle_info({:dismiss_toast, id}, socket) do
-    toasts = Enum.reject(socket.assigns.toasts, &(&1.id == id))
-    {:noreply, assign(socket, :toasts, toasts)}
-  end
-
-  defp toasts_for(toasts, position) do
-    Enum.filter(toasts, &(&1.position == position))
-  end
-
   def render(assigns) do
     ~H"""
-    <.paragraph>Temporary notification messages that auto-dismiss with smooth animations.</.paragraph>
+    <.paragraph>Temporary notification messages that auto-dismiss. Toasts are rendered client-side via JS hook — the server pushes events, no round-trips for display/dismiss.</.paragraph>
 
-    <%!-- Toast Containers for each position --%>
-    <.toast_container :if={toasts_for(@toasts, "top-end") != []} position="top-end">
-      <.toast :for={t <- toasts_for(@toasts, "top-end")} id={t.id} variant={t.variant} title_text={t.title} message_text={t.message} on_close="dismiss_toast" />
-    </.toast_container>
-    <.toast_container :if={toasts_for(@toasts, "top-center") != []} position="top-center">
-      <.toast :for={t <- toasts_for(@toasts, "top-center")} id={t.id} variant={t.variant} title_text={t.title} message_text={t.message} on_close="dismiss_toast" />
-    </.toast_container>
-    <.toast_container :if={toasts_for(@toasts, "top-start") != []} position="top-start">
-      <.toast :for={t <- toasts_for(@toasts, "top-start")} id={t.id} variant={t.variant} title_text={t.title} message_text={t.message} on_close="dismiss_toast" />
-    </.toast_container>
-    <.toast_container :if={toasts_for(@toasts, "bottom-end") != []} position="bottom-end">
-      <.toast :for={t <- toasts_for(@toasts, "bottom-end")} id={t.id} variant={t.variant} title_text={t.title} message_text={t.message} on_close="dismiss_toast" />
-    </.toast_container>
-    <.toast_container :if={toasts_for(@toasts, "bottom-center") != []} position="bottom-center">
-      <.toast :for={t <- toasts_for(@toasts, "bottom-center")} id={t.id} variant={t.variant} title_text={t.title} message_text={t.message} on_close="dismiss_toast" />
-    </.toast_container>
-    <.toast_container :if={toasts_for(@toasts, "bottom-start") != []} position="bottom-start">
-      <.toast :for={t <- toasts_for(@toasts, "bottom-start")} id={t.id} variant={t.variant} title_text={t.title} message_text={t.message} on_close="dismiss_toast" />
-    </.toast_container>
+    <%!-- Toast containers for each position (hook-based, client-side rendering) --%>
+    <.toast_container id="toasts-top-end" position="top-end" is_hook />
+    <.toast_container id="toasts-top-center" position="top-center" is_hook />
+    <.toast_container id="toasts-top-start" position="top-start" is_hook />
+    <.toast_container id="toasts-bottom-end" position="bottom-end" is_hook />
+    <.toast_container id="toasts-bottom-center" position="bottom-center" is_hook />
+    <.toast_container id="toasts-bottom-start" position="bottom-start" is_hook />
 
     <%!-- Toast Positions --%>
     <.card title_text="Toast Positions">
@@ -160,18 +105,18 @@ defmodule DemoWeb.Live.ToastsLive do
           </.button>
         </.column>
         <.column size="100" md="1-3">
-          <.button variant="danger" is_block phx-click="add_toast" phx-value-variant="danger" phx-value-duration="0" phx-value-title="Critical Error" phx-value-message="Critical error detected! This message will remain until you acknowledge it.">
+          <.button variant="danger" is_block phx-click="add_toast" phx-value-variant="danger" phx-value-duration="0" phx-value-title="Critical Error" phx-value-message="Critical error detected! Will remain until acknowledged.">
             Critical Error
           </.button>
         </.column>
         <.column size="100" md="1-3">
-          <.button variant="info" is_block phx-click="add_toast" phx-value-variant="info" phx-value-duration="0" phx-value-title="Important Info" phx-value-message="Important information that you should read carefully before dismissing.">
+          <.button variant="info" is_block phx-click="add_toast" phx-value-variant="info" phx-value-duration="0" phx-value-title="Important Info" phx-value-message="Read carefully before dismissing.">
             Important Info
           </.button>
         </.column>
       </.grid>
       <.paragraph class="pa-text--secondary mt-4">
-        These toasts stay visible until manually dismissed by clicking the close button
+        These toasts stay visible until manually dismissed by clicking the close button (duration=0)
       </.paragraph>
     </.card>
 
@@ -199,6 +144,26 @@ defmodule DemoWeb.Live.ToastsLive do
       <.paragraph class="pa-text--secondary mt-4">
         Toasts automatically stack vertically in the container
       </.paragraph>
+    </.card>
+
+    <%!-- How it works --%>
+    <.card title_text="How It Works">
+      <.callout variant="info" heading_text="Architecture">
+        <.paragraph>Toasts use a <strong>push_event</strong> pattern — the server decides <em>when</em> to show a toast, the client JS hook handles <em>rendering</em> and <em>auto-dismiss</em>. No server round-trips for display or dismissal.</.paragraph>
+      </.callout>
+
+      <.heading level={4} class="mt-4">Server (LiveView)</.heading>
+      <.code_block language="elixir"><%= """
+# In your LiveView
+socket |> push_toast("success", "Saved!", "Changes saved.")
+socket |> push_toast("danger", "Error", "Failed.", duration: 0)
+socket |> push_toast("info", "Note", "FYI", position: "bottom-end")
+""" %></.code_block>
+
+      <.heading level={4} class="mt-4">Template</.heading>
+      <.code_block language="heex"><%= """
+<.toast_container id="toasts" position="top-end" is_hook />
+""" %></.code_block>
     </.card>
     """
   end

@@ -2,11 +2,50 @@ defmodule KPureAdmin.Components.Toast do
   @moduledoc """
   Toast notification components for Pure Admin.
 
-  Provides `toast/1` for individual toasts and `toast_container/1` for positioning.
+  Provides `toast/1` for server-rendered toasts, `toast_container/1` for positioning,
+  and `push_toast/3` for triggering client-side toasts via `push_event`.
+
+  ## Client-side toasts (recommended)
+
+  Add a hook-enabled container in your layout:
+
+      <.toast_container id="toasts" position="top-end" is_hook />
+
+  Then push toasts from any LiveView:
+
+      socket |> push_toast("success", "Saved!", "Your changes have been saved.")
+
+  The JS hook handles rendering and auto-dismiss — no server round-trips.
   """
   use Phoenix.Component
 
   import KPureAdmin.Helpers
+
+  @doc """
+  Pushes a toast notification to the client via `push_event`.
+
+  The client-side `PureAdminToast` hook renders and auto-dismisses the toast.
+
+  ## Options
+
+  - `:duration` — auto-dismiss in ms (default: 5000, 0 = persistent)
+  - `:position` — override container position (default: "top-end")
+
+  ## Examples
+
+      socket |> push_toast("success", "Saved!", "Changes saved successfully.")
+      socket |> push_toast("danger", "Error", "Something went wrong.", duration: 0)
+      socket |> push_toast("info", "Note", "FYI", position: "bottom-end")
+  """
+  def push_toast(socket, variant, title, message, opts \\ []) do
+    Phoenix.LiveView.push_event(socket, "toast", %{
+      variant: variant,
+      title: title,
+      message: message,
+      duration: Keyword.get(opts, :duration, 5000),
+      position: Keyword.get(opts, :position, "top-end")
+    })
+  end
 
   @doc """
   Renders a toast notification.
@@ -79,16 +118,25 @@ defmodule KPureAdmin.Components.Toast do
         <.toast :for={t <- @toasts} id={t.id} variant={t.variant} title_text={t.title} message_text={t.message} on_close="dismiss_toast" />
       </.toast_container>
   """
+  attr(:id, :string, default: nil, doc: "Required when using phx-hook")
   attr(:position, :string, default: "top-end",
     values: ["top-end", "top-center", "top-start", "bottom-end", "bottom-center", "bottom-start"])
+  attr(:is_hook, :boolean, default: false,
+    doc: "Use PureAdminToast JS hook for client-side toast management via push_event")
   attr(:class, :string, default: nil)
   attr(:rest, :global)
-  slot(:inner_block, required: true)
+  slot(:inner_block)
 
   def toast_container(assigns) do
     ~H"""
-    <div class={build_classes("pa-toast-container", [{"pa-toast-container--#{@position}", true}], @class)} {@rest}>
-      <%= render_slot(@inner_block) %>
+    <div
+      id={@id}
+      class={build_classes("pa-toast-container", [{"pa-toast-container--#{@position}", true}], @class)}
+      phx-hook={if @is_hook, do: "PureAdminToast"}
+      data-position={@position}
+      {@rest}
+    >
+      <%= if @inner_block != [], do: render_slot(@inner_block) %>
     </div>
     """
   end
