@@ -172,7 +172,7 @@ Client-side settings panel for theme mode, layout width, sidebar options, fonts,
 | `checkbox_list/1`, `checkbox_list_item/1`, `checkbox_box/1` | Checkbox lists with variants, layouts, actions |
 | `list/1`, `list_item/1` | Complex lists with avatar, title, subtitle, meta |
 | `code/1`, `code_block/1` | Inline code and code blocks |
-| `toast/1` | Toast notifications (LiveComponent) |
+| `toast/1`, `toast_container/1`, `push_toast/5` | Toast notifications with client-side rendering via JS hook |
 
 ### JS Hooks
 
