@@ -16,6 +16,7 @@ defmodule DemoWeb.Live.ToastsLive do
   def mount(_params, _session, socket) do
     {:ok, assign(socket,
       page_title: "Toasts",
+      task_running: false,
       code_server: ~s"""
       # In your LiveView
       socket |> PureToast.push_toast("success", "Saved!", "Changes saved.")
@@ -44,6 +45,29 @@ defmodule DemoWeb.Live.ToastsLive do
       |> PureToast.push_toast("info", "Third Toast", "This is the third notification")
 
     {:noreply, socket}
+  end
+
+  def handle_event("start_task", _params, socket) do
+    # Simulate a long-running background task (3-8 seconds)
+    pid = self()
+    Task.start(fn ->
+      duration = Enum.random(3000..8000)
+      Process.sleep(duration)
+      seconds = Float.round(duration / 1000, 1)
+      send(pid, {:task_complete, seconds})
+    end)
+
+    {:noreply,
+      socket
+      |> assign(:task_running, true)
+      |> PureToast.push_toast("info", "Task Started", "Processing in background... Navigate away and come back — the toast will appear when done.", duration: 3000)}
+  end
+
+  def handle_info({:task_complete, seconds}, socket) do
+    {:noreply,
+      socket
+      |> assign(:task_running, false)
+      |> PureToast.push_toast("success", "Task Complete!", "Background task finished in #{seconds}s. This toast appeared wherever you are.", duration: 0)}
   end
 
   def render(assigns) do
@@ -158,6 +182,22 @@ defmodule DemoWeb.Live.ToastsLive do
     </.card>
 
     <%!-- How it works --%>
+    <%!-- Long Running Task --%>
+    <.card title_text="Long Running Task (Server Push)">
+      <.callout variant="info" heading_text="Real-World Pattern">
+        <.paragraph>Click the button to start a background task (3-8 seconds random). You'll get an info toast immediately, then a success toast when it completes — even if you navigate to another page and come back.</.paragraph>
+      </.callout>
+      <.button
+        variant="primary"
+        phx-click="start_task"
+        disabled={@task_running}
+        is_loading={@task_running}
+        class="mt-4"
+      >
+        <%= if @task_running, do: "Task Running...", else: "Start Background Task" %>
+      </.button>
+    </.card>
+
     <.card title_text="How It Works">
       <.callout variant="info" heading_text="Architecture">
         <.paragraph>Toasts use a <strong>push_event</strong> pattern — the server decides <em>when</em> to show a toast, the client JS hook handles <em>rendering</em> and <em>auto-dismiss</em>. No server round-trips for display or dismissal.</.paragraph>
