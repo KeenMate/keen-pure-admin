@@ -48,7 +48,7 @@ defmodule KPureAdmin.MixProject do
       name: "keen_pure_admin",
       licenses: ["MIT"],
       links: %{"GitHub" => @source_url},
-      files: ~w(lib assets .formatter.exs mix.exs README.md LICENSE CHANGELOG.md)
+      files: ~w(lib .formatter.exs mix.exs README.md LICENSE CHANGELOG.md)
     ]
   end
 

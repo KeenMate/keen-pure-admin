@@ -1,7 +1,9 @@
 defmodule DemoWeb.Live.ToastsLive do
   use DemoWeb, :live_view
 
-  import KPureAdmin.Components.Toast, only: [push_toast: 5]
+  # push_toast is not a component function, so it's not in `use KPureAdmin.Components`
+  # Import it directly without conflicting with the bulk component import
+  alias KPureAdmin.Components.Toast, as: PureToast
 
   @toast_messages %{
     "primary" => %{title: "Primary", message: "This is a primary toast notification."},
@@ -12,7 +14,16 @@ defmodule DemoWeb.Live.ToastsLive do
   }
 
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, page_title: "Toasts")}
+    {:ok, assign(socket,
+      page_title: "Toasts",
+      code_server: ~s"""
+      # In your LiveView
+      socket |> PureToast.push_toast("success", "Saved!", "Changes saved.")
+      socket |> PureToast.push_toast("danger", "Error", "Failed.", duration: 0)
+      socket |> PureToast.push_toast("info", "Note", "FYI", position: "bottom-end")\
+      """,
+      code_template: ~s'<.toast_container id="toasts" position="top-end" is_hook />'
+    )}
   end
 
   def handle_event("add_toast", params, socket) do
@@ -22,15 +33,15 @@ defmodule DemoWeb.Live.ToastsLive do
     title = params["title"] || @toast_messages[variant].title
     message = params["message"] || @toast_messages[variant].message
 
-    {:noreply, push_toast(socket, variant, title, message, duration: duration, position: position)}
+    {:noreply, PureToast.push_toast(socket, variant, title, message, duration: duration, position: position)}
   end
 
   def handle_event("show_multiple", _params, socket) do
     socket =
       socket
-      |> push_toast("success", "First Toast", "This is the first notification")
-      |> push_toast("warning", "Second Toast", "This is the second notification")
-      |> push_toast("info", "Third Toast", "This is the third notification")
+      |> PureToast.push_toast("success", "First Toast", "This is the first notification")
+      |> PureToast.push_toast("warning", "Second Toast", "This is the second notification")
+      |> PureToast.push_toast("info", "Third Toast", "This is the third notification")
 
     {:noreply, socket}
   end
@@ -153,17 +164,10 @@ defmodule DemoWeb.Live.ToastsLive do
       </.callout>
 
       <.heading level={4} class="mt-4">Server (LiveView)</.heading>
-      <.code_block language="elixir"><%= """
-# In your LiveView
-socket |> push_toast("success", "Saved!", "Changes saved.")
-socket |> push_toast("danger", "Error", "Failed.", duration: 0)
-socket |> push_toast("info", "Note", "FYI", position: "bottom-end")
-""" %></.code_block>
+      <.code_block language="elixir"><%= @code_server %></.code_block>
 
       <.heading level={4} class="mt-4">Template</.heading>
-      <.code_block language="heex"><%= """
-<.toast_container id="toasts" position="top-end" is_hook />
-""" %></.code_block>
+      <.code_block language="heex"><%= @code_template %></.code_block>
     </.card>
     """
   end
