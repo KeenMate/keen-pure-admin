@@ -32,6 +32,8 @@
 - `PureAdminCheckbox` — new hook for syncing `indeterminate` property from `data-indeterminate` attribute (required for tri-state checkboxes)
 
 ### Components (enhanced)
+- `pager/1` — enhanced with page input, first/last buttons, configurable events, custom info text, `:controls` and `:info` slots
+- `load_more/1` — enhanced with `phx-click` support via `:global` attrs
 - `loader_center/1` — new centered loader container (flexbox centering)
 - `loader_overlay/1` — enhanced to accept custom content via slot (not just default spinner)
 - `toast/1` — added `title_text`, `message_text`, `is_visible`, `on_close`, `:icon` slot, close button with SVG icon
@@ -51,6 +53,7 @@
 - **Alerts page** — rewrite matching Svelte reference (basic alerts with strong labels, text icon alerts, dismissible alerts, rich content with heading/list/actions, outline alerts, compact alerts in responsive grid)
 - **Callouts page** — rewrite matching Svelte reference (basic callouts, headings, icons, lists, sizes, code, links, grid layout, callout vs alert comparison)
 - **Loaders page** — rewrite matching Svelte reference (spinner sizes/colors, inline spinners, centered loaders, loaders with text, card loading states, loader types, button loading states)
+- **Pagers page** — new page (basic pager, first/last buttons, alignment variants, custom info text, load more with loading state, pager in card footer, CSS classes reference)
 - **Toasts page** — new page matching Svelte reference (6 position demos, 5 variant buttons, persistent toasts, action toasts, multiple stacking toasts, long-running background task demo with server push, architecture docs)
 - **Sidebar** — reorganized to match Svelte pure-admin layout (Components submenu with Grid, separate Tables and Timeline submenus, Forms as top-level item)
 
