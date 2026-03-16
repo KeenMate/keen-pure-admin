@@ -1,27 +1,86 @@
 defmodule KPureAdmin.Components.Toast do
   @moduledoc """
-  Toast components for Pure Admin. (Phase 3/4)
+  Toast notification components for Pure Admin.
+
+  Provides `toast/1` for individual toasts and `toast_container/1` for positioning.
   """
   use Phoenix.Component
 
   import KPureAdmin.Helpers
 
-  @doc "Renders a static toast notification."
-  attr(:variant, :string, default: "info")
+  @doc """
+  Renders a toast notification.
+
+  ## Examples
+
+      <.toast variant="success" title_text="Success!" message_text="Changes saved." />
+
+      <.toast variant="danger" title_text="Error" message_text="Save failed." on_close="dismiss_toast" />
+  """
+  attr(:id, :string, default: nil)
+  attr(:variant, :string, default: "info",
+    values: ["primary", "success", "danger", "warning", "info"])
+  attr(:title_text, :string, default: nil, doc: "Toast title")
+  attr(:message_text, :string, default: nil, doc: "Toast message")
+  attr(:is_visible, :boolean, default: true, doc: "Show/hide the toast")
+  attr(:on_close, :string, default: nil, doc: "LiveView event fired on close")
   attr(:class, :string, default: nil)
-  attr(:rest, :global)
-  slot(:inner_block, required: true)
+  attr(:rest, :global, include: ~w(phx-click phx-value-id))
+  slot(:icon, doc: "Custom icon content")
+  slot(:inner_block, doc: "Custom body content (overrides title_text/message_text)")
 
   def toast(assigns) do
     ~H"""
-    <div class={build_classes("pa-toast", [{"pa-toast--#{@variant}", true}], @class)} {@rest}>
-      <%= render_slot(@inner_block) %>
+    <div
+      :if={@is_visible}
+      id={@id}
+      class={build_classes("pa-toast", [
+        {"pa-toast--#{@variant}", true},
+        {"pa-toast--show", @is_visible}
+      ], @class)}
+      {@rest}
+    >
+      <div :if={@icon != []} class="pa-toast__icon">
+        <%= for icon <- @icon do %>
+          <%= render_slot(icon) %>
+        <% end %>
+      </div>
+      <%= if @inner_block != [] do %>
+        <%= render_slot(@inner_block) %>
+      <% else %>
+        <div class="pa-toast__content">
+          <div :if={@title_text} class="pa-toast__title"><%= @title_text %></div>
+          <div :if={@message_text} class="pa-toast__message"><%= @message_text %></div>
+        </div>
+      <% end %>
+      <button
+        :if={@on_close}
+        class="pa-toast__close"
+        phx-click={@on_close}
+        phx-value-id={@id}
+        aria-label="Close"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
     </div>
     """
   end
 
-  @doc "Renders a toast container."
-  attr(:position, :string, default: "top-right")
+  @doc """
+  Renders a toast container for positioning toasts in the viewport.
+
+  ## Positions
+
+  `top-end`, `top-center`, `top-start`, `bottom-end`, `bottom-center`, `bottom-start`
+
+  ## Examples
+
+      <.toast_container position="top-end">
+        <.toast :for={t <- @toasts} id={t.id} variant={t.variant} title_text={t.title} message_text={t.message} on_close="dismiss_toast" />
+      </.toast_container>
+  """
+  attr(:position, :string, default: "top-end",
+    values: ["top-end", "top-center", "top-start", "bottom-end", "bottom-center", "bottom-start"])
   attr(:class, :string, default: nil)
   attr(:rest, :global)
   slot(:inner_block, required: true)

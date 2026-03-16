@@ -31,6 +31,10 @@
 - `PureAdminCharCounter` — new hook for textarea/input character counting with configurable max, translatable message templates via `data-msg`/`data-msg-over` with `{count}`/`{max}` placeholders
 - `PureAdminCheckbox` — new hook for syncing `indeterminate` property from `data-indeterminate` attribute (required for tri-state checkboxes)
 
+### Components (enhanced)
+- `toast/1` — added `title_text`, `message_text`, `is_visible`, `on_close`, `:icon` slot, close button with SVG icon
+- `toast_container/1` — updated positions to use logical names (top-end, top-center, top-start, bottom-end, bottom-center, bottom-start)
+
 ### Demo
 - **Cards page** — complete rewrite matching Svelte pure-admin reference (14 sections: same-height, basic, header three-part layout, colored, theme colors, bordered, ghost, underlined headers, statistics, statistics with trends, interactive, advanced features, data display, CSS classes reference)
 - **Grid page** — complete rewrite matching Svelte pure-admin reference (overview, basic usage, percentage columns, fraction columns, responsive grid, offsets, row alignment, no gutter, visibility utilities, nested grids, quick reference, code examples)
@@ -44,6 +48,7 @@
 - **Checkbox Lists page** — new page matching Svelte reference (tri-state checkboxes, select-all pattern, disabled states, checkbox lists with descriptions, item states, list variants, task list with actions, inline/grid/multi-column layouts, interactive table with row selection and select-all)
 - **Alerts page** — rewrite matching Svelte reference (basic alerts with strong labels, text icon alerts, dismissible alerts, rich content with heading/list/actions, outline alerts, compact alerts in responsive grid)
 - **Callouts page** — rewrite matching Svelte reference (basic callouts, headings, icons, lists, sizes, code, links, grid layout, callout vs alert comparison)
+- **Toasts page** — new page matching Svelte reference (6 position demos, 5 variant buttons, persistent toasts, action toasts, multiple stacking toasts, all powered by LiveView server-side auto-dismiss)
 - **Sidebar** — reorganized to match Svelte pure-admin layout (Components submenu with Grid, separate Tables and Timeline submenus, Forms as top-level item)
 
 ## v0.2.0
