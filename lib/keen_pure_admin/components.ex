@@ -32,6 +32,7 @@ defmodule KPureAdmin.Components do
       import KPureAdmin.Components.Modal
       import KPureAdmin.Components.Navigation
       import KPureAdmin.Components.Pager
+      import KPureAdmin.Components.Popconfirm
       import KPureAdmin.Components.Profile
       import KPureAdmin.Components.Stat
       import KPureAdmin.Components.Table

@@ -22,6 +22,7 @@ defmodule DemoWeb.Router do
       live "/tables", Live.TablesLive, :index
       live "/modals", Live.ModalsLive, :index
       live "/modal-dialogs", Live.ModalDialogsLive, :index
+      live "/popconfirm", Live.PopconfirmLive, :index
       live "/tabs", Live.TabsLive, :index
       live "/grid", Live.GridLive, :index
       live "/forms", Live.FormsLive, :index

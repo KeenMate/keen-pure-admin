@@ -2,6 +2,9 @@
 
 ## v0.3.1
 
+### New Components
+- `popconfirm/1` — small confirmation dialogs anchored to trigger buttons via Floating UI, with `message`, `placement` (top/bottom/start/end, RTL-aware), `icon_variant` (danger/warning/info), `is_compact`, `confirm_event`/`confirm_value` for LiveView integration, click-outside-to-close, move-to-body positioning
+
 ### RTL Support
 - `tooltip/1` — position values renamed: `right` → `end`, `left` → `start` (RTL-aware via `document.dir`)
 - `popover/1` — placement values renamed: `right` → `end`, `left` → `start` (RTL-aware via `document.dir`)
@@ -20,6 +23,7 @@
 - **Modals page** — rewritten to match pure-admin reference (grouped layout, settings modal, richer modal content)
 - **Tooltips page** — updated to use `start`/`end` position naming
 - **Badges page** — updated fixed-width section to use `max_width` utility approach, renamed "Left-Side Ellipsis" to "Start-Side Ellipsis"
+- **Popconfirm page** — new page with basic popconfirms (delete/archive/reset with icon variants), compact variant, table row delete confirmations with LiveView integration
 - Fixed all compile warnings across demo (nested `if` parentheses, `dynamic_tag` name deprecation, undefined attributes, missing slots)
 
 ## v0.3.0
