@@ -1,7 +1,7 @@
 defmodule DemoWeb.Live.PagersLive do
   use DemoWeb, :live_view
 
-  @total_items 250
+  @total_items 247
   @per_page 25
 
   def mount(_params, _session, socket) do
@@ -53,50 +53,60 @@ defmodule DemoWeb.Live.PagersLive do
 
     <%!-- Basic Pager --%>
     <.card title_text="Basic Pager">
-      <.paragraph class="mb-4">Default centered pager with page input and navigation buttons.</.paragraph>
+      <.heading level={4}>Start Aligned</.heading>
+      <.pager page={@page} total_pages={@total_pages} align="start" show_info={false} on_previous="prev_page" on_next="next_page" />
+
+      <.heading level={4} class="mt-6">Center Aligned (default)</.heading>
+      <.pager page={@page} total_pages={@total_pages} show_info={false} on_previous="prev_page" on_next="next_page" />
+
+      <.heading level={4} class="mt-6">End Aligned</.heading>
+      <.pager page={@page} total_pages={@total_pages} align="end" show_info={false} on_previous="prev_page" on_next="next_page" />
+    </.card>
+
+    <%!-- Pager with Page Info --%>
+    <.card title_text="Pager with Page Info">
       <.pager page={@page} total_pages={@total_pages} on_previous="prev_page" on_next="next_page" on_page_change="go_to_page" />
+    </.card>
+
+    <%!-- Pager with Item Count --%>
+    <.card title_text="Pager with Item Count">
+      <.pager
+        page={@page}
+        total_pages={@total_pages}
+        align="end"
+        info_text={"Showing #{(@page - 1) * 25 + 1}-#{min(@page * 25, @total_items)} of #{@total_items} items"}
+        on_previous="prev_page"
+        on_next="next_page"
+      />
     </.card>
 
     <%!-- Pager with First/Last --%>
     <.card title_text="Pager with First/Last Buttons">
-      <.paragraph class="mb-4">Extended navigation with first and last page buttons.</.paragraph>
       <.pager page={@page} total_pages={@total_pages} on_previous="prev_page" on_next="next_page" on_first="first_page" on_last="last_page" on_page_change="go_to_page" />
     </.card>
 
-    <%!-- Pager Alignment --%>
-    <.card title_text="Pager Alignment">
-      <.heading level={4}>Start Aligned</.heading>
-      <.pager page={@page} total_pages={@total_pages} align="start" on_previous="prev_page" on_next="next_page" on_page_change="go_to_page" />
-
-      <.heading level={4} class="mt-6">Center Aligned (Default)</.heading>
-      <.pager page={@page} total_pages={@total_pages} on_previous="prev_page" on_next="next_page" on_page_change="go_to_page" />
-
-      <.heading level={4} class="mt-6">End Aligned with Custom Info</.heading>
-      <.pager page={@page} total_pages={@total_pages} align="end" info_text={"Showing #{(@page - 1) * 25 + 1}-#{min(@page * 25, @total_items)} of #{@total_items}"} on_previous="prev_page" on_next="next_page" />
-    </.card>
-
-    <%!-- Load More --%>
+    <%!-- Load More Button --%>
     <.card title_text="Load More Button">
-      <.grid>
-        <.column size="100" md="1-3">
-          <.heading level={4}>Default</.heading>
-          <.load_more phx-click="load_more" count={"#{@loaded_items} of #{@total_items}"} is_loading={@load_more_loading} />
-        </.column>
-        <.column size="100" md="1-3">
-          <.heading level={4}>Start Aligned</.heading>
-          <.load_more align="start" phx-click="load_more">Show More Items</.load_more>
-        </.column>
-        <.column size="100" md="1-3">
-          <.heading level={4}>End Aligned</.heading>
-          <.load_more align="end" phx-click="load_more">Load Previous</.load_more>
-        </.column>
-      </.grid>
+      <.heading level={4}>Start Aligned</.heading>
+      <.load_more align="start" />
+
+      <.heading level={4} class="mt-6">Center Aligned (default)</.heading>
+      <.load_more />
+
+      <.heading level={4} class="mt-6">End Aligned</.heading>
+      <.load_more align="end" />
     </.card>
 
-    <%!-- Pager in Card Footer --%>
-    <.card title_text="Pager in Card Footer">
-      <.paragraph>The pager removes its top/bottom margins when it's the first or last child in a card body, for clean alignment.</.paragraph>
-      <.pager page={@page} total_pages={@total_pages} on_previous="prev_page" on_next="next_page" on_page_change="go_to_page" />
+    <%!-- Load More with Count & Loading State --%>
+    <.card title_text="Load More with Count">
+      <.load_more
+        phx-click="load_more"
+        count={"#{@loaded_items} of #{@total_items}"}
+        is_loading={@load_more_loading}
+      />
+
+      <.heading level={4} class="mt-6">Loading State</.heading>
+      <.load_more is_loading>Loading...</.load_more>
     </.card>
 
     <%!-- CSS Classes Reference --%>
