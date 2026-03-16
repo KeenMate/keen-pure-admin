@@ -35,6 +35,7 @@ defmodule KPureAdmin.Components.Tooltip do
     doc: "Color variant (primary, success, warning, danger, color-1 through color-9)")
   attr(:multiline, :boolean, default: false, doc: "Multiline tooltip (wider, left-aligned)")
   attr(:is_help, :boolean, default: false, doc: "Help cursor (question mark)")
+  attr(:is_inline, :boolean, default: false, doc: "Inline text style with dotted underline")
   attr(:class, :string, default: nil)
   attr(:rest, :global)
   slot(:inner_block, required: true)
@@ -42,7 +43,8 @@ defmodule KPureAdmin.Components.Tooltip do
   def tooltip(assigns) do
     ~H"""
     <span
-      class={build_classes("pa-tooltip pa-tooltip--floating", [
+      class={build_classes("pa-tooltip", [
+        {"pa-tooltip--floating", !@is_inline},
         {"pa-tooltip--#{@position}", @position != nil},
         {"pa-tooltip--#{@variant}", @variant != nil},
         {"pa-tooltip--multiline", @multiline},

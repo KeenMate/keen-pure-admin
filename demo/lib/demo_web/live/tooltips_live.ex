@@ -131,9 +131,9 @@ defmodule DemoWeb.Live.TooltipsLive do
         <%!-- Inline Text Tooltips --%>
         <.card title_text="Inline Text Tooltips" class="mb-4">
           <.paragraph>
-            Tooltips can explain <.tooltip text="Application Programming Interface" variant="primary">API</.tooltip> terms,
-            <.tooltip text="Cascading Style Sheets" variant="success">CSS</.tooltip>, or
-            <.tooltip text="HyperText Markup Language" variant="danger">HTML</.tooltip> abbreviations.
+            Tooltips can explain <.tooltip text="Application Programming Interface" variant="primary" is_inline>API</.tooltip> terms,
+            <.tooltip text="Cascading Style Sheets" variant="success" is_inline>CSS</.tooltip>, or
+            <.tooltip text="HyperText Markup Language" variant="danger" is_inline>HTML</.tooltip> abbreviations.
           </.paragraph>
         </.card>
       </.column>
