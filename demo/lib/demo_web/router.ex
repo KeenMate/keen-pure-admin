@@ -21,6 +21,7 @@ defmodule DemoWeb.Router do
       live "/cards", Live.CardsLive, :index
       live "/tables", Live.TablesLive, :index
       live "/modals", Live.ModalsLive, :index
+      live "/modal-dialogs", Live.ModalDialogsLive, :index
       live "/tabs", Live.TabsLive, :index
       live "/grid", Live.GridLive, :index
       live "/forms", Live.FormsLive, :index

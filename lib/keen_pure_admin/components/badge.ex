@@ -18,7 +18,7 @@ defmodule KPureAdmin.Components.Badge do
   """
   attr(:variant, :string, default: "primary", doc: "Color variant")
   attr(:size, :string, default: nil, values: [nil, "xs", "sm", "lg", "xl"])
-  attr(:width, :string, default: nil, doc: "Fixed width (e.g. '3x', '5x', '10x')")
+  attr(:max_width, :string, default: nil, doc: "Max width in rem units (e.g. '5', '10', '15') - adds maxwr-N text-truncate")
   attr(:is_pill, :boolean, default: false, doc: "Rounded pill shape")
   attr(:is_ellipsis_start, :boolean, default: false, doc: "Truncate from the left side")
   attr(:theme_color, :string, default: nil, doc: "Theme color 1-9")
@@ -42,7 +42,8 @@ defmodule KPureAdmin.Components.Badge do
       [
         {"pa-badge--#{assigns.variant}", true},
         {"pa-badge--#{assigns.size}", assigns.size != nil},
-        {"pa-badge--w-#{assigns.width}", assigns.width != nil},
+        {"maxwr-#{assigns.max_width}", assigns.max_width != nil},
+        {"text-truncate", assigns.max_width != nil},
         {"pa-badge--pill", assigns.is_pill},
         {"pa-badge--ellipsis-start", assigns.is_ellipsis_start},
         {"pa-bg-color-#{assigns.theme_color}", assigns.theme_color != nil}

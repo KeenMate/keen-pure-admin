@@ -324,7 +324,8 @@ defmodule DemoWeb.Live.CardsLive do
       </.paragraph>
       <.grid>
         <.column :for={i <- 1..9} size="100" md="1-3">
-          <.card variant={"color-#{i}"}>
+          <% card_variant = "color-#{i}" %>
+          <.card variant={card_variant}>
             <:header><.heading level={4}>Color <%= i %></.heading></:header>
             <.paragraph>Theme color slot <%= i %></.paragraph>
           </.card>

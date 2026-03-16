@@ -146,7 +146,7 @@ defmodule DemoWeb.Live.InputsLive do
           <.form_group>
             <.form_label>With Both (prepend uses <code>wr-3</code> for fixed width)</.form_label>
             <.input_group>
-              <:prepend class="wr-3">$</:prepend>
+              <:prepend><span class="wr-3">$</span></:prepend>
               <.input placeholder="0.00" />
               <:append>.00</:append>
             </.input_group>

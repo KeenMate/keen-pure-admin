@@ -90,7 +90,9 @@ defmodule DemoWeb.Live.TablesLive do
     </.card>
 
     <%!-- Table Size Variants --%>
-    <.card title_text="Table Size Variants" description_text="Table size variants synchronized with button/input sizes." />
+    <.section title_text="Table Size Variants">
+      <.paragraph class="mb-2">Table size variants synchronized with button/input sizes.</.paragraph>
+    </.section>
 
     <.grid>
       <.column size="50">

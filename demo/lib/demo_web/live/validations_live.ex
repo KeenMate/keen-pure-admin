@@ -47,6 +47,22 @@ defmodule DemoWeb.Live.ValidationsLive do
     String.length(email) > 0 and String.contains?(email, "@") and String.contains?(email, ".")
   end
 
+  defp email_validation(touched, email) do
+    cond do
+      !touched -> nil
+      !valid_email?(email) -> "error"
+      true -> "success"
+    end
+  end
+
+  defp date_validation(start_date, end_date) do
+    case dates_valid?(start_date, end_date) do
+      false -> "error"
+      true -> "success"
+      nil -> nil
+    end
+  end
+
   defp password_strength(pw) do
     cond do
       String.length(pw) == 0 -> nil
@@ -361,13 +377,13 @@ defmodule DemoWeb.Live.ValidationsLive do
         <.column size="100" md="1-3">
           <.card class="pa-card--bordered" variant="warning" title_text="On Input (Real-time)">
             <form phx-change="realtime_change">
-              <.form_group validation={if @realtime_touched && !valid_email?(@realtime_email), do: "error", else: if @realtime_touched && valid_email?(@realtime_email), do: "success"}>
+              <.form_group validation={email_validation(@realtime_touched, @realtime_email)}>
                 <.form_label>Email</.form_label>
                 <.input
                   type="email"
                   name="realtime_email"
                   value={@realtime_email}
-                  validation={if @realtime_touched && !valid_email?(@realtime_email), do: "error", else: if @realtime_touched && valid_email?(@realtime_email), do: "success"}
+                  validation={email_validation(@realtime_touched, @realtime_email)}
                   placeholder="Type to see validation..."
                   phx-debounce="100"
                 />
@@ -385,12 +401,12 @@ defmodule DemoWeb.Live.ValidationsLive do
         <%!-- On Blur (Recommended) --%>
         <.column size="100" md="1-3">
           <.card class="pa-card--bordered" variant="success" title_text="On Blur (Recommended)">
-            <.form_group validation={if @blur_touched && !valid_email?(@blur_email), do: "error", else: if @blur_touched && valid_email?(@blur_email), do: "success"}>
+            <.form_group validation={email_validation(@blur_touched, @blur_email)}>
               <.form_label>Email</.form_label>
               <.input
                 type="email"
                 value={@blur_email}
-                validation={if @blur_touched && !valid_email?(@blur_email), do: "error", else: if @blur_touched && valid_email?(@blur_email), do: "success"}
+                validation={email_validation(@blur_touched, @blur_email)}
                 placeholder="Tab out to validate..."
                 phx-blur="blur_validate"
               />
@@ -408,13 +424,13 @@ defmodule DemoWeb.Live.ValidationsLive do
         <.column size="100" md="1-3">
           <.card class="pa-card--bordered" variant="info" title_text="On Submit">
             <form phx-submit="submit_validate">
-              <.form_group validation={if @submit_touched && !valid_email?(@submit_email), do: "error", else: if @submit_touched && valid_email?(@submit_email), do: "success"}>
+              <.form_group validation={email_validation(@submit_touched, @submit_email)}>
                 <.form_label>Email</.form_label>
                 <.input
                   type="email"
                   name="submit_email"
                   value={@submit_email}
-                  validation={if @submit_touched && !valid_email?(@submit_email), do: "error", else: if @submit_touched && valid_email?(@submit_email), do: "success"}
+                  validation={email_validation(@submit_touched, @submit_email)}
                   placeholder="No validation until submit"
                 />
                 <.form_help :if={@submit_touched && !valid_email?(@submit_email)} variant="error">
@@ -479,15 +495,15 @@ defmodule DemoWeb.Live.ValidationsLive do
       <form class="pa-form" phx-change="date_change">
         <.grid>
           <.column size="100" md="50">
-            <.form_group validation={if dates_valid?(@start_date, @end_date) == false, do: "error", else: if dates_valid?(@start_date, @end_date), do: "success"}>
+            <.form_group validation={date_validation(@start_date, @end_date)}>
               <.form_label>Start Date</.form_label>
-              <.input type="date" name="start_date" value={@start_date} validation={if dates_valid?(@start_date, @end_date) == false, do: "error", else: if dates_valid?(@start_date, @end_date), do: "success"} />
+              <.input type="date" name="start_date" value={@start_date} validation={date_validation(@start_date, @end_date)} />
             </.form_group>
           </.column>
           <.column size="100" md="50">
-            <.form_group validation={if dates_valid?(@start_date, @end_date) == false, do: "error", else: if dates_valid?(@start_date, @end_date), do: "success"}>
+            <.form_group validation={date_validation(@start_date, @end_date)}>
               <.form_label>End Date</.form_label>
-              <.input type="date" name="end_date" value={@end_date} validation={if dates_valid?(@start_date, @end_date) == false, do: "error", else: if dates_valid?(@start_date, @end_date), do: "success"} />
+              <.input type="date" name="end_date" value={@end_date} validation={date_validation(@start_date, @end_date)} />
             </.form_group>
           </.column>
           <.column :if={dates_valid?(@start_date, @end_date) == false} size="100">

@@ -7,64 +7,59 @@ defmodule DemoWeb.Live.ModalsLive do
 
   def render(assigns) do
     ~H"""
-    <h1 class="pa-page-title">Modals</h1>
-    <p class="pa-page-subtitle">Dialog windows for focused content and user interactions.</p>
-
-    <%!-- Standard Sizes --%>
-    <.card title_text="Standard Sizes">
-      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-        <.button variant="primary" phx-click={show_modal("modal-sm")}>Small</.button>
-        <.button variant="primary" phx-click={show_modal("modal-md")}>Medium</.button>
-        <.button variant="primary" phx-click={show_modal("modal-lg")}>Large</.button>
-        <.button variant="primary" phx-click={show_modal("modal-xl")}>XL</.button>
-        <.button variant="primary" phx-click={show_modal("modal-xxl")}>XXL</.button>
-        <.button variant="primary" phx-click={show_modal("modal-fw")}>Full Width</.button>
-      </div>
-    </.card>
-
-    <%!-- Modal Types --%>
-    <.card title_text="Modal Types">
-      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-        <.button variant="success" phx-click={show_modal("modal-success")}>Success</.button>
-        <.button variant="warning" phx-click={show_modal("modal-warning")}>Warning</.button>
-        <.button variant="danger" phx-click={show_modal("modal-danger")}>Danger</.button>
-      </div>
-    </.card>
-
-    <%!-- Position and Behavior --%>
-    <.grid>
-      <.column size="50">
-        <.card title_text="Position Modifiers">
+    <%!-- Basic Modals --%>
+    <.card title_text="Basic Modals" subtitle_text="Standard modal dialogs for user interactions">
+      <.grid>
+        <.column size="100" md="1-2">
+          <h4>Standard Sizes</h4>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <.button variant="primary" phx-click={show_modal("modal-sm")}>Small Modal</.button>
+            <.button variant="primary" phx-click={show_modal("modal-md")}>Medium Modal</.button>
+            <.button variant="primary" phx-click={show_modal("modal-lg")}>Large Modal</.button>
+            <.button variant="primary" phx-click={show_modal("modal-xl")}>XL Modal</.button>
+            <.button variant="primary" phx-click={show_modal("modal-xxl")}>XXL Modal</.button>
+            <.button variant="dark" phx-click={show_modal("modal-fw")}>Full Width</.button>
+          </div>
+        </.column>
+        <.column size="100" md="1-2">
+          <h4>Modal Types</h4>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <.button variant="success" phx-click={show_modal("modal-success")}>Success Modal</.button>
+            <.button variant="warning" phx-click={show_modal("modal-warning")}>Warning Modal</.button>
+            <.button variant="danger" phx-click={show_modal("modal-danger")}>Danger Modal</.button>
+          </div>
+        </.column>
+      </.grid>
+      <.grid class="mt-4">
+        <.column size="100" md="1-2">
+          <h4>Position Modifiers</h4>
           <div style="display: flex; gap: 8px;">
-            <.button variant="secondary" phx-click={show_modal("modal-md")}>
+            <.button variant="secondary" phx-click={show_modal("modal-centered")}>
               Centered (Default)
             </.button>
             <.button variant="secondary" phx-click={show_modal("modal-top")}>Top-Aligned</.button>
           </div>
-        </.card>
-      </.column>
-      <.column size="50">
-        <.card title_text="Behavior Modifiers">
+        </.column>
+        <.column size="100" md="1-2">
+          <h4>Behavior Modifiers</h4>
           <div style="display: flex; gap: 8px;">
-            <.button variant="secondary" phx-click={show_modal("modal-static")}>Static Modal</.button>
-            <.button variant="secondary" phx-click={show_modal("modal-scroll")}>
-              Scrollable Body
-            </.button>
+            <.button variant="warning" phx-click={show_modal("modal-static")}>Static Modal</.button>
           </div>
-        </.card>
-      </.column>
-    </.grid>
+        </.column>
+      </.grid>
+    </.card>
 
     <%!-- Form Modals --%>
-    <.card title_text="Form Modals">
+    <.card title_text="Form Modals" subtitle_text="Modals containing forms and interactive content">
       <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-        <.button variant="primary" phx-click={show_modal("modal-contact")}>Contact Form</.button>
-        <.button variant="primary" phx-click={show_modal("modal-login")}>Login Form</.button>
+        <.button variant="secondary" phx-click={show_modal("modal-contact")}>Contact Form</.button>
+        <.button variant="info" phx-click={show_modal("modal-login")}>Login Form</.button>
+        <.button variant="dark" phx-click={show_modal("modal-settings")}>Settings Modal</.button>
       </div>
     </.card>
 
     <%!-- Confirmation Modals --%>
-    <.card title_text="Confirmation Modals">
+    <.card title_text="Confirmation Modals" subtitle_text="Action confirmation and decision dialogs">
       <div style="display: flex; gap: 8px; flex-wrap: wrap;">
         <.button variant="danger" is_outline phx-click={show_modal("modal-delete")}>
           Delete Confirmation
@@ -79,147 +74,252 @@ defmodule DemoWeb.Live.ModalsLive do
     </.card>
 
     <%!-- Modal Definitions --%>
+
+    <%!-- Size Modals --%>
     <.modal id="modal-sm" size="sm" title_text="Small Modal">
-      <p>This is a small modal window for simple notifications and confirmations.</p>
+      <p>This is a small modal dialog. Perfect for quick notifications or simple confirmations.</p>
       <:footer>
         <.button variant="secondary" phx-click={hide_modal("modal-sm")}>Close</.button>
+        <.button variant="primary" phx-click={hide_modal("modal-sm")}>Save</.button>
       </:footer>
     </.modal>
 
     <.modal id="modal-md" title_text="Medium Modal">
-      <p>This is a medium-sized modal, the default size. It works well for most content types.</p>
-      <p>You can include multiple paragraphs, lists, and other content elements here.</p>
+      <p>This is a medium-sized modal dialog. Great for forms and detailed content.</p>
+      <p>You can include multiple paragraphs, lists, and other content here.</p>
+      <ul>
+        <li>Feature 1</li>
+        <li>Feature 2</li>
+        <li>Feature 3</li>
+      </ul>
       <:footer>
-        <.button variant="secondary" phx-click={hide_modal("modal-md")}>Close</.button>
-        <.button variant="primary" phx-click={hide_modal("modal-md")}>Save Changes</.button>
+        <.button variant="secondary" phx-click={hide_modal("modal-md")}>Cancel</.button>
+        <.button variant="primary" phx-click={hide_modal("modal-md")}>Continue</.button>
       </:footer>
     </.modal>
 
     <.modal id="modal-lg" size="lg" title_text="Large Modal">
       <.grid>
-        <.column size="50">
-          <h4>Left Column</h4>
-          <p>
-            Large modals are great for complex layouts that need more space, such as forms with many fields or detailed content.
-          </p>
+        <.column size="100" md="1-2">
+          <h5>Column 1</h5>
+          <p>Large modals are perfect for complex content layouts with multiple columns.</p>
+          <p>You can use the PureCSS grid system inside modals to create sophisticated layouts.</p>
         </.column>
-        <.column size="50">
-          <h4>Right Column</h4>
-          <p>You can use the grid system inside modals for multi-column layouts.</p>
-          <.alert variant="info">This is an alert inside a modal.</.alert>
+        <.column size="100" md="1-2">
+          <h5>Column 2</h5>
+          <p>This second column demonstrates how you can organize content in larger modal dialogs.</p>
+          <.alert variant="info">
+            <strong>Tip:</strong> Large modals work great for dashboards and detailed forms.
+          </.alert>
         </.column>
       </.grid>
       <:footer>
-        <.button variant="secondary" phx-click={hide_modal("modal-lg")}>Close</.button>
+        <.button variant="secondary" phx-click={hide_modal("modal-lg")}>Cancel</.button>
+        <.button variant="primary" phx-click={hide_modal("modal-lg")}>Save Changes</.button>
       </:footer>
     </.modal>
 
     <.modal id="modal-xl" size="xl" title_text="Extra Large Modal">
       <.grid>
-        <.column size="1-3">
-          <.card>Column 1</.card>
+        <.column size="100" md="1-3">
+          <h5>Column 1</h5>
+          <p>Extra large modals provide ample space for comprehensive content displays.</p>
+          <p>Perfect for data tables, reports, and detailed analytics dashboards.</p>
         </.column>
-        <.column size="1-3">
-          <.card>Column 2</.card>
+        <.column size="100" md="1-3">
+          <h5>Column 2</h5>
+          <p>You can display complex data structures, charts, and visualizations.</p>
+          <.alert variant="info">
+            <strong>Note:</strong> XL modals are 70rem wide (1120px).
+          </.alert>
         </.column>
-        <.column size="1-3">
-          <.card>Column 3</.card>
+        <.column size="100" md="1-3">
+          <h5>Column 3</h5>
+          <p>Three-column layouts work beautifully in extra large modals.</p>
+          <p>Ideal for comparison views and side-by-side content.</p>
         </.column>
       </.grid>
       <:footer>
         <.button variant="secondary" phx-click={hide_modal("modal-xl")}>Close</.button>
+        <.button variant="primary" phx-click={hide_modal("modal-xl")}>Apply Changes</.button>
       </:footer>
     </.modal>
 
-    <.modal id="modal-xxl" size="xxl" title_text="XXL Modal">
-      <p>XXL modals provide extensive space for complex interfaces.</p>
+    <.modal id="modal-xxl" size="xxl" title_text="XXL Modal - Maximum Size">
       <.grid>
-        <.column size="25">
-          <.card>Section 1</.card>
+        <.column size="100" md="25">
+          <h5>Section 1</h5>
+          <p>XXL modals are the largest available size at 90rem (1440px) wide.</p>
+          <p>Perfect for full-featured application interfaces within a modal.</p>
         </.column>
-        <.column size="25">
-          <.card>Section 2</.card>
+        <.column size="100" md="25">
+          <h5>Section 2</h5>
+          <p>Ideal for complex workflows that require maximum screen real estate.</p>
+          <.alert variant="success">
+            <strong>Great for:</strong> Data grids, reporting tools, and analytics.
+          </.alert>
         </.column>
-        <.column size="25">
-          <.card>Section 3</.card>
+        <.column size="100" md="25">
+          <h5>Section 3</h5>
+          <p>Four-column layouts provide exceptional flexibility for content organization.</p>
+          <ul>
+            <li>Dashboard views</li>
+            <li>Complex forms</li>
+            <li>Data comparisons</li>
+          </ul>
         </.column>
-        <.column size="25">
-          <.card>Section 4</.card>
+        <.column size="100" md="25">
+          <h5>Section 4</h5>
+          <p>On smaller screens, these columns will stack responsively.</p>
+          <.alert variant="warning">
+            <strong>Note:</strong> Consider viewport size when using XXL modals.
+          </.alert>
+        </.column>
+      </.grid>
+      <.grid class="mt-4">
+        <.column size="100">
+          <h5>Full Width Content Area</h5>
+          <p>You can also use the full width for single-column content when needed. This is particularly useful for wide tables, code editors, or visual design tools.</p>
+          <.card class="mt-3">
+            <p>Nested cards and components work seamlessly within XXL modals, allowing you to create rich, interactive interfaces.</p>
+          </.card>
         </.column>
       </.grid>
       <:footer>
         <.button variant="secondary" phx-click={hide_modal("modal-xxl")}>Close</.button>
+        <.button variant="info" phx-click={hide_modal("modal-xxl")}>Export</.button>
+        <.button variant="primary" phx-click={hide_modal("modal-xxl")}>Save All Changes</.button>
       </:footer>
     </.modal>
 
-    <.modal id="modal-fw" size="fw" title_text="Full Width Modal">
-      <p>Full-width modals span the entire viewport width for maximum content area.</p>
+    <.modal id="modal-fw" size="fw" title_text="Full Width Modal - Maximum Screen Coverage">
+      <.grid>
+        <.column size="100">
+          <.alert variant="info" class="mb-4">
+            <strong>Full Width Mode:</strong> This modal takes up the entire viewport minus a small margin (1rem on all sides), providing maximum workspace while maintaining modal appearance.
+          </.alert>
+        </.column>
+      </.grid>
+      <.grid>
+        <.column size="100" lg="20">
+          <.card title_text="Navigation">
+            <ul style="list-style: none; padding: 0;">
+              <li style="padding: 0.5rem 0;">Dashboard</li>
+              <li style="padding: 0.5rem 0;">Analytics</li>
+              <li style="padding: 0.5rem 0;">Reports</li>
+              <li style="padding: 0.5rem 0;">Settings</li>
+            </ul>
+          </.card>
+        </.column>
+        <.column size="100" lg="60">
+          <.card title_text="Main Content Area">
+            <p>Full-width modals are perfect for complex applications that need to run within a modal context. Examples include:</p>
+            <ul>
+              <li><strong>Code Editors:</strong> Full IDE-like experiences</li>
+              <li><strong>Design Tools:</strong> Canvas-based applications</li>
+              <li><strong>Data Analysis:</strong> Large spreadsheets or pivot tables</li>
+              <li><strong>Media Galleries:</strong> Full-screen photo/video management</li>
+              <li><strong>Document Viewers:</strong> PDF readers, document editors</li>
+            </ul>
+          </.card>
+        </.column>
+        <.column size="100" lg="20">
+          <.card title_text="Properties">
+            <.form_group label="Width">
+              <.input type="text" value="100vw - 2rem" readonly />
+            </.form_group>
+            <.form_group label="Height">
+              <.input type="text" value="100vh - 2rem" readonly />
+            </.form_group>
+            <.form_group label="Margin">
+              <.input type="text" value="1rem" readonly />
+            </.form_group>
+          </.card>
+        </.column>
+      </.grid>
       <:footer>
         <.button variant="secondary" phx-click={hide_modal("modal-fw")}>Close</.button>
+        <.button variant="success" phx-click={hide_modal("modal-fw")}>Save</.button>
+        <.button variant="primary" phx-click={hide_modal("modal-fw")}>Apply</.button>
       </:footer>
     </.modal>
 
-    <.modal id="modal-success" variant="success" header_variant="success" title_text="Success">
-      <p>
-        <i class="fa-solid fa-circle-check" style="color: var(--pa-success);"></i>
-        Operation completed successfully!
-      </p>
+    <%!-- Type Modals --%>
+    <.modal id="modal-success" header_variant="success" title_text="✓ Success!">
+      <p>Your action has been completed successfully!</p>
+      <.alert variant="success">
+        Operation completed without any errors.
+      </.alert>
       <:footer>
         <.button variant="success" phx-click={hide_modal("modal-success")}>Great!</.button>
       </:footer>
     </.modal>
 
-    <.modal id="modal-warning" variant="warning" header_variant="warning" title_text="Warning">
-      <p>
-        <i class="fa-solid fa-triangle-exclamation" style="color: var(--pa-warning);"></i>
-        Please proceed with caution. This action may have consequences.
-      </p>
+    <.modal id="modal-warning" header_variant="warning" title_text="⚠ Warning">
+      <p>Please review your action before proceeding.</p>
+      <.alert variant="warning">
+        This action may have consequences that cannot be undone.
+      </.alert>
       <:footer>
         <.button variant="secondary" phx-click={hide_modal("modal-warning")}>Cancel</.button>
-        <.button variant="warning" phx-click={hide_modal("modal-warning")}>Continue</.button>
+        <.button variant="warning" phx-click={hide_modal("modal-warning")}>Proceed</.button>
       </:footer>
     </.modal>
 
-    <.modal id="modal-danger" variant="danger" header_variant="danger" title_text="Danger">
-      <p>
-        <i class="fa-solid fa-circle-exclamation" style="color: var(--pa-danger);"></i>
-        This is a destructive action that cannot be undone.
-      </p>
+    <.modal id="modal-danger" header_variant="danger" title_text="🔥 Danger Zone">
+      <p>This action is potentially destructive.</p>
+      <.alert variant="danger">
+        <strong>Warning:</strong> This action cannot be undone and may result in data loss.
+      </.alert>
       <:footer>
         <.button variant="secondary" phx-click={hide_modal("modal-danger")}>Cancel</.button>
-        <.button variant="danger" phx-click={hide_modal("modal-danger")}>Delete</.button>
+        <.button variant="danger" phx-click={hide_modal("modal-danger")}>Delete Forever</.button>
+      </:footer>
+    </.modal>
+
+    <%!-- Position & Behavior Modals --%>
+    <.modal id="modal-centered" title_text="Centered Modal (Default)">
+      <p>This is the default modal behavior - centered vertically and horizontally in the viewport.</p>
+      <p>This works well for most use cases where you want the modal to be the focal point.</p>
+      <:footer>
+        <.button variant="secondary" phx-click={hide_modal("modal-centered")}>Close</.button>
+        <.button variant="primary" phx-click={hide_modal("modal-centered")}>Confirm</.button>
       </:footer>
     </.modal>
 
     <.modal id="modal-top" is_top title_text="Top-Aligned Modal">
-      <p>This modal is aligned to the top of the viewport instead of being centered vertically.</p>
+      <p>This modal uses the <code>pa-modal--top</code> modifier to position it near the top of the viewport.</p>
+      <p>This is useful for:</p>
+      <ul>
+        <li>Search interfaces (similar to command palette)</li>
+        <li>Quick actions that don't need full attention</li>
+        <li>Modals that might contain tall content</li>
+        <li>Better visual flow when content extends below fold</li>
+      </ul>
       <:footer>
         <.button variant="secondary" phx-click={hide_modal("modal-top")}>Close</.button>
+        <.button variant="primary" phx-click={hide_modal("modal-top")}>Confirm</.button>
       </:footer>
     </.modal>
 
     <.modal id="modal-static" is_static variant="warning" title_text="Static Modal">
-      <p>
-        This modal cannot be closed by clicking the backdrop or pressing ESC. You must use the close button.
-      </p>
+      <p>This modal <strong>cannot</strong> be closed by:</p>
+      <ul>
+        <li>Pressing the <kbd>Escape</kbd> key</li>
+        <li>Clicking the backdrop</li>
+      </ul>
+      <.callout variant="warning">
+        <strong>Use case:</strong> Critical confirmations, license agreements, or processes that must be completed.
+      </.callout>
+      <p>You must click a button below to close this modal.</p>
       <:footer>
-        <.button variant="primary" phx-click={hide_modal("modal-static")}>I Understand</.button>
+        <.button variant="secondary" phx-click={hide_modal("modal-static")}>Cancel</.button>
+        <.button variant="warning" phx-click={hide_modal("modal-static")}>I Understand</.button>
       </:footer>
     </.modal>
 
-    <.modal id="modal-scroll" size="lg" is_scrollable title_text="Scrollable Modal">
-      <p>This modal has a scrollable body for long content.</p>
-      <%= for i <- 1..15 do %>
-        <p>
-          Paragraph {i}: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        </p>
-      <% end %>
-      <:footer>
-        <.button variant="secondary" phx-click={hide_modal("modal-scroll")}>Close</.button>
-      </:footer>
-    </.modal>
-
-    <.modal id="modal-contact" title_text="Contact Form">
+    <%!-- Form Modals --%>
+    <.modal id="modal-contact" title_text="Contact Us">
       <.form_group label="Name">
         <.input type="text" placeholder="Your name" />
       </.form_group>
@@ -235,27 +335,53 @@ defmodule DemoWeb.Live.ModalsLive do
       </:footer>
     </.modal>
 
-    <.modal id="modal-login" size="sm" title_text="Login">
+    <.modal id="modal-login" size="sm" title_text="Sign In">
       <.form_group label="Username">
-        <.input type="text" placeholder="Username" />
+        <.input type="text" placeholder="Enter username" />
       </.form_group>
       <.form_group label="Password">
-        <.input type="password" placeholder="Password" />
+        <.input type="password" placeholder="Enter password" />
       </.form_group>
       <.checkbox label="Remember me" />
       <:footer>
-        <.button variant="primary" is_block phx-click={hide_modal("modal-login")}>Sign In</.button>
+        <.button variant="secondary" phx-click={hide_modal("modal-login")}>Cancel</.button>
+        <.button variant="primary" phx-click={hide_modal("modal-login")}>Sign In</.button>
       </:footer>
     </.modal>
 
-    <.modal id="modal-delete" size="sm" variant="danger" title_text="Delete Confirmation">
+    <.modal id="modal-settings" size="lg" title_text="Settings">
+      <.grid>
+        <.column size="100" md="1-2">
+          <h5>General Settings</h5>
+          <.form_group label="Theme">
+            <.select options={["Default", "Dark", "Audi"]} />
+          </.form_group>
+          <.form_group>
+            <.checkbox label="Enable notifications" checked />
+          </.form_group>
+        </.column>
+        <.column size="100" md="1-2">
+          <h5>Privacy Settings</h5>
+          <.form_group>
+            <.checkbox label="Share analytics data" />
+          </.form_group>
+          <.form_group>
+            <.checkbox label="Email updates" checked />
+          </.form_group>
+        </.column>
+      </.grid>
+      <:footer>
+        <.button variant="secondary" phx-click={hide_modal("modal-settings")}>Cancel</.button>
+        <.button variant="primary" phx-click={hide_modal("modal-settings")}>Save Settings</.button>
+      </:footer>
+    </.modal>
+
+    <%!-- Confirmation Modals --%>
+    <.modal id="modal-delete" size="sm" header_variant="danger" title_text="Confirm Delete">
+      <p>Are you sure you want to delete this item?</p>
       <.alert variant="danger">
-        <:icon><i class="fa-solid fa-triangle-exclamation"></i></:icon>
-        This action cannot be undone.
+        <strong>This action cannot be undone.</strong>
       </.alert>
-      <p>
-        Are you sure you want to delete this item? All associated data will be permanently removed.
-      </p>
       <:footer>
         <.button variant="secondary" phx-click={hide_modal("modal-delete")}>Cancel</.button>
         <.button variant="danger" phx-click={hide_modal("modal-delete")}>Delete</.button>
@@ -263,20 +389,23 @@ defmodule DemoWeb.Live.ModalsLive do
     </.modal>
 
     <.modal id="modal-confirm" size="sm" title_text="Confirm Action">
-      <p>Are you sure you want to proceed with this action?</p>
-      <p>This will apply changes to all selected items.</p>
+      <p>Do you want to proceed with this action?</p>
+      <p>This will update your preferences and may affect other users.</p>
       <:footer>
         <.button variant="secondary" phx-click={hide_modal("modal-confirm")}>Cancel</.button>
-        <.button variant="primary" phx-click={hide_modal("modal-confirm")}>Confirm</.button>
+        <.button variant="warning" phx-click={hide_modal("modal-confirm")}>Confirm</.button>
       </:footer>
     </.modal>
 
-    <.modal id="modal-info" variant="info" title_text="Information">
-      <p>Your subscription will expire in 7 days. Please renew to continue using all features:</p>
-      <ul style="margin: 12px 0; padding-left: 20px;">
-        <li>Unlimited projects</li>
-        <li>Priority support</li>
-        <li>Advanced analytics</li>
+    <.modal id="modal-info" header_variant="info" title_text="Information">
+      <p>Here's some important information you should know:</p>
+      <.alert variant="info">
+        Your subscription will expire in 7 days. Consider renewing to continue enjoying all features.
+      </.alert>
+      <ul>
+        <li>Feature access will be limited after expiration</li>
+        <li>Your data will remain safe for 30 days</li>
+        <li>You can renew at any time</li>
       </ul>
       <:footer>
         <.button variant="secondary" phx-click={hide_modal("modal-info")}>Later</.button>

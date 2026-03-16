@@ -1,6 +1,30 @@
 # Changelog
 
+## v0.3.1
+
+### RTL Support
+- `tooltip/1` — position values renamed: `right` → `end`, `left` → `start` (RTL-aware via `document.dir`)
+- `popover/1` — placement values renamed: `right` → `end`, `left` → `start` (RTL-aware via `document.dir`)
+- Tooltip JS hook — added `resolveLogicalPlacement()` that maps `start`/`end` to physical `left`/`right` based on document direction
+
+### Components
+- `badge/1` — replaced `width` attr (`pa-badge--w-Nx` classes) with `max_width` attr using `maxwr-N text-truncate` utility classes
+- `modal/1` — fixed popover alignment classes (`pa-popover--center`, `pa-popover--end`) to be copied to content element when moved to `document.body`
+- Tooltip JS — fixed theme color variants not applied to floating tooltips (regex only matched first class, which was always `floating`)
+
+### JS
+- `modal_dialogs.js` — new ES module wrapping pure-admin's programmatic dialog API (`PureAdmin.confirm/alert/prompt/custom`), exported via `initModalDialogs()`
+
+### Demo
+- **Modal Dialogs page** — new page with confirm/alert/prompt demos, position options, sequential dialogs, LiveView server integration, API reference tables
+- **Modals page** — rewritten to match pure-admin reference (grouped layout, settings modal, richer modal content)
+- **Tooltips page** — updated to use `start`/`end` position naming
+- **Badges page** — updated fixed-width section to use `max_width` utility approach, renamed "Left-Side Ellipsis" to "Start-Side Ellipsis"
+- Fixed all compile warnings across demo (nested `if` parentheses, `dynamic_tag` name deprecation, undefined attributes, missing slots)
+
 ## v0.3.0
+
+Compatible with `@keenmate/pure-admin-core` v2.0.2.
 
 ### Components
 - `section/1` — added `title_text` attr that renders an `<h3 class="pa-section-title">` heading

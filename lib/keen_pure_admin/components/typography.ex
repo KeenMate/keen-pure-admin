@@ -17,7 +17,7 @@ defmodule KPureAdmin.Components.Typography do
     assigns = assign(assigns, :tag, "h#{level}")
 
     ~H"""
-    <.dynamic_tag name={@tag} class={build_classes("pa-heading", [], @class)} {@rest}>
+    <.dynamic_tag tag_name={@tag} class={build_classes("pa-heading", [], @class)} {@rest}>
       <%= render_slot(@inner_block) %>
     </.dynamic_tag>
     """

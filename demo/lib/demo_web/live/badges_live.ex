@@ -381,19 +381,19 @@ defmodule DemoWeb.Live.BadgesLive do
           <.heading level={4}>Various Fixed Widths</.heading>
           <div class="component-showcase">
             <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="Short">
-              <.badge variant="primary" width="3x">Short</.badge>
+              <.badge variant="primary" max_width="5">Short</.badge>
             </span>
             <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="This is medium text">
-              <.badge variant="info" width="4x">This is medium text</.badge>
+              <.badge variant="info" max_width="8">This is medium text</.badge>
             </span>
             <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="This is longer text that will be truncated">
-              <.badge variant="success" width="5x">This is longer text that will be truncated</.badge>
+              <.badge variant="success" max_width="10">This is longer text that will be truncated</.badge>
             </span>
             <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="Very long badge text that definitely needs ellipsis">
-              <.badge variant="warning" width="6x">Very long badge text that definitely needs ellipsis</.badge>
+              <.badge variant="warning" max_width="15">Very long badge text that definitely needs ellipsis</.badge>
             </span>
             <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="Super extremely long badge text example">
-              <.badge variant="danger" width="7x">Super extremely long badge text example</.badge>
+              <.badge variant="danger" max_width="20">Super extremely long badge text example</.badge>
             </span>
           </div>
         </.column>
@@ -401,19 +401,19 @@ defmodule DemoWeb.Live.BadgesLive do
           <.heading level={4}>Small Fixed-Width Badges</.heading>
           <div class="component-showcase">
             <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="OK">
-              <.badge size="sm" variant="primary" width="2x">OK</.badge>
+              <.badge size="sm" variant="primary" max_width="4">OK</.badge>
             </span>
             <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="Status">
-              <.badge size="sm" variant="info" width="3x">Status</.badge>
+              <.badge size="sm" variant="info" max_width="6">Status</.badge>
             </span>
             <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="Completed Task">
-              <.badge size="sm" variant="success" width="4x">Completed Task</.badge>
+              <.badge size="sm" variant="success" max_width="8">Completed Task</.badge>
             </span>
             <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="Pending Review Process">
-              <.badge size="sm" variant="warning" width="5x">Pending Review Process</.badge>
+              <.badge size="sm" variant="warning" max_width="10">Pending Review Process</.badge>
             </span>
             <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="Critical Error in Production">
-              <.badge size="sm" variant="danger" width="6x">Critical Error in Production</.badge>
+              <.badge size="sm" variant="danger" max_width="15">Critical Error in Production</.badge>
             </span>
           </div>
         </.column>
@@ -424,22 +424,22 @@ defmodule DemoWeb.Live.BadgesLive do
           <.heading level={4}>Practical Example: Tags with Consistent Width</.heading>
           <div class="component-showcase">
             <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="JavaScript">
-              <.badge is_pill variant="secondary" width="5x">JavaScript</.badge>
+              <.badge is_pill variant="secondary" max_width="10">JavaScript</.badge>
             </span>
             <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="TypeScript">
-              <.badge is_pill variant="secondary" width="5x">TypeScript</.badge>
+              <.badge is_pill variant="secondary" max_width="10">TypeScript</.badge>
             </span>
             <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="React">
-              <.badge is_pill variant="secondary" width="5x">React</.badge>
+              <.badge is_pill variant="secondary" max_width="10">React</.badge>
             </span>
             <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="Node.js">
-              <.badge is_pill variant="secondary" width="5x">Node.js</.badge>
+              <.badge is_pill variant="secondary" max_width="10">Node.js</.badge>
             </span>
             <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="PostgreSQL Database">
-              <.badge is_pill variant="secondary" width="5x">PostgreSQL Database</.badge>
+              <.badge is_pill variant="secondary" max_width="10">PostgreSQL Database</.badge>
             </span>
             <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="Express.js Framework">
-              <.badge is_pill variant="secondary" width="5x">Express.js Framework</.badge>
+              <.badge is_pill variant="secondary" max_width="10">Express.js Framework</.badge>
             </span>
           </div>
         </.column>
@@ -447,27 +447,27 @@ defmodule DemoWeb.Live.BadgesLive do
 
       <.grid class="mt-4">
         <.column size="100">
-          <.heading level={4}>Left-Side Ellipsis (Path/Hierarchy Display)</.heading>
+          <.heading level={4}>Start-Side Ellipsis (Path/Hierarchy Display)</.heading>
           <.paragraph class="text-xs mb-2">When the important part is at the end (breadcrumbs, file paths, etc.)</.paragraph>
           <div class="component-showcase">
             <span class="pa-tooltip pa-tooltip--bottom pa-tooltip--multiline" data-tooltip="Settings > User Preferences > Notifications > Email">
-              <.badge variant="secondary" width="6x" is_ellipsis_start>Settings > User Preferences > Notifications > Email</.badge>
+              <.badge variant="secondary" max_width="15" is_ellipsis_start>Settings > User Preferences > Notifications > Email</.badge>
             </span>
             <span class="pa-tooltip pa-tooltip--bottom pa-tooltip--multiline" data-tooltip="/var/www/html/application/config/database.php">
-              <.badge variant="info" width="7x" is_ellipsis_start>/var/www/html/application/config/database.php</.badge>
+              <.badge variant="info" max_width="20" is_ellipsis_start>/var/www/html/application/config/database.php</.badge>
             </span>
             <span class="pa-tooltip pa-tooltip--bottom pa-tooltip--multiline" data-tooltip="Components > Forms > Inputs > TextArea.svelte">
-              <.badge variant="primary" width="6x" is_ellipsis_start>Components > Forms > Inputs > TextArea.svelte</.badge>
+              <.badge variant="primary" max_width="15" is_ellipsis_start>Components > Forms > Inputs > TextArea.svelte</.badge>
             </span>
             <span class="pa-tooltip pa-tooltip--bottom pa-tooltip--multiline" data-tooltip="Europe > Germany > Berlin > Mitte > Alexanderplatz">
-              <.badge variant="warning" width="5x" is_ellipsis_start>Europe > Germany > Berlin > Mitte > Alexanderplatz</.badge>
+              <.badge variant="warning" max_width="15" is_ellipsis_start>Europe > Germany > Berlin > Mitte > Alexanderplatz</.badge>
             </span>
           </div>
         </.column>
       </.grid>
 
       <.alert variant="info" class="mt-3">
-        <small><strong>Note:</strong> Use <code>width="3x"</code> to <code>width="10x"</code> for fixed-width badges. Use <code>is_ellipsis_start</code> to truncate from the left side instead.</small>
+        <small><strong>Note:</strong> Use <code>max_width="5"</code> etc. to constrain badge width with truncation. Use <code>is_ellipsis_start</code> to truncate from the start side instead.</small>
       </.alert>
     </.card>
 

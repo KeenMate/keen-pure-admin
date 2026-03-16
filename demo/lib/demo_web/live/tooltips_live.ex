@@ -19,13 +19,13 @@ defmodule DemoWeb.Live.TooltipsLive do
               <.tooltip text="Tooltip on top">Top</.tooltip>
             </.column>
             <.column size="1-2" md="1-4" class="text-center mb-3 p-4">
-              <.tooltip text="Tooltip on right" position="right">Right</.tooltip>
+              <.tooltip text="Tooltip on end" position="end">End</.tooltip>
             </.column>
             <.column size="1-2" md="1-4" class="text-center mb-3 p-4">
               <.tooltip text="Tooltip on bottom" position="bottom">Bottom</.tooltip>
             </.column>
             <.column size="1-2" md="1-4" class="text-center mb-3 p-4">
-              <.tooltip text="Tooltip on left" position="left">Left</.tooltip>
+              <.tooltip text="Tooltip on start" position="start">Start</.tooltip>
             </.column>
           </.grid>
           <hr class="my-3" />
@@ -60,7 +60,7 @@ defmodule DemoWeb.Live.TooltipsLive do
           <.paragraph class="mb-3 text-sm">Regular buttons:</.paragraph>
           <div class="text-center mb-4">
             <.button_group>
-              <.tooltip text="Save your changes" position="left">
+              <.tooltip text="Save your changes" position="start">
                 <.button variant="primary" size="sm">
                   <:icon><i class="fa-solid fa-floppy-disk"></i></:icon>
                   Save
@@ -190,9 +190,9 @@ defmodule DemoWeb.Live.TooltipsLive do
           <.grid>
             <.column size="1-3" class="mb-3 text-center p-2">
               <label class="text-sm">
-                Left (default)
-                <.popover title_text="Left Aligned" placement="bottom">
-                  <.paragraph>Default alignment is left.</.paragraph>
+                Start (default)
+                <.popover title_text="Start Aligned" placement="bottom">
+                  <.paragraph>Default alignment is start.</.paragraph>
                   <.basic_list>
                     <li>Lists look natural</li>
                     <li>Easy to read</li>
@@ -232,9 +232,9 @@ defmodule DemoWeb.Live.TooltipsLive do
               </.popover>
             </.column>
             <.column size="1-2" md="1-4" class="text-center mb-3 p-4">
-              <span class="text-sm">Right </span>
-              <.popover title_text="Right" placement="right">
-                <.paragraph>Appears to the right.</.paragraph>
+              <span class="text-sm">End </span>
+              <.popover title_text="End" placement="end">
+                <.paragraph>Appears at the inline-end.</.paragraph>
               </.popover>
             </.column>
             <.column size="1-2" md="1-4" class="text-center mb-3 p-4">
@@ -244,9 +244,9 @@ defmodule DemoWeb.Live.TooltipsLive do
               </.popover>
             </.column>
             <.column size="1-2" md="1-4" class="text-center mb-3 p-4">
-              <span class="text-sm">Left </span>
-              <.popover title_text="Left" placement="left">
-                <.paragraph>Appears to the left.</.paragraph>
+              <span class="text-sm">Start </span>
+              <.popover title_text="Start" placement="start">
+                <.paragraph>Appears at the inline-start.</.paragraph>
               </.popover>
             </.column>
           </.grid>
