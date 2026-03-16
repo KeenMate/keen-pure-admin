@@ -42,7 +42,7 @@ defmodule KPureAdmin.Components.Tooltip do
   def tooltip(assigns) do
     ~H"""
     <span
-      class={build_classes("pa-tooltip", [
+      class={build_classes("pa-tooltip pa-tooltip--floating", [
         {"pa-tooltip--#{@position}", @position != nil},
         {"pa-tooltip--#{@variant}", @variant != nil},
         {"pa-tooltip--multiline", @multiline},
