@@ -97,11 +97,11 @@ defmodule KPureAdmin.Components.Tooltip do
       id={@id}
     >
       <%= if @trigger != [] do %>
-        <button class="pa-popover__trigger" onclick="var c=this.nextElementSibling; c.hasAttribute('data-show') ? c.removeAttribute('data-show') : c.setAttribute('data-show',''); return false;">
+        <button class="pa-popover__trigger" onclick="document.querySelectorAll('.pa-popover__content[data-show]').forEach(function(el){if(el!==this.nextElementSibling)el.removeAttribute('data-show')}.bind(this)); var c=this.nextElementSibling; c.hasAttribute('data-show') ? c.removeAttribute('data-show') : c.setAttribute('data-show',''); return false;">
           <%= render_slot(@trigger) %>
         </button>
       <% else %>
-        <button class="pa-popover__trigger" onclick="var c=this.nextElementSibling; c.hasAttribute('data-show') ? c.removeAttribute('data-show') : c.setAttribute('data-show',''); return false;">
+        <button class="pa-popover__trigger" onclick="document.querySelectorAll('.pa-popover__content[data-show]').forEach(function(el){if(el!==this.nextElementSibling)el.removeAttribute('data-show')}.bind(this)); var c=this.nextElementSibling; c.hasAttribute('data-show') ? c.removeAttribute('data-show') : c.setAttribute('data-show',''); return false;">
           <%= @trigger_text %>
         </button>
       <% end %>
