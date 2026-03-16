@@ -97,11 +97,11 @@ defmodule KPureAdmin.Components.Tooltip do
       id={@id}
     >
       <%= if @trigger != [] do %>
-        <button class="pa-popover__trigger" onclick="this.parentElement.classList.toggle('pa-popover--open')">
+        <button class="pa-popover__trigger" onclick="var c=this.nextElementSibling; c.hasAttribute('data-show') ? c.removeAttribute('data-show') : c.setAttribute('data-show',''); return false;">
           <%= render_slot(@trigger) %>
         </button>
       <% else %>
-        <button class="pa-popover__trigger" onclick="this.parentElement.classList.toggle('pa-popover--open')">
+        <button class="pa-popover__trigger" onclick="var c=this.nextElementSibling; c.hasAttribute('data-show') ? c.removeAttribute('data-show') : c.setAttribute('data-show',''); return false;">
           <%= @trigger_text %>
         </button>
       <% end %>
@@ -110,7 +110,7 @@ defmodule KPureAdmin.Components.Tooltip do
       ])}>
         <div class="pa-popover__header">
           <span class="pa-popover__title"><%= @title_text %></span>
-          <button class="pa-popover__close" onclick="this.closest('.pa-popover').classList.remove('pa-popover--open')" aria-label="Close">×</button>
+          <button class="pa-popover__close" onclick="this.closest('.pa-popover__content').removeAttribute('data-show'); return false;" aria-label="Close">×</button>
         </div>
         <div class="pa-popover__body">
           <%= render_slot(@inner_block) %>
