@@ -76,6 +76,7 @@ defmodule KPureAdmin.Components.Tooltip do
         <p>Detailed help content.</p>
       </.popover>
   """
+  attr(:id, :string, default: nil, doc: "Unique ID (auto-generated if not provided)")
   attr(:title_text, :string, required: true)
   attr(:placement, :string, default: "top", values: ["top", "right", "bottom", "left"])
   attr(:size, :string, default: nil, values: [nil, "sm", "lg"])
@@ -87,23 +88,20 @@ defmodule KPureAdmin.Components.Tooltip do
   slot(:inner_block, required: true)
 
   def popover(assigns) do
-    popover_id = "popover-#{:erlang.phash2(assigns)}"
-    assigns = assign(assigns, :popover_id, popover_id)
-
     ~H"""
     <div
       class={build_classes("pa-popover", [
         {"pa-popover--#{@size}", @size != nil}
       ], @class)}
       data-placement={@placement}
-      id={@popover_id}
+      id={@id}
     >
       <%= if @trigger != [] do %>
-        <button class="pa-popover__trigger" onclick={"document.getElementById('#{@popover_id}').classList.toggle('pa-popover--open')"}>
+        <button class="pa-popover__trigger" onclick="this.parentElement.classList.toggle('pa-popover--open')">
           <%= render_slot(@trigger) %>
         </button>
       <% else %>
-        <button class="pa-popover__trigger" onclick={"document.getElementById('#{@popover_id}').classList.toggle('pa-popover--open')"}>
+        <button class="pa-popover__trigger" onclick="this.parentElement.classList.toggle('pa-popover--open')">
           <%= @trigger_text %>
         </button>
       <% end %>
@@ -112,7 +110,7 @@ defmodule KPureAdmin.Components.Tooltip do
       ])}>
         <div class="pa-popover__header">
           <span class="pa-popover__title"><%= @title_text %></span>
-          <button class="pa-popover__close" onclick={"document.getElementById('#{@popover_id}').classList.remove('pa-popover--open')"} aria-label="Close">×</button>
+          <button class="pa-popover__close" onclick="this.closest('.pa-popover').classList.remove('pa-popover--open')" aria-label="Close">×</button>
         </div>
         <div class="pa-popover__body">
           <%= render_slot(@inner_block) %>
