@@ -75,7 +75,20 @@ defmodule KPureAdmin.Components.Loader do
     """
   end
 
-  @doc "Renders a centered loader overlay."
+  @doc "Renders a centered loader container (flexbox centering)."
+  attr(:class, :string, default: nil)
+  attr(:rest, :global)
+  slot(:inner_block, required: true)
+
+  def loader_center(assigns) do
+    ~H"""
+    <div class={build_classes("pa-loader-center", [], @class)} {@rest}>
+      <%= render_slot(@inner_block) %>
+    </div>
+    """
+  end
+
+  @doc "Renders a centered loader overlay with backdrop."
   attr(:class, :string, default: nil)
   attr(:rest, :global)
   slot(:inner_block)
@@ -83,8 +96,11 @@ defmodule KPureAdmin.Components.Loader do
   def loader_overlay(assigns) do
     ~H"""
     <div class={build_classes("pa-loader-overlay", [], @class)} {@rest}>
-      <.spinner />
-      <%= if @inner_block != [], do: render_slot(@inner_block) %>
+      <%= if @inner_block != [] do %>
+        <%= render_slot(@inner_block) %>
+      <% else %>
+        <.spinner />
+      <% end %>
     </div>
     """
   end
