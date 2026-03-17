@@ -8,472 +8,801 @@ defmodule DemoWeb.Live.DataDisplayLive do
   def render(assigns) do
     ~H"""
     <.paragraph>
-      Read-only label-value display using <code>pa-fields</code>, <code>pa-field</code>,
-      and <code>pa-field-group</code> BEM classes for structured data presentation.
+      Read-only data display components for showing label-value pairs without form inputs. Useful for profile pages, detail views, order summaries, and anywhere you need to present structured data.
     </.paragraph>
 
-    <%!-- Section 1: Multiple pa-fields Blocks + Multi-Column Grid --%>
+    <%!-- ============================================================
+         Row 1: Multiple pa-fields Blocks (50%) | Multi-Column Grid (50%)
+         ============================================================ --%>
+
     <.grid>
-      <.column size="100" md="1-2">
+      <.column size="1-2">
         <.card title_text="Multiple pa-fields Blocks">
-          <:description>Combining row, multi-column, and default layouts in one view</:description>
+          <:description>Consecutive <code>pa-fields</code> blocks get automatic spacing via <code>.pa-fields + .pa-fields</code>.</:description>
 
-          <h5>Employee Overview</h5>
-          <dl class="pa-fields pa-fields--row">
+          <div class="pa-fields pa-fields--row">
             <div class="pa-field">
-              <dt class="pa-field__label">Full Name</dt>
-              <dd class="pa-field__value">Elena Vasquez</dd>
+              <span class="pa-field__label">First Name</span>
+              <span class="pa-field__value">Elena</span>
             </div>
             <div class="pa-field">
-              <dt class="pa-field__label">Employee ID</dt>
-              <dd class="pa-field__value">EMP-2024-0847</dd>
+              <span class="pa-field__label">Last Name</span>
+              <span class="pa-field__value">Petrova</span>
+            </div>
+          </div>
+          <div class="pa-fields pa-fields--cols-2">
+            <div class="pa-field">
+              <span class="pa-field__label">Date of Birth</span>
+              <span class="pa-field__value">14 March 1992</span>
             </div>
             <div class="pa-field">
-              <dt class="pa-field__label">Department</dt>
-              <dd class="pa-field__value">Engineering</dd>
-            </div>
-          </dl>
-
-          <h5>Details</h5>
-          <dl class="pa-fields pa-fields--cols-2">
-            <div class="pa-field">
-              <dt class="pa-field__label">Email</dt>
-              <dd class="pa-field__value">elena.vasquez@company.com</dd>
+              <span class="pa-field__label">Role</span>
+              <span class="pa-field__value">Senior Developer</span>
             </div>
             <div class="pa-field">
-              <dt class="pa-field__label">Phone</dt>
-              <dd class="pa-field__value">+1 (555) 234-8901</dd>
+              <span class="pa-field__label">Office</span>
+              <span class="pa-field__value">Prague, Karlin</span>
             </div>
             <div class="pa-field">
-              <dt class="pa-field__label">Office</dt>
-              <dd class="pa-field__value">Building C, Floor 3</dd>
+              <span class="pa-field__label">Start Date</span>
+              <span class="pa-field__value">1 Sep 2019</span>
             </div>
+          </div>
+          <div class="pa-fields">
             <div class="pa-field">
-              <dt class="pa-field__label">Start Date</dt>
-              <dd class="pa-field__value">March 15, 2022</dd>
+              <span class="pa-field__label">Notes</span>
+              <span class="pa-field__value">Team lead for the frontend platform team. Available for mentoring.</span>
             </div>
-          </dl>
-
-          <h5>Notes</h5>
-          <dl class="pa-fields">
-            <div class="pa-field">
-              <dt class="pa-field__label">Bio</dt>
-              <dd class="pa-field__value">
-                Senior software engineer with 8 years of experience in distributed systems
-                and cloud infrastructure. Currently leading the platform reliability team.
-              </dd>
-            </div>
-            <div class="pa-field">
-              <dt class="pa-field__label">Skills</dt>
-              <dd class="pa-field__value">Elixir, Rust, Kubernetes, AWS, PostgreSQL</dd>
-            </div>
-          </dl>
+          </div>
         </.card>
       </.column>
 
-      <.column size="100" md="1-2">
+      <.column size="1-2">
         <.card title_text="Multi-Column Grid">
-          <:description>Two-column layout with a full-width spanning field</:description>
+          <:description>Uses <code>pa-fields--cols-2/3/4</code>. Use <code>pa-field--full</code> to span all columns.</:description>
 
-          <dl class="pa-fields pa-fields--cols-2">
+          <div class="pa-fields pa-fields--cols-2">
             <div class="pa-field">
-              <dt class="pa-field__label">Order ID</dt>
-              <dd class="pa-field__value">ORD-2024-19382</dd>
+              <span class="pa-field__label">Company</span>
+              <span class="pa-field__value">Acme Logistics</span>
             </div>
             <div class="pa-field">
-              <dt class="pa-field__label">Order Date</dt>
-              <dd class="pa-field__value">January 8, 2025</dd>
+              <span class="pa-field__label">Reg. No.</span>
+              <span class="pa-field__value">CZ27082440</span>
             </div>
             <div class="pa-field">
-              <dt class="pa-field__label">Customer</dt>
-              <dd class="pa-field__value">Marcus Chen</dd>
+              <span class="pa-field__label">Contact</span>
+              <span class="pa-field__value">Jan Kratochvil</span>
             </div>
             <div class="pa-field">
-              <dt class="pa-field__label">Payment Method</dt>
-              <dd class="pa-field__value">Visa ending in 4821</dd>
-            </div>
-            <div class="pa-field">
-              <dt class="pa-field__label">Subtotal</dt>
-              <dd class="pa-field__value">$1,249.00</dd>
-            </div>
-            <div class="pa-field">
-              <dt class="pa-field__label">Tax</dt>
-              <dd class="pa-field__value">$99.92</dd>
+              <span class="pa-field__label">Phone</span>
+              <span class="pa-field__value">+420 234 567 890</span>
             </div>
             <div class="pa-field pa-field--full">
-              <dt class="pa-field__label">Shipping Address</dt>
-              <dd class="pa-field__value">
-                742 Evergreen Terrace, Apt 3B, Springfield, IL 62704, United States
-              </dd>
+              <span class="pa-field__label">Notes</span>
+              <span class="pa-field__value">Preferred carrier for Central European routes.</span>
             </div>
-          </dl>
+          </div>
         </.card>
       </.column>
     </.grid>
 
-    <%!-- Section 2: Field Groups --%>
+    <%!-- ============================================================
+         Row 2: Field Groups (100%)
+         ============================================================ --%>
+
     <.card title_text="Field Groups">
-      <:description>Organized sections using pa-field-group for logical grouping</:description>
+      <:description>Labeled sections using <code>pa-field-group</code> with <code>pa-field-group__title</code>.</:description>
 
       <.grid>
-        <.column size="100" md="1-3">
+        <.column size="1-3">
           <div class="pa-field-group">
-            <h5 class="pa-field-group__title">Personal Information</h5>
-            <dl class="pa-fields">
+            <div class="pa-field-group__title">Personal</div>
+            <div class="pa-fields">
               <div class="pa-field">
-                <dt class="pa-field__label">Full Name</dt>
-                <dd class="pa-field__value">Sarah Mitchell</dd>
+                <span class="pa-field__label">Full Name</span>
+                <span class="pa-field__value">Petra Konecna</span>
               </div>
               <div class="pa-field">
-                <dt class="pa-field__label">Date of Birth</dt>
-                <dd class="pa-field__value">April 12, 1988</dd>
+                <span class="pa-field__label">Date of Birth</span>
+                <span class="pa-field__value">22 June 1990</span>
               </div>
-              <div class="pa-field">
-                <dt class="pa-field__label">Nationality</dt>
-                <dd class="pa-field__value">Canadian</dd>
-              </div>
-              <div class="pa-field">
-                <dt class="pa-field__label">Email</dt>
-                <dd class="pa-field__value">s.mitchell@email.com</dd>
-              </div>
-              <div class="pa-field">
-                <dt class="pa-field__label">Phone</dt>
-                <dd class="pa-field__value">+1 (604) 555-0193</dd>
-              </div>
-            </dl>
+            </div>
           </div>
         </.column>
 
-        <.column size="100" md="1-3">
+        <.column size="1-3">
           <div class="pa-field-group">
-            <h5 class="pa-field-group__title">Employment Details</h5>
-            <dl class="pa-fields">
+            <div class="pa-field-group__title">Employment</div>
+            <div class="pa-fields">
               <div class="pa-field">
-                <dt class="pa-field__label">Position</dt>
-                <dd class="pa-field__value">Product Manager</dd>
+                <span class="pa-field__label">Position</span>
+                <span class="pa-field__value">Product Manager</span>
               </div>
               <div class="pa-field">
-                <dt class="pa-field__label">Department</dt>
-                <dd class="pa-field__value">Product Development</dd>
+                <span class="pa-field__label">Department</span>
+                <span class="pa-field__value">Product Dev</span>
               </div>
-              <div class="pa-field">
-                <dt class="pa-field__label">Manager</dt>
-                <dd class="pa-field__value">David Park</dd>
-              </div>
-              <div class="pa-field">
-                <dt class="pa-field__label">Hire Date</dt>
-                <dd class="pa-field__value">June 1, 2021</dd>
-              </div>
-              <div class="pa-field">
-                <dt class="pa-field__label">Salary Band</dt>
-                <dd class="pa-field__value">L5 - Senior</dd>
-              </div>
-            </dl>
+            </div>
           </div>
         </.column>
 
-        <.column size="100" md="1-3">
+        <.column size="1-3">
           <div class="pa-field-group">
-            <h5 class="pa-field-group__title">Emergency Contact</h5>
-            <dl class="pa-fields">
+            <div class="pa-field-group__title">Emergency Contact</div>
+            <div class="pa-fields">
               <div class="pa-field">
-                <dt class="pa-field__label">Name</dt>
-                <dd class="pa-field__value">Robert Mitchell</dd>
+                <span class="pa-field__label">Name</span>
+                <span class="pa-field__value">Martin Konecny</span>
               </div>
               <div class="pa-field">
-                <dt class="pa-field__label">Relationship</dt>
-                <dd class="pa-field__value">Spouse</dd>
+                <span class="pa-field__label">Phone</span>
+                <span class="pa-field__value">+420 777 888 999</span>
               </div>
-              <div class="pa-field">
-                <dt class="pa-field__label">Phone</dt>
-                <dd class="pa-field__value">+1 (604) 555-0287</dd>
-              </div>
-              <div class="pa-field">
-                <dt class="pa-field__label">Email</dt>
-                <dd class="pa-field__value">r.mitchell@email.com</dd>
-              </div>
-              <div class="pa-field">
-                <dt class="pa-field__label">Address</dt>
-                <dd class="pa-field__value">1200 Burrard St, Vancouver</dd>
-              </div>
-            </dl>
+            </div>
           </div>
         </.column>
       </.grid>
     </.card>
 
-    <%!-- Section 3: Horizontal + Table-Style Bordered + Striped --%>
+    <%!-- ============================================================
+         Row 3: Horizontal (1/3) | Table-Style Bordered (1/3) | Striped (1/3)
+         ============================================================ --%>
+
     <.grid>
-      <.column size="100" md="1-3">
+      <.column size="1-3">
         <.card title_text="Horizontal">
-          <:description>Labels and values side by side</:description>
+          <:description>Uses <code>pa-fields--horizontal</code>.</:description>
 
-          <dl class="pa-fields pa-fields--horizontal">
+          <div class="pa-fields pa-fields--horizontal">
             <div class="pa-field">
-              <dt class="pa-field__label">Hostname</dt>
-              <dd class="pa-field__value">srv-prod-us-east-01</dd>
+              <span class="pa-field__label">Company</span>
+              <span class="pa-field__value">Acme Corp</span>
             </div>
             <div class="pa-field">
-              <dt class="pa-field__label">IP Address</dt>
-              <dd class="pa-field__value">10.42.18.105</dd>
+              <span class="pa-field__label">Reg. No.</span>
+              <span class="pa-field__value">CZ12345678</span>
             </div>
             <div class="pa-field">
-              <dt class="pa-field__label">OS</dt>
-              <dd class="pa-field__value">Ubuntu 22.04 LTS</dd>
+              <span class="pa-field__label">VAT ID</span>
+              <span class="pa-field__value">CZ12345678</span>
             </div>
             <div class="pa-field">
-              <dt class="pa-field__label">Uptime</dt>
-              <dd class="pa-field__value">142 days, 7 hours</dd>
+              <span class="pa-field__label">Industry</span>
+              <span class="pa-field__value">Software</span>
             </div>
-            <div class="pa-field">
-              <dt class="pa-field__label">CPU Load</dt>
-              <dd class="pa-field__value">23.4%</dd>
-            </div>
-          </dl>
+          </div>
         </.card>
       </.column>
 
-      <.column size="100" md="1-3">
+      <.column size="1-3">
         <.card title_text="Table-Style Bordered">
-          <:description>Bordered rows with structured data</:description>
+          <:description>Uses <code>pa-fields--table pa-fields--bordered</code>.</:description>
 
-          <dl class="pa-fields pa-fields--table pa-fields--bordered">
+          <div class="pa-fields pa-fields--table pa-fields--bordered">
             <div class="pa-field">
-              <dt class="pa-field__label">Plan</dt>
-              <dd class="pa-field__value">Enterprise</dd>
+              <span class="pa-field__label">Order ID</span>
+              <span class="pa-field__value">#ORD-00847</span>
             </div>
             <div class="pa-field">
-              <dt class="pa-field__label">Status</dt>
-              <dd class="pa-field__value">
-                <.badge variant="success" size="sm">Active</.badge>
-              </dd>
+              <span class="pa-field__label">Status</span>
+              <span class="pa-field__value"><.badge variant="success">Delivered</.badge></span>
             </div>
             <div class="pa-field">
-              <dt class="pa-field__label">Billing Cycle</dt>
-              <dd class="pa-field__value">Annual</dd>
+              <span class="pa-field__label">Payment</span>
+              <span class="pa-field__value">Visa *4242</span>
             </div>
             <div class="pa-field">
-              <dt class="pa-field__label">Next Invoice</dt>
-              <dd class="pa-field__value">Feb 1, 2026</dd>
+              <span class="pa-field__label">Total</span>
+              <span class="pa-field__value"><strong>$1,249</strong></span>
             </div>
-            <div class="pa-field">
-              <dt class="pa-field__label">Amount</dt>
-              <dd class="pa-field__value">$2,400.00 / year</dd>
-            </div>
-          </dl>
+          </div>
         </.card>
       </.column>
 
-      <.column size="100" md="1-3">
+      <.column size="1-3">
         <.card title_text="Striped">
-          <:description>Alternating row backgrounds</:description>
+          <:description>Uses <code>pa-fields--striped</code>.</:description>
 
-          <dl class="pa-fields pa-fields--striped">
+          <div class="pa-fields pa-fields--striped">
             <div class="pa-field">
-              <dt class="pa-field__label">Protocol</dt>
-              <dd class="pa-field__value">HTTPS</dd>
+              <span class="pa-field__label">Server</span>
+              <span class="pa-field__value">prod-api-01</span>
             </div>
             <div class="pa-field">
-              <dt class="pa-field__label">Port</dt>
-              <dd class="pa-field__value">443</dd>
+              <span class="pa-field__label">IP</span>
+              <span class="pa-field__value">10.0.12.45</span>
             </div>
             <div class="pa-field">
-              <dt class="pa-field__label">SSL Certificate</dt>
-              <dd class="pa-field__value">Let's Encrypt (RSA 2048)</dd>
+              <span class="pa-field__label">OS</span>
+              <span class="pa-field__value">Ubuntu 22.04</span>
             </div>
             <div class="pa-field">
-              <dt class="pa-field__label">Expires</dt>
-              <dd class="pa-field__value">June 15, 2026</dd>
+              <span class="pa-field__label">Memory</span>
+              <span class="pa-field__value">16 GB</span>
             </div>
-            <div class="pa-field">
-              <dt class="pa-field__label">HSTS</dt>
-              <dd class="pa-field__value">Enabled (max-age=31536000)</dd>
-            </div>
-          </dl>
+          </div>
         </.card>
       </.column>
     </.grid>
 
-    <%!-- Section 4: Compact + Inline + Row + Relaxed --%>
+    <%!-- ============================================================
+         Row 4: Compact (25%) | Inline (25%) | Row (25%) | Relaxed (25%)
+         ============================================================ --%>
+
     <.grid>
-      <.column size="100" md="25">
+      <.column size="1-4">
         <.card title_text="Compact">
-          <:description>Reduced spacing between fields</:description>
+          <:description><code>pa-fields--compact</code></:description>
 
-          <dl class="pa-fields pa-fields--compact">
+          <div class="pa-fields pa-fields--compact">
             <div class="pa-field">
-              <dt class="pa-field__label">CPU</dt>
-              <dd class="pa-field__value">Intel Xeon E5-2690</dd>
+              <span class="pa-field__label">Name</span>
+              <span class="pa-field__value">Martin</span>
             </div>
             <div class="pa-field">
-              <dt class="pa-field__label">Cores</dt>
-              <dd class="pa-field__value">16</dd>
+              <span class="pa-field__label">Role</span>
+              <span class="pa-field__value">DevOps</span>
             </div>
             <div class="pa-field">
-              <dt class="pa-field__label">RAM</dt>
-              <dd class="pa-field__value">64 GB DDR4</dd>
+              <span class="pa-field__label">Team</span>
+              <span class="pa-field__value">Infra</span>
             </div>
-            <div class="pa-field">
-              <dt class="pa-field__label">Storage</dt>
-              <dd class="pa-field__value">2x 1TB NVMe SSD</dd>
-            </div>
-            <div class="pa-field">
-              <dt class="pa-field__label">NIC</dt>
-              <dd class="pa-field__value">10 GbE</dd>
-            </div>
-          </dl>
+          </div>
         </.card>
       </.column>
 
-      <.column size="100" md="25">
+      <.column size="1-4">
         <.card title_text="Inline">
-          <:description>Fields displayed inline</:description>
+          <:description><code>pa-fields--inline</code></:description>
 
-          <dl class="pa-fields pa-fields--inline">
+          <div class="pa-fields pa-fields--inline">
             <div class="pa-field">
-              <dt class="pa-field__label">Repo</dt>
-              <dd class="pa-field__value">keen-pure-admin</dd>
+              <span class="pa-field__label">Browser</span>
+              <span class="pa-field__value">Chrome</span>
             </div>
             <div class="pa-field">
-              <dt class="pa-field__label">Branch</dt>
-              <dd class="pa-field__value">main</dd>
+              <span class="pa-field__label">OS</span>
+              <span class="pa-field__value">Win 11</span>
             </div>
             <div class="pa-field">
-              <dt class="pa-field__label">Commit</dt>
-              <dd class="pa-field__value">a3f8c21</dd>
+              <span class="pa-field__label">Lang</span>
+              <span class="pa-field__value">en-US</span>
             </div>
-            <div class="pa-field">
-              <dt class="pa-field__label">Author</dt>
-              <dd class="pa-field__value">evasquez</dd>
-            </div>
-            <div class="pa-field">
-              <dt class="pa-field__label">CI</dt>
-              <dd class="pa-field__value">Passing</dd>
-            </div>
-          </dl>
+          </div>
         </.card>
       </.column>
 
-      <.column size="100" md="25">
+      <.column size="1-4">
         <.card title_text="Row">
-          <:description>Fields in a horizontal row</:description>
+          <:description><code>pa-fields--row</code></:description>
 
-          <dl class="pa-fields pa-fields--row">
+          <div class="pa-fields pa-fields--row">
             <div class="pa-field">
-              <dt class="pa-field__label">Region</dt>
-              <dd class="pa-field__value">US-East</dd>
+              <span class="pa-field__label">Width</span>
+              <span class="pa-field__value">120cm</span>
             </div>
             <div class="pa-field">
-              <dt class="pa-field__label">Zone</dt>
-              <dd class="pa-field__value">us-east-1a</dd>
+              <span class="pa-field__label">Height</span>
+              <span class="pa-field__value">80cm</span>
             </div>
             <div class="pa-field">
-              <dt class="pa-field__label">VPC</dt>
-              <dd class="pa-field__value">vpc-0a1b2c</dd>
+              <span class="pa-field__label">Depth</span>
+              <span class="pa-field__value">60cm</span>
             </div>
-            <div class="pa-field">
-              <dt class="pa-field__label">Subnet</dt>
-              <dd class="pa-field__value">10.0.1.0/24</dd>
-            </div>
-          </dl>
+          </div>
         </.card>
       </.column>
 
-      <.column size="100" md="25">
+      <.column size="1-4">
         <.card title_text="Relaxed">
-          <:description>Extra spacing between fields</:description>
+          <:description><code>pa-fields--relaxed</code></:description>
 
-          <dl class="pa-fields pa-fields--relaxed">
+          <div class="pa-fields pa-fields--relaxed">
             <div class="pa-field">
-              <dt class="pa-field__label">Project</dt>
-              <dd class="pa-field__value">Atlas Platform</dd>
+              <span class="pa-field__label">Name</span>
+              <span class="pa-field__value">Elena</span>
             </div>
             <div class="pa-field">
-              <dt class="pa-field__label">Sprint</dt>
-              <dd class="pa-field__value">Sprint 24</dd>
+              <span class="pa-field__label">Role</span>
+              <span class="pa-field__value">Developer</span>
             </div>
-            <div class="pa-field">
-              <dt class="pa-field__label">Velocity</dt>
-              <dd class="pa-field__value">42 points</dd>
-            </div>
-            <div class="pa-field">
-              <dt class="pa-field__label">Deadline</dt>
-              <dd class="pa-field__value">March 31, 2026</dd>
-            </div>
-          </dl>
+          </div>
         </.card>
       </.column>
     </.grid>
 
-    <%!-- Section 5: Filled Background + Color-Coded Borders --%>
-    <.grid>
-      <.column size="100" md="1-2">
-        <.card title_text="Filled Background">
-          <:description>Fields with a filled background style</:description>
+    <%!-- ============================================================
+         Row 5: Filled Fields (75%) | Form vs Display (25%)
+         ============================================================ --%>
 
-          <dl class="pa-fields pa-fields--filled">
-            <div class="pa-field">
-              <dt class="pa-field__label">API Endpoint</dt>
-              <dd class="pa-field__value">https://api.example.com/v2</dd>
-            </div>
-            <div class="pa-field">
-              <dt class="pa-field__label">Auth Method</dt>
-              <dd class="pa-field__value">Bearer Token (OAuth 2.0)</dd>
-            </div>
-            <div class="pa-field">
-              <dt class="pa-field__label">Rate Limit</dt>
-              <dd class="pa-field__value">1,000 requests/minute</dd>
-            </div>
-            <div class="pa-field">
-              <dt class="pa-field__label">Response Format</dt>
-              <dd class="pa-field__value">JSON (application/json)</dd>
-            </div>
-            <div class="pa-field">
-              <dt class="pa-field__label">Timeout</dt>
-              <dd class="pa-field__value">30 seconds</dd>
-            </div>
-          </dl>
+    <.grid>
+      <.column size="3-4">
+        <.card title_text="Filled Fields">
+          <:description>Subtle background to distinguish data blocks. Uses <code>pa-fields--filled</code>.</:description>
+
+          <.grid>
+            <.column size="1-2">
+              <div class="pa-fields pa-fields--filled">
+                <div class="pa-field">
+                  <span class="pa-field__label">Contract No.</span>
+                  <span class="pa-field__value">CTR-2025-00194</span>
+                </div>
+                <div class="pa-field">
+                  <span class="pa-field__label">Type</span>
+                  <span class="pa-field__value">Framework Agreement</span>
+                </div>
+                <div class="pa-field">
+                  <span class="pa-field__label">Status</span>
+                  <span class="pa-field__value"><.badge variant="success">Active</.badge></span>
+                </div>
+              </div>
+            </.column>
+            <.column size="1-2">
+              <div class="pa-fields pa-fields--filled pa-fields--row">
+                <div class="pa-field">
+                  <span class="pa-field__label">Plan</span>
+                  <span class="pa-field__value">Enterprise</span>
+                </div>
+                <div class="pa-field">
+                  <span class="pa-field__label">Renewal</span>
+                  <span class="pa-field__value">1 Jan 2027</span>
+                </div>
+                <div class="pa-field">
+                  <span class="pa-field__label">Seats</span>
+                  <span class="pa-field__value">48 / 50</span>
+                </div>
+              </div>
+            </.column>
+          </.grid>
         </.card>
       </.column>
 
-      <.column size="100" md="1-2">
-        <.card title_text="Color-Coded Borders">
-          <:description>Border colors for visual categorization (color-1 through color-5)</:description>
-
-          <dl class="pa-fields pa-fields--color-1">
+      <.column size="1-4">
+        <.card title_text="Form vs Display">
+          <h4>Edit</h4>
+          <.form_group>
+            <.form_label>Name</.form_label>
+            <.input type="text" value="Tomas" />
+          </.form_group>
+          <h4>View</h4>
+          <div class="pa-fields">
             <div class="pa-field">
-              <dt class="pa-field__label">Environment</dt>
-              <dd class="pa-field__value">Production</dd>
+              <span class="pa-field__label">Name</span>
+              <span class="pa-field__value">Tomas</span>
             </div>
-          </dl>
+          </div>
+        </.card>
+      </.column>
+    </.grid>
 
-          <dl class="pa-fields pa-fields--color-2">
-            <div class="pa-field">
-              <dt class="pa-field__label">Environment</dt>
-              <dd class="pa-field__value">Staging</dd>
-            </div>
-          </dl>
+    <%!-- ============================================================
+         Row 6: Color Variants (100%)
+         ============================================================ --%>
 
-          <dl class="pa-fields pa-fields--color-3">
-            <div class="pa-field">
-              <dt class="pa-field__label">Environment</dt>
-              <dd class="pa-field__value">Development</dd>
-            </div>
-          </dl>
+    <.card title_text="Color Variants">
+      <:description>Theme colors for border and filled background. Uses <code>pa-fields--color-{1-9}</code>. Combine with <code>pa-fields--filled</code> for tinted backgrounds. Use <code>pa-fields--no-border</code> to remove the border.</:description>
 
-          <dl class="pa-fields pa-fields--color-4">
+      <h4>Border Colors</h4>
+      <.grid>
+        <.column size="1-3">
+          <div class="pa-fields pa-fields--color-1">
             <div class="pa-field">
-              <dt class="pa-field__label">Environment</dt>
-              <dd class="pa-field__value">QA / Testing</dd>
+              <span class="pa-field__label">Color 1</span>
+              <span class="pa-field__value">Red / Primary</span>
             </div>
-          </dl>
+          </div>
+        </.column>
+        <.column size="1-3">
+          <div class="pa-fields pa-fields--color-4">
+            <div class="pa-field">
+              <span class="pa-field__label">Color 4</span>
+              <span class="pa-field__value">Green / Success</span>
+            </div>
+          </div>
+        </.column>
+        <.column size="1-3">
+          <div class="pa-fields pa-fields--color-7">
+            <div class="pa-field">
+              <span class="pa-field__label">Color 7</span>
+              <span class="pa-field__value">Blue / Info</span>
+            </div>
+          </div>
+        </.column>
+      </.grid>
 
-          <dl class="pa-fields pa-fields--color-5">
+      <h4 class="mt-4">Filled + Color (Tinted Background)</h4>
+      <.grid>
+        <.column size="1-3">
+          <div class="pa-fields pa-fields--filled pa-fields--color-1">
             <div class="pa-field">
-              <dt class="pa-field__label">Environment</dt>
-              <dd class="pa-field__value">Sandbox</dd>
+              <span class="pa-field__label">Status</span>
+              <span class="pa-field__value"><.badge variant="danger">Error</.badge></span>
             </div>
-          </dl>
+            <div class="pa-field">
+              <span class="pa-field__label">Message</span>
+              <span class="pa-field__value">Connection failed</span>
+            </div>
+          </div>
+        </.column>
+        <.column size="1-3">
+          <div class="pa-fields pa-fields--filled pa-fields--color-4">
+            <div class="pa-field">
+              <span class="pa-field__label">Status</span>
+              <span class="pa-field__value"><.badge variant="success">Success</.badge></span>
+            </div>
+            <div class="pa-field">
+              <span class="pa-field__label">Message</span>
+              <span class="pa-field__value">Order completed</span>
+            </div>
+          </div>
+        </.column>
+        <.column size="1-3">
+          <div class="pa-fields pa-fields--filled pa-fields--color-3">
+            <div class="pa-field">
+              <span class="pa-field__label">Status</span>
+              <span class="pa-field__value"><.badge variant="warning">Warning</.badge></span>
+            </div>
+            <div class="pa-field">
+              <span class="pa-field__label">Message</span>
+              <span class="pa-field__value">Low inventory</span>
+            </div>
+          </div>
+        </.column>
+      </.grid>
+
+      <h4 class="mt-4">No Border</h4>
+      <.grid>
+        <.column size="1-2">
+          <div class="pa-fields pa-fields--no-border">
+            <div class="pa-field">
+              <span class="pa-field__label">Name</span>
+              <span class="pa-field__value">Elena Petrova</span>
+            </div>
+            <div class="pa-field">
+              <span class="pa-field__label">Email</span>
+              <span class="pa-field__value">elena@acme.com</span>
+            </div>
+          </div>
+        </.column>
+        <.column size="1-2">
+          <div class="pa-fields pa-fields--filled pa-fields--no-border">
+            <div class="pa-field">
+              <span class="pa-field__label">Name</span>
+              <span class="pa-field__value">Elena Petrova</span>
+            </div>
+            <div class="pa-field">
+              <span class="pa-field__label">Email</span>
+              <span class="pa-field__value">elena@acme.com</span>
+            </div>
+          </div>
+        </.column>
+      </.grid>
+    </.card>
+
+    <%!-- ============================================================
+         Row 7: Copyable Fields (100%)
+         ============================================================ --%>
+
+    <.card title_text="Copyable Fields">
+      <:description>Three styles for copy-to-clipboard functionality. Click to test each variant.</:description>
+
+      <.grid>
+        <.column size="1-3">
+          <h4>Copy Button (always visible)</h4>
+          <p class="text-secondary mb-2">Uses <code>pa-field--copy-btn</code></p>
+          <div class="pa-fields pa-fields--no-border">
+            <div class="pa-field pa-field--copy-btn">
+              <span class="pa-field__label">Email</span>
+              <span class="pa-field__value">
+                <span data-copy-value>elena.petrova@example.com</span>
+                <button class="pa-field__copy" onclick="copyValue(this)" title="Copy to clipboard">
+                  <i class="fas fa-copy"></i>
+                </button>
+              </span>
+            </div>
+            <div class="pa-field pa-field--copy-btn">
+              <span class="pa-field__label">API Key</span>
+              <span class="pa-field__value">
+                <span data-copy-value><code>sk_live_abc123xyz789</code></span>
+                <button class="pa-field__copy" onclick="copyValue(this)" title="Copy to clipboard">
+                  <i class="fas fa-copy"></i>
+                </button>
+              </span>
+            </div>
+          </div>
+        </.column>
+        <.column size="1-3">
+          <h4>Click Value to Copy</h4>
+          <p class="text-secondary mb-2">Uses <code>pa-field--copy-click</code></p>
+          <div class="pa-fields pa-fields--no-border">
+            <div class="pa-field pa-field--copy-click">
+              <span class="pa-field__label">Phone</span>
+              <span class="pa-field__value" onclick="copyClickValue(this)" data-copy-value="+420 776 123 456">+420 776 123 456</span>
+            </div>
+            <div class="pa-field pa-field--copy-click">
+              <span class="pa-field__label">Order ID</span>
+              <span class="pa-field__value" onclick="copyClickValue(this)" data-copy-value="ORD-2026-00847">#ORD-2026-00847</span>
+            </div>
+          </div>
+        </.column>
+        <.column size="1-3">
+          <h4>Icon on Hover Only</h4>
+          <p class="text-secondary mb-2">Uses <code>pa-field--copy-hover</code></p>
+          <div class="pa-fields pa-fields--no-border">
+            <div class="pa-field pa-field--copy-hover">
+              <span class="pa-field__label">IBAN</span>
+              <span class="pa-field__value">
+                <span data-copy-value>CZ65 0800 0000 1920 0014 5399</span>
+                <button class="pa-field__copy" onclick="copyValue(this)" title="Copy to clipboard">
+                  <i class="fas fa-copy"></i>
+                </button>
+              </span>
+            </div>
+            <div class="pa-field pa-field--copy-hover">
+              <span class="pa-field__label">BIC/SWIFT</span>
+              <span class="pa-field__value">
+                <span data-copy-value>GIBACZPX</span>
+                <button class="pa-field__copy" onclick="copyValue(this)" title="Copy to clipboard">
+                  <i class="fas fa-copy"></i>
+                </button>
+              </span>
+            </div>
+          </div>
+        </.column>
+      </.grid>
+    </.card>
+
+    <script>
+    function copyValue(btn) {
+        const field = btn.closest('.pa-field');
+        const valueEl = field.querySelector('[data-copy-value]');
+        const text = valueEl.getAttribute('data-copy-value') || valueEl.textContent.trim();
+
+        navigator.clipboard.writeText(text).then(() => {
+            // Visual feedback
+            const originalIcon = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-check"></i>';
+            btn.style.color = 'var(--pa-color-4, #28a745)';
+
+            setTimeout(() => {
+                btn.innerHTML = originalIcon;
+                btn.style.color = '';
+            }, 1500);
+        });
+    }
+
+    function copyClickValue(el) {
+        const text = el.getAttribute('data-copy-value') || el.textContent.trim();
+        const field = el.closest('.pa-field');
+
+        navigator.clipboard.writeText(text).then(() => {
+            // Visual feedback
+            field.classList.add('pa-field--copied');
+
+            setTimeout(() => {
+                field.classList.remove('pa-field--copied');
+            }, 1500);
+        });
+    }
+    </script>
+
+    <%!-- ============================================================
+         Row 8: Invoice Layout (100%)
+         ============================================================ --%>
+
+    <.card title_text="Real-World: Invoice Layout">
+      <:description>Customer (full width) + Receipt/Delivery addresses (50/50). Combines <code>pa-field-group</code> with <code>pa-row</code>/<code>pa-col-*</code>.</:description>
+
+      <div class="pa-field-group">
+        <div class="pa-field-group__title">Customer</div>
+        <div class="pa-fields pa-fields--cols-3">
+          <div class="pa-field">
+            <span class="pa-field__label">Name</span>
+            <span class="pa-field__value">Novak &amp; Partners s.r.o.</span>
+          </div>
+          <div class="pa-field">
+            <span class="pa-field__label">Registration No.</span>
+            <span class="pa-field__value">CZ48207497</span>
+          </div>
+          <div class="pa-field">
+            <span class="pa-field__label">VAT ID</span>
+            <span class="pa-field__value">CZ48207497</span>
+          </div>
+          <div class="pa-field">
+            <span class="pa-field__label">Contact</span>
+            <span class="pa-field__value">Jan Novak</span>
+          </div>
+          <div class="pa-field">
+            <span class="pa-field__label">Email</span>
+            <span class="pa-field__value">jan.novak@novakpartners.cz</span>
+          </div>
+          <div class="pa-field">
+            <span class="pa-field__label">Phone</span>
+            <span class="pa-field__value">+420 234 111 222</span>
+          </div>
+        </div>
+      </div>
+
+      <.grid style="margin-top: 2.4rem;">
+        <.column size="1-2">
+          <div class="pa-field-group">
+            <div class="pa-field-group__title">Receipt Address</div>
+            <div class="pa-fields pa-fields--filled">
+              <div class="pa-field">
+                <span class="pa-field__label">Street</span>
+                <span class="pa-field__value">Vinohradska 2468/164</span>
+              </div>
+              <div class="pa-field">
+                <span class="pa-field__label">City</span>
+                <span class="pa-field__value">Prague 3, 130 00</span>
+              </div>
+              <div class="pa-field">
+                <span class="pa-field__label">Country</span>
+                <span class="pa-field__value">Czech Republic</span>
+              </div>
+            </div>
+          </div>
+        </.column>
+        <.column size="1-2">
+          <div class="pa-field-group">
+            <div class="pa-field-group__title">Delivery Address</div>
+            <div class="pa-fields pa-fields--filled">
+              <div class="pa-field">
+                <span class="pa-field__label">Street</span>
+                <span class="pa-field__value">Prumyslova 1234/5</span>
+              </div>
+              <div class="pa-field">
+                <span class="pa-field__label">City</span>
+                <span class="pa-field__value">Brno-Slatina, 627 00</span>
+              </div>
+              <div class="pa-field">
+                <span class="pa-field__label">Country</span>
+                <span class="pa-field__value">Czech Republic</span>
+              </div>
+            </div>
+          </div>
+        </.column>
+      </.grid>
+
+      <div class="pa-field-group" style="margin-top: 2.4rem;">
+        <div class="pa-field-group__title">Items</div>
+        <table class="pa-table pa-table--hover pa-table--striped">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>SKU</th>
+              <th style="text-align: right;">Qty</th>
+              <th style="text-align: right;">Price</th>
+              <th style="text-align: right;">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Mechanical Keyboard</td>
+              <td>KB-MX-BRN</td>
+              <td style="text-align: right;">2</td>
+              <td style="text-align: right;">$149</td>
+              <td style="text-align: right;">$298</td>
+            </tr>
+            <tr>
+              <td>27" 4K Monitor</td>
+              <td>MON-27-4K</td>
+              <td style="text-align: right;">4</td>
+              <td style="text-align: right;">$449</td>
+              <td style="text-align: right;">$1,796</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="pa-fields pa-fields--horizontal" style="max-width: 25rem; margin-left: auto; margin-top: 1.2rem;">
+        <div class="pa-field">
+          <span class="pa-field__label">Subtotal</span>
+          <span class="pa-field__value" style="text-align: right;">$2,094</span>
+        </div>
+        <div class="pa-field">
+          <span class="pa-field__label">VAT 21%</span>
+          <span class="pa-field__value" style="text-align: right;">$439.74</span>
+        </div>
+        <div class="pa-field" style="border-top: 1px solid; padding-top: 0.8rem;">
+          <span class="pa-field__label" style="font-weight: 700;">Total</span>
+          <span class="pa-field__value" style="text-align: right; font-weight: 700; font-size: 1.6rem;">$2,533.74</span>
+        </div>
+      </div>
+    </.card>
+
+    <%!-- ============================================================
+         User Profile (1/3) | CSS Reference (2/3)
+         ============================================================ --%>
+
+    <.grid>
+      <.column size="1-3">
+        <.card title_text="User Profile">
+          <div style="text-align: center; margin-bottom: 1.6rem;">
+            <div style="width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, #667eea, #764ba2); margin: 0 auto 0.8rem; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 2rem; font-weight: 600;">EP</div>
+            <strong>Elena Petrova</strong><br>
+            <.badge variant="success">Active</.badge>
+          </div>
+          <div class="pa-field-group">
+            <div class="pa-field-group__title">Contact</div>
+            <div class="pa-fields pa-fields--compact">
+              <div class="pa-field">
+                <span class="pa-field__label">Email</span>
+                <span class="pa-field__value">elena@acme.com</span>
+              </div>
+              <div class="pa-field">
+                <span class="pa-field__label">Phone</span>
+                <span class="pa-field__value">+420 776 123 456</span>
+              </div>
+            </div>
+          </div>
+          <div class="pa-field-group">
+            <div class="pa-field-group__title">Skills</div>
+            <div class="pa-fields">
+              <div class="pa-field">
+                <span class="pa-field__value">
+                  <.badge>TypeScript</.badge>
+                  <.badge>React</.badge>
+                  <.badge>Node.js</.badge>
+                </span>
+              </div>
+            </div>
+          </div>
+        </.card>
+      </.column>
+
+      <.column size="2-3">
+        <.card title_text="CSS Classes Reference">
+          <.grid>
+            <.column size="1-2">
+              <h4>Field Elements</h4>
+              <ul class="pa-list-basic pa-list-basic--compact">
+                <li><code>pa-field</code> - Label-value pair</li>
+                <li><code>pa-field__label</code> - Label element</li>
+                <li><code>pa-field__value</code> - Value element</li>
+                <li><code>pa-field--full</code> - Span all grid columns</li>
+              </ul>
+
+              <h4 class="mt-4">Container &amp; Groups</h4>
+              <ul class="pa-list-basic pa-list-basic--compact">
+                <li><code>pa-fields</code> - Field container</li>
+                <li><code>pa-field-group</code> - Section wrapper</li>
+                <li><code>pa-field-group__title</code> - Section title</li>
+              </ul>
+
+              <h4 class="mt-4">Grid Columns</h4>
+              <ul class="pa-list-basic pa-list-basic--compact">
+                <li><code>pa-fields--cols-2</code> - 2 columns</li>
+                <li><code>pa-fields--cols-3</code> - 3 columns</li>
+                <li><code>pa-fields--cols-4</code> - 4 columns</li>
+              </ul>
+            </.column>
+            <.column size="1-2">
+              <h4>Layout Modifiers</h4>
+              <ul class="pa-list-basic pa-list-basic--compact">
+                <li><code>pa-fields--horizontal</code> - Label left, value right</li>
+                <li><code>pa-fields--table</code> - Table-like widths</li>
+                <li><code>pa-fields--bordered</code> - Row separators</li>
+                <li><code>pa-fields--striped</code> - Alternating bg</li>
+                <li><code>pa-fields--compact</code> - Tighter spacing</li>
+                <li><code>pa-fields--relaxed</code> - Larger spacing</li>
+                <li><code>pa-fields--inline</code> - Inline flow</li>
+                <li><code>pa-fields--row</code> - Equal-width columns</li>
+                <li><code>pa-fields--filled</code> - Background panel</li>
+                <li><code>pa-fields--color-{1-9}</code> - Border color</li>
+                <li><code>pa-fields--no-border</code> - Remove border</li>
+              </ul>
+
+              <h4 class="mt-4">Combining</h4>
+              <ul class="pa-list-basic pa-list-basic--compact">
+                <li><code>--table --bordered</code></li>
+                <li><code>--horizontal --compact</code></li>
+                <li><code>--filled --cols-2</code></li>
+                <li><code>--filled --color-1</code> (tinted bg)</li>
+              </ul>
+            </.column>
+          </.grid>
         </.card>
       </.column>
     </.grid>

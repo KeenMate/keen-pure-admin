@@ -7,326 +7,340 @@ defmodule DemoWeb.Live.DataVisualizationLive do
 
   def render(assigns) do
     ~H"""
-    <h1 class="pa-page-title">Data Visualization</h1>
-    <p class="pa-page-subtitle">CSS-only data visualization components for dashboards and reports.</p>
+    <p>CSS-only data visualization components for admin dashboards. Progress bars, rings, gauges, heatmaps, sparklines, and more.</p>
 
-    <%!-- 1. Progress Bars --%>
-    <.card title_text="Progress Bars">
-      <.paragraph>Default progress bars with labels.</.paragraph>
+    <%!-- ============================================================
+         1. PROGRESS BARS
+         ============================================================ --%>
 
-      <div class="pa-progress-group" style="margin-bottom: 1rem;">
-        <div class="pa-progress__label">Storage Usage — 65%</div>
-        <div class="pa-progress">
-          <div class="pa-progress__fill" style="--value: 65%"></div>
-        </div>
-      </div>
+    <.card>
+      <:header>
+        <h3>1. Progress Bars</h3>
+        <p>Horizontal progress indicators with size, color, striped, and animated variants.</p>
+      </:header>
 
-      <div class="pa-progress-group" style="margin-bottom: 1rem;">
-        <div class="pa-progress__label">Bandwidth — 42%</div>
-        <div class="pa-progress">
-          <div class="pa-progress__fill" style="--value: 42%"></div>
-        </div>
-      </div>
-
-      <div class="pa-progress-group" style="margin-bottom: 2rem;">
-        <div class="pa-progress__label">CPU Load — 87%</div>
-        <div class="pa-progress">
-          <div class="pa-progress__fill" style="--value: 87%"></div>
-        </div>
-      </div>
-
-      <.paragraph>Color Variants</.paragraph>
-      <.grid>
-        <.column size="50">
-          <div class="pa-progress-group" style="margin-bottom: 0.5rem;">
-            <div class="pa-progress__label">Primary (default) — 60%</div>
+      <%!-- Basic progress bars --%>
+      <h4 class="mb-sm">Default (with labels)</h4>
+      <div class="pa-row gap-base">
+        <div class="pa-col">
+          <div class="pa-progress-group">
+            <div class="pa-progress__label">
+              <span>Storage Used</span>
+              <span class="pa-progress__label-value">65%</span>
+            </div>
             <div class="pa-progress">
-              <div class="pa-progress__fill" style="--value: 60%"></div>
+              <div class="pa-progress__fill" style="--value: 65%"></div>
             </div>
           </div>
-          <div class="pa-progress-group" style="margin-bottom: 0.5rem;">
-            <div class="pa-progress__label">Success — 75%</div>
+        </div>
+        <div class="pa-col">
+          <div class="pa-progress-group">
+            <div class="pa-progress__label">
+              <span>Upload Progress</span>
+              <span class="pa-progress__label-value">89%</span>
+            </div>
             <div class="pa-progress pa-progress--success">
-              <div class="pa-progress__fill" style="--value: 75%"></div>
+              <div class="pa-progress__fill" style="--value: 89%"></div>
             </div>
           </div>
-          <div class="pa-progress-group" style="margin-bottom: 0.5rem;">
-            <div class="pa-progress__label">Warning — 50%</div>
-            <div class="pa-progress pa-progress--warning">
-              <div class="pa-progress__fill" style="--value: 50%"></div>
-            </div>
-          </div>
-          <div class="pa-progress-group" style="margin-bottom: 0.5rem;">
-            <div class="pa-progress__label">Danger — 90%</div>
-            <div class="pa-progress pa-progress--danger">
-              <div class="pa-progress__fill" style="--value: 90%"></div>
-            </div>
-          </div>
-          <div class="pa-progress-group" style="margin-bottom: 0.5rem;">
-            <div class="pa-progress__label">Info — 35%</div>
-            <div class="pa-progress pa-progress--info">
-              <div class="pa-progress__fill" style="--value: 35%"></div>
-            </div>
-          </div>
-        </.column>
-      </.grid>
+        </div>
+      </div>
 
-      <.paragraph>Sizes</.paragraph>
-      <div class="pa-progress-group" style="margin-bottom: 0.5rem;">
-        <div class="pa-progress__label">Extra Small (xs)</div>
-        <div class="pa-progress pa-progress--xs">
-          <div class="pa-progress__fill" style="--value: 55%"></div>
-        </div>
-      </div>
-      <div class="pa-progress-group" style="margin-bottom: 0.5rem;">
-        <div class="pa-progress__label">Small (sm)</div>
-        <div class="pa-progress pa-progress--sm">
-          <div class="pa-progress__fill" style="--value: 55%"></div>
-        </div>
-      </div>
-      <div class="pa-progress-group" style="margin-bottom: 0.5rem;">
-        <div class="pa-progress__label">Default</div>
+      <%!-- Color variants --%>
+      <h4 class="mt-lg mb-sm">Color Variants</h4>
+      <div class="d-flex flex-column gap-sm">
         <div class="pa-progress">
-          <div class="pa-progress__fill" style="--value: 55%"></div>
-        </div>
-      </div>
-      <div class="pa-progress-group" style="margin-bottom: 0.5rem;">
-        <div class="pa-progress__label">Large (lg)</div>
-        <div class="pa-progress pa-progress--lg">
-          <div class="pa-progress__fill" style="--value: 55%"></div>
-        </div>
-      </div>
-
-      <.paragraph>Striped &amp; Animated</.paragraph>
-      <div class="pa-progress-group" style="margin-bottom: 0.5rem;">
-        <div class="pa-progress__label">Striped — 70%</div>
-        <div class="pa-progress pa-progress--striped">
           <div class="pa-progress__fill" style="--value: 70%"></div>
         </div>
-      </div>
-      <div class="pa-progress-group" style="margin-bottom: 0.5rem;">
-        <div class="pa-progress__label">Striped + Animated — 60%</div>
-        <div class="pa-progress pa-progress--striped pa-progress--animated">
-          <div class="pa-progress__fill" style="--value: 60%"></div>
+        <div class="pa-progress pa-progress--success">
+          <div class="pa-progress__fill" style="--value: 55%"></div>
         </div>
-      </div>
-      <div class="pa-progress-group" style="margin-bottom: 0.5rem;">
-        <div class="pa-progress__label">Striped Success — 80%</div>
-        <div class="pa-progress pa-progress--striped pa-progress--animated pa-progress--success">
-          <div class="pa-progress__fill" style="--value: 80%"></div>
-        </div>
-      </div>
-
-      <.paragraph>Rounded</.paragraph>
-      <div class="pa-progress-group" style="margin-bottom: 0.5rem;">
-        <div class="pa-progress__label">Rounded — 45%</div>
-        <div class="pa-progress pa-progress--rounded">
+        <div class="pa-progress pa-progress--warning">
           <div class="pa-progress__fill" style="--value: 45%"></div>
         </div>
+        <div class="pa-progress pa-progress--danger">
+          <div class="pa-progress__fill" style="--value: 30%"></div>
+        </div>
+        <div class="pa-progress pa-progress--info">
+          <div class="pa-progress__fill" style="--value: 82%"></div>
+        </div>
       </div>
-      <div class="pa-progress-group" style="margin-bottom: 0.5rem;">
-        <div class="pa-progress__label">Rounded + Striped — 65%</div>
-        <div class="pa-progress pa-progress--rounded pa-progress--striped pa-progress--animated">
-          <div class="pa-progress__fill" style="--value: 65%"></div>
+
+      <%!-- Sizes --%>
+      <h4 class="mt-lg mb-sm">Sizes</h4>
+      <div class="d-flex flex-column gap-sm">
+        <div>
+          <span class="text-muted font-xs">XS</span>
+          <div class="pa-progress pa-progress--xs">
+            <div class="pa-progress__fill" style="--value: 60%"></div>
+          </div>
+        </div>
+        <div>
+          <span class="text-muted font-xs">SM</span>
+          <div class="pa-progress pa-progress--sm">
+            <div class="pa-progress__fill" style="--value: 60%"></div>
+          </div>
+        </div>
+        <div>
+          <span class="text-muted font-xs">Default</span>
+          <div class="pa-progress">
+            <div class="pa-progress__fill" style="--value: 60%"></div>
+          </div>
+        </div>
+        <div>
+          <span class="text-muted font-xs">LG</span>
+          <div class="pa-progress pa-progress--lg">
+            <div class="pa-progress__fill" style="--value: 60%"></div>
+          </div>
+        </div>
+      </div>
+
+      <%!-- Striped & Animated --%>
+      <h4 class="mt-lg mb-sm">Striped &amp; Animated</h4>
+      <div class="d-flex flex-column gap-sm">
+        <div class="pa-progress pa-progress--lg pa-progress--striped">
+          <div class="pa-progress__fill" style="--value: 72%"></div>
+        </div>
+        <div class="pa-progress pa-progress--lg pa-progress--striped pa-progress--animated pa-progress--success">
+          <div class="pa-progress__fill" style="--value: 58%"></div>
+        </div>
+        <div class="pa-progress pa-progress--lg pa-progress--striped pa-progress--animated pa-progress--warning">
+          <div class="pa-progress__fill" style="--value: 40%"></div>
+        </div>
+      </div>
+
+      <%!-- Rounded --%>
+      <h4 class="mt-lg mb-sm">Rounded (Pill)</h4>
+      <div class="d-flex flex-column gap-sm">
+        <div class="pa-progress pa-progress--rounded pa-progress--lg">
+          <div class="pa-progress__fill" style="--value: 75%"></div>
+        </div>
+        <div class="pa-progress pa-progress--rounded pa-progress--lg pa-progress--striped pa-progress--animated pa-progress--info">
+          <div class="pa-progress__fill" style="--value: 50%"></div>
         </div>
       </div>
     </.card>
 
-    <%!-- 2. Stacked Bars --%>
-    <.card title_text="Stacked Bars">
-      <.paragraph>Disk Usage</.paragraph>
-      <div class="pa-stacked-bar" style="margin-bottom: 0.75rem;">
-        <div class="pa-stacked-bar__segment pa-stacked-bar__segment--primary" style="--value: 35%" title="System (35%)"></div>
-        <div class="pa-stacked-bar__segment pa-stacked-bar__segment--success" style="--value: 25%" title="Apps (25%)"></div>
-        <div class="pa-stacked-bar__segment pa-stacked-bar__segment--warning" style="--value: 20%" title="Media (20%)"></div>
-        <div class="pa-stacked-bar__segment pa-stacked-bar__segment--danger" style="--value: 10%" title="Logs (10%)"></div>
+    <%!-- ============================================================
+         2. STACKED BARS
+         ============================================================ --%>
+
+    <.card>
+      <:header>
+        <h3>2. Stacked Bars</h3>
+        <p>Multiple colored segments in one bar showing breakdowns and distributions.</p>
+      </:header>
+
+      <%!-- Disk usage --%>
+      <h4 class="mb-sm">Disk Usage (256 GB)</h4>
+      <div class="pa-stacked-bar">
+        <div class="pa-stacked-bar__segment" style="--value: 35%"></div>
+        <div class="pa-stacked-bar__segment pa-stacked-bar__segment--success" style="--value: 25%"></div>
+        <div class="pa-stacked-bar__segment pa-stacked-bar__segment--warning" style="--value: 15%"></div>
+        <div class="pa-stacked-bar__segment pa-stacked-bar__segment--secondary" style="--value: 10%"></div>
       </div>
-      <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem;">
-        <span><.badge variant="primary">System — 35%</.badge></span>
-        <span><.badge variant="success">Apps — 25%</.badge></span>
-        <span><.badge variant="warning">Media — 20%</.badge></span>
-        <span><.badge variant="danger">Logs — 10%</.badge></span>
-        <span><.badge>Free — 10%</.badge></span>
+      <div class="pa-stacked-bar__legend">
+        <div class="pa-stacked-bar__legend-item">
+          <span class="pa-stacked-bar__legend-swatch pa-stacked-bar__legend-swatch--primary"></span>
+          Apps (89 GB)
+        </div>
+        <div class="pa-stacked-bar__legend-item">
+          <span class="pa-stacked-bar__legend-swatch pa-stacked-bar__legend-swatch--success"></span>
+          Documents (64 GB)
+        </div>
+        <div class="pa-stacked-bar__legend-item">
+          <span class="pa-stacked-bar__legend-swatch pa-stacked-bar__legend-swatch--warning"></span>
+          Media (38 GB)
+        </div>
+        <div class="pa-stacked-bar__legend-item">
+          <span class="pa-stacked-bar__legend-swatch pa-stacked-bar__legend-swatch--secondary"></span>
+          System (26 GB)
+        </div>
       </div>
 
-      <.paragraph>Browser Share (Rounded, Large)</.paragraph>
-      <div class="pa-stacked-bar pa-stacked-bar--rounded pa-stacked-bar--lg" style="margin-bottom: 0.75rem;">
-        <div class="pa-stacked-bar__segment pa-stacked-bar__segment--primary" style="--value: 40%" title="Chrome (40%)"></div>
-        <div class="pa-stacked-bar__segment pa-stacked-bar__segment--success" style="--value: 22%" title="Safari (22%)"></div>
-        <div class="pa-stacked-bar__segment pa-stacked-bar__segment--warning" style="--value: 18%" title="Firefox (18%)"></div>
-        <div class="pa-stacked-bar__segment pa-stacked-bar__segment--info" style="--value: 12%" title="Edge (12%)"></div>
-        <div class="pa-stacked-bar__segment pa-stacked-bar__segment--danger" style="--value: 8%" title="Other (8%)"></div>
+      <%!-- Browser share --%>
+      <h4 class="mt-xl mb-sm">Browser Market Share</h4>
+      <div class="pa-stacked-bar pa-stacked-bar--rounded pa-stacked-bar--lg">
+        <div class="pa-stacked-bar__segment pa-stacked-bar__segment--info" style="--value: 65%"></div>
+        <div class="pa-stacked-bar__segment pa-stacked-bar__segment--danger" style="--value: 18%"></div>
+        <div class="pa-stacked-bar__segment pa-stacked-bar__segment--warning" style="--value: 10%"></div>
+        <div class="pa-stacked-bar__segment pa-stacked-bar__segment--secondary" style="--value: 7%"></div>
       </div>
-      <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-        <span><.badge variant="primary">Chrome — 40%</.badge></span>
-        <span><.badge variant="success">Safari — 22%</.badge></span>
-        <span><.badge variant="warning">Firefox — 18%</.badge></span>
-        <span><.badge variant="info">Edge — 12%</.badge></span>
-        <span><.badge variant="danger">Other — 8%</.badge></span>
+      <div class="pa-stacked-bar__legend">
+        <div class="pa-stacked-bar__legend-item">
+          <span class="pa-stacked-bar__legend-swatch pa-stacked-bar__legend-swatch--info"></span>
+          Chrome (65%)
+        </div>
+        <div class="pa-stacked-bar__legend-item">
+          <span class="pa-stacked-bar__legend-swatch pa-stacked-bar__legend-swatch--danger"></span>
+          Firefox (18%)
+        </div>
+        <div class="pa-stacked-bar__legend-item">
+          <span class="pa-stacked-bar__legend-swatch pa-stacked-bar__legend-swatch--warning"></span>
+          Safari (10%)
+        </div>
+        <div class="pa-stacked-bar__legend-item">
+          <span class="pa-stacked-bar__legend-swatch pa-stacked-bar__legend-swatch--secondary"></span>
+          Other (7%)
+        </div>
       </div>
     </.card>
 
-    <%!-- 3. Progress Rings --%>
-    <.card title_text="Progress Rings">
-      <.paragraph>Color Variants</.paragraph>
-      <.grid>
-        <.column size="20">
-          <div style="display: flex; justify-content: center;">
-            <div class="pa-progress-ring" style="--value: 72">
-              <div class="pa-progress-ring__inner">
-                <span class="pa-progress-ring__value">72%</span>
-                <span class="pa-progress-ring__label">Primary</span>
-              </div>
-            </div>
-          </div>
-        </.column>
-        <.column size="20">
-          <div style="display: flex; justify-content: center;">
-            <div class="pa-progress-ring pa-progress-ring--success" style="--value: 88">
-              <div class="pa-progress-ring__inner">
-                <span class="pa-progress-ring__value">88%</span>
-                <span class="pa-progress-ring__label">Success</span>
-              </div>
-            </div>
-          </div>
-        </.column>
-        <.column size="20">
-          <div style="display: flex; justify-content: center;">
-            <div class="pa-progress-ring pa-progress-ring--warning" style="--value: 55">
-              <div class="pa-progress-ring__inner">
-                <span class="pa-progress-ring__value">55%</span>
-                <span class="pa-progress-ring__label">Warning</span>
-              </div>
-            </div>
-          </div>
-        </.column>
-        <.column size="20">
-          <div style="display: flex; justify-content: center;">
-            <div class="pa-progress-ring pa-progress-ring--danger" style="--value: 31">
-              <div class="pa-progress-ring__inner">
-                <span class="pa-progress-ring__value">31%</span>
-                <span class="pa-progress-ring__label">Danger</span>
-              </div>
-            </div>
-          </div>
-        </.column>
-        <.column size="20">
-          <div style="display: flex; justify-content: center;">
-            <div class="pa-progress-ring pa-progress-ring--info" style="--value: 63">
-              <div class="pa-progress-ring__inner">
-                <span class="pa-progress-ring__value">63%</span>
-                <span class="pa-progress-ring__label">Info</span>
-              </div>
-            </div>
-          </div>
-        </.column>
-      </.grid>
+    <%!-- ============================================================
+         3. PROGRESS RINGS
+         ============================================================ --%>
 
-      <.paragraph>Sizes</.paragraph>
-      <.grid>
-        <.column size="1-3">
-          <div style="display: flex; justify-content: center;">
-            <div class="pa-progress-ring pa-progress-ring--sm" style="--value: 45">
-              <div class="pa-progress-ring__inner">
-                <span class="pa-progress-ring__value">45%</span>
-                <span class="pa-progress-ring__label">Small</span>
-              </div>
-            </div>
+    <.card>
+      <:header>
+        <h3>3. Progress Rings</h3>
+        <p>Circular progress indicators using CSS <code>conic-gradient</code>. Set value via <code>style="--value: 72"</code> (0-100).</p>
+      </:header>
+
+      <%!-- Default rings --%>
+      <h4 class="mb-sm">Color Variants</h4>
+      <div class="d-flex gap-xl flex-wrap align-items-center">
+        <div class="pa-progress-ring" style="--value: 72">
+          <div class="pa-progress-ring__inner">
+            <span class="pa-progress-ring__value">72%</span>
+            <span class="pa-progress-ring__label">CPU</span>
           </div>
-        </.column>
-        <.column size="1-3">
-          <div style="display: flex; justify-content: center;">
-            <div class="pa-progress-ring" style="--value: 60">
-              <div class="pa-progress-ring__inner">
-                <span class="pa-progress-ring__value">60%</span>
-                <span class="pa-progress-ring__label">Default</span>
-              </div>
-            </div>
+        </div>
+        <div class="pa-progress-ring pa-progress-ring--success" style="--value: 94">
+          <div class="pa-progress-ring__inner">
+            <span class="pa-progress-ring__value">94%</span>
+            <span class="pa-progress-ring__label">Uptime</span>
           </div>
-        </.column>
-        <.column size="1-3">
-          <div style="display: flex; justify-content: center;">
-            <div class="pa-progress-ring pa-progress-ring--lg" style="--value: 78">
-              <div class="pa-progress-ring__inner">
-                <span class="pa-progress-ring__value">78%</span>
-                <span class="pa-progress-ring__label">Large</span>
-              </div>
-            </div>
+        </div>
+        <div class="pa-progress-ring pa-progress-ring--warning" style="--value: 58">
+          <div class="pa-progress-ring__inner">
+            <span class="pa-progress-ring__value">58%</span>
+            <span class="pa-progress-ring__label">Memory</span>
           </div>
-        </.column>
-      </.grid>
+        </div>
+        <div class="pa-progress-ring pa-progress-ring--danger" style="--value: 87">
+          <div class="pa-progress-ring__inner">
+            <span class="pa-progress-ring__value">87%</span>
+            <span class="pa-progress-ring__label">Disk</span>
+          </div>
+        </div>
+        <div class="pa-progress-ring pa-progress-ring--info" style="--value: 43">
+          <div class="pa-progress-ring__inner">
+            <span class="pa-progress-ring__value">43%</span>
+            <span class="pa-progress-ring__label">Network</span>
+          </div>
+        </div>
+      </div>
+
+      <%!-- Sizes --%>
+      <h4 class="mt-xl mb-sm">Sizes</h4>
+      <div class="d-flex gap-xl flex-wrap align-items-center">
+        <div class="pa-progress-ring pa-progress-ring--sm" style="--value: 65">
+          <div class="pa-progress-ring__inner">
+            <span class="pa-progress-ring__value">65%</span>
+          </div>
+        </div>
+        <div class="pa-progress-ring" style="--value: 65">
+          <div class="pa-progress-ring__inner">
+            <span class="pa-progress-ring__value">65%</span>
+            <span class="pa-progress-ring__label">Default</span>
+          </div>
+        </div>
+        <div class="pa-progress-ring pa-progress-ring--lg pa-progress-ring--success" style="--value: 65">
+          <div class="pa-progress-ring__inner">
+            <span class="pa-progress-ring__value">65%</span>
+            <span class="pa-progress-ring__label">Large</span>
+          </div>
+        </div>
+      </div>
     </.card>
 
-    <%!-- 4. Dashboard Gauges --%>
-    <.card title_text="Dashboard Gauges">
-      <.grid>
-        <.column size="25">
-          <div style="display: flex; justify-content: center;">
-            <div class="pa-gauge" style="--value: 72">
-              <div class="pa-gauge__inner">
-                <span class="pa-gauge__value">72%</span>
-                <span class="pa-gauge__label">CPU</span>
-              </div>
-              <span class="pa-gauge__min">0</span>
-              <span class="pa-gauge__max">100</span>
+    <%!-- ============================================================
+         4. DASHBOARD GAUGES
+         ============================================================ --%>
+
+    <.card>
+      <:header>
+        <h3>4. Dashboard Gauges</h3>
+        <p>Semi-circle gauge indicators. Set value via <code>style="--value: 72"</code> (0-100).</p>
+      </:header>
+
+      <div class="d-flex gap-xl flex-wrap align-items-end">
+        <%!-- CPU gauge --%>
+        <div class="text-center">
+          <div class="pa-gauge" style="--value: 72">
+            <div class="pa-gauge__inner">
+              <span class="pa-gauge__value">72%</span>
+              <span class="pa-gauge__label">CPU</span>
             </div>
+            <span class="pa-gauge__min">0</span>
+            <span class="pa-gauge__max">100</span>
           </div>
-        </.column>
-        <.column size="25">
-          <div style="display: flex; justify-content: center;">
-            <div class="pa-gauge pa-gauge--success" style="--value: 48">
-              <div class="pa-gauge__inner">
-                <span class="pa-gauge__value">48%</span>
-                <span class="pa-gauge__label">Memory</span>
-              </div>
-              <span class="pa-gauge__min">0</span>
-              <span class="pa-gauge__max">100</span>
+        </div>
+
+        <%!-- Memory gauge (success) --%>
+        <div class="text-center">
+          <div class="pa-gauge pa-gauge--success" style="--value: 45">
+            <div class="pa-gauge__inner">
+              <span class="pa-gauge__value">45%</span>
+              <span class="pa-gauge__label">Memory</span>
             </div>
+            <span class="pa-gauge__min">0</span>
+            <span class="pa-gauge__max">32 GB</span>
           </div>
-        </.column>
-        <.column size="25">
-          <div style="display: flex; justify-content: center;">
-            <div class="pa-gauge pa-gauge--danger" style="--value: 89">
-              <div class="pa-gauge__inner">
-                <span class="pa-gauge__value">89°C</span>
-                <span class="pa-gauge__label">Temp</span>
-              </div>
-              <span class="pa-gauge__min">0</span>
-              <span class="pa-gauge__max">100</span>
+        </div>
+
+        <%!-- Temperature gauge (danger) --%>
+        <div class="text-center">
+          <div class="pa-gauge pa-gauge--danger" style="--value: 85">
+            <div class="pa-gauge__inner">
+              <span class="pa-gauge__value">85&deg;</span>
+              <span class="pa-gauge__label">Temp</span>
             </div>
+            <span class="pa-gauge__min">0&deg;C</span>
+            <span class="pa-gauge__max">100&deg;C</span>
           </div>
-        </.column>
-        <.column size="25">
-          <div style="display: flex; justify-content: center;">
-            <div class="pa-gauge pa-gauge--zones" style="--value: 62">
-              <div class="pa-gauge__inner">
-                <span class="pa-gauge__value">62</span>
-                <span class="pa-gauge__label">Speed</span>
-              </div>
-              <span class="pa-gauge__min">0</span>
-              <span class="pa-gauge__max">100</span>
+        </div>
+
+        <%!-- Zone gauge --%>
+        <div class="text-center">
+          <div class="pa-gauge pa-gauge--zones" style="--value: 62">
+            <div class="pa-gauge__inner">
+              <span class="pa-gauge__value">62</span>
+              <span class="pa-gauge__label">Speed</span>
             </div>
+            <span class="pa-gauge__min">0</span>
+            <span class="pa-gauge__max">100</span>
           </div>
-        </.column>
-      </.grid>
+        </div>
+      </div>
     </.card>
 
-    <%!-- 5. Data Bars in Tables --%>
-    <.card title_text="Data Bars in Tables">
+    <%!-- ============================================================
+         5. DATA BARS IN TABLES
+         ============================================================ --%>
+
+    <.card has_padding={false}>
+      <:header>
+        <h3>5. Data Bars in Tables</h3>
+        <p>Inline bar visualization inside table cells for quick comparison.</p>
+      </:header>
+
       <table class="pa-table pa-table--striped pa-table--hover">
         <thead>
           <tr>
-            <th>Sales Rep</th>
-            <th>Region</th>
-            <th>Revenue</th>
-            <th style="width: 40%;">Performance</th>
+            <th style="width: 5%">#</th>
+            <th style="width: 25%">Sales Rep</th>
+            <th style="width: 15%">Revenue</th>
+            <th style="width: 35%">Performance</th>
+            <th style="width: 10%">Target</th>
+            <th style="width: 10%">Status</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>Alice Johnson</td>
-            <td>North</td>
-            <td>$95,400</td>
+            <td>1</td>
+            <td><strong>Sarah Chen</strong></td>
+            <td>$142,500</td>
             <td>
               <div class="pa-data-bar pa-data-bar--success">
                 <div class="pa-data-bar__track">
@@ -334,76 +348,94 @@ defmodule DemoWeb.Live.DataVisualizationLive do
                 </div>
               </div>
             </td>
+            <td>95%</td>
+            <td><span class="pa-badge pa-badge--success pa-badge--xs">On Track</span></td>
           </tr>
           <tr>
-            <td>Bob Smith</td>
-            <td>East</td>
-            <td>$82,100</td>
+            <td>2</td>
+            <td><strong>James Wilson</strong></td>
+            <td>$128,300</td>
             <td>
-              <div class="pa-data-bar pa-data-bar--primary">
+              <div class="pa-data-bar">
                 <div class="pa-data-bar__track">
-                  <div class="pa-data-bar__fill" style="--value: 82%"></div>
+                  <div class="pa-data-bar__fill" style="--value: 85%"></div>
                 </div>
               </div>
             </td>
+            <td>85%</td>
+            <td><span class="pa-badge pa-badge--success pa-badge--xs">On Track</span></td>
           </tr>
           <tr>
-            <td>Carol Davis</td>
-            <td>South</td>
-            <td>$67,300</td>
+            <td>3</td>
+            <td><strong>Maria Garcia</strong></td>
+            <td>$98,700</td>
             <td>
               <div class="pa-data-bar pa-data-bar--warning">
                 <div class="pa-data-bar__track">
-                  <div class="pa-data-bar__fill" style="--value: 67%"></div>
+                  <div class="pa-data-bar__fill" style="--value: 66%"></div>
                 </div>
               </div>
             </td>
+            <td>66%</td>
+            <td><span class="pa-badge pa-badge--warning pa-badge--xs">At Risk</span></td>
           </tr>
           <tr>
-            <td>Dan Wilson</td>
-            <td>West</td>
-            <td>$41,800</td>
+            <td>4</td>
+            <td><strong>Tom Baker</strong></td>
+            <td>$76,200</td>
             <td>
               <div class="pa-data-bar pa-data-bar--danger">
                 <div class="pa-data-bar__track">
-                  <div class="pa-data-bar__fill" style="--value: 42%"></div>
+                  <div class="pa-data-bar__fill" style="--value: 51%"></div>
                 </div>
               </div>
             </td>
+            <td>51%</td>
+            <td><span class="pa-badge pa-badge--danger pa-badge--xs">Behind</span></td>
           </tr>
           <tr>
-            <td>Eve Martinez</td>
-            <td>Central</td>
-            <td>$73,600</td>
+            <td>5</td>
+            <td><strong>Lisa Park</strong></td>
+            <td>$112,900</td>
             <td>
               <div class="pa-data-bar pa-data-bar--info">
                 <div class="pa-data-bar__track">
-                  <div class="pa-data-bar__fill" style="--value: 74%"></div>
+                  <div class="pa-data-bar__fill" style="--value: 75%"></div>
                 </div>
               </div>
             </td>
+            <td>75%</td>
+            <td><span class="pa-badge pa-badge--info pa-badge--xs">Steady</span></td>
           </tr>
         </tbody>
       </table>
     </.card>
 
-    <%!-- 6. Activity Heatmap --%>
-    <.card title_text="Activity Heatmap">
-      <.paragraph>Default</.paragraph>
-      <div class="pa-heatmap" style="grid-template-columns: repeat(12, 1.2rem); margin-bottom: 0.5rem;">
-        <%!-- Week 1 (7 days) --%>
+    <%!-- ============================================================
+         6. HEATMAP
+         ============================================================ --%>
+
+    <.card>
+      <:header>
+        <h3>6. Activity Heatmap</h3>
+        <p>GitHub contribution-style activity grid. Each cell uses <code>data-level="0-4"</code> for intensity.</p>
+      </:header>
+
+      <h4 class="mb-sm">Contribution Activity (12 weeks)</h4>
+      <div class="pa-heatmap" style="grid-template-columns: repeat(12, 1.2rem); overflow-x: auto">
+        <%!-- Week 1 --%>
         <div class="pa-heatmap__cell" data-level="0"></div>
         <div class="pa-heatmap__cell" data-level="1"></div>
         <div class="pa-heatmap__cell" data-level="2"></div>
         <div class="pa-heatmap__cell" data-level="0"></div>
-        <div class="pa-heatmap__cell" data-level="1"></div>
         <div class="pa-heatmap__cell" data-level="3"></div>
+        <div class="pa-heatmap__cell" data-level="1"></div>
         <div class="pa-heatmap__cell" data-level="0"></div>
         <%!-- Week 2 --%>
         <div class="pa-heatmap__cell" data-level="1"></div>
         <div class="pa-heatmap__cell" data-level="2"></div>
-        <div class="pa-heatmap__cell" data-level="3"></div>
         <div class="pa-heatmap__cell" data-level="4"></div>
+        <div class="pa-heatmap__cell" data-level="3"></div>
         <div class="pa-heatmap__cell" data-level="2"></div>
         <div class="pa-heatmap__cell" data-level="1"></div>
         <div class="pa-heatmap__cell" data-level="0"></div>
@@ -414,264 +446,342 @@ defmodule DemoWeb.Live.DataVisualizationLive do
         <div class="pa-heatmap__cell" data-level="2"></div>
         <div class="pa-heatmap__cell" data-level="3"></div>
         <div class="pa-heatmap__cell" data-level="4"></div>
-        <div class="pa-heatmap__cell" data-level="4"></div>
+        <div class="pa-heatmap__cell" data-level="2"></div>
         <%!-- Week 4 --%>
-        <div class="pa-heatmap__cell" data-level="2"></div>
         <div class="pa-heatmap__cell" data-level="3"></div>
+        <div class="pa-heatmap__cell" data-level="4"></div>
+        <div class="pa-heatmap__cell" data-level="4"></div>
+        <div class="pa-heatmap__cell" data-level="3"></div>
+        <div class="pa-heatmap__cell" data-level="2"></div>
         <div class="pa-heatmap__cell" data-level="1"></div>
         <div class="pa-heatmap__cell" data-level="0"></div>
-        <div class="pa-heatmap__cell" data-level="2"></div>
-        <div class="pa-heatmap__cell" data-level="3"></div>
-        <div class="pa-heatmap__cell" data-level="1"></div>
         <%!-- Week 5 --%>
-        <div class="pa-heatmap__cell" data-level="4"></div>
-        <div class="pa-heatmap__cell" data-level="4"></div>
-        <div class="pa-heatmap__cell" data-level="3"></div>
-        <div class="pa-heatmap__cell" data-level="2"></div>
         <div class="pa-heatmap__cell" data-level="1"></div>
         <div class="pa-heatmap__cell" data-level="0"></div>
+        <div class="pa-heatmap__cell" data-level="2"></div>
+        <div class="pa-heatmap__cell" data-level="3"></div>
         <div class="pa-heatmap__cell" data-level="1"></div>
+        <div class="pa-heatmap__cell" data-level="2"></div>
+        <div class="pa-heatmap__cell" data-level="0"></div>
         <%!-- Week 6 --%>
-        <div class="pa-heatmap__cell" data-level="0"></div>
-        <div class="pa-heatmap__cell" data-level="1"></div>
-        <div class="pa-heatmap__cell" data-level="3"></div>
-        <div class="pa-heatmap__cell" data-level="4"></div>
         <div class="pa-heatmap__cell" data-level="2"></div>
+        <div class="pa-heatmap__cell" data-level="3"></div>
         <div class="pa-heatmap__cell" data-level="1"></div>
         <div class="pa-heatmap__cell" data-level="0"></div>
+        <div class="pa-heatmap__cell" data-level="4"></div>
+        <div class="pa-heatmap__cell" data-level="3"></div>
+        <div class="pa-heatmap__cell" data-level="2"></div>
         <%!-- Week 7 --%>
-        <div class="pa-heatmap__cell" data-level="2"></div>
-        <div class="pa-heatmap__cell" data-level="1"></div>
         <div class="pa-heatmap__cell" data-level="0"></div>
+        <div class="pa-heatmap__cell" data-level="1"></div>
         <div class="pa-heatmap__cell" data-level="3"></div>
         <div class="pa-heatmap__cell" data-level="4"></div>
         <div class="pa-heatmap__cell" data-level="2"></div>
         <div class="pa-heatmap__cell" data-level="1"></div>
+        <div class="pa-heatmap__cell" data-level="3"></div>
         <%!-- Week 8 --%>
-        <div class="pa-heatmap__cell" data-level="1"></div>
-        <div class="pa-heatmap__cell" data-level="0"></div>
         <div class="pa-heatmap__cell" data-level="2"></div>
-        <div class="pa-heatmap__cell" data-level="3"></div>
+        <div class="pa-heatmap__cell" data-level="0"></div>
         <div class="pa-heatmap__cell" data-level="1"></div>
+        <div class="pa-heatmap__cell" data-level="2"></div>
         <div class="pa-heatmap__cell" data-level="4"></div>
         <div class="pa-heatmap__cell" data-level="3"></div>
+        <div class="pa-heatmap__cell" data-level="1"></div>
         <%!-- Week 9 --%>
-        <div class="pa-heatmap__cell" data-level="3"></div>
+        <div class="pa-heatmap__cell" data-level="1"></div>
         <div class="pa-heatmap__cell" data-level="2"></div>
-        <div class="pa-heatmap__cell" data-level="4"></div>
+        <div class="pa-heatmap__cell" data-level="0"></div>
+        <div class="pa-heatmap__cell" data-level="3"></div>
         <div class="pa-heatmap__cell" data-level="1"></div>
         <div class="pa-heatmap__cell" data-level="0"></div>
         <div class="pa-heatmap__cell" data-level="2"></div>
-        <div class="pa-heatmap__cell" data-level="3"></div>
         <%!-- Week 10 --%>
-        <div class="pa-heatmap__cell" data-level="0"></div>
-        <div class="pa-heatmap__cell" data-level="1"></div>
-        <div class="pa-heatmap__cell" data-level="1"></div>
+        <div class="pa-heatmap__cell" data-level="4"></div>
+        <div class="pa-heatmap__cell" data-level="3"></div>
         <div class="pa-heatmap__cell" data-level="2"></div>
         <div class="pa-heatmap__cell" data-level="4"></div>
         <div class="pa-heatmap__cell" data-level="3"></div>
         <div class="pa-heatmap__cell" data-level="2"></div>
+        <div class="pa-heatmap__cell" data-level="1"></div>
         <%!-- Week 11 --%>
-        <div class="pa-heatmap__cell" data-level="1"></div>
-        <div class="pa-heatmap__cell" data-level="3"></div>
-        <div class="pa-heatmap__cell" data-level="2"></div>
         <div class="pa-heatmap__cell" data-level="0"></div>
         <div class="pa-heatmap__cell" data-level="1"></div>
-        <div class="pa-heatmap__cell" data-level="4"></div>
+        <div class="pa-heatmap__cell" data-level="2"></div>
         <div class="pa-heatmap__cell" data-level="3"></div>
+        <div class="pa-heatmap__cell" data-level="4"></div>
+        <div class="pa-heatmap__cell" data-level="2"></div>
+        <div class="pa-heatmap__cell" data-level="1"></div>
         <%!-- Week 12 --%>
-        <div class="pa-heatmap__cell" data-level="2"></div>
-        <div class="pa-heatmap__cell" data-level="4"></div>
-        <div class="pa-heatmap__cell" data-level="3"></div>
         <div class="pa-heatmap__cell" data-level="1"></div>
         <div class="pa-heatmap__cell" data-level="0"></div>
         <div class="pa-heatmap__cell" data-level="2"></div>
         <div class="pa-heatmap__cell" data-level="1"></div>
+        <div class="pa-heatmap__cell" data-level="3"></div>
+        <div class="pa-heatmap__cell" data-level="4"></div>
+        <div class="pa-heatmap__cell" data-level="2"></div>
       </div>
       <div class="pa-heatmap__legend">
         <span>Less</span>
-        <div class="pa-heatmap__cell" data-level="0"></div>
-        <div class="pa-heatmap__cell" data-level="1"></div>
-        <div class="pa-heatmap__cell" data-level="2"></div>
-        <div class="pa-heatmap__cell" data-level="3"></div>
-        <div class="pa-heatmap__cell" data-level="4"></div>
+        <div class="pa-heatmap__legend-cell" data-level="0"></div>
+        <div class="pa-heatmap__legend-cell" data-level="1"></div>
+        <div class="pa-heatmap__legend-cell" data-level="2"></div>
+        <div class="pa-heatmap__legend-cell" data-level="3"></div>
+        <div class="pa-heatmap__legend-cell" data-level="4"></div>
         <span>More</span>
       </div>
 
-      <.paragraph>Success Color Variant</.paragraph>
-      <div class="pa-heatmap pa-heatmap--success" style="grid-template-columns: repeat(12, 1.2rem); margin-bottom: 0.5rem;">
-        <%!-- Week 1 --%>
-        <div class="pa-heatmap__cell" data-level="1"></div>
-        <div class="pa-heatmap__cell" data-level="0"></div>
-        <div class="pa-heatmap__cell" data-level="3"></div>
-        <div class="pa-heatmap__cell" data-level="2"></div>
-        <div class="pa-heatmap__cell" data-level="4"></div>
-        <div class="pa-heatmap__cell" data-level="1"></div>
-        <div class="pa-heatmap__cell" data-level="0"></div>
-        <%!-- Week 2 --%>
-        <div class="pa-heatmap__cell" data-level="2"></div>
-        <div class="pa-heatmap__cell" data-level="3"></div>
-        <div class="pa-heatmap__cell" data-level="4"></div>
-        <div class="pa-heatmap__cell" data-level="1"></div>
-        <div class="pa-heatmap__cell" data-level="0"></div>
-        <div class="pa-heatmap__cell" data-level="2"></div>
-        <div class="pa-heatmap__cell" data-level="3"></div>
-        <%!-- Week 3 --%>
-        <div class="pa-heatmap__cell" data-level="4"></div>
-        <div class="pa-heatmap__cell" data-level="2"></div>
-        <div class="pa-heatmap__cell" data-level="1"></div>
-        <div class="pa-heatmap__cell" data-level="0"></div>
-        <div class="pa-heatmap__cell" data-level="3"></div>
-        <div class="pa-heatmap__cell" data-level="4"></div>
-        <div class="pa-heatmap__cell" data-level="2"></div>
-        <%!-- Week 4 --%>
-        <div class="pa-heatmap__cell" data-level="0"></div>
-        <div class="pa-heatmap__cell" data-level="1"></div>
-        <div class="pa-heatmap__cell" data-level="3"></div>
-        <div class="pa-heatmap__cell" data-level="2"></div>
-        <div class="pa-heatmap__cell" data-level="4"></div>
-        <div class="pa-heatmap__cell" data-level="1"></div>
-        <div class="pa-heatmap__cell" data-level="3"></div>
-        <%!-- Week 5 --%>
-        <div class="pa-heatmap__cell" data-level="2"></div>
-        <div class="pa-heatmap__cell" data-level="4"></div>
-        <div class="pa-heatmap__cell" data-level="0"></div>
-        <div class="pa-heatmap__cell" data-level="1"></div>
-        <div class="pa-heatmap__cell" data-level="3"></div>
-        <div class="pa-heatmap__cell" data-level="2"></div>
-        <div class="pa-heatmap__cell" data-level="4"></div>
-        <%!-- Week 6 --%>
-        <div class="pa-heatmap__cell" data-level="1"></div>
-        <div class="pa-heatmap__cell" data-level="0"></div>
-        <div class="pa-heatmap__cell" data-level="2"></div>
-        <div class="pa-heatmap__cell" data-level="3"></div>
-        <div class="pa-heatmap__cell" data-level="4"></div>
-        <div class="pa-heatmap__cell" data-level="1"></div>
-        <div class="pa-heatmap__cell" data-level="2"></div>
-        <%!-- Week 7 --%>
-        <div class="pa-heatmap__cell" data-level="3"></div>
-        <div class="pa-heatmap__cell" data-level="1"></div>
-        <div class="pa-heatmap__cell" data-level="4"></div>
-        <div class="pa-heatmap__cell" data-level="0"></div>
-        <div class="pa-heatmap__cell" data-level="2"></div>
-        <div class="pa-heatmap__cell" data-level="3"></div>
-        <div class="pa-heatmap__cell" data-level="1"></div>
-        <%!-- Week 8 --%>
-        <div class="pa-heatmap__cell" data-level="0"></div>
-        <div class="pa-heatmap__cell" data-level="2"></div>
-        <div class="pa-heatmap__cell" data-level="3"></div>
-        <div class="pa-heatmap__cell" data-level="1"></div>
-        <div class="pa-heatmap__cell" data-level="4"></div>
-        <div class="pa-heatmap__cell" data-level="0"></div>
-        <div class="pa-heatmap__cell" data-level="2"></div>
-        <%!-- Week 9 --%>
-        <div class="pa-heatmap__cell" data-level="4"></div>
-        <div class="pa-heatmap__cell" data-level="3"></div>
-        <div class="pa-heatmap__cell" data-level="1"></div>
-        <div class="pa-heatmap__cell" data-level="2"></div>
-        <div class="pa-heatmap__cell" data-level="0"></div>
-        <div class="pa-heatmap__cell" data-level="3"></div>
-        <div class="pa-heatmap__cell" data-level="4"></div>
-        <%!-- Week 10 --%>
-        <div class="pa-heatmap__cell" data-level="1"></div>
-        <div class="pa-heatmap__cell" data-level="2"></div>
-        <div class="pa-heatmap__cell" data-level="0"></div>
-        <div class="pa-heatmap__cell" data-level="4"></div>
-        <div class="pa-heatmap__cell" data-level="3"></div>
-        <div class="pa-heatmap__cell" data-level="1"></div>
-        <div class="pa-heatmap__cell" data-level="2"></div>
-        <%!-- Week 11 --%>
-        <div class="pa-heatmap__cell" data-level="3"></div>
-        <div class="pa-heatmap__cell" data-level="4"></div>
-        <div class="pa-heatmap__cell" data-level="2"></div>
-        <div class="pa-heatmap__cell" data-level="1"></div>
-        <div class="pa-heatmap__cell" data-level="0"></div>
-        <div class="pa-heatmap__cell" data-level="3"></div>
-        <div class="pa-heatmap__cell" data-level="4"></div>
-        <%!-- Week 12 --%>
-        <div class="pa-heatmap__cell" data-level="2"></div>
-        <div class="pa-heatmap__cell" data-level="1"></div>
-        <div class="pa-heatmap__cell" data-level="0"></div>
-        <div class="pa-heatmap__cell" data-level="3"></div>
-        <div class="pa-heatmap__cell" data-level="4"></div>
-        <div class="pa-heatmap__cell" data-level="2"></div>
-        <div class="pa-heatmap__cell" data-level="1"></div>
-      </div>
-      <div class="pa-heatmap__legend">
-        <span>Less</span>
+      <%!-- Success color variant --%>
+      <h4 class="mt-xl mb-sm">Color Variant (Success)</h4>
+      <div class="pa-heatmap pa-heatmap--success" style="grid-template-columns: repeat(7, 1.2rem)">
         <div class="pa-heatmap__cell" data-level="0"></div>
         <div class="pa-heatmap__cell" data-level="1"></div>
         <div class="pa-heatmap__cell" data-level="2"></div>
         <div class="pa-heatmap__cell" data-level="3"></div>
         <div class="pa-heatmap__cell" data-level="4"></div>
-        <span>More</span>
+        <div class="pa-heatmap__cell" data-level="2"></div>
+        <div class="pa-heatmap__cell" data-level="0"></div>
+        <div class="pa-heatmap__cell" data-level="1"></div>
+        <div class="pa-heatmap__cell" data-level="3"></div>
+        <div class="pa-heatmap__cell" data-level="4"></div>
+        <div class="pa-heatmap__cell" data-level="2"></div>
+        <div class="pa-heatmap__cell" data-level="1"></div>
+        <div class="pa-heatmap__cell" data-level="3"></div>
+        <div class="pa-heatmap__cell" data-level="4"></div>
+        <div class="pa-heatmap__cell" data-level="2"></div>
+        <div class="pa-heatmap__cell" data-level="0"></div>
+        <div class="pa-heatmap__cell" data-level="1"></div>
+        <div class="pa-heatmap__cell" data-level="4"></div>
+        <div class="pa-heatmap__cell" data-level="3"></div>
+        <div class="pa-heatmap__cell" data-level="2"></div>
+        <div class="pa-heatmap__cell" data-level="1"></div>
       </div>
     </.card>
 
-    <%!-- 7. Sparkline Bars --%>
-    <.card title_text="Sparkline Bars">
-      <.grid>
-        <.column size="25">
-          <.paragraph>Default</.paragraph>
+    <%!-- ============================================================
+         7. SPARKLINES
+         ============================================================ --%>
+
+    <.card>
+      <:header>
+        <h3>7. Sparkline Bars</h3>
+        <p>Compact mini bar charts for inline data visualization inside cards or table cells.</p>
+      </:header>
+
+      <div class="d-flex gap-xl flex-wrap align-items-end">
+        <%!-- Default --%>
+        <div>
+          <span class="text-muted font-xs d-block mb-xs">Revenue (7d)</span>
           <div class="pa-sparkline">
             <div class="pa-sparkline__bar" style="--value: 40%"></div>
             <div class="pa-sparkline__bar" style="--value: 65%"></div>
-            <div class="pa-sparkline__bar" style="--value: 30%"></div>
-            <div class="pa-sparkline__bar" style="--value: 80%"></div>
             <div class="pa-sparkline__bar" style="--value: 55%"></div>
+            <div class="pa-sparkline__bar" style="--value: 80%"></div>
             <div class="pa-sparkline__bar" style="--value: 70%"></div>
-            <div class="pa-sparkline__bar" style="--value: 45%"></div>
             <div class="pa-sparkline__bar" style="--value: 90%"></div>
-            <div class="pa-sparkline__bar" style="--value: 60%"></div>
-            <div class="pa-sparkline__bar" style="--value: 35%"></div>
+            <div class="pa-sparkline__bar" style="--value: 85%"></div>
           </div>
-        </.column>
-        <.column size="25">
-          <.paragraph>Success</.paragraph>
+        </div>
+
+        <%!-- Success --%>
+        <div>
+          <span class="text-muted font-xs d-block mb-xs">Orders (7d)</span>
           <div class="pa-sparkline pa-sparkline--success">
+            <div class="pa-sparkline__bar" style="--value: 30%"></div>
+            <div class="pa-sparkline__bar" style="--value: 45%"></div>
+            <div class="pa-sparkline__bar" style="--value: 60%"></div>
             <div class="pa-sparkline__bar" style="--value: 50%"></div>
             <div class="pa-sparkline__bar" style="--value: 75%"></div>
-            <div class="pa-sparkline__bar" style="--value: 60%"></div>
             <div class="pa-sparkline__bar" style="--value: 85%"></div>
-            <div class="pa-sparkline__bar" style="--value: 70%"></div>
-            <div class="pa-sparkline__bar" style="--value: 90%"></div>
-            <div class="pa-sparkline__bar" style="--value: 80%"></div>
             <div class="pa-sparkline__bar" style="--value: 95%"></div>
-            <div class="pa-sparkline__bar" style="--value: 88%"></div>
-            <div class="pa-sparkline__bar" style="--value: 72%"></div>
           </div>
-        </.column>
-        <.column size="25">
-          <.paragraph>Warning</.paragraph>
+        </div>
+
+        <%!-- Warning --%>
+        <div>
+          <span class="text-muted font-xs d-block mb-xs">Errors (7d)</span>
           <div class="pa-sparkline pa-sparkline--warning">
+            <div class="pa-sparkline__bar" style="--value: 90%"></div>
+            <div class="pa-sparkline__bar" style="--value: 70%"></div>
+            <div class="pa-sparkline__bar" style="--value: 50%"></div>
+            <div class="pa-sparkline__bar" style="--value: 60%"></div>
+            <div class="pa-sparkline__bar" style="--value: 40%"></div>
+            <div class="pa-sparkline__bar" style="--value: 25%"></div>
+            <div class="pa-sparkline__bar" style="--value: 15%"></div>
+          </div>
+        </div>
+
+        <%!-- Large --%>
+        <div>
+          <span class="text-muted font-xs d-block mb-xs">Traffic (14d)</span>
+          <div class="pa-sparkline pa-sparkline--lg pa-sparkline--info">
+            <div class="pa-sparkline__bar" style="--value: 50%"></div>
             <div class="pa-sparkline__bar" style="--value: 60%"></div>
             <div class="pa-sparkline__bar" style="--value: 45%"></div>
-            <div class="pa-sparkline__bar" style="--value: 55%"></div>
-            <div class="pa-sparkline__bar" style="--value: 40%"></div>
-            <div class="pa-sparkline__bar" style="--value: 50%"></div>
-            <div class="pa-sparkline__bar" style="--value: 35%"></div>
-            <div class="pa-sparkline__bar" style="--value: 65%"></div>
-            <div class="pa-sparkline__bar" style="--value: 48%"></div>
-            <div class="pa-sparkline__bar" style="--value: 52%"></div>
-            <div class="pa-sparkline__bar" style="--value: 42%"></div>
-          </div>
-        </.column>
-        <.column size="25">
-          <.paragraph>Danger</.paragraph>
-          <div class="pa-sparkline pa-sparkline--danger">
-            <div class="pa-sparkline__bar" style="--value: 80%"></div>
-            <div class="pa-sparkline__bar" style="--value: 60%"></div>
-            <div class="pa-sparkline__bar" style="--value: 90%"></div>
             <div class="pa-sparkline__bar" style="--value: 70%"></div>
-            <div class="pa-sparkline__bar" style="--value: 85%"></div>
-            <div class="pa-sparkline__bar" style="--value: 50%"></div>
-            <div class="pa-sparkline__bar" style="--value: 75%"></div>
-            <div class="pa-sparkline__bar" style="--value: 95%"></div>
+            <div class="pa-sparkline__bar" style="--value: 80%"></div>
             <div class="pa-sparkline__bar" style="--value: 65%"></div>
+            <div class="pa-sparkline__bar" style="--value: 75%"></div>
+            <div class="pa-sparkline__bar" style="--value: 90%"></div>
+            <div class="pa-sparkline__bar" style="--value: 85%"></div>
+            <div class="pa-sparkline__bar" style="--value: 60%"></div>
             <div class="pa-sparkline__bar" style="--value: 55%"></div>
+            <div class="pa-sparkline__bar" style="--value: 70%"></div>
+            <div class="pa-sparkline__bar" style="--value: 95%"></div>
+            <div class="pa-sparkline__bar" style="--value: 80%"></div>
           </div>
-        </.column>
-      </.grid>
+        </div>
+      </div>
+    </.card>
+
+    <%!-- ============================================================
+         8. COMBINED: KPI DASHBOARD
+         ============================================================ --%>
+
+    <.card>
+      <:header>
+        <h3>8. Combined: KPI Dashboard</h3>
+        <p>Real-world example combining stat cards, progress rings, sparklines, and data bars.</p>
+      </:header>
+
+      <%!-- KPI Row: Stat cards with sparklines --%>
+      <div class="pa-row gap-base">
+        <div class="pa-col">
+          <div class="pa-card">
+            <div class="pa-card__body">
+              <div class="d-flex justify-content-between align-items-start">
+                <div>
+                  <div class="text-muted font-xs text-upper mb-xs">Total Revenue</div>
+                  <div class="font-2xl font-bold">$284,520</div>
+                  <div class="font-xs mt-xs" style="color: #28a745">+12.5% vs last month</div>
+                </div>
+                <div class="pa-sparkline pa-sparkline--success">
+                  <div class="pa-sparkline__bar" style="--value: 40%"></div>
+                  <div class="pa-sparkline__bar" style="--value: 55%"></div>
+                  <div class="pa-sparkline__bar" style="--value: 50%"></div>
+                  <div class="pa-sparkline__bar" style="--value: 65%"></div>
+                  <div class="pa-sparkline__bar" style="--value: 75%"></div>
+                  <div class="pa-sparkline__bar" style="--value: 85%"></div>
+                  <div class="pa-sparkline__bar" style="--value: 90%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="pa-col">
+          <div class="pa-card">
+            <div class="pa-card__body">
+              <div class="d-flex justify-content-between align-items-start">
+                <div>
+                  <div class="text-muted font-xs text-upper mb-xs">Active Users</div>
+                  <div class="font-2xl font-bold">8,429</div>
+                  <div class="font-xs mt-xs" style="color: #28a745">+3.2% vs last week</div>
+                </div>
+                <div class="pa-sparkline pa-sparkline--info">
+                  <div class="pa-sparkline__bar" style="--value: 60%"></div>
+                  <div class="pa-sparkline__bar" style="--value: 65%"></div>
+                  <div class="pa-sparkline__bar" style="--value: 70%"></div>
+                  <div class="pa-sparkline__bar" style="--value: 68%"></div>
+                  <div class="pa-sparkline__bar" style="--value: 75%"></div>
+                  <div class="pa-sparkline__bar" style="--value: 80%"></div>
+                  <div class="pa-sparkline__bar" style="--value: 85%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="pa-col">
+          <div class="pa-card">
+            <div class="pa-card__body">
+              <div class="d-flex justify-content-between align-items-start">
+                <div>
+                  <div class="text-muted font-xs text-upper mb-xs">Error Rate</div>
+                  <div class="font-2xl font-bold">0.24%</div>
+                  <div class="font-xs mt-xs" style="color: #dc3545">+0.02% vs yesterday</div>
+                </div>
+                <div class="pa-sparkline pa-sparkline--danger">
+                  <div class="pa-sparkline__bar" style="--value: 20%"></div>
+                  <div class="pa-sparkline__bar" style="--value: 15%"></div>
+                  <div class="pa-sparkline__bar" style="--value: 25%"></div>
+                  <div class="pa-sparkline__bar" style="--value: 18%"></div>
+                  <div class="pa-sparkline__bar" style="--value: 22%"></div>
+                  <div class="pa-sparkline__bar" style="--value: 30%"></div>
+                  <div class="pa-sparkline__bar" style="--value: 28%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <%!-- System Health: Progress rings row --%>
+      <h4 class="mt-xl mb-base">System Health</h4>
+      <div class="d-flex gap-xl flex-wrap justify-content-center">
+        <div class="text-center">
+          <div class="pa-progress-ring pa-progress-ring--sm" style="--value: 72">
+            <div class="pa-progress-ring__inner">
+              <span class="pa-progress-ring__value">72%</span>
+            </div>
+          </div>
+          <div class="font-xs text-muted mt-sm">CPU</div>
+        </div>
+        <div class="text-center">
+          <div class="pa-progress-ring pa-progress-ring--sm pa-progress-ring--warning" style="--value: 58">
+            <div class="pa-progress-ring__inner">
+              <span class="pa-progress-ring__value">58%</span>
+            </div>
+          </div>
+          <div class="font-xs text-muted mt-sm">Memory</div>
+        </div>
+        <div class="text-center">
+          <div class="pa-progress-ring pa-progress-ring--sm pa-progress-ring--danger" style="--value: 87">
+            <div class="pa-progress-ring__inner">
+              <span class="pa-progress-ring__value">87%</span>
+            </div>
+          </div>
+          <div class="font-xs text-muted mt-sm">Disk</div>
+        </div>
+        <div class="text-center">
+          <div class="pa-progress-ring pa-progress-ring--sm pa-progress-ring--success" style="--value: 99">
+            <div class="pa-progress-ring__inner">
+              <span class="pa-progress-ring__value">99%</span>
+            </div>
+          </div>
+          <div class="font-xs text-muted mt-sm">Uptime</div>
+        </div>
+      </div>
+
+      <%!-- Storage breakdown --%>
+      <h4 class="mt-xl mb-sm">Storage Breakdown</h4>
+      <div class="pa-progress-group">
+        <div class="pa-progress__label">
+          <span>Server Cluster Storage</span>
+          <span class="pa-progress__label-value">845 GB / 1 TB</span>
+        </div>
+        <div class="pa-stacked-bar pa-stacked-bar--rounded">
+          <div class="pa-stacked-bar__segment" style="--value: 40%"></div>
+          <div class="pa-stacked-bar__segment pa-stacked-bar__segment--success" style="--value: 25%"></div>
+          <div class="pa-stacked-bar__segment pa-stacked-bar__segment--warning" style="--value: 12%"></div>
+          <div class="pa-stacked-bar__segment pa-stacked-bar__segment--secondary" style="--value: 8%"></div>
+        </div>
+      </div>
+      <div class="pa-stacked-bar__legend">
+        <div class="pa-stacked-bar__legend-item">
+          <span class="pa-stacked-bar__legend-swatch pa-stacked-bar__legend-swatch--primary"></span>
+          Databases (400 GB)
+        </div>
+        <div class="pa-stacked-bar__legend-item">
+          <span class="pa-stacked-bar__legend-swatch pa-stacked-bar__legend-swatch--success"></span>
+          Logs (250 GB)
+        </div>
+        <div class="pa-stacked-bar__legend-item">
+          <span class="pa-stacked-bar__legend-swatch pa-stacked-bar__legend-swatch--warning"></span>
+          Backups (120 GB)
+        </div>
+        <div class="pa-stacked-bar__legend-item">
+          <span class="pa-stacked-bar__legend-swatch pa-stacked-bar__legend-swatch--secondary"></span>
+          Cache (75 GB)
+        </div>
+      </div>
     </.card>
     """
   end

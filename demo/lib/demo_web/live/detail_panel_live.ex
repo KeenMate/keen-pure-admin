@@ -34,7 +34,7 @@ defmodule DemoWeb.Live.DetailPanelLive do
   def render(assigns) do
     ~H"""
     <.paragraph>
-      Detail panel shows row details alongside a table. Supports inline split-view and overlay modes.
+      Detail panels display row details alongside a table. Supports inline split-view, card overlay, and full overlay modes.
     </.paragraph>
 
     <%!-- Mode Selector --%>
@@ -48,6 +48,13 @@ defmodule DemoWeb.Live.DetailPanelLive do
           <i class="fa-solid fa-columns me-1"></i> Inline Split-View
         </.button>
         <.button
+          variant={if @panel_mode == "card-overlay", do: "primary", else: "secondary"}
+          phx-click="set_mode"
+          phx-value-mode="card-overlay"
+        >
+          <i class="fa-solid fa-clone me-1"></i> Card Overlay
+        </.button>
+        <.button
           variant={if @panel_mode == "overlay", do: "primary", else: "secondary"}
           phx-click="set_mode"
           phx-value-mode="overlay"
@@ -58,7 +65,7 @@ defmodule DemoWeb.Live.DetailPanelLive do
     </.card>
 
     <%!-- Inline Split-View --%>
-    <.card :if={@panel_mode == "inline"} title_text="Inline Split-View" has_padding={false}>
+    <.card :if={@panel_mode == "inline"} title_text="Inline Split-View" subtitle_text="Click a row to open the detail panel alongside the table. The table shrinks to make room." has_padding={false}>
       <div class="pa-detail-view">
         <div class="pa-detail-view__main">
           <.users_table users={@users} selected_user={@selected_user} />
@@ -69,9 +76,13 @@ defmodule DemoWeb.Live.DetailPanelLive do
       </div>
     </.card>
 
-    <%!-- Overlay Mode --%>
-    <.card :if={@panel_mode == "overlay"} title_text="Overlay Mode" has_padding={false}>
+    <%!-- Card Overlay Mode --%>
+    <.card :if={@panel_mode == "card-overlay"} title_text="Card Overlay" subtitle_text="Panel overlays the table within the card with a backdrop." has_padding={false}>
       <div class="pa-detail-view pa-detail-view--overlay">
+        <div
+          class={"pa-detail-view__overlay #{if @selected_user, do: "pa-detail-view__overlay--visible"}"}
+          phx-click="close_panel"
+        />
         <div class="pa-detail-view__main">
           <.users_table users={@users} selected_user={@selected_user} />
         </div>
@@ -80,6 +91,18 @@ defmodule DemoWeb.Live.DetailPanelLive do
         </div>
       </div>
     </.card>
+
+    <%!-- Overlay Mode --%>
+    <%= if @panel_mode == "overlay" do %>
+      <.card title_text="Overlay Mode" subtitle_text="Click a row to open an overlay panel that slides in from the right.">
+        <.users_table users={@users} selected_user={@selected_user} />
+      </.card>
+
+      <div class={"pa-detail-panel--overlay #{if @selected_user, do: "pa-detail-panel--overlay--open"}"}>
+        <div class="pa-detail-panel__overlay" phx-click="close_panel" />
+        <.detail_panel :if={@selected_user} user={@selected_user} />
+      </div>
+    <% end %>
     """
   end
 
@@ -123,7 +146,7 @@ defmodule DemoWeb.Live.DetailPanelLive do
     <div class="pa-detail-panel__content">
       <div class="pa-detail-panel__header">
         <h4 class="pa-detail-panel__title">{@user.name}</h4>
-        <button class="pa-detail-panel__close" phx-click="close_panel">
+        <button class="pa-detail-panel__close" phx-click="close_panel" aria-label="Close panel">
           <i class="fa-solid fa-xmark"></i>
         </button>
       </div>
@@ -151,7 +174,7 @@ defmodule DemoWeb.Live.DetailPanelLive do
         </div>
 
         <div class="pa-field-group">
-          <div class="pa-field-group__title">Work</div>
+          <div class="pa-field-group__title">Employment</div>
           <div class="pa-fields pa-fields--cols-2">
             <div class="pa-field">
               <span class="pa-field__label">Role</span>
@@ -175,6 +198,17 @@ defmodule DemoWeb.Live.DetailPanelLive do
             </div>
           </div>
         </div>
+      </div>
+      <div class="pa-detail-panel__footer">
+        <.button variant="primary" size="sm">
+          <i class="fa-solid fa-pen-to-square"></i> Edit
+        </.button>
+        <.button variant="outline-danger" size="sm">
+          <i class="fa-solid fa-trash"></i> Delete
+        </.button>
+        <.button variant="secondary" size="sm" style="margin-left: auto;" phx-click="close_panel">
+          Close
+        </.button>
       </div>
     </div>
     """

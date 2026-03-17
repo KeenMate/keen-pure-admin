@@ -7,116 +7,110 @@ defmodule DemoWeb.Live.DataDisplay2Live do
 
   def render(assigns) do
     ~H"""
-    <.paragraph>Advanced data display patterns: description tables, dot leaders, property cards, and banded rows.</.paragraph>
+    <.paragraph>Fresh approaches to data display. Each section is a completely different pattern.</.paragraph>
 
-    <%!-- Descriptions Table (1-column) --%>
-    <.card title_text="Descriptions Table">
-      <:description>Ant Design style description table with tinted labels and plain values</:description>
+    <%!-- ============================================================
+         1. ANT DESIGN DESCRIPTIONS TABLE
+         ============================================================ --%>
+
+    <.card title_text="1. Descriptions Table">
+      <:description>Ant Design style. Label cells get a tinted background. Dense, structured, and very readable.</:description>
       <div class="pa-desc-container">
         <div class="pa-desc-table">
           <span class="pa-desc-table__label">Company</span>
-          <span class="pa-desc-table__value">Acme Corporation s.r.o.</span>
+          <span class="pa-desc-table__value">Novak &amp; Partners s.r.o.</span>
           <span class="pa-desc-table__label">Reg. No.</span>
-          <span class="pa-desc-table__value">12345678</span>
+          <span class="pa-desc-table__value">CZ48207497</span>
           <span class="pa-desc-table__label">VAT ID</span>
-          <span class="pa-desc-table__value">CZ12345678</span>
+          <span class="pa-desc-table__value">CZ48207497</span>
           <span class="pa-desc-table__label">Contact</span>
           <span class="pa-desc-table__value">Jan Novak</span>
           <span class="pa-desc-table__label">Email</span>
-          <span class="pa-desc-table__value">jan.novak@acme.cz</span>
+          <span class="pa-desc-table__value">jan.novak@novakpartners.cz</span>
           <span class="pa-desc-table__label">Phone</span>
-          <span class="pa-desc-table__value">+420 123 456 789</span>
-          <span class="pa-desc-table__label pa-desc-table__label--full">Notes</span>
-          <span class="pa-desc-table__value pa-desc-table__value--full">
-            This is a long note that spans the full width of the description table.
-            It can contain multiple sentences and provides additional context about the company record.
-          </span>
+          <span class="pa-desc-table__value">+420 234 111 222</span>
+          <span class="pa-desc-table__label">Notes</span>
+          <span class="pa-desc-table__value pa-desc-table__value--full">Preferred carrier for Central European routes. Framework agreement renewed annually.</span>
         </div>
       </div>
     </.card>
 
-    <%!-- Descriptions Table 2-column --%>
-    <.card title_text="Descriptions Table (2-column)">
-      <:description>Two-column layout for denser information display</:description>
+    <%!-- 2-column variant --%>
+    <.card title_text="1b. Descriptions Table (2 columns)">
       <div class="pa-desc-container">
         <div class="pa-desc-table pa-desc-table--cols-2">
           <span class="pa-desc-table__label">First Name</span>
-          <span class="pa-desc-table__value">Jana</span>
+          <span class="pa-desc-table__value">Elena</span>
           <span class="pa-desc-table__label">Last Name</span>
-          <span class="pa-desc-table__value">Svobodova</span>
+          <span class="pa-desc-table__value">Petrova</span>
           <span class="pa-desc-table__label">Date of Birth</span>
-          <span class="pa-desc-table__value">1990-05-14</span>
+          <span class="pa-desc-table__value">14 March 1992</span>
           <span class="pa-desc-table__label">Role</span>
           <span class="pa-desc-table__value">Senior Developer</span>
           <span class="pa-desc-table__label">Office</span>
-          <span class="pa-desc-table__value">Prague HQ</span>
+          <span class="pa-desc-table__value">Prague, Karlin</span>
           <span class="pa-desc-table__label">Start Date</span>
-          <span class="pa-desc-table__value">2018-03-01</span>
+          <span class="pa-desc-table__value">1 Sep 2019</span>
         </div>
       </div>
     </.card>
 
-    <%!-- Fixed + Truncate & Custom Label Width --%>
+    <%!-- Fixed label width + truncate --%>
     <.grid>
-      <.column size="100" md="1-2">
-        <.card title_text="Fixed + Truncate">
-          <:description>Equal-width columns with text truncation for overflow</:description>
+      <.column size="1-2">
+        <.card title_text="1c. Descriptions Table — Fixed + Truncate">
+          <:description><code>--fixed</code> locks label columns to 14rem. <code>--truncate</code> clips long values with ellipsis.</:description>
           <div class="pa-desc-container">
             <div class="pa-desc-table pa-desc-table--cols-2 pa-desc-table--fixed pa-desc-table--truncate">
-              <span class="pa-desc-table__label">Project Name</span>
-              <span class="pa-desc-table__value">Enterprise Resource Planning System Overhaul</span>
-              <span class="pa-desc-table__label">Lead Developer</span>
-              <span class="pa-desc-table__value">Alexandra Konstantinova-Petrova</span>
-              <span class="pa-desc-table__label">Department</span>
-              <span class="pa-desc-table__value">Software Engineering & Architecture</span>
-              <span class="pa-desc-table__label">Status</span>
-              <span class="pa-desc-table__value">In Progress - Phase 2 Implementation</span>
-              <span class="pa-desc-table__label">Deadline</span>
-              <span class="pa-desc-table__value">2026-12-31</span>
-              <span class="pa-desc-table__label">Budget</span>
-              <span class="pa-desc-table__value">1,250,000 CZK</span>
+              <span class="pa-desc-table__label">Company</span>
+              <span class="pa-desc-table__value">Novak &amp; Partners International Consulting Group s.r.o.</span>
+              <span class="pa-desc-table__label">Reg. No.</span>
+              <span class="pa-desc-table__value">CZ48207497</span>
+              <span class="pa-desc-table__label">Address</span>
+              <span class="pa-desc-table__value">Vinohradska 2468/164, Prague 3, Vinohrady, 130 00, Czech Republic</span>
+              <span class="pa-desc-table__label">Email</span>
+              <span class="pa-desc-table__value">jan.novak@novakpartners-international.cz</span>
             </div>
           </div>
         </.card>
       </.column>
-      <.column size="100" md="1-2">
-        <.card title_text="Custom Label Width">
-          <:description>Fixed layout with custom label width via CSS variable</:description>
+      <.column size="1-2">
+        <.card title_text="1d. Descriptions Table — Custom Label Width">
+          <:description><code>--fixed</code> with <code>--label-width: 20rem</code> via CSS custom property.</:description>
           <div class="pa-desc-container">
-            <div class="pa-desc-table pa-desc-table--fixed" style="--label-width: 20rem">
-              <span class="pa-desc-table__label">Server Hostname</span>
-              <span class="pa-desc-table__value">prod-web-01.acme.internal</span>
-              <span class="pa-desc-table__label">Operating System</span>
-              <span class="pa-desc-table__value">Ubuntu 24.04 LTS</span>
-              <span class="pa-desc-table__label">CPU Cores</span>
-              <span class="pa-desc-table__value">16</span>
-              <span class="pa-desc-table__label">Memory</span>
-              <span class="pa-desc-table__value">64 GB</span>
-              <span class="pa-desc-table__label">Storage</span>
-              <span class="pa-desc-table__value">2 TB NVMe SSD</span>
-              <span class="pa-desc-table__label">Last Maintenance</span>
-              <span class="pa-desc-table__value">2026-02-15</span>
+            <div class="pa-desc-table pa-desc-table--cols-2 pa-desc-table--fixed" style="--label-width: 20rem">
+              <span class="pa-desc-table__label">Full Legal Name</span>
+              <span class="pa-desc-table__value">Elena Petrova</span>
+              <span class="pa-desc-table__label">Date of Birth</span>
+              <span class="pa-desc-table__value">14 March 1992</span>
+              <span class="pa-desc-table__label">Department</span>
+              <span class="pa-desc-table__value">Engineering</span>
+              <span class="pa-desc-table__label">Employment Type</span>
+              <span class="pa-desc-table__value">Full-time permanent</span>
             </div>
           </div>
         </.card>
       </.column>
     </.grid>
 
-    <%!-- Dot Leaders --%>
+    <%!-- ============================================================
+         2. DOT LEADERS
+         ============================================================ --%>
+
     <.grid>
-      <.column size="100" md="1-2">
-        <.card title_text="Dot Leaders">
-          <:description>Dot leaders connect labels to values for easy scanning</:description>
+      <.column size="1-2">
+        <.card title_text="2. Dot Leaders">
+          <:description>Restaurant menu / invoice style. Dotted line connects label to value.</:description>
           <div class="pa-dot-leaders">
             <div class="pa-dot-leaders__item">
               <span class="pa-dot-leaders__label">Contract No.</span>
               <span class="pa-dot-leaders__leader"></span>
-              <span class="pa-dot-leaders__value">SLA-2026-00142</span>
+              <span class="pa-dot-leaders__value">CTR-2025-00194</span>
             </div>
             <div class="pa-dot-leaders__item">
               <span class="pa-dot-leaders__label">Type</span>
               <span class="pa-dot-leaders__leader"></span>
-              <span class="pa-dot-leaders__value">Enterprise Support</span>
+              <span class="pa-dot-leaders__value">Framework Agreement</span>
             </div>
             <div class="pa-dot-leaders__item">
               <span class="pa-dot-leaders__label">Status</span>
@@ -126,118 +120,1286 @@ defmodule DemoWeb.Live.DataDisplay2Live do
             <div class="pa-dot-leaders__item">
               <span class="pa-dot-leaders__label">Renewal Date</span>
               <span class="pa-dot-leaders__leader"></span>
-              <span class="pa-dot-leaders__value">2027-01-15</span>
+              <span class="pa-dot-leaders__value">1 Jan 2027</span>
             </div>
             <div class="pa-dot-leaders__item">
               <span class="pa-dot-leaders__label">Seats</span>
               <span class="pa-dot-leaders__leader"></span>
-              <span class="pa-dot-leaders__value">250</span>
+              <span class="pa-dot-leaders__value">48 / 50</span>
             </div>
           </div>
         </.card>
       </.column>
-      <.column size="100" md="1-2">
-        <.card title_text="Dot Leaders - Invoice Totals">
-          <:description>Invoice summary with dot leaders and emphasized total</:description>
+      <.column size="1-2">
+        <.card title_text="2b. Dot Leaders — Invoice Totals">
+          <:description>Perfect for financial summaries.</:description>
           <div class="pa-dot-leaders">
             <div class="pa-dot-leaders__item">
               <span class="pa-dot-leaders__label">Subtotal</span>
               <span class="pa-dot-leaders__leader"></span>
-              <span class="pa-dot-leaders__value">12,500.00 CZK</span>
-            </div>
-            <div class="pa-dot-leaders__item">
-              <span class="pa-dot-leaders__label">Tax (21%)</span>
-              <span class="pa-dot-leaders__leader"></span>
-              <span class="pa-dot-leaders__value">2,625.00 CZK</span>
+              <span class="pa-dot-leaders__value">$2,094.00</span>
             </div>
             <div class="pa-dot-leaders__item">
               <span class="pa-dot-leaders__label">Shipping</span>
               <span class="pa-dot-leaders__leader"></span>
-              <span class="pa-dot-leaders__value">150.00 CZK</span>
+              <span class="pa-dot-leaders__value">$24.00</span>
             </div>
             <div class="pa-dot-leaders__item">
-              <span class="pa-dot-leaders__label">Discount</span>
+              <span class="pa-dot-leaders__label">VAT 21%</span>
               <span class="pa-dot-leaders__leader"></span>
-              <span class="pa-dot-leaders__value">-500.00 CZK</span>
+              <span class="pa-dot-leaders__value">$439.74</span>
             </div>
-            <div class="pa-dot-leaders__item">
-              <span class="pa-dot-leaders__label"><strong>Total</strong></span>
+            <div class="pa-dot-leaders__item pa-dot-leaders__item--total">
+              <span class="pa-dot-leaders__label">Total</span>
               <span class="pa-dot-leaders__leader"></span>
-              <span class="pa-dot-leaders__value"><strong>14,775.00 CZK</strong></span>
+              <span class="pa-dot-leaders__value">$2,557.74</span>
             </div>
           </div>
         </.card>
       </.column>
     </.grid>
 
-    <%!-- Property Cards --%>
-    <.card title_text="Property Cards">
-      <:description>Small stat cards showing key metrics at a glance</:description>
+    <%!-- ============================================================
+         3. STRIPE PROPERTY CARDS
+         ============================================================ --%>
+
+    <.grid>
+      <.column size="1-2">
+        <.card title_text="3. Property Card">
+          <:description>Grouped in bordered card with thin dividers. Clean, professional.</:description>
+          <div class="pa-prop-card">
+            <div class="pa-prop-card__header">Order Details</div>
+            <div class="pa-prop-card__row">
+              <span class="pa-prop-card__label">Order ID</span>
+              <span class="pa-prop-card__value">#ORD-2026-00847</span>
+            </div>
+            <div class="pa-prop-card__row">
+              <span class="pa-prop-card__label">Date</span>
+              <span class="pa-prop-card__value">28 January 2026</span>
+            </div>
+            <div class="pa-prop-card__row">
+              <span class="pa-prop-card__label">Status</span>
+              <span class="pa-prop-card__value"><.badge variant="success">Delivered</.badge></span>
+            </div>
+            <div class="pa-prop-card__row">
+              <span class="pa-prop-card__label">Payment</span>
+              <span class="pa-prop-card__value">Visa *4242</span>
+            </div>
+            <div class="pa-prop-card__row">
+              <span class="pa-prop-card__label">Total</span>
+              <span class="pa-prop-card__value pa-prop-card__value--bold">$1,249.00</span>
+            </div>
+          </div>
+        </.card>
+      </.column>
+      <.column size="1-2">
+        <.card title_text="3b. Property Card — Stacked">
+          <:description>Multiple property groups in sequence.</:description>
+          <div class="pa-prop-card mb-4">
+            <div class="pa-prop-card__header">Customer</div>
+            <div class="pa-prop-card__row">
+              <span class="pa-prop-card__label">Name</span>
+              <span class="pa-prop-card__value">Elena Petrova</span>
+            </div>
+            <div class="pa-prop-card__row">
+              <span class="pa-prop-card__label">Email</span>
+              <span class="pa-prop-card__value">elena.petrova@example.com</span>
+            </div>
+            <div class="pa-prop-card__row">
+              <span class="pa-prop-card__label">Phone</span>
+              <span class="pa-prop-card__value">+420 776 123 456</span>
+            </div>
+          </div>
+          <div class="pa-prop-card">
+            <div class="pa-prop-card__header">Shipping</div>
+            <div class="pa-prop-card__row">
+              <span class="pa-prop-card__label">Address</span>
+              <span class="pa-prop-card__value">Vinohradska 2468/164, Prague 3</span>
+            </div>
+            <div class="pa-prop-card__row">
+              <span class="pa-prop-card__label">Method</span>
+              <span class="pa-prop-card__value">Express (2-day)</span>
+            </div>
+          </div>
+        </.card>
+      </.column>
+    </.grid>
+
+    <%!-- ============================================================
+         4. LINEAR MINIMAL + 5. INLINE CHIPS + 7. BANDED ROWS
+         ============================================================ --%>
+
+    <.grid>
+      <.column size="1-3">
+        <.card title_text="4. Linear Minimal">
+          <:description>Ultra-clean. Only weight + color contrast. No decoration.</:description>
+          <div class="pa-fields-container">
+            <div class="pa-fields pa-fields--linear pa-fields--no-border">
+              <div class="pa-field">
+                <span class="pa-field__label">Status</span>
+                <span class="pa-field__value"><.badge variant="success">Active</.badge></span>
+              </div>
+              <div class="pa-field">
+                <span class="pa-field__label">Priority</span>
+                <span class="pa-field__value">High</span>
+              </div>
+              <div class="pa-field">
+                <span class="pa-field__label">Assignee</span>
+                <span class="pa-field__value">Elena Petrova</span>
+              </div>
+              <div class="pa-field">
+                <span class="pa-field__label">Created</span>
+                <span class="pa-field__value">28 Jan 2026</span>
+              </div>
+              <div class="pa-field">
+                <span class="pa-field__label">Due Date</span>
+                <span class="pa-field__value">14 Feb 2026</span>
+              </div>
+              <div class="pa-field">
+                <span class="pa-field__label">Project</span>
+                <span class="pa-field__value">Platform v2</span>
+              </div>
+              <div class="pa-field">
+                <span class="pa-field__label">Labels</span>
+                <span class="pa-field__value">
+                  <.badge>Frontend</.badge>
+                  <.badge>UX</.badge>
+                </span>
+              </div>
+            </div>
+          </div>
+        </.card>
+      </.column>
+
+      <.column size="1-3">
+        <.card title_text="5. Inline Chips">
+          <:description>Properties as flowing inline pairs. Value in a chip/pill.</:description>
+          <div class="pa-fields-container">
+            <div class="pa-fields pa-fields--chips pa-fields--no-border">
+              <div class="pa-field">
+                <span class="pa-field__label">Status</span>
+                <span class="pa-field__value pa-field__value--success">Active</span>
+              </div>
+              <div class="pa-field">
+                <span class="pa-field__label">Role</span>
+                <span class="pa-field__value">Senior Dev</span>
+              </div>
+              <div class="pa-field">
+                <span class="pa-field__label">Team</span>
+                <span class="pa-field__value">Platform</span>
+              </div>
+              <div class="pa-field">
+                <span class="pa-field__label">Office</span>
+                <span class="pa-field__value">Prague</span>
+              </div>
+              <div class="pa-field">
+                <span class="pa-field__label">Start</span>
+                <span class="pa-field__value">2019</span>
+              </div>
+              <div class="pa-field">
+                <span class="pa-field__label">Contract</span>
+                <span class="pa-field__value pa-field__value--warning">Renewal</span>
+              </div>
+            </div>
+          </div>
+        </.card>
+      </.column>
+
+      <.column size="1-3">
+        <.card title_text="7. Banded Rows" has_padding={false}>
+          <:description>Label gets a fixed-width tinted column. Clear visual anchor.</:description>
+          <div class="pa-banded-container">
+            <div class="pa-banded">
+              <div class="pa-banded__row">
+                <span class="pa-banded__label">Server</span>
+                <span class="pa-banded__value">prod-api-01</span>
+              </div>
+              <div class="pa-banded__row">
+                <span class="pa-banded__label">IP Address</span>
+                <span class="pa-banded__value">10.0.12.45</span>
+              </div>
+              <div class="pa-banded__row">
+                <span class="pa-banded__label">OS</span>
+                <span class="pa-banded__value">Ubuntu 22.04 LTS</span>
+              </div>
+              <div class="pa-banded__row">
+                <span class="pa-banded__label">Memory</span>
+                <span class="pa-banded__value">16 GB DDR5</span>
+              </div>
+              <div class="pa-banded__row">
+                <span class="pa-banded__label">Uptime</span>
+                <span class="pa-banded__value">47 days</span>
+              </div>
+            </div>
+          </div>
+        </.card>
+      </.column>
+    </.grid>
+
+    <%!-- Banded width variants --%>
+    <.grid>
+      <.column size="1-3">
+        <.card title_text="7b. Banded — Narrow" has_padding={false}>
+          <:description><code>pa-banded--narrow</code> — 10rem label band.</:description>
+          <div class="pa-banded-container">
+            <div class="pa-banded pa-banded--narrow">
+              <div class="pa-banded__row">
+                <span class="pa-banded__label">Server</span>
+                <span class="pa-banded__value">prod-api-01</span>
+              </div>
+              <div class="pa-banded__row">
+                <span class="pa-banded__label">IP Address</span>
+                <span class="pa-banded__value">10.0.12.45</span>
+              </div>
+              <div class="pa-banded__row">
+                <span class="pa-banded__label">OS</span>
+                <span class="pa-banded__value">Ubuntu 22.04 LTS</span>
+              </div>
+              <div class="pa-banded__row">
+                <span class="pa-banded__label">Memory</span>
+                <span class="pa-banded__value">16 GB DDR5</span>
+              </div>
+            </div>
+          </div>
+        </.card>
+      </.column>
+      <.column size="1-3">
+        <.card title_text="7c. Banded — Default" has_padding={false}>
+          <:description>No modifier — default 14rem label band.</:description>
+          <div class="pa-banded-container">
+            <div class="pa-banded">
+              <div class="pa-banded__row">
+                <span class="pa-banded__label">Server</span>
+                <span class="pa-banded__value">prod-api-01</span>
+              </div>
+              <div class="pa-banded__row">
+                <span class="pa-banded__label">IP Address</span>
+                <span class="pa-banded__value">10.0.12.45</span>
+              </div>
+              <div class="pa-banded__row">
+                <span class="pa-banded__label">OS</span>
+                <span class="pa-banded__value">Ubuntu 22.04 LTS</span>
+              </div>
+              <div class="pa-banded__row">
+                <span class="pa-banded__label">Memory</span>
+                <span class="pa-banded__value">16 GB DDR5</span>
+              </div>
+            </div>
+          </div>
+        </.card>
+      </.column>
+      <.column size="1-3">
+        <.card title_text="7d. Banded — Wide" has_padding={false}>
+          <:description><code>pa-banded--wide</code> — 20rem label band.</:description>
+          <div class="pa-banded-container">
+            <div class="pa-banded pa-banded--wide">
+              <div class="pa-banded__row">
+                <span class="pa-banded__label">Server</span>
+                <span class="pa-banded__value">prod-api-01</span>
+              </div>
+              <div class="pa-banded__row">
+                <span class="pa-banded__label">IP Address</span>
+                <span class="pa-banded__value">10.0.12.45</span>
+              </div>
+              <div class="pa-banded__row">
+                <span class="pa-banded__label">OS</span>
+                <span class="pa-banded__value">Ubuntu 22.04 LTS</span>
+              </div>
+              <div class="pa-banded__row">
+                <span class="pa-banded__label">Memory</span>
+                <span class="pa-banded__value">16 GB DDR5</span>
+              </div>
+            </div>
+          </div>
+        </.card>
+      </.column>
+    </.grid>
+
+    <%!-- Banded truncate + utility width --%>
+    <.grid>
+      <.column size="1-2">
+        <.card title_text="7e. Banded — Truncate" has_padding={false}>
+          <:description><code>--truncate</code> clips long values with ellipsis.</:description>
+          <div class="pa-banded-container">
+            <div class="pa-banded pa-banded--truncate">
+              <div class="pa-banded__row">
+                <span class="pa-banded__label">Server</span>
+                <span class="pa-banded__value">prod-api-gateway-eu-west-01.internal.novakpartners.cz</span>
+              </div>
+              <div class="pa-banded__row">
+                <span class="pa-banded__label">Path</span>
+                <span class="pa-banded__value">/var/lib/docker/containers/a1b2c3d4e5f6/config.v2.json</span>
+              </div>
+              <div class="pa-banded__row">
+                <span class="pa-banded__label">Hash</span>
+                <span class="pa-banded__value">sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</span>
+              </div>
+              <div class="pa-banded__row">
+                <span class="pa-banded__label">Cert</span>
+                <span class="pa-banded__value">CN=*.novakpartners.cz, O=Novak &amp; Partners, L=Prague, C=CZ</span>
+              </div>
+            </div>
+          </div>
+        </.card>
+      </.column>
+      <.column size="1-2">
+        <.card title_text="7f. Banded — wr-* Utility Width" has_padding={false}>
+          <:description>Label width set per-label with <code>wr-8</code> utility class (8rem).</:description>
+          <div class="pa-banded-container">
+            <div class="pa-banded pa-banded--truncate">
+              <div class="pa-banded__row">
+                <span class="pa-banded__label wr-8">Server</span>
+                <span class="pa-banded__value">prod-api-gateway-eu-west-01.internal.novakpartners.cz</span>
+              </div>
+              <div class="pa-banded__row">
+                <span class="pa-banded__label wr-8">Path</span>
+                <span class="pa-banded__value">/var/lib/docker/containers/a1b2c3d4e5f6/config.v2.json</span>
+              </div>
+              <div class="pa-banded__row">
+                <span class="pa-banded__label wr-8">Hash</span>
+                <span class="pa-banded__value">sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</span>
+              </div>
+              <div class="pa-banded__row">
+                <span class="pa-banded__label wr-8">Cert</span>
+                <span class="pa-banded__value">CN=*.novakpartners.cz, O=Novak &amp; Partners, L=Prague, C=CZ</span>
+              </div>
+            </div>
+          </div>
+        </.card>
+      </.column>
+    </.grid>
+
+    <%!-- Banded + desc-table multiline wrap --%>
+    <.grid>
+      <.column size="1-2">
+        <.card title_text="7g. Banded — Multiline (default top)" has_padding={false}>
+          <:description>Labels top-align by default when values wrap to multiple lines.</:description>
+          <div class="pa-banded-container">
+            <div class="pa-banded">
+              <div class="pa-banded__row">
+                <span class="pa-banded__label">Server</span>
+                <span class="pa-banded__value">prod-api-01</span>
+              </div>
+              <div class="pa-banded__row">
+                <span class="pa-banded__label">Description</span>
+                <span class="pa-banded__value">Primary API gateway for Central European region. Handles authentication, rate limiting, and request routing to downstream microservices.</span>
+              </div>
+              <div class="pa-banded__row">
+                <span class="pa-banded__label">Tags</span>
+                <span class="pa-banded__value">production, eu-west, api-gateway, load-balanced, auto-scaling, monitored, pci-compliant</span>
+              </div>
+              <div class="pa-banded__row">
+                <span class="pa-banded__label">Notes</span>
+                <span class="pa-banded__value">Scheduled for maintenance window on 2026-03-01 02:00 UTC. Failover to prod-api-02 will be active during this period. Contact SRE team before any manual restarts.</span>
+              </div>
+            </div>
+          </div>
+        </.card>
+      </.column>
+      <.column size="1-2">
+        <.card title_text="7h. Banded — Multiline + --middle" has_padding={false}>
+          <:description><code>pa-banded--middle</code> vertically centers labels against wrapped values.</:description>
+          <div class="pa-banded-container">
+            <div class="pa-banded pa-banded--middle">
+              <div class="pa-banded__row">
+                <span class="pa-banded__label">Server</span>
+                <span class="pa-banded__value">prod-api-01</span>
+              </div>
+              <div class="pa-banded__row">
+                <span class="pa-banded__label">Description</span>
+                <span class="pa-banded__value">Primary API gateway for Central European region. Handles authentication, rate limiting, and request routing to downstream microservices.</span>
+              </div>
+              <div class="pa-banded__row">
+                <span class="pa-banded__label">Tags</span>
+                <span class="pa-banded__value">production, eu-west, api-gateway, load-balanced, auto-scaling, monitored, pci-compliant</span>
+              </div>
+              <div class="pa-banded__row">
+                <span class="pa-banded__label">Notes</span>
+                <span class="pa-banded__value">Scheduled for maintenance window on 2026-03-01 02:00 UTC. Failover to prod-api-02 will be active during this period. Contact SRE team before any manual restarts.</span>
+              </div>
+            </div>
+          </div>
+        </.card>
+      </.column>
+    </.grid>
+
+    <%!-- Desc-table multiline: top (default) vs middle --%>
+    <.grid>
+      <.column size="1-2">
+        <.card title_text="1e. Desc Table — Multiline (default top)">
+          <:description>Labels top-align by default in grid cells.</:description>
+          <div class="pa-desc-container">
+            <div class="pa-desc-table pa-desc-table--cols-2">
+              <span class="pa-desc-table__label">Company</span>
+              <span class="pa-desc-table__value">Novak &amp; Partners s.r.o.</span>
+              <span class="pa-desc-table__label">Address</span>
+              <span class="pa-desc-table__value">Vinohradska 2468/164, Prague 3, Vinohrady, 130 00, Czech Republic</span>
+              <span class="pa-desc-table__label">Notes</span>
+              <span class="pa-desc-table__value">Preferred carrier for Central European routes. Framework agreement renewed annually. Contact Jan Novak for any billing disputes or special rate negotiations.</span>
+              <span class="pa-desc-table__label">Status</span>
+              <span class="pa-desc-table__value">Active</span>
+            </div>
+          </div>
+        </.card>
+      </.column>
+      <.column size="1-2">
+        <.card title_text="1f. Desc Table — Multiline + --middle">
+          <:description>Cells stretch to fill the row, content centered inside. Label backgrounds fill the full row height.</:description>
+          <div class="pa-desc-container">
+            <div class="pa-desc-table pa-desc-table--cols-2 pa-desc-table--middle">
+              <span class="pa-desc-table__label">Company</span>
+              <span class="pa-desc-table__value">Novak &amp; Partners s.r.o.</span>
+              <span class="pa-desc-table__label">Address</span>
+              <span class="pa-desc-table__value">Vinohradska 2468/164, Prague 3, Vinohrady, 130 00, Czech Republic</span>
+              <span class="pa-desc-table__label">Notes</span>
+              <span class="pa-desc-table__value">Preferred carrier for Central European routes. Framework agreement renewed annually. Contact Jan Novak for any billing disputes or special rate negotiations.</span>
+              <span class="pa-desc-table__label">Status</span>
+              <span class="pa-desc-table__value">Active</span>
+            </div>
+          </div>
+        </.card>
+      </.column>
+    </.grid>
+
+    <%!-- Label horizontal alignment --%>
+    <.grid>
+      <.column size="1-3">
+        <.card title_text="Banded — Label Start (default)" has_padding={false}>
+          <div class="pa-banded-container">
+            <div class="pa-banded">
+              <div class="pa-banded__row">
+                <span class="pa-banded__label">Server</span>
+                <span class="pa-banded__value">prod-api-01</span>
+              </div>
+              <div class="pa-banded__row">
+                <span class="pa-banded__label">IP Address</span>
+                <span class="pa-banded__value">10.0.12.45</span>
+              </div>
+              <div class="pa-banded__row">
+                <span class="pa-banded__label">Memory</span>
+                <span class="pa-banded__value">16 GB DDR5</span>
+              </div>
+            </div>
+          </div>
+        </.card>
+      </.column>
+      <.column size="1-3">
+        <.card title_text="Banded — --label-end" has_padding={false}>
+          <div class="pa-banded-container">
+            <div class="pa-banded pa-banded--label-end">
+              <div class="pa-banded__row">
+                <span class="pa-banded__label">Server</span>
+                <span class="pa-banded__value">prod-api-01</span>
+              </div>
+              <div class="pa-banded__row">
+                <span class="pa-banded__label">IP Address</span>
+                <span class="pa-banded__value">10.0.12.45</span>
+              </div>
+              <div class="pa-banded__row">
+                <span class="pa-banded__label">Memory</span>
+                <span class="pa-banded__value">16 GB DDR5</span>
+              </div>
+            </div>
+          </div>
+        </.card>
+      </.column>
+      <.column size="1-3">
+        <.card title_text="Banded — --label-center" has_padding={false}>
+          <div class="pa-banded-container">
+            <div class="pa-banded pa-banded--label-center">
+              <div class="pa-banded__row">
+                <span class="pa-banded__label">Server</span>
+                <span class="pa-banded__value">prod-api-01</span>
+              </div>
+              <div class="pa-banded__row">
+                <span class="pa-banded__label">IP Address</span>
+                <span class="pa-banded__value">10.0.12.45</span>
+              </div>
+              <div class="pa-banded__row">
+                <span class="pa-banded__label">Memory</span>
+                <span class="pa-banded__value">16 GB DDR5</span>
+              </div>
+            </div>
+          </div>
+        </.card>
+      </.column>
+    </.grid>
+
+    <.grid>
+      <.column size="1-3">
+        <.card title_text="Desc Table — Label Start (default)">
+          <div class="pa-desc-container">
+            <div class="pa-desc-table pa-desc-table--cols-2 pa-desc-table--fixed">
+              <span class="pa-desc-table__label">Server</span>
+              <span class="pa-desc-table__value">prod-api-01</span>
+              <span class="pa-desc-table__label">IP Address</span>
+              <span class="pa-desc-table__value">10.0.12.45</span>
+              <span class="pa-desc-table__label">Memory</span>
+              <span class="pa-desc-table__value">16 GB DDR5</span>
+            </div>
+          </div>
+        </.card>
+      </.column>
+      <.column size="1-3">
+        <.card title_text="Desc Table — --label-end">
+          <div class="pa-desc-container">
+            <div class="pa-desc-table pa-desc-table--cols-2 pa-desc-table--fixed pa-desc-table--label-end">
+              <span class="pa-desc-table__label">Server</span>
+              <span class="pa-desc-table__value">prod-api-01</span>
+              <span class="pa-desc-table__label">IP Address</span>
+              <span class="pa-desc-table__value">10.0.12.45</span>
+              <span class="pa-desc-table__label">Memory</span>
+              <span class="pa-desc-table__value">16 GB DDR5</span>
+            </div>
+          </div>
+        </.card>
+      </.column>
+      <.column size="1-3">
+        <.card title_text="Desc Table — --label-center">
+          <div class="pa-desc-container">
+            <div class="pa-desc-table pa-desc-table--cols-2 pa-desc-table--fixed pa-desc-table--label-center">
+              <span class="pa-desc-table__label">Server</span>
+              <span class="pa-desc-table__value">prod-api-01</span>
+              <span class="pa-desc-table__label">IP Address</span>
+              <span class="pa-desc-table__value">10.0.12.45</span>
+              <span class="pa-desc-table__label">Memory</span>
+              <span class="pa-desc-table__value">16 GB DDR5</span>
+            </div>
+          </div>
+        </.card>
+      </.column>
+    </.grid>
+
+    <%!-- ============================================================
+         GHOST CARD DEMO
+         ============================================================ --%>
+
+    <.grid>
+      <.column size="1-2">
+        <.card title_text="Normal Card + Accent-Bar">
+          <div class="pa-accent-grid">
+            <div class="pa-accent-grid__item">
+              <div class="pa-accent-grid__label">Order ID</div>
+              <div class="pa-accent-grid__value">#ORD-2026-00847</div>
+            </div>
+            <div class="pa-accent-grid__item pa-accent-grid__item--success">
+              <div class="pa-accent-grid__label">Status</div>
+              <div class="pa-accent-grid__value">Delivered</div>
+            </div>
+            <div class="pa-accent-grid__item pa-accent-grid__item--info">
+              <div class="pa-accent-grid__label">Payment</div>
+              <div class="pa-accent-grid__value">Visa *4242</div>
+            </div>
+            <div class="pa-accent-grid__item">
+              <div class="pa-accent-grid__label">Customer</div>
+              <div class="pa-accent-grid__value">Elena Petrova</div>
+            </div>
+          </div>
+        </.card>
+      </.column>
+      <.column size="1-2">
+        <.card title_text="Ghost Card + Accent-Bar" is_ghost>
+          <:description><code>pa-card--ghost</code> — same sizing, no visible container.</:description>
+          <div class="pa-accent-grid">
+            <div class="pa-accent-grid__item">
+              <div class="pa-accent-grid__label">Order ID</div>
+              <div class="pa-accent-grid__value">#ORD-2026-00847</div>
+            </div>
+            <div class="pa-accent-grid__item pa-accent-grid__item--success">
+              <div class="pa-accent-grid__label">Status</div>
+              <div class="pa-accent-grid__value">Delivered</div>
+            </div>
+            <div class="pa-accent-grid__item pa-accent-grid__item--info">
+              <div class="pa-accent-grid__label">Payment</div>
+              <div class="pa-accent-grid__value">Visa *4242</div>
+            </div>
+            <div class="pa-accent-grid__item">
+              <div class="pa-accent-grid__label">Customer</div>
+              <div class="pa-accent-grid__value">Elena Petrova</div>
+            </div>
+          </div>
+        </.card>
+      </.column>
+    </.grid>
+
+    <%!-- ============================================================
+         8. ACCENT-BAR MINI CARDS
+         ============================================================ --%>
+
+    <.card title_text="8. Accent-Bar Grid" is_ghost>
+      <:description>Each property gets a color-coded left border. Good for status-heavy panels.</:description>
+      <div class="pa-accent-grid">
+        <div class="pa-accent-grid__item">
+          <div class="pa-accent-grid__label">Order ID</div>
+          <div class="pa-accent-grid__value">#ORD-2026-00847</div>
+        </div>
+        <div class="pa-accent-grid__item pa-accent-grid__item--success">
+          <div class="pa-accent-grid__label">Status</div>
+          <div class="pa-accent-grid__value">Delivered</div>
+        </div>
+        <div class="pa-accent-grid__item pa-accent-grid__item--info">
+          <div class="pa-accent-grid__label">Payment</div>
+          <div class="pa-accent-grid__value">Visa *4242</div>
+        </div>
+        <div class="pa-accent-grid__item">
+          <div class="pa-accent-grid__label">Customer</div>
+          <div class="pa-accent-grid__value">Elena Petrova</div>
+        </div>
+        <div class="pa-accent-grid__item pa-accent-grid__item--warning">
+          <div class="pa-accent-grid__label">Renewal</div>
+          <div class="pa-accent-grid__value">1 Jan 2027</div>
+        </div>
+        <div class="pa-accent-grid__item">
+          <div class="pa-accent-grid__label">Total</div>
+          <div class="pa-accent-grid__value">$1,249.00</div>
+        </div>
+      </div>
+    </.card>
+
+    <%!-- ============================================================
+         COPYABLE FIELDS
+         ============================================================ --%>
+
+    <.card title_text="Copyable Fields">
+      <:description>Three copy-to-clipboard styles applied to the new data display patterns. Click to test each variant.</:description>
       <.grid>
-        <.column size="100" md="1-4">
-          <div class="pa-prop-card">
-            <div class="pa-prop-card__label">Total Users</div>
-            <div class="pa-prop-card__value">12,847</div>
+        <.column size="1-3">
+          <h4>Copy Button (always visible)</h4>
+          <p class="text-secondary mb-2"><code>pa-banded__row--copy-btn</code></p>
+          <div class="pa-banded">
+            <div class="pa-banded__row pa-banded__row--copy-btn">
+              <span class="pa-banded__label">IP Address</span>
+              <span class="pa-banded__value">
+                <span data-copy-value>10.0.12.45</span>
+                <button class="pa-banded__copy" onclick="copyValue(this)" title="Copy to clipboard">
+                  <i class="fas fa-copy"></i>
+                </button>
+              </span>
+            </div>
+            <div class="pa-banded__row pa-banded__row--copy-btn">
+              <span class="pa-banded__label">Hash</span>
+              <span class="pa-banded__value">
+                <span data-copy-value>sha256:e3b0c44298fc1c</span>
+                <button class="pa-banded__copy" onclick="copyValue(this)" title="Copy to clipboard">
+                  <i class="fas fa-copy"></i>
+                </button>
+              </span>
+            </div>
           </div>
         </.column>
-        <.column size="100" md="1-4">
-          <div class="pa-prop-card">
-            <div class="pa-prop-card__label">Active Sessions</div>
-            <div class="pa-prop-card__value">1,024</div>
+        <.column size="1-3">
+          <h4>Click Value to Copy</h4>
+          <p class="text-secondary mb-2"><code>pa-banded__row--copy-click</code></p>
+          <div class="pa-banded">
+            <div class="pa-banded__row pa-banded__row--copy-click">
+              <span class="pa-banded__label">Server</span>
+              <span class="pa-banded__value" onclick="copyClickValue(this)" data-copy-value="prod-api-01">prod-api-01</span>
+            </div>
+            <div class="pa-banded__row pa-banded__row--copy-click">
+              <span class="pa-banded__label">OS</span>
+              <span class="pa-banded__value" onclick="copyClickValue(this)" data-copy-value="Ubuntu 22.04 LTS">Ubuntu 22.04 LTS</span>
+            </div>
           </div>
         </.column>
-        <.column size="100" md="1-4">
-          <div class="pa-prop-card">
-            <div class="pa-prop-card__label">Uptime</div>
-            <div class="pa-prop-card__value">99.97%</div>
-          </div>
-        </.column>
-        <.column size="100" md="1-4">
-          <div class="pa-prop-card">
-            <div class="pa-prop-card__label">Avg. Response</div>
-            <div class="pa-prop-card__value">42 ms</div>
+        <.column size="1-3">
+          <h4>Icon on Hover Only</h4>
+          <p class="text-secondary mb-2"><code>pa-banded__row--copy-hover</code></p>
+          <div class="pa-banded">
+            <div class="pa-banded__row pa-banded__row--copy-hover">
+              <span class="pa-banded__label">IBAN</span>
+              <span class="pa-banded__value">
+                <span data-copy-value>CZ65 0800 0000 1920 0014 5399</span>
+                <button class="pa-banded__copy" onclick="copyValue(this)" title="Copy to clipboard">
+                  <i class="fas fa-copy"></i>
+                </button>
+              </span>
+            </div>
+            <div class="pa-banded__row pa-banded__row--copy-hover">
+              <span class="pa-banded__label">BIC/SWIFT</span>
+              <span class="pa-banded__value">
+                <span data-copy-value>GIBACZPX</span>
+                <button class="pa-banded__copy" onclick="copyValue(this)" title="Copy to clipboard">
+                  <i class="fas fa-copy"></i>
+                </button>
+              </span>
+            </div>
           </div>
         </.column>
       </.grid>
-    </.card>
 
-    <%!-- Banded Rows --%>
-    <.card title_text="Banded Rows">
-      <:description>Alternating background rows for improved readability</:description>
-      <div class="pa-banded">
-        <div class="pa-banded__row">
-          <span class="pa-banded__label">Operating System</span>
-          <span class="pa-banded__value">Ubuntu 24.04 LTS</span>
+      <.grid class="mt-8">
+        <.column size="1-2">
+          <h4>Property Card — Hover Copy</h4>
+          <p class="text-secondary mb-2"><code>pa-prop-card__row--copy-hover</code></p>
+          <div class="pa-prop-card">
+            <div class="pa-prop-card__header">Order Details</div>
+            <div class="pa-prop-card__row pa-prop-card__row--copy-hover">
+              <span class="pa-prop-card__label">Order ID</span>
+              <span class="pa-prop-card__value">
+                <span data-copy-value>#ORD-2026-00847</span>
+                <button class="pa-prop-card__copy" onclick="copyValue(this)" title="Copy to clipboard">
+                  <i class="fas fa-copy"></i>
+                </button>
+              </span>
+            </div>
+            <div class="pa-prop-card__row">
+              <span class="pa-prop-card__label">Date</span>
+              <span class="pa-prop-card__value">28 January 2026</span>
+            </div>
+            <div class="pa-prop-card__row pa-prop-card__row--copy-hover">
+              <span class="pa-prop-card__label">Payment</span>
+              <span class="pa-prop-card__value">
+                <span data-copy-value>Visa *4242</span>
+                <button class="pa-prop-card__copy" onclick="copyValue(this)" title="Copy to clipboard">
+                  <i class="fas fa-copy"></i>
+                </button>
+              </span>
+            </div>
+            <div class="pa-prop-card__row">
+              <span class="pa-prop-card__label">Total</span>
+              <span class="pa-prop-card__value pa-prop-card__value--bold">$1,249.00</span>
+            </div>
+          </div>
+        </.column>
+        <.column size="1-2">
+          <h4>Descriptions Table — Copy Button</h4>
+          <p class="text-secondary mb-2"><code>pa-desc-table__value--copy-btn</code></p>
+          <div class="pa-desc-container">
+            <div class="pa-desc-table pa-desc-table--cols-2">
+              <span class="pa-desc-table__label">Reg. No.</span>
+              <span class="pa-desc-table__value pa-desc-table__value--copy-btn">
+                <span data-copy-value>CZ48207497</span>
+                <button class="pa-desc-table__copy" onclick="copyValue(this)" title="Copy to clipboard">
+                  <i class="fas fa-copy"></i>
+                </button>
+              </span>
+              <span class="pa-desc-table__label">VAT ID</span>
+              <span class="pa-desc-table__value pa-desc-table__value--copy-btn">
+                <span data-copy-value>CZ48207497</span>
+                <button class="pa-desc-table__copy" onclick="copyValue(this)" title="Copy to clipboard">
+                  <i class="fas fa-copy"></i>
+                </button>
+              </span>
+              <span class="pa-desc-table__label">Email</span>
+              <span class="pa-desc-table__value pa-desc-table__value--copy-btn">
+                <span data-copy-value>jan.novak@novakpartners.cz</span>
+                <button class="pa-desc-table__copy" onclick="copyValue(this)" title="Copy to clipboard">
+                  <i class="fas fa-copy"></i>
+                </button>
+              </span>
+              <span class="pa-desc-table__label">Phone</span>
+              <span class="pa-desc-table__value pa-desc-table__value--copy-btn">
+                <span data-copy-value>+420 234 111 222</span>
+                <button class="pa-desc-table__copy" onclick="copyValue(this)" title="Copy to clipboard">
+                  <i class="fas fa-copy"></i>
+                </button>
+              </span>
+            </div>
+          </div>
+        </.column>
+      </.grid>
+
+      <h4 class="mt-8">Accent Grid — Hover Copy</h4>
+      <p class="text-secondary mb-2"><code>pa-accent-grid__item--copy-hover</code></p>
+      <div class="pa-accent-grid">
+        <div class="pa-accent-grid__item pa-accent-grid__item--copy-hover">
+          <div class="pa-accent-grid__label">Order ID</div>
+          <div class="pa-accent-grid__value">
+            <span data-copy-value>#ORD-2026-00847</span>
+            <button class="pa-accent-grid__copy" onclick="copyValue(this)" title="Copy to clipboard">
+              <i class="fas fa-copy"></i>
+            </button>
+          </div>
         </div>
-        <div class="pa-banded__row">
-          <span class="pa-banded__label">Kernel Version</span>
-          <span class="pa-banded__value">6.8.0-45-generic</span>
+        <div class="pa-accent-grid__item pa-accent-grid__item--success pa-accent-grid__item--copy-click">
+          <div class="pa-accent-grid__label">Status</div>
+          <div class="pa-accent-grid__value" onclick="copyClickValue(this)" data-copy-value="Delivered">Delivered</div>
         </div>
-        <div class="pa-banded__row">
-          <span class="pa-banded__label">Architecture</span>
-          <span class="pa-banded__value">x86_64</span>
+        <div class="pa-accent-grid__item pa-accent-grid__item--info pa-accent-grid__item--copy-hover">
+          <div class="pa-accent-grid__label">Payment</div>
+          <div class="pa-accent-grid__value">
+            <span data-copy-value>Visa *4242</span>
+            <button class="pa-accent-grid__copy" onclick="copyValue(this)" title="Copy to clipboard">
+              <i class="fas fa-copy"></i>
+            </button>
+          </div>
         </div>
-        <div class="pa-banded__row">
-          <span class="pa-banded__label">Hostname</span>
-          <span class="pa-banded__value">app-server-01</span>
+        <div class="pa-accent-grid__item pa-accent-grid__item--copy-hover">
+          <div class="pa-accent-grid__label">Customer</div>
+          <div class="pa-accent-grid__value">
+            <span data-copy-value>Elena Petrova</span>
+            <button class="pa-accent-grid__copy" onclick="copyValue(this)" title="Copy to clipboard">
+              <i class="fas fa-copy"></i>
+            </button>
+          </div>
         </div>
-        <div class="pa-banded__row">
-          <span class="pa-banded__label">IP Address</span>
-          <span class="pa-banded__value">192.168.1.42</span>
+        <div class="pa-accent-grid__item pa-accent-grid__item--warning pa-accent-grid__item--copy-btn">
+          <div class="pa-accent-grid__label">Renewal</div>
+          <div class="pa-accent-grid__value">
+            <span data-copy-value>1 Jan 2027</span>
+            <button class="pa-accent-grid__copy" onclick="copyValue(this)" title="Copy to clipboard">
+              <i class="fas fa-copy"></i>
+            </button>
+          </div>
         </div>
-        <div class="pa-banded__row">
-          <span class="pa-banded__label">DNS</span>
-          <span class="pa-banded__value">8.8.8.8, 8.8.4.4</span>
-        </div>
-        <div class="pa-banded__row">
-          <span class="pa-banded__label">Timezone</span>
-          <span class="pa-banded__value">Europe/Prague (CET)</span>
-        </div>
-        <div class="pa-banded__row">
-          <span class="pa-banded__label">Last Boot</span>
-          <span class="pa-banded__value">2026-03-10 06:00:00 UTC</span>
+        <div class="pa-accent-grid__item pa-accent-grid__item--copy-click">
+          <div class="pa-accent-grid__label">Total</div>
+          <div class="pa-accent-grid__value" onclick="copyClickValue(this)" data-copy-value="$1,249.00">$1,249.00</div>
         </div>
       </div>
+    </.card>
+
+    <script>
+    function copyValue(btn) {
+        const valueEl = btn.parentElement.querySelector('[data-copy-value]');
+        const text = valueEl.getAttribute('data-copy-value') || valueEl.textContent.trim();
+
+        navigator.clipboard.writeText(text).then(() => {
+            const originalIcon = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-check"></i>';
+            btn.style.color = 'var(--pa-color-4, #28a745)';
+
+            setTimeout(() => {
+                btn.innerHTML = originalIcon;
+                btn.style.color = '';
+            }, 1500);
+        });
+    }
+
+    function copyClickValue(el) {
+        const text = el.getAttribute('data-copy-value') || el.textContent.trim();
+        const item = el.closest('.pa-banded__row, .pa-accent-grid__item');
+
+        navigator.clipboard.writeText(text).then(() => {
+            if (item) {
+                const copiedClass = item.classList.contains('pa-banded__row')
+                    ? 'pa-banded__row--copied'
+                    : 'pa-accent-grid__item--copied';
+                item.classList.add(copiedClass);
+
+                setTimeout(() => {
+                    item.classList.remove(copiedClass);
+                }, 1500);
+            }
+        });
+    }
+    </script>
+
+    <%!-- ============================================================
+         REAL-WORLD: Full Invoice using multiple patterns
+         ============================================================ --%>
+
+    <.card title_text="Real-World: Invoice combining patterns">
+      <:description>Descriptions table for customer, banded rows for addresses, dot leaders for totals.</:description>
+
+      <%!-- Customer: Ant-style descriptions --%>
+      <h4 class="mb-2">Customer</h4>
+      <div class="pa-desc-table mb-8">
+        <span class="pa-desc-table__label">Name</span>
+        <span class="pa-desc-table__value">Novak &amp; Partners s.r.o.</span>
+        <span class="pa-desc-table__label">Reg. No.</span>
+        <span class="pa-desc-table__value">CZ48207497</span>
+        <span class="pa-desc-table__label">VAT ID</span>
+        <span class="pa-desc-table__value">CZ48207497</span>
+        <span class="pa-desc-table__label">Contact</span>
+        <span class="pa-desc-table__value">Jan Novak</span>
+        <span class="pa-desc-table__label">Email</span>
+        <span class="pa-desc-table__value">jan.novak@novakpartners.cz</span>
+        <span class="pa-desc-table__label">Phone</span>
+        <span class="pa-desc-table__value">+420 234 111 222</span>
+      </div>
+
+      <%!-- Addresses: Banded rows side-by-side --%>
+      <.grid class="mb-8">
+        <.column size="1-2">
+          <h4 class="mb-2">Receipt Address</h4>
+          <div class="pa-banded">
+            <div class="pa-banded__row">
+              <span class="pa-banded__label">Street</span>
+              <span class="pa-banded__value">Vinohradska 2468/164</span>
+            </div>
+            <div class="pa-banded__row">
+              <span class="pa-banded__label">City</span>
+              <span class="pa-banded__value">Prague 3, 130 00</span>
+            </div>
+            <div class="pa-banded__row">
+              <span class="pa-banded__label">Country</span>
+              <span class="pa-banded__value">Czech Republic</span>
+            </div>
+          </div>
+        </.column>
+        <.column size="1-2">
+          <h4 class="mb-2">Delivery Address</h4>
+          <div class="pa-banded">
+            <div class="pa-banded__row">
+              <span class="pa-banded__label">Street</span>
+              <span class="pa-banded__value">Prumyslova 1234/5</span>
+            </div>
+            <div class="pa-banded__row">
+              <span class="pa-banded__label">City</span>
+              <span class="pa-banded__value">Brno-Slatina, 627 00</span>
+            </div>
+            <div class="pa-banded__row">
+              <span class="pa-banded__label">Country</span>
+              <span class="pa-banded__value">Czech Republic</span>
+            </div>
+          </div>
+        </.column>
+      </.grid>
+
+      <%!-- Items: regular table --%>
+      <h4 class="mb-2">Items</h4>
+      <table class="pa-table pa-table--hover pa-table--striped mb-8">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>SKU</th>
+            <th style="text-align: right;">Qty</th>
+            <th style="text-align: right;">Price</th>
+            <th style="text-align: right;">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Mechanical Keyboard</td>
+            <td>KB-MX-BRN</td>
+            <td style="text-align: right;">2</td>
+            <td style="text-align: right;">$149</td>
+            <td style="text-align: right;">$298</td>
+          </tr>
+          <tr>
+            <td>27" 4K Monitor</td>
+            <td>MON-27-4K</td>
+            <td style="text-align: right;">4</td>
+            <td style="text-align: right;">$449</td>
+            <td style="text-align: right;">$1,796</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <%!-- Totals: Dot leaders --%>
+      <div style="max-width: 28rem; margin-inline-start: auto;">
+        <div class="pa-dot-leaders">
+          <div class="pa-dot-leaders__item">
+            <span class="pa-dot-leaders__label">Subtotal</span>
+            <span class="pa-dot-leaders__leader"></span>
+            <span class="pa-dot-leaders__value">$2,094.00</span>
+          </div>
+          <div class="pa-dot-leaders__item">
+            <span class="pa-dot-leaders__label">Shipping</span>
+            <span class="pa-dot-leaders__leader"></span>
+            <span class="pa-dot-leaders__value">$24.00</span>
+          </div>
+          <div class="pa-dot-leaders__item">
+            <span class="pa-dot-leaders__label">VAT 21%</span>
+            <span class="pa-dot-leaders__leader"></span>
+            <span class="pa-dot-leaders__value">$439.74</span>
+          </div>
+          <div class="pa-dot-leaders__item pa-dot-leaders__item--total">
+            <span class="pa-dot-leaders__label">Total</span>
+            <span class="pa-dot-leaders__leader"></span>
+            <span class="pa-dot-leaders__value">$2,557.74</span>
+          </div>
+        </div>
+      </div>
+    </.card>
+
+    <%!-- ============================================================
+         CSS REFERENCE
+         ============================================================ --%>
+
+    <.card title_text="CSS Reference" has_padding={false}>
+      <table class="pa-table pa-table--striped">
+        <thead>
+          <tr>
+            <th>Class</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td colspan="2"><strong>Descriptions Table</strong></td></tr>
+          <tr>
+            <td><code>.pa-desc-table</code></td>
+            <td>CSS Grid with 3 label-value pairs per row (default). Label cells get tinted background.</td>
+          </tr>
+          <tr>
+            <td><code>.pa-desc-table--cols-2</code></td>
+            <td>2 label-value pairs per row</td>
+          </tr>
+          <tr>
+            <td><code>.pa-desc-table--fixed</code></td>
+            <td>Fixed-width label columns (default 14rem, override with <code>--label-width</code> CSS property)</td>
+          </tr>
+          <tr>
+            <td><code>.pa-desc-table--middle</code></td>
+            <td>Vertically center labels and values</td>
+          </tr>
+          <tr>
+            <td><code>.pa-desc-table--label-end</code></td>
+            <td>Right-align labels</td>
+          </tr>
+          <tr>
+            <td><code>.pa-desc-table--label-center</code></td>
+            <td>Center-align labels</td>
+          </tr>
+          <tr>
+            <td><code>.pa-desc-table--truncate</code></td>
+            <td>Single-line ellipsis on labels and values</td>
+          </tr>
+          <tr>
+            <td><code>.pa-desc-table__label</code></td>
+            <td>Label cell (tinted background, colon appended via CSS)</td>
+          </tr>
+          <tr>
+            <td><code>.pa-desc-table__value</code></td>
+            <td>Value cell</td>
+          </tr>
+          <tr>
+            <td><code>.pa-desc-table__value--full</code></td>
+            <td>Value spans all remaining columns</td>
+          </tr>
+          <tr>
+            <td><code>.pa-desc-container</code></td>
+            <td>Container query wrapper — desc-tables collapse to single column when parent is narrow</td>
+          </tr>
+
+          <tr><td colspan="2"><strong>Dot Leaders</strong></td></tr>
+          <tr>
+            <td><code>.pa-dot-leaders</code></td>
+            <td>Flex column container for leader items</td>
+          </tr>
+          <tr>
+            <td><code>.pa-dot-leaders__item</code></td>
+            <td>Single row with label, dotted leader, and value</td>
+          </tr>
+          <tr>
+            <td><code>.pa-dot-leaders__item--total</code></td>
+            <td>Total row with top border and bold text</td>
+          </tr>
+          <tr>
+            <td><code>.pa-dot-leaders__label</code></td>
+            <td>Left-aligned label text</td>
+          </tr>
+          <tr>
+            <td><code>.pa-dot-leaders__leader</code></td>
+            <td>Dotted line filling space between label and value</td>
+          </tr>
+          <tr>
+            <td><code>.pa-dot-leaders__value</code></td>
+            <td>Right-aligned value text (tabular-nums)</td>
+          </tr>
+
+          <tr><td colspan="2"><strong>Property Card</strong></td></tr>
+          <tr>
+            <td><code>.pa-prop-card</code></td>
+            <td>Bordered card with optional header and label-value rows</td>
+          </tr>
+          <tr>
+            <td><code>.pa-prop-card__header</code></td>
+            <td>Uppercase section header with tinted background</td>
+          </tr>
+          <tr>
+            <td><code>.pa-prop-card__row</code></td>
+            <td>Flex row with label and value</td>
+          </tr>
+          <tr>
+            <td><code>.pa-prop-card__label</code></td>
+            <td>Left-aligned label</td>
+          </tr>
+          <tr>
+            <td><code>.pa-prop-card__value</code></td>
+            <td>Right-aligned value</td>
+          </tr>
+          <tr>
+            <td><code>.pa-prop-card__value--bold</code></td>
+            <td>Bold value text</td>
+          </tr>
+
+          <tr><td colspan="2"><strong>Banded Rows</strong></td></tr>
+          <tr>
+            <td><code>.pa-banded</code></td>
+            <td>Rows with fixed-width tinted label column (default 14rem)</td>
+          </tr>
+          <tr>
+            <td><code>.pa-banded--narrow</code></td>
+            <td>Narrow label column (10rem)</td>
+          </tr>
+          <tr>
+            <td><code>.pa-banded--wide</code></td>
+            <td>Wide label column (20rem)</td>
+          </tr>
+          <tr>
+            <td><code>.pa-banded--middle</code></td>
+            <td>Vertically center labels and values</td>
+          </tr>
+          <tr>
+            <td><code>.pa-banded--label-end</code></td>
+            <td>Right-align labels</td>
+          </tr>
+          <tr>
+            <td><code>.pa-banded--label-center</code></td>
+            <td>Center-align labels</td>
+          </tr>
+          <tr>
+            <td><code>.pa-banded--truncate</code></td>
+            <td>Single-line ellipsis on labels and values</td>
+          </tr>
+          <tr>
+            <td><code>.pa-banded__row</code></td>
+            <td>Flex row container</td>
+          </tr>
+          <tr>
+            <td><code>.pa-banded__label</code></td>
+            <td>Fixed-width tinted label (use <code>wr-*</code> utilities to override width)</td>
+          </tr>
+          <tr>
+            <td><code>.pa-banded__value</code></td>
+            <td>Flexible value area</td>
+          </tr>
+          <tr>
+            <td><code>.pa-banded-container</code></td>
+            <td>Container query wrapper — rows stack vertically when parent is narrow</td>
+          </tr>
+
+          <tr><td colspan="2"><strong>Fields Modifiers</strong></td></tr>
+          <tr>
+            <td><code>.pa-fields--linear</code></td>
+            <td>Minimal side-by-side layout with fixed-width labels</td>
+          </tr>
+          <tr>
+            <td><code>.pa-fields--chips</code></td>
+            <td>Inline flow with pill-styled values</td>
+          </tr>
+          <tr>
+            <td><code>.pa-field__value--success</code></td>
+            <td>Green chip color (use with <code>--chips</code>)</td>
+          </tr>
+          <tr>
+            <td><code>.pa-field__value--warning</code></td>
+            <td>Orange chip color</td>
+          </tr>
+          <tr>
+            <td><code>.pa-field__value--danger</code></td>
+            <td>Red chip color</td>
+          </tr>
+          <tr>
+            <td><code>.pa-fields-container</code></td>
+            <td>Container query wrapper for responsive field layouts</td>
+          </tr>
+
+          <tr><td colspan="2"><strong>Accent Grid</strong></td></tr>
+          <tr>
+            <td><code>.pa-accent-grid</code></td>
+            <td>Auto-fill grid of items with color-coded left borders</td>
+          </tr>
+          <tr>
+            <td><code>.pa-accent-grid__item</code></td>
+            <td>Grid item with accent border</td>
+          </tr>
+          <tr>
+            <td><code>.pa-accent-grid__item--success</code></td>
+            <td>Green border</td>
+          </tr>
+          <tr>
+            <td><code>.pa-accent-grid__item--warning</code></td>
+            <td>Orange border</td>
+          </tr>
+          <tr>
+            <td><code>.pa-accent-grid__item--danger</code></td>
+            <td>Red border</td>
+          </tr>
+          <tr>
+            <td><code>.pa-accent-grid__item--info</code></td>
+            <td>Blue border</td>
+          </tr>
+          <tr>
+            <td><code>.pa-accent-grid__label</code></td>
+            <td>Small uppercase label</td>
+          </tr>
+          <tr>
+            <td><code>.pa-accent-grid__value</code></td>
+            <td>Prominent value text</td>
+          </tr>
+
+          <tr><td colspan="2"><strong>Copyable (Accent Grid)</strong></td></tr>
+          <tr>
+            <td><code>.pa-accent-grid__item--copy-btn</code></td>
+            <td>Always-visible copy button on accent grid item</td>
+          </tr>
+          <tr>
+            <td><code>.pa-accent-grid__item--copy-hover</code></td>
+            <td>Copy button appears on item hover</td>
+          </tr>
+          <tr>
+            <td><code>.pa-accent-grid__item--copy-click</code></td>
+            <td>Click value to copy, shows hint on hover</td>
+          </tr>
+          <tr>
+            <td><code>.pa-accent-grid__copy</code></td>
+            <td>Copy button element inside accent grid value</td>
+          </tr>
+
+          <tr><td colspan="2"><strong>Copyable (Banded)</strong></td></tr>
+          <tr>
+            <td><code>.pa-banded__row--copy-btn</code></td>
+            <td>Always-visible copy button on banded row</td>
+          </tr>
+          <tr>
+            <td><code>.pa-banded__row--copy-hover</code></td>
+            <td>Copy button appears on row hover</td>
+          </tr>
+          <tr>
+            <td><code>.pa-banded__row--copy-click</code></td>
+            <td>Click value to copy, shows hint on hover</td>
+          </tr>
+          <tr>
+            <td><code>.pa-banded__copy</code></td>
+            <td>Copy button element inside banded value</td>
+          </tr>
+
+          <tr><td colspan="2"><strong>Copyable (Prop Card)</strong></td></tr>
+          <tr>
+            <td><code>.pa-prop-card__row--copy-btn</code></td>
+            <td>Always-visible copy button on prop-card row</td>
+          </tr>
+          <tr>
+            <td><code>.pa-prop-card__row--copy-hover</code></td>
+            <td>Copy button appears on row hover</td>
+          </tr>
+          <tr>
+            <td><code>.pa-prop-card__row--copy-click</code></td>
+            <td>Click value to copy</td>
+          </tr>
+          <tr>
+            <td><code>.pa-prop-card__copy</code></td>
+            <td>Copy button element inside prop-card value</td>
+          </tr>
+
+          <tr><td colspan="2"><strong>Copyable (Desc Table)</strong></td></tr>
+          <tr>
+            <td><code>.pa-desc-table__value--copy-btn</code></td>
+            <td>Always-visible copy button on desc-table value cell</td>
+          </tr>
+          <tr>
+            <td><code>.pa-desc-table__value--copy-hover</code></td>
+            <td>Copy button appears on value hover</td>
+          </tr>
+          <tr>
+            <td><code>.pa-desc-table__value--copy-click</code></td>
+            <td>Click value to copy, shows hint on hover</td>
+          </tr>
+          <tr>
+            <td><code>.pa-desc-table__copy</code></td>
+            <td>Copy button element inside desc-table value</td>
+          </tr>
+
+          <tr><td colspan="2"><strong>Utilities</strong></td></tr>
+          <tr>
+            <td><code>.pa-cq</code></td>
+            <td>General-purpose container query wrapper (<code>container-type: inline-size</code>)</td>
+          </tr>
+        </tbody>
+      </table>
     </.card>
     """
   end
