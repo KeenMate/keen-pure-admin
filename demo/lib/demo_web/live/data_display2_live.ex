@@ -262,8 +262,8 @@ defmodule DemoWeb.Live.DataDisplay2Live do
               <div class="pa-field">
                 <span class="pa-field__label">Labels</span>
                 <span class="pa-field__value">
-                  <.badge>Frontend</.badge>
-                  <.badge>UX</.badge>
+                  <span class="pa-badge">Frontend</span>
+                  <span class="pa-badge">UX</span>
                 </span>
               </div>
             </div>
