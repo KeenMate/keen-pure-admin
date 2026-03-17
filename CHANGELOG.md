@@ -24,6 +24,11 @@
 - **Tooltips page** — updated to use `start`/`end` position naming
 - **Badges page** — updated fixed-width section to use `max_width` utility approach, renamed "Left-Side Ellipsis" to "Start-Side Ellipsis"
 - **Popconfirm page** — new page with basic popconfirms (delete/archive/reset with icon variants), compact variant, table row delete confirmations with LiveView integration
+- **Command Palette page** — new page with Spotlight-style search overlay, Ctrl+K shortcut, context switching (/p, /o, /u, /i), keyboard navigation, pagination, LiveView server-side search
+- **Data Display page** — new page with pa-fields layouts: stacked, multi-column grid (cols-2/3/4), field groups, horizontal, table-style bordered, striped, compact, inline, row, relaxed, filled, color-coded borders
+- **Data Display 2 page** — new page with advanced patterns: Ant Design descriptions table (1/2/fixed columns), dot leaders (invoice style), property cards, banded rows
+- **Data Visualization page** — new page with CSS-only visualizations: progress bars (sizes/colors/striped/animated/rounded), stacked bars with legends, progress rings, dashboard gauges, data bars in tables, activity heatmaps, sparkline bars
+- **Detail Panel page** — new page with inline split-view and overlay modes, table row selection, field-group detail content
 - Fixed all compile warnings across demo (nested `if` parentheses, `dynamic_tag` name deprecation, undefined attributes, missing slots)
 
 ## v0.3.0

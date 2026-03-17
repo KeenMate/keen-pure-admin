@@ -20,6 +20,7 @@ defmodule KPureAdmin.Components do
       import KPureAdmin.Components.Button
       import KPureAdmin.Components.Callout
       import KPureAdmin.Components.Card
+      import KPureAdmin.Components.CommandPalette
       import KPureAdmin.Components.CheckboxList
       import KPureAdmin.Components.Code
       import KPureAdmin.Components.DataDisplay

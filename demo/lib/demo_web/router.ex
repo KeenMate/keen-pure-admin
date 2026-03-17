@@ -23,6 +23,7 @@ defmodule DemoWeb.Router do
       live "/modals", Live.ModalsLive, :index
       live "/modal-dialogs", Live.ModalDialogsLive, :index
       live "/popconfirm", Live.PopconfirmLive, :index
+      live "/command-palette", Live.CommandPaletteLive, :index
       live "/tabs", Live.TabsLive, :index
       live "/grid", Live.GridLive, :index
       live "/forms", Live.FormsLive, :index
@@ -39,6 +40,10 @@ defmodule DemoWeb.Router do
       live "/stats", Live.StatsLive, :index
       live "/callouts", Live.CalloutsLive, :index
       live "/code", Live.CodeLive, :index
+      live "/data-display", Live.DataDisplayLive, :index
+      live "/data-display-2", Live.DataDisplay2Live, :index
+      live "/data-visualization", Live.DataVisualizationLive, :index
+      live "/detail-panel", Live.DetailPanelLive, :index
     end
   end
 end
