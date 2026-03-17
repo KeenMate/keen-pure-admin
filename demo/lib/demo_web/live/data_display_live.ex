@@ -305,70 +305,32 @@ defmodule DemoWeb.Live.DataDisplayLive do
         <.column size="1-3">
           <h4>Copy Button (always visible)</h4>
           <p class="text-secondary mb-2">Uses <code>pa-field--copy-btn</code></p>
-          <div class="pa-fields pa-fields--no-border">
-            <div class="pa-field pa-field--copy-btn">
-              <span class="pa-field__label">Email</span>
-              <span class="pa-field__value">
-                <span data-copy-value>elena.petrova@example.com</span>
-                <button class="pa-field__copy" onclick="copyValue(this)" title="Copy to clipboard">
-                  <i class="fas fa-copy"></i>
-                </button>
-              </span>
-            </div>
-            <div class="pa-field pa-field--copy-btn">
-              <span class="pa-field__label">API Key</span>
-              <span class="pa-field__value">
-                <span data-copy-value><code>sk_live_abc123xyz789</code></span>
-                <button class="pa-field__copy" onclick="copyValue(this)" title="Copy to clipboard">
-                  <i class="fas fa-copy"></i>
-                </button>
-              </span>
-            </div>
-          </div>
+          <.fields is_no_border>
+            <.field label="Email" is_copy_btn copy_value="elena.petrova@example.com">elena.petrova@example.com</.field>
+            <.field label="API Key" is_copy_btn copy_value="sk_live_abc123xyz789"><code>sk_live_abc123xyz789</code></.field>
+          </.fields>
         </.column>
         <.column size="1-3">
           <h4>Click Value to Copy</h4>
           <p class="text-secondary mb-2">Uses <code>pa-field--copy-click</code></p>
-          <div class="pa-fields pa-fields--no-border">
-            <div class="pa-field pa-field--copy-click">
-              <span class="pa-field__label">Phone</span>
-              <span class="pa-field__value" onclick="copyClickValue(this)" data-copy-value="+420 776 123 456">+420 776 123 456</span>
-            </div>
-            <div class="pa-field pa-field--copy-click">
-              <span class="pa-field__label">Order ID</span>
-              <span class="pa-field__value" onclick="copyClickValue(this)" data-copy-value="ORD-2026-00847">#ORD-2026-00847</span>
-            </div>
-          </div>
+          <.fields is_no_border>
+            <.field label="Phone" is_copy_click copy_value="+420 776 123 456">+420 776 123 456</.field>
+            <.field label="Order ID" is_copy_click copy_value="ORD-2026-00847">#ORD-2026-00847</.field>
+          </.fields>
         </.column>
         <.column size="1-3">
           <h4>Icon on Hover Only</h4>
           <p class="text-secondary mb-2">Uses <code>pa-field--copy-hover</code></p>
-          <div class="pa-fields pa-fields--no-border">
-            <div class="pa-field pa-field--copy-hover">
-              <span class="pa-field__label">IBAN</span>
-              <span class="pa-field__value">
-                <span data-copy-value>CZ65 0800 0000 1920 0014 5399</span>
-                <button class="pa-field__copy" onclick="copyValue(this)" title="Copy to clipboard">
-                  <i class="fas fa-copy"></i>
-                </button>
-              </span>
-            </div>
-            <div class="pa-field pa-field--copy-hover">
-              <span class="pa-field__label">BIC/SWIFT</span>
-              <span class="pa-field__value">
-                <span data-copy-value>GIBACZPX</span>
-                <button class="pa-field__copy" onclick="copyValue(this)" title="Copy to clipboard">
-                  <i class="fas fa-copy"></i>
-                </button>
-              </span>
-            </div>
-          </div>
+          <.fields is_no_border>
+            <.field label="IBAN" is_copy_hover copy_value="CZ65 0800 0000 1920 0014 5399">CZ65 0800 0000 1920 0014 5399</.field>
+            <.field label="BIC/SWIFT" is_copy_hover copy_value="GIBACZPX">GIBACZPX</.field>
+          </.fields>
         </.column>
       </.grid>
     </.card>
 
     <script>
-    function copyValue(btn) {
+    window.__paCopyValue = function(btn) {
         const field = btn.closest('.pa-field');
         const valueEl = field.querySelector('[data-copy-value]');
         const text = valueEl.getAttribute('data-copy-value') || valueEl.textContent.trim();
@@ -386,7 +348,7 @@ defmodule DemoWeb.Live.DataDisplayLive do
         });
     }
 
-    function copyClickValue(el) {
+    window.__paCopyClickValue = function(el) {
         const text = el.getAttribute('data-copy-value') || el.textContent.trim();
         const field = el.closest('.pa-field');
 
@@ -408,79 +370,39 @@ defmodule DemoWeb.Live.DataDisplayLive do
     <.card title_text="Real-World: Invoice Layout">
       <:description>Customer (full width) + Receipt/Delivery addresses (50/50). Combines <code>pa-field-group</code> with <code>pa-row</code>/<code>pa-col-*</code>.</:description>
 
-      <div class="pa-field-group">
-        <div class="pa-field-group__title">Customer</div>
-        <div class="pa-fields pa-fields--cols-3">
-          <div class="pa-field">
-            <span class="pa-field__label">Name</span>
-            <span class="pa-field__value">Novak &amp; Partners s.r.o.</span>
-          </div>
-          <div class="pa-field">
-            <span class="pa-field__label">Registration No.</span>
-            <span class="pa-field__value">CZ48207497</span>
-          </div>
-          <div class="pa-field">
-            <span class="pa-field__label">VAT ID</span>
-            <span class="pa-field__value">CZ48207497</span>
-          </div>
-          <div class="pa-field">
-            <span class="pa-field__label">Contact</span>
-            <span class="pa-field__value">Jan Novak</span>
-          </div>
-          <div class="pa-field">
-            <span class="pa-field__label">Email</span>
-            <span class="pa-field__value">jan.novak@novakpartners.cz</span>
-          </div>
-          <div class="pa-field">
-            <span class="pa-field__label">Phone</span>
-            <span class="pa-field__value">+420 234 111 222</span>
-          </div>
-        </div>
-      </div>
+      <.field_group title="Customer">
+        <.fields cols="3">
+          <.field label="Name">Novak &amp; Partners s.r.o.</.field>
+          <.field label="Registration No.">CZ48207497</.field>
+          <.field label="VAT ID">CZ48207497</.field>
+          <.field label="Contact">Jan Novak</.field>
+          <.field label="Email">jan.novak@novakpartners.cz</.field>
+          <.field label="Phone">+420 234 111 222</.field>
+        </.fields>
+      </.field_group>
 
       <.grid style="margin-top: 2.4rem;">
         <.column size="1-2">
-          <div class="pa-field-group">
-            <div class="pa-field-group__title">Receipt Address</div>
-            <div class="pa-fields pa-fields--filled">
-              <div class="pa-field">
-                <span class="pa-field__label">Street</span>
-                <span class="pa-field__value">Vinohradska 2468/164</span>
-              </div>
-              <div class="pa-field">
-                <span class="pa-field__label">City</span>
-                <span class="pa-field__value">Prague 3, 130 00</span>
-              </div>
-              <div class="pa-field">
-                <span class="pa-field__label">Country</span>
-                <span class="pa-field__value">Czech Republic</span>
-              </div>
-            </div>
-          </div>
+          <.field_group title="Receipt Address">
+            <.fields is_filled>
+              <.field label="Street">Vinohradska 2468/164</.field>
+              <.field label="City">Prague 3, 130 00</.field>
+              <.field label="Country">Czech Republic</.field>
+            </.fields>
+          </.field_group>
         </.column>
         <.column size="1-2">
-          <div class="pa-field-group">
-            <div class="pa-field-group__title">Delivery Address</div>
-            <div class="pa-fields pa-fields--filled">
-              <div class="pa-field">
-                <span class="pa-field__label">Street</span>
-                <span class="pa-field__value">Prumyslova 1234/5</span>
-              </div>
-              <div class="pa-field">
-                <span class="pa-field__label">City</span>
-                <span class="pa-field__value">Brno-Slatina, 627 00</span>
-              </div>
-              <div class="pa-field">
-                <span class="pa-field__label">Country</span>
-                <span class="pa-field__value">Czech Republic</span>
-              </div>
-            </div>
-          </div>
+          <.field_group title="Delivery Address">
+            <.fields is_filled>
+              <.field label="Street">Prumyslova 1234/5</.field>
+              <.field label="City">Brno-Slatina, 627 00</.field>
+              <.field label="Country">Czech Republic</.field>
+            </.fields>
+          </.field_group>
         </.column>
       </.grid>
 
-      <div class="pa-field-group" style="margin-top: 2.4rem;">
-        <div class="pa-field-group__title">Items</div>
+      <.field_group title="Items" style="margin-top: 2.4rem;">
         <table class="pa-table pa-table--hover pa-table--striped">
           <thead>
             <tr>
@@ -508,22 +430,13 @@ defmodule DemoWeb.Live.DataDisplayLive do
             </tr>
           </tbody>
         </table>
-      </div>
+      </.field_group>
 
-      <div class="pa-fields pa-fields--horizontal" style="max-width: 25rem; margin-left: auto; margin-top: 1.2rem;">
-        <div class="pa-field">
-          <span class="pa-field__label">Subtotal</span>
-          <span class="pa-field__value" style="text-align: right;">$2,094</span>
-        </div>
-        <div class="pa-field">
-          <span class="pa-field__label">VAT 21%</span>
-          <span class="pa-field__value" style="text-align: right;">$439.74</span>
-        </div>
-        <div class="pa-field" style="border-top: 1px solid; padding-top: 0.8rem;">
-          <span class="pa-field__label" style="font-weight: 700;">Total</span>
-          <span class="pa-field__value" style="text-align: right; font-weight: 700; font-size: 1.6rem;">$2,533.74</span>
-        </div>
-      </div>
+      <.fields is_horizontal style="max-width: 25rem; margin-left: auto; margin-top: 1.2rem;">
+        <.field label="Subtotal">$2,094</.field>
+        <.field label="VAT 21%">$439.74</.field>
+        <.field label="Total" class="pa-field--total" style="border-top: 1px solid; padding-top: 0.8rem;"><strong style="font-size: 1.6rem;">$2,533.74</strong></.field>
+      </.fields>
     </.card>
 
     <%!-- ============================================================
@@ -538,31 +451,21 @@ defmodule DemoWeb.Live.DataDisplayLive do
             <strong>Elena Petrova</strong><br>
             <.badge variant="success">Active</.badge>
           </div>
-          <div class="pa-field-group">
-            <div class="pa-field-group__title">Contact</div>
-            <div class="pa-fields pa-fields--compact">
-              <div class="pa-field">
-                <span class="pa-field__label">Email</span>
-                <span class="pa-field__value">elena@acme.com</span>
-              </div>
-              <div class="pa-field">
-                <span class="pa-field__label">Phone</span>
-                <span class="pa-field__value">+420 776 123 456</span>
-              </div>
-            </div>
-          </div>
-          <div class="pa-field-group">
-            <div class="pa-field-group__title">Skills</div>
-            <div class="pa-fields">
-              <div class="pa-field">
-                <span class="pa-field__value">
-                  <.badge>TypeScript</.badge>
-                  <.badge>React</.badge>
-                  <.badge>Node.js</.badge>
-                </span>
-              </div>
-            </div>
-          </div>
+          <.field_group title="Contact">
+            <.fields is_compact>
+              <.field label="Email">elena@acme.com</.field>
+              <.field label="Phone">+420 776 123 456</.field>
+            </.fields>
+          </.field_group>
+          <.field_group title="Skills">
+            <.fields>
+              <.field label="Skills">
+                <.badge>TypeScript</.badge>
+                <.badge>React</.badge>
+                <.badge>Node.js</.badge>
+              </.field>
+            </.fields>
+          </.field_group>
         </.card>
       </.column>
 

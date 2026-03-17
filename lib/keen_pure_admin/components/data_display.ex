@@ -21,15 +21,41 @@ defmodule KPureAdmin.Components.DataDisplay do
   """
   attr(:label, :string, required: true)
   attr(:is_full, :boolean, default: false, doc: "Span all columns in a grid layout")
+  attr(:is_copy_btn, :boolean, default: false, doc: "Always-visible copy button")
+  attr(:is_copy_click, :boolean, default: false, doc: "Click value to copy")
+  attr(:is_copy_hover, :boolean, default: false, doc: "Copy icon on hover only")
+  attr(:value_variant, :string, default: nil, values: [nil, "success", "warning", "danger", "info"],
+    doc: "Color variant for the value (used in chips layout)")
+  attr(:copy_value, :string, default: nil, doc: "Value to copy to clipboard")
   attr(:class, :string, default: nil)
   attr(:rest, :global)
   slot(:inner_block, required: true)
 
   def field(assigns) do
     ~H"""
-    <div class={build_classes("pa-field", [{"pa-field--full", @is_full}], @class)} {@rest}>
+    <div class={build_classes("pa-field", [
+      {"pa-field--full", @is_full},
+      {"pa-field--copy-btn", @is_copy_btn},
+      {"pa-field--copy-click", @is_copy_click},
+      {"pa-field--copy-hover", @is_copy_hover}
+    ], @class)} {@rest}>
       <span class="pa-field__label"><%= @label %></span>
-      <span class="pa-field__value"><%= render_slot(@inner_block) %></span>
+      <%= if @is_copy_click do %>
+        <span class={build_classes("pa-field__value", [{"pa-field__value--#{@value_variant}", @value_variant != nil}])}
+              onclick="window.__paCopyClickValue(this)"
+              data-copy-value={@copy_value}><%= render_slot(@inner_block) %></span>
+      <% else %>
+        <span class={build_classes("pa-field__value", [{"pa-field__value--#{@value_variant}", @value_variant != nil}])}>
+          <%= if @is_copy_btn || @is_copy_hover do %>
+            <span data-copy-value={@copy_value}><%= render_slot(@inner_block) %></span>
+            <button class="pa-field__copy" onclick="window.__paCopyValue(this)" title="Copy to clipboard">
+              <i class="fas fa-copy"></i>
+            </button>
+          <% else %>
+            <%= render_slot(@inner_block) %>
+          <% end %>
+        </span>
+      <% end %>
     </div>
     """
   end
@@ -147,6 +173,9 @@ defmodule KPureAdmin.Components.DataDisplay do
   attr(:cols, :string, default: nil, values: [nil, "2"], doc: "2-column layout")
   attr(:is_fixed, :boolean, default: false, doc: "Fixed label width")
   attr(:is_truncate, :boolean, default: false, doc: "Truncate long values")
+  attr(:is_middle, :boolean, default: false, doc: "Vertically center cells")
+  attr(:is_label_end, :boolean, default: false, doc: "Right-align labels")
+  attr(:is_label_center, :boolean, default: false, doc: "Center-align labels")
   attr(:label_width, :string, default: nil, doc: "Custom label width CSS value")
   attr(:class, :string, default: nil)
   attr(:rest, :global)
@@ -162,7 +191,10 @@ defmodule KPureAdmin.Components.DataDisplay do
         class={build_classes("pa-desc-table", [
           {"pa-desc-table--cols-2", @cols == "2"},
           {"pa-desc-table--fixed", @is_fixed},
-          {"pa-desc-table--truncate", @is_truncate}
+          {"pa-desc-table--truncate", @is_truncate},
+          {"pa-desc-table--middle", @is_middle},
+          {"pa-desc-table--label-end", @is_label_end},
+          {"pa-desc-table--label-center", @is_label_center}
         ], @class)}
         style={@computed_style}
         {@rest}
@@ -238,26 +270,48 @@ defmodule KPureAdmin.Components.DataDisplay do
   # -- prop_card/1 --
 
   @doc """
-  Renders a property card for displaying a key metric.
+  Renders a property card with header and label-value rows.
 
   ## Examples
 
-      <.prop_card label="Total Revenue" value="$284,520" />
+      <.prop_card header="Order Details">
+        <.prop_card_row label="Order ID" value="#ORD-001" />
+        <.prop_card_row label="Status"><.badge variant="success">Delivered</.badge></.prop_card_row>
+        <.prop_card_row label="Total" is_bold>$1,249.00</.prop_card_row>
+      </.prop_card>
   """
-  attr(:label, :string, required: true)
-  attr(:value, :string, required: true)
+  attr(:header, :string, default: nil, doc: "Card header text")
   attr(:class, :string, default: nil)
   attr(:rest, :global)
-  slot(:inner_block, doc: "Optional extra content")
+  slot(:inner_block, required: true)
 
   def prop_card(assigns) do
     ~H"""
     <div class={build_classes("pa-prop-card", [], @class)} {@rest}>
-      <div class="pa-prop-card__label"><%= @label %></div>
-      <div class="pa-prop-card__value"><%= @value %></div>
-      <%= if @inner_block != [] do %>
-        <%= render_slot(@inner_block) %>
-      <% end %>
+      <div :if={@header} class="pa-prop-card__header"><%= @header %></div>
+      <%= render_slot(@inner_block) %>
+    </div>
+    """
+  end
+
+  @doc "Renders a row inside a prop_card."
+  attr(:label, :string, required: true)
+  attr(:value, :string, default: nil)
+  attr(:is_bold, :boolean, default: false, doc: "Bold value text")
+  attr(:class, :string, default: nil)
+  slot(:inner_block, doc: "Rich value content")
+
+  def prop_card_row(assigns) do
+    ~H"""
+    <div class={build_classes("pa-prop-card__row", [], @class)}>
+      <span class="pa-prop-card__label"><%= @label %></span>
+      <span class={build_classes("pa-prop-card__value", [{"pa-prop-card__value--bold", @is_bold}])}>
+        <%= if @inner_block != [] do %>
+          <%= render_slot(@inner_block) %>
+        <% else %>
+          <%= @value %>
+        <% end %>
+      </span>
     </div>
     """
   end
@@ -274,13 +328,26 @@ defmodule KPureAdmin.Components.DataDisplay do
         <.banded_row label="IP" value="10.0.12.45" />
       </.banded>
   """
+  attr(:is_narrow, :boolean, default: false, doc: "Narrow label band (8rem)")
+  attr(:is_wide, :boolean, default: false, doc: "Wide label band (20rem)")
+  attr(:is_truncate, :boolean, default: false, doc: "Truncate long values")
+  attr(:is_middle, :boolean, default: false, doc: "Vertically center labels")
+  attr(:is_label_end, :boolean, default: false, doc: "Right-align labels")
+  attr(:is_label_center, :boolean, default: false, doc: "Center-align labels")
   attr(:class, :string, default: nil)
   attr(:rest, :global)
   slot(:inner_block, required: true)
 
   def banded(assigns) do
     ~H"""
-    <div class={build_classes("pa-banded", [], @class)} {@rest}>
+    <div class={build_classes("pa-banded", [
+      {"pa-banded--narrow", @is_narrow},
+      {"pa-banded--wide", @is_wide},
+      {"pa-banded--truncate", @is_truncate},
+      {"pa-banded--middle", @is_middle},
+      {"pa-banded--label-end", @is_label_end},
+      {"pa-banded--label-center", @is_label_center}
+    ], @class)} {@rest}>
       <%= render_slot(@inner_block) %>
     </div>
     """
@@ -334,12 +401,17 @@ defmodule KPureAdmin.Components.DataDisplay do
   @doc "Renders a single accent grid item."
   attr(:label, :string, required: true)
   attr(:value, :string, required: true)
-  attr(:color, :string, default: "1", doc: "Accent color 1-9")
+  attr(:color, :string, default: nil, doc: "Accent color 1-9")
+  attr(:variant, :string, default: nil, values: [nil, "primary", "success", "warning", "danger", "info"],
+    doc: "Semantic color variant")
   attr(:class, :string, default: nil)
 
   def accent_grid_item(assigns) do
     ~H"""
-    <div class={build_classes("pa-accent-grid__item", [{"pa-accent-grid__item--color-#{@color}", true}], @class)}>
+    <div class={build_classes("pa-accent-grid__item", [
+      {"pa-accent-grid__item--color-#{@color}", @color != nil},
+      {"pa-accent-grid__item--#{@variant}", @variant != nil}
+    ], @class)}>
       <div class="pa-accent-grid__label"><%= @label %></div>
       <div class="pa-accent-grid__value"><%= @value %></div>
     </div>

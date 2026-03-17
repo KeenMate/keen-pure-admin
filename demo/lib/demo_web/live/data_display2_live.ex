@@ -123,60 +123,27 @@ defmodule DemoWeb.Live.DataDisplay2Live do
       <.column size="1-2">
         <.card title_text="3. Property Card">
           <:description>Grouped in bordered card with thin dividers. Clean, professional.</:description>
-          <div class="pa-prop-card">
-            <div class="pa-prop-card__header">Order Details</div>
-            <div class="pa-prop-card__row">
-              <span class="pa-prop-card__label">Order ID</span>
-              <span class="pa-prop-card__value">#ORD-2026-00847</span>
-            </div>
-            <div class="pa-prop-card__row">
-              <span class="pa-prop-card__label">Date</span>
-              <span class="pa-prop-card__value">28 January 2026</span>
-            </div>
-            <div class="pa-prop-card__row">
-              <span class="pa-prop-card__label">Status</span>
-              <span class="pa-prop-card__value"><.badge variant="success">Delivered</.badge></span>
-            </div>
-            <div class="pa-prop-card__row">
-              <span class="pa-prop-card__label">Payment</span>
-              <span class="pa-prop-card__value">Visa *4242</span>
-            </div>
-            <div class="pa-prop-card__row">
-              <span class="pa-prop-card__label">Total</span>
-              <span class="pa-prop-card__value pa-prop-card__value--bold">$1,249.00</span>
-            </div>
-          </div>
+          <.prop_card header="Order Details">
+            <.prop_card_row label="Order ID" value="#ORD-2026-00847" />
+            <.prop_card_row label="Date" value="28 January 2026" />
+            <.prop_card_row label="Status"><.badge variant="success">Delivered</.badge></.prop_card_row>
+            <.prop_card_row label="Payment" value="Visa *4242" />
+            <.prop_card_row label="Total" is_bold>$1,249.00</.prop_card_row>
+          </.prop_card>
         </.card>
       </.column>
       <.column size="1-2">
         <.card title_text="3b. Property Card — Stacked">
           <:description>Multiple property groups in sequence.</:description>
-          <div class="pa-prop-card mb-4">
-            <div class="pa-prop-card__header">Customer</div>
-            <div class="pa-prop-card__row">
-              <span class="pa-prop-card__label">Name</span>
-              <span class="pa-prop-card__value">Elena Petrova</span>
-            </div>
-            <div class="pa-prop-card__row">
-              <span class="pa-prop-card__label">Email</span>
-              <span class="pa-prop-card__value">elena.petrova@example.com</span>
-            </div>
-            <div class="pa-prop-card__row">
-              <span class="pa-prop-card__label">Phone</span>
-              <span class="pa-prop-card__value">+420 776 123 456</span>
-            </div>
-          </div>
-          <div class="pa-prop-card">
-            <div class="pa-prop-card__header">Shipping</div>
-            <div class="pa-prop-card__row">
-              <span class="pa-prop-card__label">Address</span>
-              <span class="pa-prop-card__value">Vinohradska 2468/164, Prague 3</span>
-            </div>
-            <div class="pa-prop-card__row">
-              <span class="pa-prop-card__label">Method</span>
-              <span class="pa-prop-card__value">Express (2-day)</span>
-            </div>
-          </div>
+          <.prop_card header="Customer" class="mb-4">
+            <.prop_card_row label="Name" value="Elena Petrova" />
+            <.prop_card_row label="Email" value="elena.petrova@example.com" />
+            <.prop_card_row label="Phone" value="+420 776 123 456" />
+          </.prop_card>
+          <.prop_card header="Shipping">
+            <.prop_card_row label="Address" value="Vinohradska 2468/164, Prague 3" />
+            <.prop_card_row label="Method" value="Express (2-day)" />
+          </.prop_card>
         </.card>
       </.column>
     </.grid>
@@ -198,8 +165,8 @@ defmodule DemoWeb.Live.DataDisplay2Live do
               <.field label="Due Date">14 Feb 2026</.field>
               <.field label="Project">Platform v2</.field>
               <.field label="Labels">
-                <span class="pa-badge">Frontend</span>
-                <span class="pa-badge">UX</span>
+                <.badge>Frontend</.badge>
+                <.badge>UX</.badge>
               </.field>
             </.fields>
           </div>
@@ -210,32 +177,14 @@ defmodule DemoWeb.Live.DataDisplay2Live do
         <.card title_text="5. Inline Chips">
           <:description>Properties as flowing inline pairs. Value in a chip/pill.</:description>
           <div class="pa-fields-container">
-            <div class="pa-fields pa-fields--chips pa-fields--no-border">
-              <div class="pa-field">
-                <span class="pa-field__label">Status</span>
-                <span class="pa-field__value pa-field__value--success">Active</span>
-              </div>
-              <div class="pa-field">
-                <span class="pa-field__label">Role</span>
-                <span class="pa-field__value">Senior Dev</span>
-              </div>
-              <div class="pa-field">
-                <span class="pa-field__label">Team</span>
-                <span class="pa-field__value">Platform</span>
-              </div>
-              <div class="pa-field">
-                <span class="pa-field__label">Office</span>
-                <span class="pa-field__value">Prague</span>
-              </div>
-              <div class="pa-field">
-                <span class="pa-field__label">Start</span>
-                <span class="pa-field__value">2019</span>
-              </div>
-              <div class="pa-field">
-                <span class="pa-field__label">Contract</span>
-                <span class="pa-field__value pa-field__value--warning">Renewal</span>
-              </div>
-            </div>
+            <.fields is_chips is_no_border>
+              <.field label="Status" value_variant="success">Active</.field>
+              <.field label="Role">Senior Dev</.field>
+              <.field label="Team">Platform</.field>
+              <.field label="Office">Prague</.field>
+              <.field label="Start">2019</.field>
+              <.field label="Contract" value_variant="warning">Renewal</.field>
+            </.fields>
           </div>
         </.card>
       </.column>
@@ -262,24 +211,12 @@ defmodule DemoWeb.Live.DataDisplay2Live do
         <.card title_text="7b. Banded — Narrow" has_padding={false}>
           <:description><code>pa-banded--narrow</code> — 10rem label band.</:description>
           <div class="pa-banded-container">
-            <div class="pa-banded pa-banded--narrow">
-              <div class="pa-banded__row">
-                <span class="pa-banded__label">Server</span>
-                <span class="pa-banded__value">prod-api-01</span>
-              </div>
-              <div class="pa-banded__row">
-                <span class="pa-banded__label">IP Address</span>
-                <span class="pa-banded__value">10.0.12.45</span>
-              </div>
-              <div class="pa-banded__row">
-                <span class="pa-banded__label">OS</span>
-                <span class="pa-banded__value">Ubuntu 22.04 LTS</span>
-              </div>
-              <div class="pa-banded__row">
-                <span class="pa-banded__label">Memory</span>
-                <span class="pa-banded__value">16 GB DDR5</span>
-              </div>
-            </div>
+            <.banded is_narrow>
+              <.banded_row label="Server" value="prod-api-01" />
+              <.banded_row label="IP Address" value="10.0.12.45" />
+              <.banded_row label="OS" value="Ubuntu 22.04 LTS" />
+              <.banded_row label="Memory" value="16 GB DDR5" />
+            </.banded>
           </div>
         </.card>
       </.column>
@@ -300,24 +237,12 @@ defmodule DemoWeb.Live.DataDisplay2Live do
         <.card title_text="7d. Banded — Wide" has_padding={false}>
           <:description><code>pa-banded--wide</code> — 20rem label band.</:description>
           <div class="pa-banded-container">
-            <div class="pa-banded pa-banded--wide">
-              <div class="pa-banded__row">
-                <span class="pa-banded__label">Server</span>
-                <span class="pa-banded__value">prod-api-01</span>
-              </div>
-              <div class="pa-banded__row">
-                <span class="pa-banded__label">IP Address</span>
-                <span class="pa-banded__value">10.0.12.45</span>
-              </div>
-              <div class="pa-banded__row">
-                <span class="pa-banded__label">OS</span>
-                <span class="pa-banded__value">Ubuntu 22.04 LTS</span>
-              </div>
-              <div class="pa-banded__row">
-                <span class="pa-banded__label">Memory</span>
-                <span class="pa-banded__value">16 GB DDR5</span>
-              </div>
-            </div>
+            <.banded is_wide>
+              <.banded_row label="Server" value="prod-api-01" />
+              <.banded_row label="IP Address" value="10.0.12.45" />
+              <.banded_row label="OS" value="Ubuntu 22.04 LTS" />
+              <.banded_row label="Memory" value="16 GB DDR5" />
+            </.banded>
           </div>
         </.card>
       </.column>
@@ -329,24 +254,12 @@ defmodule DemoWeb.Live.DataDisplay2Live do
         <.card title_text="7e. Banded — Truncate" has_padding={false}>
           <:description><code>--truncate</code> clips long values with ellipsis.</:description>
           <div class="pa-banded-container">
-            <div class="pa-banded pa-banded--truncate">
-              <div class="pa-banded__row">
-                <span class="pa-banded__label">Server</span>
-                <span class="pa-banded__value">prod-api-gateway-eu-west-01.internal.novakpartners.cz</span>
-              </div>
-              <div class="pa-banded__row">
-                <span class="pa-banded__label">Path</span>
-                <span class="pa-banded__value">/var/lib/docker/containers/a1b2c3d4e5f6/config.v2.json</span>
-              </div>
-              <div class="pa-banded__row">
-                <span class="pa-banded__label">Hash</span>
-                <span class="pa-banded__value">sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</span>
-              </div>
-              <div class="pa-banded__row">
-                <span class="pa-banded__label">Cert</span>
-                <span class="pa-banded__value">CN=*.novakpartners.cz, O=Novak &amp; Partners, L=Prague, C=CZ</span>
-              </div>
-            </div>
+            <.banded is_truncate>
+              <.banded_row label="Server" value="prod-api-gateway-eu-west-01.internal.novakpartners.cz" />
+              <.banded_row label="Path" value="/var/lib/docker/containers/a1b2c3d4e5f6/config.v2.json" />
+              <.banded_row label="Hash" value="sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855" />
+              <.banded_row label="Cert">CN=*.novakpartners.cz, O=Novak &amp; Partners, L=Prague, C=CZ</.banded_row>
+            </.banded>
           </div>
         </.card>
       </.column>
@@ -396,24 +309,12 @@ defmodule DemoWeb.Live.DataDisplay2Live do
         <.card title_text="7h. Banded — Multiline + --middle" has_padding={false}>
           <:description><code>pa-banded--middle</code> vertically centers labels against wrapped values.</:description>
           <div class="pa-banded-container">
-            <div class="pa-banded pa-banded--middle">
-              <div class="pa-banded__row">
-                <span class="pa-banded__label">Server</span>
-                <span class="pa-banded__value">prod-api-01</span>
-              </div>
-              <div class="pa-banded__row">
-                <span class="pa-banded__label">Description</span>
-                <span class="pa-banded__value">Primary API gateway for Central European region. Handles authentication, rate limiting, and request routing to downstream microservices.</span>
-              </div>
-              <div class="pa-banded__row">
-                <span class="pa-banded__label">Tags</span>
-                <span class="pa-banded__value">production, eu-west, api-gateway, load-balanced, auto-scaling, monitored, pci-compliant</span>
-              </div>
-              <div class="pa-banded__row">
-                <span class="pa-banded__label">Notes</span>
-                <span class="pa-banded__value">Scheduled for maintenance window on 2026-03-01 02:00 UTC. Failover to prod-api-02 will be active during this period. Contact SRE team before any manual restarts.</span>
-              </div>
-            </div>
+            <.banded is_middle>
+              <.banded_row label="Server" value="prod-api-01" />
+              <.banded_row label="Description">Primary API gateway for Central European region. Handles authentication, rate limiting, and request routing to downstream microservices.</.banded_row>
+              <.banded_row label="Tags">production, eu-west, api-gateway, load-balanced, auto-scaling, monitored, pci-compliant</.banded_row>
+              <.banded_row label="Notes">Scheduled for maintenance window on 2026-03-01 02:00 UTC. Failover to prod-api-02 will be active during this period. Contact SRE team before any manual restarts.</.banded_row>
+            </.banded>
           </div>
         </.card>
       </.column>
@@ -439,18 +340,16 @@ defmodule DemoWeb.Live.DataDisplay2Live do
       <.column size="1-2">
         <.card title_text="1f. Desc Table — Multiline + --middle">
           <:description>Cells stretch to fill the row, content centered inside. Label backgrounds fill the full row height.</:description>
-          <div class="pa-desc-container">
-            <div class="pa-desc-table pa-desc-table--cols-2 pa-desc-table--middle">
-              <span class="pa-desc-table__label">Company</span>
-              <span class="pa-desc-table__value">Novak &amp; Partners s.r.o.</span>
-              <span class="pa-desc-table__label">Address</span>
-              <span class="pa-desc-table__value">Vinohradska 2468/164, Prague 3, Vinohrady, 130 00, Czech Republic</span>
-              <span class="pa-desc-table__label">Notes</span>
-              <span class="pa-desc-table__value">Preferred carrier for Central European routes. Framework agreement renewed annually. Contact Jan Novak for any billing disputes or special rate negotiations.</span>
-              <span class="pa-desc-table__label">Status</span>
-              <span class="pa-desc-table__value">Active</span>
-            </div>
-          </div>
+          <.desc_table cols="2" is_middle>
+            <.desc_label>Company</.desc_label>
+            <.desc_value>Novak &amp; Partners s.r.o.</.desc_value>
+            <.desc_label>Address</.desc_label>
+            <.desc_value>Vinohradska 2468/164, Prague 3, Vinohrady, 130 00, Czech Republic</.desc_value>
+            <.desc_label>Notes</.desc_label>
+            <.desc_value>Preferred carrier for Central European routes. Framework agreement renewed annually. Contact Jan Novak for any billing disputes or special rate negotiations.</.desc_value>
+            <.desc_label>Status</.desc_label>
+            <.desc_value>Active</.desc_value>
+          </.desc_table>
         </.card>
       </.column>
     </.grid>
@@ -471,40 +370,22 @@ defmodule DemoWeb.Live.DataDisplay2Live do
       <.column size="1-3">
         <.card title_text="Banded — --label-end" has_padding={false}>
           <div class="pa-banded-container">
-            <div class="pa-banded pa-banded--label-end">
-              <div class="pa-banded__row">
-                <span class="pa-banded__label">Server</span>
-                <span class="pa-banded__value">prod-api-01</span>
-              </div>
-              <div class="pa-banded__row">
-                <span class="pa-banded__label">IP Address</span>
-                <span class="pa-banded__value">10.0.12.45</span>
-              </div>
-              <div class="pa-banded__row">
-                <span class="pa-banded__label">Memory</span>
-                <span class="pa-banded__value">16 GB DDR5</span>
-              </div>
-            </div>
+            <.banded is_label_end>
+              <.banded_row label="Server" value="prod-api-01" />
+              <.banded_row label="IP Address" value="10.0.12.45" />
+              <.banded_row label="Memory" value="16 GB DDR5" />
+            </.banded>
           </div>
         </.card>
       </.column>
       <.column size="1-3">
         <.card title_text="Banded — --label-center" has_padding={false}>
           <div class="pa-banded-container">
-            <div class="pa-banded pa-banded--label-center">
-              <div class="pa-banded__row">
-                <span class="pa-banded__label">Server</span>
-                <span class="pa-banded__value">prod-api-01</span>
-              </div>
-              <div class="pa-banded__row">
-                <span class="pa-banded__label">IP Address</span>
-                <span class="pa-banded__value">10.0.12.45</span>
-              </div>
-              <div class="pa-banded__row">
-                <span class="pa-banded__label">Memory</span>
-                <span class="pa-banded__value">16 GB DDR5</span>
-              </div>
-            </div>
+            <.banded is_label_center>
+              <.banded_row label="Server" value="prod-api-01" />
+              <.banded_row label="IP Address" value="10.0.12.45" />
+              <.banded_row label="Memory" value="16 GB DDR5" />
+            </.banded>
           </div>
         </.card>
       </.column>
@@ -525,30 +406,26 @@ defmodule DemoWeb.Live.DataDisplay2Live do
       </.column>
       <.column size="1-3">
         <.card title_text="Desc Table — --label-end">
-          <div class="pa-desc-container">
-            <div class="pa-desc-table pa-desc-table--cols-2 pa-desc-table--fixed pa-desc-table--label-end">
-              <span class="pa-desc-table__label">Server</span>
-              <span class="pa-desc-table__value">prod-api-01</span>
-              <span class="pa-desc-table__label">IP Address</span>
-              <span class="pa-desc-table__value">10.0.12.45</span>
-              <span class="pa-desc-table__label">Memory</span>
-              <span class="pa-desc-table__value">16 GB DDR5</span>
-            </div>
-          </div>
+          <.desc_table cols="2" is_fixed is_label_end>
+            <.desc_label>Server</.desc_label>
+            <.desc_value>prod-api-01</.desc_value>
+            <.desc_label>IP Address</.desc_label>
+            <.desc_value>10.0.12.45</.desc_value>
+            <.desc_label>Memory</.desc_label>
+            <.desc_value>16 GB DDR5</.desc_value>
+          </.desc_table>
         </.card>
       </.column>
       <.column size="1-3">
         <.card title_text="Desc Table — --label-center">
-          <div class="pa-desc-container">
-            <div class="pa-desc-table pa-desc-table--cols-2 pa-desc-table--fixed pa-desc-table--label-center">
-              <span class="pa-desc-table__label">Server</span>
-              <span class="pa-desc-table__value">prod-api-01</span>
-              <span class="pa-desc-table__label">IP Address</span>
-              <span class="pa-desc-table__value">10.0.12.45</span>
-              <span class="pa-desc-table__label">Memory</span>
-              <span class="pa-desc-table__value">16 GB DDR5</span>
-            </div>
-          </div>
+          <.desc_table cols="2" is_fixed is_label_center>
+            <.desc_label>Server</.desc_label>
+            <.desc_value>prod-api-01</.desc_value>
+            <.desc_label>IP Address</.desc_label>
+            <.desc_value>10.0.12.45</.desc_value>
+            <.desc_label>Memory</.desc_label>
+            <.desc_value>16 GB DDR5</.desc_value>
+          </.desc_table>
         </.card>
       </.column>
     </.grid>
@@ -562,14 +439,8 @@ defmodule DemoWeb.Live.DataDisplay2Live do
         <.card title_text="Normal Card + Accent-Bar">
           <.accent_grid>
             <.accent_grid_item label="Order ID" value="#ORD-2026-00847" />
-            <div class="pa-accent-grid__item pa-accent-grid__item--success">
-              <div class="pa-accent-grid__label">Status</div>
-              <div class="pa-accent-grid__value">Delivered</div>
-            </div>
-            <div class="pa-accent-grid__item pa-accent-grid__item--info">
-              <div class="pa-accent-grid__label">Payment</div>
-              <div class="pa-accent-grid__value">Visa *4242</div>
-            </div>
+            <.accent_grid_item label="Status" value="Delivered" variant="success" />
+            <.accent_grid_item label="Payment" value="Visa *4242" variant="info" />
             <.accent_grid_item label="Customer" value="Elena Petrova" />
           </.accent_grid>
         </.card>
@@ -579,14 +450,8 @@ defmodule DemoWeb.Live.DataDisplay2Live do
           <:description><code>pa-card--ghost</code> — same sizing, no visible container.</:description>
           <.accent_grid>
             <.accent_grid_item label="Order ID" value="#ORD-2026-00847" />
-            <div class="pa-accent-grid__item pa-accent-grid__item--success">
-              <div class="pa-accent-grid__label">Status</div>
-              <div class="pa-accent-grid__value">Delivered</div>
-            </div>
-            <div class="pa-accent-grid__item pa-accent-grid__item--info">
-              <div class="pa-accent-grid__label">Payment</div>
-              <div class="pa-accent-grid__value">Visa *4242</div>
-            </div>
+            <.accent_grid_item label="Status" value="Delivered" variant="success" />
+            <.accent_grid_item label="Payment" value="Visa *4242" variant="info" />
             <.accent_grid_item label="Customer" value="Elena Petrova" />
           </.accent_grid>
         </.card>
@@ -601,19 +466,10 @@ defmodule DemoWeb.Live.DataDisplay2Live do
       <:description>Each property gets a color-coded left border. Good for status-heavy panels.</:description>
       <.accent_grid>
         <.accent_grid_item label="Order ID" value="#ORD-2026-00847" />
-        <div class="pa-accent-grid__item pa-accent-grid__item--success">
-          <div class="pa-accent-grid__label">Status</div>
-          <div class="pa-accent-grid__value">Delivered</div>
-        </div>
-        <div class="pa-accent-grid__item pa-accent-grid__item--info">
-          <div class="pa-accent-grid__label">Payment</div>
-          <div class="pa-accent-grid__value">Visa *4242</div>
-        </div>
+        <.accent_grid_item label="Status" value="Delivered" variant="success" />
+        <.accent_grid_item label="Payment" value="Visa *4242" variant="info" />
         <.accent_grid_item label="Customer" value="Elena Petrova" />
-        <div class="pa-accent-grid__item pa-accent-grid__item--warning">
-          <div class="pa-accent-grid__label">Renewal</div>
-          <div class="pa-accent-grid__value">1 Jan 2027</div>
-        </div>
+        <.accent_grid_item label="Renewal" value="1 Jan 2027" variant="warning" />
         <.accent_grid_item label="Total" value="$1,249.00" />
       </.accent_grid>
     </.card>
@@ -633,7 +489,7 @@ defmodule DemoWeb.Live.DataDisplay2Live do
               <span class="pa-banded__label">IP Address</span>
               <span class="pa-banded__value">
                 <span data-copy-value>10.0.12.45</span>
-                <button class="pa-banded__copy" onclick="copyValue(this)" title="Copy to clipboard">
+                <button class="pa-banded__copy" onclick="window.__paCopyValue(this)" title="Copy to clipboard">
                   <i class="fas fa-copy"></i>
                 </button>
               </span>
@@ -642,7 +498,7 @@ defmodule DemoWeb.Live.DataDisplay2Live do
               <span class="pa-banded__label">Hash</span>
               <span class="pa-banded__value">
                 <span data-copy-value>sha256:e3b0c44298fc1c</span>
-                <button class="pa-banded__copy" onclick="copyValue(this)" title="Copy to clipboard">
+                <button class="pa-banded__copy" onclick="window.__paCopyValue(this)" title="Copy to clipboard">
                   <i class="fas fa-copy"></i>
                 </button>
               </span>
@@ -655,11 +511,11 @@ defmodule DemoWeb.Live.DataDisplay2Live do
           <div class="pa-banded">
             <div class="pa-banded__row pa-banded__row--copy-click">
               <span class="pa-banded__label">Server</span>
-              <span class="pa-banded__value" onclick="copyClickValue(this)" data-copy-value="prod-api-01">prod-api-01</span>
+              <span class="pa-banded__value" onclick="window.__paCopyClickValue(this)" data-copy-value="prod-api-01">prod-api-01</span>
             </div>
             <div class="pa-banded__row pa-banded__row--copy-click">
               <span class="pa-banded__label">OS</span>
-              <span class="pa-banded__value" onclick="copyClickValue(this)" data-copy-value="Ubuntu 22.04 LTS">Ubuntu 22.04 LTS</span>
+              <span class="pa-banded__value" onclick="window.__paCopyClickValue(this)" data-copy-value="Ubuntu 22.04 LTS">Ubuntu 22.04 LTS</span>
             </div>
           </div>
         </.column>
@@ -671,7 +527,7 @@ defmodule DemoWeb.Live.DataDisplay2Live do
               <span class="pa-banded__label">IBAN</span>
               <span class="pa-banded__value">
                 <span data-copy-value>CZ65 0800 0000 1920 0014 5399</span>
-                <button class="pa-banded__copy" onclick="copyValue(this)" title="Copy to clipboard">
+                <button class="pa-banded__copy" onclick="window.__paCopyValue(this)" title="Copy to clipboard">
                   <i class="fas fa-copy"></i>
                 </button>
               </span>
@@ -680,7 +536,7 @@ defmodule DemoWeb.Live.DataDisplay2Live do
               <span class="pa-banded__label">BIC/SWIFT</span>
               <span class="pa-banded__value">
                 <span data-copy-value>GIBACZPX</span>
-                <button class="pa-banded__copy" onclick="copyValue(this)" title="Copy to clipboard">
+                <button class="pa-banded__copy" onclick="window.__paCopyValue(this)" title="Copy to clipboard">
                   <i class="fas fa-copy"></i>
                 </button>
               </span>
@@ -699,7 +555,7 @@ defmodule DemoWeb.Live.DataDisplay2Live do
               <span class="pa-prop-card__label">Order ID</span>
               <span class="pa-prop-card__value">
                 <span data-copy-value>#ORD-2026-00847</span>
-                <button class="pa-prop-card__copy" onclick="copyValue(this)" title="Copy to clipboard">
+                <button class="pa-prop-card__copy" onclick="window.__paCopyValue(this)" title="Copy to clipboard">
                   <i class="fas fa-copy"></i>
                 </button>
               </span>
@@ -712,7 +568,7 @@ defmodule DemoWeb.Live.DataDisplay2Live do
               <span class="pa-prop-card__label">Payment</span>
               <span class="pa-prop-card__value">
                 <span data-copy-value>Visa *4242</span>
-                <button class="pa-prop-card__copy" onclick="copyValue(this)" title="Copy to clipboard">
+                <button class="pa-prop-card__copy" onclick="window.__paCopyValue(this)" title="Copy to clipboard">
                   <i class="fas fa-copy"></i>
                 </button>
               </span>
@@ -731,28 +587,28 @@ defmodule DemoWeb.Live.DataDisplay2Live do
               <span class="pa-desc-table__label">Reg. No.</span>
               <span class="pa-desc-table__value pa-desc-table__value--copy-btn">
                 <span data-copy-value>CZ48207497</span>
-                <button class="pa-desc-table__copy" onclick="copyValue(this)" title="Copy to clipboard">
+                <button class="pa-desc-table__copy" onclick="window.__paCopyValue(this)" title="Copy to clipboard">
                   <i class="fas fa-copy"></i>
                 </button>
               </span>
               <span class="pa-desc-table__label">VAT ID</span>
               <span class="pa-desc-table__value pa-desc-table__value--copy-btn">
                 <span data-copy-value>CZ48207497</span>
-                <button class="pa-desc-table__copy" onclick="copyValue(this)" title="Copy to clipboard">
+                <button class="pa-desc-table__copy" onclick="window.__paCopyValue(this)" title="Copy to clipboard">
                   <i class="fas fa-copy"></i>
                 </button>
               </span>
               <span class="pa-desc-table__label">Email</span>
               <span class="pa-desc-table__value pa-desc-table__value--copy-btn">
                 <span data-copy-value>jan.novak@novakpartners.cz</span>
-                <button class="pa-desc-table__copy" onclick="copyValue(this)" title="Copy to clipboard">
+                <button class="pa-desc-table__copy" onclick="window.__paCopyValue(this)" title="Copy to clipboard">
                   <i class="fas fa-copy"></i>
                 </button>
               </span>
               <span class="pa-desc-table__label">Phone</span>
               <span class="pa-desc-table__value pa-desc-table__value--copy-btn">
                 <span data-copy-value>+420 234 111 222</span>
-                <button class="pa-desc-table__copy" onclick="copyValue(this)" title="Copy to clipboard">
+                <button class="pa-desc-table__copy" onclick="window.__paCopyValue(this)" title="Copy to clipboard">
                   <i class="fas fa-copy"></i>
                 </button>
               </span>
@@ -768,20 +624,20 @@ defmodule DemoWeb.Live.DataDisplay2Live do
           <div class="pa-accent-grid__label">Order ID</div>
           <div class="pa-accent-grid__value">
             <span data-copy-value>#ORD-2026-00847</span>
-            <button class="pa-accent-grid__copy" onclick="copyValue(this)" title="Copy to clipboard">
+            <button class="pa-accent-grid__copy" onclick="window.__paCopyValue(this)" title="Copy to clipboard">
               <i class="fas fa-copy"></i>
             </button>
           </div>
         </div>
         <div class="pa-accent-grid__item pa-accent-grid__item--success pa-accent-grid__item--copy-click">
           <div class="pa-accent-grid__label">Status</div>
-          <div class="pa-accent-grid__value" onclick="copyClickValue(this)" data-copy-value="Delivered">Delivered</div>
+          <div class="pa-accent-grid__value" onclick="window.__paCopyClickValue(this)" data-copy-value="Delivered">Delivered</div>
         </div>
         <div class="pa-accent-grid__item pa-accent-grid__item--info pa-accent-grid__item--copy-hover">
           <div class="pa-accent-grid__label">Payment</div>
           <div class="pa-accent-grid__value">
             <span data-copy-value>Visa *4242</span>
-            <button class="pa-accent-grid__copy" onclick="copyValue(this)" title="Copy to clipboard">
+            <button class="pa-accent-grid__copy" onclick="window.__paCopyValue(this)" title="Copy to clipboard">
               <i class="fas fa-copy"></i>
             </button>
           </div>
@@ -790,7 +646,7 @@ defmodule DemoWeb.Live.DataDisplay2Live do
           <div class="pa-accent-grid__label">Customer</div>
           <div class="pa-accent-grid__value">
             <span data-copy-value>Elena Petrova</span>
-            <button class="pa-accent-grid__copy" onclick="copyValue(this)" title="Copy to clipboard">
+            <button class="pa-accent-grid__copy" onclick="window.__paCopyValue(this)" title="Copy to clipboard">
               <i class="fas fa-copy"></i>
             </button>
           </div>
@@ -799,20 +655,20 @@ defmodule DemoWeb.Live.DataDisplay2Live do
           <div class="pa-accent-grid__label">Renewal</div>
           <div class="pa-accent-grid__value">
             <span data-copy-value>1 Jan 2027</span>
-            <button class="pa-accent-grid__copy" onclick="copyValue(this)" title="Copy to clipboard">
+            <button class="pa-accent-grid__copy" onclick="window.__paCopyValue(this)" title="Copy to clipboard">
               <i class="fas fa-copy"></i>
             </button>
           </div>
         </div>
         <div class="pa-accent-grid__item pa-accent-grid__item--copy-click">
           <div class="pa-accent-grid__label">Total</div>
-          <div class="pa-accent-grid__value" onclick="copyClickValue(this)" data-copy-value="$1,249.00">$1,249.00</div>
+          <div class="pa-accent-grid__value" onclick="window.__paCopyClickValue(this)" data-copy-value="$1,249.00">$1,249.00</div>
         </div>
       </div>
     </.card>
 
     <script>
-    function copyValue(btn) {
+    window.__paCopyValue = function(btn) {
         const valueEl = btn.parentElement.querySelector('[data-copy-value]');
         const text = valueEl.getAttribute('data-copy-value') || valueEl.textContent.trim();
 
@@ -828,14 +684,16 @@ defmodule DemoWeb.Live.DataDisplay2Live do
         });
     }
 
-    function copyClickValue(el) {
+    window.__paCopyClickValue = function(el) {
         const text = el.getAttribute('data-copy-value') || el.textContent.trim();
-        const item = el.closest('.pa-banded__row, .pa-accent-grid__item');
+        const item = el.closest('.pa-banded__row, .pa-accent-grid__item, .pa-field');
 
         navigator.clipboard.writeText(text).then(() => {
             if (item) {
                 const copiedClass = item.classList.contains('pa-banded__row')
                     ? 'pa-banded__row--copied'
+                    : item.classList.contains('pa-field')
+                    ? 'pa-field--copied'
                     : 'pa-accent-grid__item--copied';
                 item.classList.add(copiedClass);
 
