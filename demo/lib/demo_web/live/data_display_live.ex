@@ -20,40 +20,19 @@ defmodule DemoWeb.Live.DataDisplayLive do
         <.card title_text="Multiple pa-fields Blocks">
           <:description>Consecutive <code>pa-fields</code> blocks get automatic spacing via <code>.pa-fields + .pa-fields</code>.</:description>
 
-          <div class="pa-fields pa-fields--row">
-            <div class="pa-field">
-              <span class="pa-field__label">First Name</span>
-              <span class="pa-field__value">Elena</span>
-            </div>
-            <div class="pa-field">
-              <span class="pa-field__label">Last Name</span>
-              <span class="pa-field__value">Petrova</span>
-            </div>
-          </div>
-          <div class="pa-fields pa-fields--cols-2">
-            <div class="pa-field">
-              <span class="pa-field__label">Date of Birth</span>
-              <span class="pa-field__value">14 March 1992</span>
-            </div>
-            <div class="pa-field">
-              <span class="pa-field__label">Role</span>
-              <span class="pa-field__value">Senior Developer</span>
-            </div>
-            <div class="pa-field">
-              <span class="pa-field__label">Office</span>
-              <span class="pa-field__value">Prague, Karlin</span>
-            </div>
-            <div class="pa-field">
-              <span class="pa-field__label">Start Date</span>
-              <span class="pa-field__value">1 Sep 2019</span>
-            </div>
-          </div>
-          <div class="pa-fields">
-            <div class="pa-field">
-              <span class="pa-field__label">Notes</span>
-              <span class="pa-field__value">Team lead for the frontend platform team. Available for mentoring.</span>
-            </div>
-          </div>
+          <.fields is_row>
+            <.field label="First Name">Elena</.field>
+            <.field label="Last Name">Petrova</.field>
+          </.fields>
+          <.fields cols="2">
+            <.field label="Date of Birth">14 March 1992</.field>
+            <.field label="Role">Senior Developer</.field>
+            <.field label="Office">Prague, Karlin</.field>
+            <.field label="Start Date">1 Sep 2019</.field>
+          </.fields>
+          <.fields>
+            <.field label="Notes">Team lead for the frontend platform team. Available for mentoring.</.field>
+          </.fields>
         </.card>
       </.column>
 
@@ -61,28 +40,13 @@ defmodule DemoWeb.Live.DataDisplayLive do
         <.card title_text="Multi-Column Grid">
           <:description>Uses <code>pa-fields--cols-2/3/4</code>. Use <code>pa-field--full</code> to span all columns.</:description>
 
-          <div class="pa-fields pa-fields--cols-2">
-            <div class="pa-field">
-              <span class="pa-field__label">Company</span>
-              <span class="pa-field__value">Acme Logistics</span>
-            </div>
-            <div class="pa-field">
-              <span class="pa-field__label">Reg. No.</span>
-              <span class="pa-field__value">CZ27082440</span>
-            </div>
-            <div class="pa-field">
-              <span class="pa-field__label">Contact</span>
-              <span class="pa-field__value">Jan Kratochvil</span>
-            </div>
-            <div class="pa-field">
-              <span class="pa-field__label">Phone</span>
-              <span class="pa-field__value">+420 234 567 890</span>
-            </div>
-            <div class="pa-field pa-field--full">
-              <span class="pa-field__label">Notes</span>
-              <span class="pa-field__value">Preferred carrier for Central European routes.</span>
-            </div>
-          </div>
+          <.fields cols="2">
+            <.field label="Company">Acme Logistics</.field>
+            <.field label="Reg. No.">CZ27082440</.field>
+            <.field label="Contact">Jan Kratochvil</.field>
+            <.field label="Phone">+420 234 567 890</.field>
+            <.field label="Notes" is_full>Preferred carrier for Central European routes.</.field>
+          </.fields>
         </.card>
       </.column>
     </.grid>
@@ -96,51 +60,30 @@ defmodule DemoWeb.Live.DataDisplayLive do
 
       <.grid>
         <.column size="1-3">
-          <div class="pa-field-group">
-            <div class="pa-field-group__title">Personal</div>
-            <div class="pa-fields">
-              <div class="pa-field">
-                <span class="pa-field__label">Full Name</span>
-                <span class="pa-field__value">Petra Konecna</span>
-              </div>
-              <div class="pa-field">
-                <span class="pa-field__label">Date of Birth</span>
-                <span class="pa-field__value">22 June 1990</span>
-              </div>
-            </div>
-          </div>
+          <.field_group title="Personal">
+            <.fields>
+              <.field label="Full Name">Petra Konecna</.field>
+              <.field label="Date of Birth">22 June 1990</.field>
+            </.fields>
+          </.field_group>
         </.column>
 
         <.column size="1-3">
-          <div class="pa-field-group">
-            <div class="pa-field-group__title">Employment</div>
-            <div class="pa-fields">
-              <div class="pa-field">
-                <span class="pa-field__label">Position</span>
-                <span class="pa-field__value">Product Manager</span>
-              </div>
-              <div class="pa-field">
-                <span class="pa-field__label">Department</span>
-                <span class="pa-field__value">Product Dev</span>
-              </div>
-            </div>
-          </div>
+          <.field_group title="Employment">
+            <.fields>
+              <.field label="Position">Product Manager</.field>
+              <.field label="Department">Product Dev</.field>
+            </.fields>
+          </.field_group>
         </.column>
 
         <.column size="1-3">
-          <div class="pa-field-group">
-            <div class="pa-field-group__title">Emergency Contact</div>
-            <div class="pa-fields">
-              <div class="pa-field">
-                <span class="pa-field__label">Name</span>
-                <span class="pa-field__value">Martin Konecny</span>
-              </div>
-              <div class="pa-field">
-                <span class="pa-field__label">Phone</span>
-                <span class="pa-field__value">+420 777 888 999</span>
-              </div>
-            </div>
-          </div>
+          <.field_group title="Emergency Contact">
+            <.fields>
+              <.field label="Name">Martin Konecny</.field>
+              <.field label="Phone">+420 777 888 999</.field>
+            </.fields>
+          </.field_group>
         </.column>
       </.grid>
     </.card>
@@ -154,24 +97,12 @@ defmodule DemoWeb.Live.DataDisplayLive do
         <.card title_text="Horizontal">
           <:description>Uses <code>pa-fields--horizontal</code>.</:description>
 
-          <div class="pa-fields pa-fields--horizontal">
-            <div class="pa-field">
-              <span class="pa-field__label">Company</span>
-              <span class="pa-field__value">Acme Corp</span>
-            </div>
-            <div class="pa-field">
-              <span class="pa-field__label">Reg. No.</span>
-              <span class="pa-field__value">CZ12345678</span>
-            </div>
-            <div class="pa-field">
-              <span class="pa-field__label">VAT ID</span>
-              <span class="pa-field__value">CZ12345678</span>
-            </div>
-            <div class="pa-field">
-              <span class="pa-field__label">Industry</span>
-              <span class="pa-field__value">Software</span>
-            </div>
-          </div>
+          <.fields is_horizontal>
+            <.field label="Company">Acme Corp</.field>
+            <.field label="Reg. No.">CZ12345678</.field>
+            <.field label="VAT ID">CZ12345678</.field>
+            <.field label="Industry">Software</.field>
+          </.fields>
         </.card>
       </.column>
 
@@ -179,24 +110,12 @@ defmodule DemoWeb.Live.DataDisplayLive do
         <.card title_text="Table-Style Bordered">
           <:description>Uses <code>pa-fields--table pa-fields--bordered</code>.</:description>
 
-          <div class="pa-fields pa-fields--table pa-fields--bordered">
-            <div class="pa-field">
-              <span class="pa-field__label">Order ID</span>
-              <span class="pa-field__value">#ORD-00847</span>
-            </div>
-            <div class="pa-field">
-              <span class="pa-field__label">Status</span>
-              <span class="pa-field__value"><.badge variant="success">Delivered</.badge></span>
-            </div>
-            <div class="pa-field">
-              <span class="pa-field__label">Payment</span>
-              <span class="pa-field__value">Visa *4242</span>
-            </div>
-            <div class="pa-field">
-              <span class="pa-field__label">Total</span>
-              <span class="pa-field__value"><strong>$1,249</strong></span>
-            </div>
-          </div>
+          <.fields is_table is_bordered>
+            <.field label="Order ID">#ORD-00847</.field>
+            <.field label="Status"><.badge variant="success">Delivered</.badge></.field>
+            <.field label="Payment">Visa *4242</.field>
+            <.field label="Total"><strong>$1,249</strong></.field>
+          </.fields>
         </.card>
       </.column>
 
@@ -204,24 +123,12 @@ defmodule DemoWeb.Live.DataDisplayLive do
         <.card title_text="Striped">
           <:description>Uses <code>pa-fields--striped</code>.</:description>
 
-          <div class="pa-fields pa-fields--striped">
-            <div class="pa-field">
-              <span class="pa-field__label">Server</span>
-              <span class="pa-field__value">prod-api-01</span>
-            </div>
-            <div class="pa-field">
-              <span class="pa-field__label">IP</span>
-              <span class="pa-field__value">10.0.12.45</span>
-            </div>
-            <div class="pa-field">
-              <span class="pa-field__label">OS</span>
-              <span class="pa-field__value">Ubuntu 22.04</span>
-            </div>
-            <div class="pa-field">
-              <span class="pa-field__label">Memory</span>
-              <span class="pa-field__value">16 GB</span>
-            </div>
-          </div>
+          <.fields is_striped>
+            <.field label="Server">prod-api-01</.field>
+            <.field label="IP">10.0.12.45</.field>
+            <.field label="OS">Ubuntu 22.04</.field>
+            <.field label="Memory">16 GB</.field>
+          </.fields>
         </.card>
       </.column>
     </.grid>
@@ -235,20 +142,11 @@ defmodule DemoWeb.Live.DataDisplayLive do
         <.card title_text="Compact">
           <:description><code>pa-fields--compact</code></:description>
 
-          <div class="pa-fields pa-fields--compact">
-            <div class="pa-field">
-              <span class="pa-field__label">Name</span>
-              <span class="pa-field__value">Martin</span>
-            </div>
-            <div class="pa-field">
-              <span class="pa-field__label">Role</span>
-              <span class="pa-field__value">DevOps</span>
-            </div>
-            <div class="pa-field">
-              <span class="pa-field__label">Team</span>
-              <span class="pa-field__value">Infra</span>
-            </div>
-          </div>
+          <.fields is_compact>
+            <.field label="Name">Martin</.field>
+            <.field label="Role">DevOps</.field>
+            <.field label="Team">Infra</.field>
+          </.fields>
         </.card>
       </.column>
 
@@ -256,20 +154,11 @@ defmodule DemoWeb.Live.DataDisplayLive do
         <.card title_text="Inline">
           <:description><code>pa-fields--inline</code></:description>
 
-          <div class="pa-fields pa-fields--inline">
-            <div class="pa-field">
-              <span class="pa-field__label">Browser</span>
-              <span class="pa-field__value">Chrome</span>
-            </div>
-            <div class="pa-field">
-              <span class="pa-field__label">OS</span>
-              <span class="pa-field__value">Win 11</span>
-            </div>
-            <div class="pa-field">
-              <span class="pa-field__label">Lang</span>
-              <span class="pa-field__value">en-US</span>
-            </div>
-          </div>
+          <.fields is_inline>
+            <.field label="Browser">Chrome</.field>
+            <.field label="OS">Win 11</.field>
+            <.field label="Lang">en-US</.field>
+          </.fields>
         </.card>
       </.column>
 
@@ -277,20 +166,11 @@ defmodule DemoWeb.Live.DataDisplayLive do
         <.card title_text="Row">
           <:description><code>pa-fields--row</code></:description>
 
-          <div class="pa-fields pa-fields--row">
-            <div class="pa-field">
-              <span class="pa-field__label">Width</span>
-              <span class="pa-field__value">120cm</span>
-            </div>
-            <div class="pa-field">
-              <span class="pa-field__label">Height</span>
-              <span class="pa-field__value">80cm</span>
-            </div>
-            <div class="pa-field">
-              <span class="pa-field__label">Depth</span>
-              <span class="pa-field__value">60cm</span>
-            </div>
-          </div>
+          <.fields is_row>
+            <.field label="Width">120cm</.field>
+            <.field label="Height">80cm</.field>
+            <.field label="Depth">60cm</.field>
+          </.fields>
         </.card>
       </.column>
 
@@ -298,16 +178,10 @@ defmodule DemoWeb.Live.DataDisplayLive do
         <.card title_text="Relaxed">
           <:description><code>pa-fields--relaxed</code></:description>
 
-          <div class="pa-fields pa-fields--relaxed">
-            <div class="pa-field">
-              <span class="pa-field__label">Name</span>
-              <span class="pa-field__value">Elena</span>
-            </div>
-            <div class="pa-field">
-              <span class="pa-field__label">Role</span>
-              <span class="pa-field__value">Developer</span>
-            </div>
-          </div>
+          <.fields is_relaxed>
+            <.field label="Name">Elena</.field>
+            <.field label="Role">Developer</.field>
+          </.fields>
         </.card>
       </.column>
     </.grid>
@@ -323,36 +197,18 @@ defmodule DemoWeb.Live.DataDisplayLive do
 
           <.grid>
             <.column size="1-2">
-              <div class="pa-fields pa-fields--filled">
-                <div class="pa-field">
-                  <span class="pa-field__label">Contract No.</span>
-                  <span class="pa-field__value">CTR-2025-00194</span>
-                </div>
-                <div class="pa-field">
-                  <span class="pa-field__label">Type</span>
-                  <span class="pa-field__value">Framework Agreement</span>
-                </div>
-                <div class="pa-field">
-                  <span class="pa-field__label">Status</span>
-                  <span class="pa-field__value"><.badge variant="success">Active</.badge></span>
-                </div>
-              </div>
+              <.fields is_filled>
+                <.field label="Contract No.">CTR-2025-00194</.field>
+                <.field label="Type">Framework Agreement</.field>
+                <.field label="Status"><.badge variant="success">Active</.badge></.field>
+              </.fields>
             </.column>
             <.column size="1-2">
-              <div class="pa-fields pa-fields--filled pa-fields--row">
-                <div class="pa-field">
-                  <span class="pa-field__label">Plan</span>
-                  <span class="pa-field__value">Enterprise</span>
-                </div>
-                <div class="pa-field">
-                  <span class="pa-field__label">Renewal</span>
-                  <span class="pa-field__value">1 Jan 2027</span>
-                </div>
-                <div class="pa-field">
-                  <span class="pa-field__label">Seats</span>
-                  <span class="pa-field__value">48 / 50</span>
-                </div>
-              </div>
+              <.fields is_filled is_row>
+                <.field label="Plan">Enterprise</.field>
+                <.field label="Renewal">1 Jan 2027</.field>
+                <.field label="Seats">48 / 50</.field>
+              </.fields>
             </.column>
           </.grid>
         </.card>
@@ -366,12 +222,9 @@ defmodule DemoWeb.Live.DataDisplayLive do
             <.input type="text" value="Tomas" />
           </.form_group>
           <h4>View</h4>
-          <div class="pa-fields">
-            <div class="pa-field">
-              <span class="pa-field__label">Name</span>
-              <span class="pa-field__value">Tomas</span>
-            </div>
-          </div>
+          <.fields>
+            <.field label="Name">Tomas</.field>
+          </.fields>
         </.card>
       </.column>
     </.grid>
@@ -386,96 +239,57 @@ defmodule DemoWeb.Live.DataDisplayLive do
       <h4>Border Colors</h4>
       <.grid>
         <.column size="1-3">
-          <div class="pa-fields pa-fields--color-1">
-            <div class="pa-field">
-              <span class="pa-field__label">Color 1</span>
-              <span class="pa-field__value">Red / Primary</span>
-            </div>
-          </div>
+          <.fields color="1">
+            <.field label="Color 1">Red / Primary</.field>
+          </.fields>
         </.column>
         <.column size="1-3">
-          <div class="pa-fields pa-fields--color-4">
-            <div class="pa-field">
-              <span class="pa-field__label">Color 4</span>
-              <span class="pa-field__value">Green / Success</span>
-            </div>
-          </div>
+          <.fields color="4">
+            <.field label="Color 4">Green / Success</.field>
+          </.fields>
         </.column>
         <.column size="1-3">
-          <div class="pa-fields pa-fields--color-7">
-            <div class="pa-field">
-              <span class="pa-field__label">Color 7</span>
-              <span class="pa-field__value">Blue / Info</span>
-            </div>
-          </div>
+          <.fields color="7">
+            <.field label="Color 7">Blue / Info</.field>
+          </.fields>
         </.column>
       </.grid>
 
       <h4 class="mt-4">Filled + Color (Tinted Background)</h4>
       <.grid>
         <.column size="1-3">
-          <div class="pa-fields pa-fields--filled pa-fields--color-1">
-            <div class="pa-field">
-              <span class="pa-field__label">Status</span>
-              <span class="pa-field__value"><.badge variant="danger">Error</.badge></span>
-            </div>
-            <div class="pa-field">
-              <span class="pa-field__label">Message</span>
-              <span class="pa-field__value">Connection failed</span>
-            </div>
-          </div>
+          <.fields is_filled color="1">
+            <.field label="Status"><.badge variant="danger">Error</.badge></.field>
+            <.field label="Message">Connection failed</.field>
+          </.fields>
         </.column>
         <.column size="1-3">
-          <div class="pa-fields pa-fields--filled pa-fields--color-4">
-            <div class="pa-field">
-              <span class="pa-field__label">Status</span>
-              <span class="pa-field__value"><.badge variant="success">Success</.badge></span>
-            </div>
-            <div class="pa-field">
-              <span class="pa-field__label">Message</span>
-              <span class="pa-field__value">Order completed</span>
-            </div>
-          </div>
+          <.fields is_filled color="4">
+            <.field label="Status"><.badge variant="success">Success</.badge></.field>
+            <.field label="Message">Order completed</.field>
+          </.fields>
         </.column>
         <.column size="1-3">
-          <div class="pa-fields pa-fields--filled pa-fields--color-3">
-            <div class="pa-field">
-              <span class="pa-field__label">Status</span>
-              <span class="pa-field__value"><.badge variant="warning">Warning</.badge></span>
-            </div>
-            <div class="pa-field">
-              <span class="pa-field__label">Message</span>
-              <span class="pa-field__value">Low inventory</span>
-            </div>
-          </div>
+          <.fields is_filled color="3">
+            <.field label="Status"><.badge variant="warning">Warning</.badge></.field>
+            <.field label="Message">Low inventory</.field>
+          </.fields>
         </.column>
       </.grid>
 
       <h4 class="mt-4">No Border</h4>
       <.grid>
         <.column size="1-2">
-          <div class="pa-fields pa-fields--no-border">
-            <div class="pa-field">
-              <span class="pa-field__label">Name</span>
-              <span class="pa-field__value">Elena Petrova</span>
-            </div>
-            <div class="pa-field">
-              <span class="pa-field__label">Email</span>
-              <span class="pa-field__value">elena@acme.com</span>
-            </div>
-          </div>
+          <.fields is_no_border>
+            <.field label="Name">Elena Petrova</.field>
+            <.field label="Email">elena@acme.com</.field>
+          </.fields>
         </.column>
         <.column size="1-2">
-          <div class="pa-fields pa-fields--filled pa-fields--no-border">
-            <div class="pa-field">
-              <span class="pa-field__label">Name</span>
-              <span class="pa-field__value">Elena Petrova</span>
-            </div>
-            <div class="pa-field">
-              <span class="pa-field__label">Email</span>
-              <span class="pa-field__value">elena@acme.com</span>
-            </div>
-          </div>
+          <.fields is_filled is_no_border>
+            <.field label="Name">Elena Petrova</.field>
+            <.field label="Email">elena@acme.com</.field>
+          </.fields>
         </.column>
       </.grid>
     </.card>

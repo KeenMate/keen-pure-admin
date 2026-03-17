@@ -15,44 +15,40 @@ defmodule DemoWeb.Live.DataDisplay2Live do
 
     <.card title_text="1. Descriptions Table">
       <:description>Ant Design style. Label cells get a tinted background. Dense, structured, and very readable.</:description>
-      <div class="pa-desc-container">
-        <div class="pa-desc-table">
-          <span class="pa-desc-table__label">Company</span>
-          <span class="pa-desc-table__value">Novak &amp; Partners s.r.o.</span>
-          <span class="pa-desc-table__label">Reg. No.</span>
-          <span class="pa-desc-table__value">CZ48207497</span>
-          <span class="pa-desc-table__label">VAT ID</span>
-          <span class="pa-desc-table__value">CZ48207497</span>
-          <span class="pa-desc-table__label">Contact</span>
-          <span class="pa-desc-table__value">Jan Novak</span>
-          <span class="pa-desc-table__label">Email</span>
-          <span class="pa-desc-table__value">jan.novak@novakpartners.cz</span>
-          <span class="pa-desc-table__label">Phone</span>
-          <span class="pa-desc-table__value">+420 234 111 222</span>
-          <span class="pa-desc-table__label">Notes</span>
-          <span class="pa-desc-table__value pa-desc-table__value--full">Preferred carrier for Central European routes. Framework agreement renewed annually.</span>
-        </div>
-      </div>
+      <.desc_table>
+        <.desc_label>Company</.desc_label>
+        <.desc_value>Novak &amp; Partners s.r.o.</.desc_value>
+        <.desc_label>Reg. No.</.desc_label>
+        <.desc_value>CZ48207497</.desc_value>
+        <.desc_label>VAT ID</.desc_label>
+        <.desc_value>CZ48207497</.desc_value>
+        <.desc_label>Contact</.desc_label>
+        <.desc_value>Jan Novak</.desc_value>
+        <.desc_label>Email</.desc_label>
+        <.desc_value>jan.novak@novakpartners.cz</.desc_value>
+        <.desc_label>Phone</.desc_label>
+        <.desc_value>+420 234 111 222</.desc_value>
+        <.desc_label>Notes</.desc_label>
+        <.desc_value is_full>Preferred carrier for Central European routes. Framework agreement renewed annually.</.desc_value>
+      </.desc_table>
     </.card>
 
     <%!-- 2-column variant --%>
     <.card title_text="1b. Descriptions Table (2 columns)">
-      <div class="pa-desc-container">
-        <div class="pa-desc-table pa-desc-table--cols-2">
-          <span class="pa-desc-table__label">First Name</span>
-          <span class="pa-desc-table__value">Elena</span>
-          <span class="pa-desc-table__label">Last Name</span>
-          <span class="pa-desc-table__value">Petrova</span>
-          <span class="pa-desc-table__label">Date of Birth</span>
-          <span class="pa-desc-table__value">14 March 1992</span>
-          <span class="pa-desc-table__label">Role</span>
-          <span class="pa-desc-table__value">Senior Developer</span>
-          <span class="pa-desc-table__label">Office</span>
-          <span class="pa-desc-table__value">Prague, Karlin</span>
-          <span class="pa-desc-table__label">Start Date</span>
-          <span class="pa-desc-table__value">1 Sep 2019</span>
-        </div>
-      </div>
+      <.desc_table cols="2">
+        <.desc_label>First Name</.desc_label>
+        <.desc_value>Elena</.desc_value>
+        <.desc_label>Last Name</.desc_label>
+        <.desc_value>Petrova</.desc_value>
+        <.desc_label>Date of Birth</.desc_label>
+        <.desc_value>14 March 1992</.desc_value>
+        <.desc_label>Role</.desc_label>
+        <.desc_value>Senior Developer</.desc_value>
+        <.desc_label>Office</.desc_label>
+        <.desc_value>Prague, Karlin</.desc_value>
+        <.desc_label>Start Date</.desc_label>
+        <.desc_value>1 Sep 2019</.desc_value>
+      </.desc_table>
     </.card>
 
     <%!-- Fixed label width + truncate --%>
@@ -60,35 +56,31 @@ defmodule DemoWeb.Live.DataDisplay2Live do
       <.column size="1-2">
         <.card title_text="1c. Descriptions Table — Fixed + Truncate">
           <:description><code>--fixed</code> locks label columns to 14rem. <code>--truncate</code> clips long values with ellipsis.</:description>
-          <div class="pa-desc-container">
-            <div class="pa-desc-table pa-desc-table--cols-2 pa-desc-table--fixed pa-desc-table--truncate">
-              <span class="pa-desc-table__label">Company</span>
-              <span class="pa-desc-table__value">Novak &amp; Partners International Consulting Group s.r.o.</span>
-              <span class="pa-desc-table__label">Reg. No.</span>
-              <span class="pa-desc-table__value">CZ48207497</span>
-              <span class="pa-desc-table__label">Address</span>
-              <span class="pa-desc-table__value">Vinohradska 2468/164, Prague 3, Vinohrady, 130 00, Czech Republic</span>
-              <span class="pa-desc-table__label">Email</span>
-              <span class="pa-desc-table__value">jan.novak@novakpartners-international.cz</span>
-            </div>
-          </div>
+          <.desc_table cols="2" is_fixed is_truncate>
+            <.desc_label>Company</.desc_label>
+            <.desc_value>Novak &amp; Partners International Consulting Group s.r.o.</.desc_value>
+            <.desc_label>Reg. No.</.desc_label>
+            <.desc_value>CZ48207497</.desc_value>
+            <.desc_label>Address</.desc_label>
+            <.desc_value>Vinohradska 2468/164, Prague 3, Vinohrady, 130 00, Czech Republic</.desc_value>
+            <.desc_label>Email</.desc_label>
+            <.desc_value>jan.novak@novakpartners-international.cz</.desc_value>
+          </.desc_table>
         </.card>
       </.column>
       <.column size="1-2">
         <.card title_text="1d. Descriptions Table — Custom Label Width">
           <:description><code>--fixed</code> with <code>--label-width: 20rem</code> via CSS custom property.</:description>
-          <div class="pa-desc-container">
-            <div class="pa-desc-table pa-desc-table--cols-2 pa-desc-table--fixed" style="--label-width: 20rem">
-              <span class="pa-desc-table__label">Full Legal Name</span>
-              <span class="pa-desc-table__value">Elena Petrova</span>
-              <span class="pa-desc-table__label">Date of Birth</span>
-              <span class="pa-desc-table__value">14 March 1992</span>
-              <span class="pa-desc-table__label">Department</span>
-              <span class="pa-desc-table__value">Engineering</span>
-              <span class="pa-desc-table__label">Employment Type</span>
-              <span class="pa-desc-table__value">Full-time permanent</span>
-            </div>
-          </div>
+          <.desc_table cols="2" is_fixed label_width="20rem">
+            <.desc_label>Full Legal Name</.desc_label>
+            <.desc_value>Elena Petrova</.desc_value>
+            <.desc_label>Date of Birth</.desc_label>
+            <.desc_value>14 March 1992</.desc_value>
+            <.desc_label>Department</.desc_label>
+            <.desc_value>Engineering</.desc_value>
+            <.desc_label>Employment Type</.desc_label>
+            <.desc_value>Full-time permanent</.desc_value>
+          </.desc_table>
         </.card>
       </.column>
     </.grid>
@@ -101,60 +93,24 @@ defmodule DemoWeb.Live.DataDisplay2Live do
       <.column size="1-2">
         <.card title_text="2. Dot Leaders">
           <:description>Restaurant menu / invoice style. Dotted line connects label to value.</:description>
-          <div class="pa-dot-leaders">
-            <div class="pa-dot-leaders__item">
-              <span class="pa-dot-leaders__label">Contract No.</span>
-              <span class="pa-dot-leaders__leader"></span>
-              <span class="pa-dot-leaders__value">CTR-2025-00194</span>
-            </div>
-            <div class="pa-dot-leaders__item">
-              <span class="pa-dot-leaders__label">Type</span>
-              <span class="pa-dot-leaders__leader"></span>
-              <span class="pa-dot-leaders__value">Framework Agreement</span>
-            </div>
-            <div class="pa-dot-leaders__item">
-              <span class="pa-dot-leaders__label">Status</span>
-              <span class="pa-dot-leaders__leader"></span>
-              <span class="pa-dot-leaders__value">Active</span>
-            </div>
-            <div class="pa-dot-leaders__item">
-              <span class="pa-dot-leaders__label">Renewal Date</span>
-              <span class="pa-dot-leaders__leader"></span>
-              <span class="pa-dot-leaders__value">1 Jan 2027</span>
-            </div>
-            <div class="pa-dot-leaders__item">
-              <span class="pa-dot-leaders__label">Seats</span>
-              <span class="pa-dot-leaders__leader"></span>
-              <span class="pa-dot-leaders__value">48 / 50</span>
-            </div>
-          </div>
+          <.dot_leaders>
+            <.dot_leader label="Contract No." value="CTR-2025-00194" />
+            <.dot_leader label="Type" value="Framework Agreement" />
+            <.dot_leader label="Status" value="Active" />
+            <.dot_leader label="Renewal Date" value="1 Jan 2027" />
+            <.dot_leader label="Seats" value="48 / 50" />
+          </.dot_leaders>
         </.card>
       </.column>
       <.column size="1-2">
         <.card title_text="2b. Dot Leaders — Invoice Totals">
           <:description>Perfect for financial summaries.</:description>
-          <div class="pa-dot-leaders">
-            <div class="pa-dot-leaders__item">
-              <span class="pa-dot-leaders__label">Subtotal</span>
-              <span class="pa-dot-leaders__leader"></span>
-              <span class="pa-dot-leaders__value">$2,094.00</span>
-            </div>
-            <div class="pa-dot-leaders__item">
-              <span class="pa-dot-leaders__label">Shipping</span>
-              <span class="pa-dot-leaders__leader"></span>
-              <span class="pa-dot-leaders__value">$24.00</span>
-            </div>
-            <div class="pa-dot-leaders__item">
-              <span class="pa-dot-leaders__label">VAT 21%</span>
-              <span class="pa-dot-leaders__leader"></span>
-              <span class="pa-dot-leaders__value">$439.74</span>
-            </div>
-            <div class="pa-dot-leaders__item pa-dot-leaders__item--total">
-              <span class="pa-dot-leaders__label">Total</span>
-              <span class="pa-dot-leaders__leader"></span>
-              <span class="pa-dot-leaders__value">$2,557.74</span>
-            </div>
-          </div>
+          <.dot_leaders>
+            <.dot_leader label="Subtotal" value="$2,094.00" />
+            <.dot_leader label="Shipping" value="$24.00" />
+            <.dot_leader label="VAT 21%" value="$439.74" />
+            <.dot_leader label="Total" value="$2,557.74" is_total />
+          </.dot_leaders>
         </.card>
       </.column>
     </.grid>
@@ -234,39 +190,18 @@ defmodule DemoWeb.Live.DataDisplay2Live do
         <.card title_text="4. Linear Minimal">
           <:description>Ultra-clean. Only weight + color contrast. No decoration.</:description>
           <div class="pa-fields-container">
-            <div class="pa-fields pa-fields--linear pa-fields--no-border">
-              <div class="pa-field">
-                <span class="pa-field__label">Status</span>
-                <span class="pa-field__value"><.badge variant="success">Active</.badge></span>
-              </div>
-              <div class="pa-field">
-                <span class="pa-field__label">Priority</span>
-                <span class="pa-field__value">High</span>
-              </div>
-              <div class="pa-field">
-                <span class="pa-field__label">Assignee</span>
-                <span class="pa-field__value">Elena Petrova</span>
-              </div>
-              <div class="pa-field">
-                <span class="pa-field__label">Created</span>
-                <span class="pa-field__value">28 Jan 2026</span>
-              </div>
-              <div class="pa-field">
-                <span class="pa-field__label">Due Date</span>
-                <span class="pa-field__value">14 Feb 2026</span>
-              </div>
-              <div class="pa-field">
-                <span class="pa-field__label">Project</span>
-                <span class="pa-field__value">Platform v2</span>
-              </div>
-              <div class="pa-field">
-                <span class="pa-field__label">Labels</span>
-                <span class="pa-field__value">
-                  <span class="pa-badge">Frontend</span>
-                  <span class="pa-badge">UX</span>
-                </span>
-              </div>
-            </div>
+            <.fields is_linear is_no_border>
+              <.field label="Status"><.badge variant="success">Active</.badge></.field>
+              <.field label="Priority">High</.field>
+              <.field label="Assignee">Elena Petrova</.field>
+              <.field label="Created">28 Jan 2026</.field>
+              <.field label="Due Date">14 Feb 2026</.field>
+              <.field label="Project">Platform v2</.field>
+              <.field label="Labels">
+                <span class="pa-badge">Frontend</span>
+                <span class="pa-badge">UX</span>
+              </.field>
+            </.fields>
           </div>
         </.card>
       </.column>
@@ -309,28 +244,13 @@ defmodule DemoWeb.Live.DataDisplay2Live do
         <.card title_text="7. Banded Rows" has_padding={false}>
           <:description>Label gets a fixed-width tinted column. Clear visual anchor.</:description>
           <div class="pa-banded-container">
-            <div class="pa-banded">
-              <div class="pa-banded__row">
-                <span class="pa-banded__label">Server</span>
-                <span class="pa-banded__value">prod-api-01</span>
-              </div>
-              <div class="pa-banded__row">
-                <span class="pa-banded__label">IP Address</span>
-                <span class="pa-banded__value">10.0.12.45</span>
-              </div>
-              <div class="pa-banded__row">
-                <span class="pa-banded__label">OS</span>
-                <span class="pa-banded__value">Ubuntu 22.04 LTS</span>
-              </div>
-              <div class="pa-banded__row">
-                <span class="pa-banded__label">Memory</span>
-                <span class="pa-banded__value">16 GB DDR5</span>
-              </div>
-              <div class="pa-banded__row">
-                <span class="pa-banded__label">Uptime</span>
-                <span class="pa-banded__value">47 days</span>
-              </div>
-            </div>
+            <.banded>
+              <.banded_row label="Server" value="prod-api-01" />
+              <.banded_row label="IP Address" value="10.0.12.45" />
+              <.banded_row label="OS" value="Ubuntu 22.04 LTS" />
+              <.banded_row label="Memory" value="16 GB DDR5" />
+              <.banded_row label="Uptime" value="47 days" />
+            </.banded>
           </div>
         </.card>
       </.column>
@@ -367,24 +287,12 @@ defmodule DemoWeb.Live.DataDisplay2Live do
         <.card title_text="7c. Banded — Default" has_padding={false}>
           <:description>No modifier — default 14rem label band.</:description>
           <div class="pa-banded-container">
-            <div class="pa-banded">
-              <div class="pa-banded__row">
-                <span class="pa-banded__label">Server</span>
-                <span class="pa-banded__value">prod-api-01</span>
-              </div>
-              <div class="pa-banded__row">
-                <span class="pa-banded__label">IP Address</span>
-                <span class="pa-banded__value">10.0.12.45</span>
-              </div>
-              <div class="pa-banded__row">
-                <span class="pa-banded__label">OS</span>
-                <span class="pa-banded__value">Ubuntu 22.04 LTS</span>
-              </div>
-              <div class="pa-banded__row">
-                <span class="pa-banded__label">Memory</span>
-                <span class="pa-banded__value">16 GB DDR5</span>
-              </div>
-            </div>
+            <.banded>
+              <.banded_row label="Server" value="prod-api-01" />
+              <.banded_row label="IP Address" value="10.0.12.45" />
+              <.banded_row label="OS" value="Ubuntu 22.04 LTS" />
+              <.banded_row label="Memory" value="16 GB DDR5" />
+            </.banded>
           </div>
         </.card>
       </.column>
@@ -475,24 +383,12 @@ defmodule DemoWeb.Live.DataDisplay2Live do
         <.card title_text="7g. Banded — Multiline (default top)" has_padding={false}>
           <:description>Labels top-align by default when values wrap to multiple lines.</:description>
           <div class="pa-banded-container">
-            <div class="pa-banded">
-              <div class="pa-banded__row">
-                <span class="pa-banded__label">Server</span>
-                <span class="pa-banded__value">prod-api-01</span>
-              </div>
-              <div class="pa-banded__row">
-                <span class="pa-banded__label">Description</span>
-                <span class="pa-banded__value">Primary API gateway for Central European region. Handles authentication, rate limiting, and request routing to downstream microservices.</span>
-              </div>
-              <div class="pa-banded__row">
-                <span class="pa-banded__label">Tags</span>
-                <span class="pa-banded__value">production, eu-west, api-gateway, load-balanced, auto-scaling, monitored, pci-compliant</span>
-              </div>
-              <div class="pa-banded__row">
-                <span class="pa-banded__label">Notes</span>
-                <span class="pa-banded__value">Scheduled for maintenance window on 2026-03-01 02:00 UTC. Failover to prod-api-02 will be active during this period. Contact SRE team before any manual restarts.</span>
-              </div>
-            </div>
+            <.banded>
+              <.banded_row label="Server" value="prod-api-01" />
+              <.banded_row label="Description" value="Primary API gateway for Central European region. Handles authentication, rate limiting, and request routing to downstream microservices." />
+              <.banded_row label="Tags" value="production, eu-west, api-gateway, load-balanced, auto-scaling, monitored, pci-compliant" />
+              <.banded_row label="Notes" value="Scheduled for maintenance window on 2026-03-01 02:00 UTC. Failover to prod-api-02 will be active during this period. Contact SRE team before any manual restarts." />
+            </.banded>
           </div>
         </.card>
       </.column>
@@ -528,18 +424,16 @@ defmodule DemoWeb.Live.DataDisplay2Live do
       <.column size="1-2">
         <.card title_text="1e. Desc Table — Multiline (default top)">
           <:description>Labels top-align by default in grid cells.</:description>
-          <div class="pa-desc-container">
-            <div class="pa-desc-table pa-desc-table--cols-2">
-              <span class="pa-desc-table__label">Company</span>
-              <span class="pa-desc-table__value">Novak &amp; Partners s.r.o.</span>
-              <span class="pa-desc-table__label">Address</span>
-              <span class="pa-desc-table__value">Vinohradska 2468/164, Prague 3, Vinohrady, 130 00, Czech Republic</span>
-              <span class="pa-desc-table__label">Notes</span>
-              <span class="pa-desc-table__value">Preferred carrier for Central European routes. Framework agreement renewed annually. Contact Jan Novak for any billing disputes or special rate negotiations.</span>
-              <span class="pa-desc-table__label">Status</span>
-              <span class="pa-desc-table__value">Active</span>
-            </div>
-          </div>
+          <.desc_table cols="2">
+            <.desc_label>Company</.desc_label>
+            <.desc_value>Novak &amp; Partners s.r.o.</.desc_value>
+            <.desc_label>Address</.desc_label>
+            <.desc_value>Vinohradska 2468/164, Prague 3, Vinohrady, 130 00, Czech Republic</.desc_value>
+            <.desc_label>Notes</.desc_label>
+            <.desc_value>Preferred carrier for Central European routes. Framework agreement renewed annually. Contact Jan Novak for any billing disputes or special rate negotiations.</.desc_value>
+            <.desc_label>Status</.desc_label>
+            <.desc_value>Active</.desc_value>
+          </.desc_table>
         </.card>
       </.column>
       <.column size="1-2">
@@ -566,20 +460,11 @@ defmodule DemoWeb.Live.DataDisplay2Live do
       <.column size="1-3">
         <.card title_text="Banded — Label Start (default)" has_padding={false}>
           <div class="pa-banded-container">
-            <div class="pa-banded">
-              <div class="pa-banded__row">
-                <span class="pa-banded__label">Server</span>
-                <span class="pa-banded__value">prod-api-01</span>
-              </div>
-              <div class="pa-banded__row">
-                <span class="pa-banded__label">IP Address</span>
-                <span class="pa-banded__value">10.0.12.45</span>
-              </div>
-              <div class="pa-banded__row">
-                <span class="pa-banded__label">Memory</span>
-                <span class="pa-banded__value">16 GB DDR5</span>
-              </div>
-            </div>
+            <.banded>
+              <.banded_row label="Server" value="prod-api-01" />
+              <.banded_row label="IP Address" value="10.0.12.45" />
+              <.banded_row label="Memory" value="16 GB DDR5" />
+            </.banded>
           </div>
         </.card>
       </.column>
@@ -628,16 +513,14 @@ defmodule DemoWeb.Live.DataDisplay2Live do
     <.grid>
       <.column size="1-3">
         <.card title_text="Desc Table — Label Start (default)">
-          <div class="pa-desc-container">
-            <div class="pa-desc-table pa-desc-table--cols-2 pa-desc-table--fixed">
-              <span class="pa-desc-table__label">Server</span>
-              <span class="pa-desc-table__value">prod-api-01</span>
-              <span class="pa-desc-table__label">IP Address</span>
-              <span class="pa-desc-table__value">10.0.12.45</span>
-              <span class="pa-desc-table__label">Memory</span>
-              <span class="pa-desc-table__value">16 GB DDR5</span>
-            </div>
-          </div>
+          <.desc_table cols="2" is_fixed>
+            <.desc_label>Server</.desc_label>
+            <.desc_value>prod-api-01</.desc_value>
+            <.desc_label>IP Address</.desc_label>
+            <.desc_value>10.0.12.45</.desc_value>
+            <.desc_label>Memory</.desc_label>
+            <.desc_value>16 GB DDR5</.desc_value>
+          </.desc_table>
         </.card>
       </.column>
       <.column size="1-3">
@@ -677,11 +560,8 @@ defmodule DemoWeb.Live.DataDisplay2Live do
     <.grid>
       <.column size="1-2">
         <.card title_text="Normal Card + Accent-Bar">
-          <div class="pa-accent-grid">
-            <div class="pa-accent-grid__item">
-              <div class="pa-accent-grid__label">Order ID</div>
-              <div class="pa-accent-grid__value">#ORD-2026-00847</div>
-            </div>
+          <.accent_grid>
+            <.accent_grid_item label="Order ID" value="#ORD-2026-00847" />
             <div class="pa-accent-grid__item pa-accent-grid__item--success">
               <div class="pa-accent-grid__label">Status</div>
               <div class="pa-accent-grid__value">Delivered</div>
@@ -690,21 +570,15 @@ defmodule DemoWeb.Live.DataDisplay2Live do
               <div class="pa-accent-grid__label">Payment</div>
               <div class="pa-accent-grid__value">Visa *4242</div>
             </div>
-            <div class="pa-accent-grid__item">
-              <div class="pa-accent-grid__label">Customer</div>
-              <div class="pa-accent-grid__value">Elena Petrova</div>
-            </div>
-          </div>
+            <.accent_grid_item label="Customer" value="Elena Petrova" />
+          </.accent_grid>
         </.card>
       </.column>
       <.column size="1-2">
         <.card title_text="Ghost Card + Accent-Bar" is_ghost>
           <:description><code>pa-card--ghost</code> — same sizing, no visible container.</:description>
-          <div class="pa-accent-grid">
-            <div class="pa-accent-grid__item">
-              <div class="pa-accent-grid__label">Order ID</div>
-              <div class="pa-accent-grid__value">#ORD-2026-00847</div>
-            </div>
+          <.accent_grid>
+            <.accent_grid_item label="Order ID" value="#ORD-2026-00847" />
             <div class="pa-accent-grid__item pa-accent-grid__item--success">
               <div class="pa-accent-grid__label">Status</div>
               <div class="pa-accent-grid__value">Delivered</div>
@@ -713,11 +587,8 @@ defmodule DemoWeb.Live.DataDisplay2Live do
               <div class="pa-accent-grid__label">Payment</div>
               <div class="pa-accent-grid__value">Visa *4242</div>
             </div>
-            <div class="pa-accent-grid__item">
-              <div class="pa-accent-grid__label">Customer</div>
-              <div class="pa-accent-grid__value">Elena Petrova</div>
-            </div>
-          </div>
+            <.accent_grid_item label="Customer" value="Elena Petrova" />
+          </.accent_grid>
         </.card>
       </.column>
     </.grid>
@@ -728,11 +599,8 @@ defmodule DemoWeb.Live.DataDisplay2Live do
 
     <.card title_text="8. Accent-Bar Grid" is_ghost>
       <:description>Each property gets a color-coded left border. Good for status-heavy panels.</:description>
-      <div class="pa-accent-grid">
-        <div class="pa-accent-grid__item">
-          <div class="pa-accent-grid__label">Order ID</div>
-          <div class="pa-accent-grid__value">#ORD-2026-00847</div>
-        </div>
+      <.accent_grid>
+        <.accent_grid_item label="Order ID" value="#ORD-2026-00847" />
         <div class="pa-accent-grid__item pa-accent-grid__item--success">
           <div class="pa-accent-grid__label">Status</div>
           <div class="pa-accent-grid__value">Delivered</div>
@@ -741,19 +609,13 @@ defmodule DemoWeb.Live.DataDisplay2Live do
           <div class="pa-accent-grid__label">Payment</div>
           <div class="pa-accent-grid__value">Visa *4242</div>
         </div>
-        <div class="pa-accent-grid__item">
-          <div class="pa-accent-grid__label">Customer</div>
-          <div class="pa-accent-grid__value">Elena Petrova</div>
-        </div>
+        <.accent_grid_item label="Customer" value="Elena Petrova" />
         <div class="pa-accent-grid__item pa-accent-grid__item--warning">
           <div class="pa-accent-grid__label">Renewal</div>
           <div class="pa-accent-grid__value">1 Jan 2027</div>
         </div>
-        <div class="pa-accent-grid__item">
-          <div class="pa-accent-grid__label">Total</div>
-          <div class="pa-accent-grid__value">$1,249.00</div>
-        </div>
-      </div>
+        <.accent_grid_item label="Total" value="$1,249.00" />
+      </.accent_grid>
     </.card>
 
     <%!-- ============================================================
@@ -994,56 +856,38 @@ defmodule DemoWeb.Live.DataDisplay2Live do
 
       <%!-- Customer: Ant-style descriptions --%>
       <h4 class="mb-2">Customer</h4>
-      <div class="pa-desc-table mb-8">
-        <span class="pa-desc-table__label">Name</span>
-        <span class="pa-desc-table__value">Novak &amp; Partners s.r.o.</span>
-        <span class="pa-desc-table__label">Reg. No.</span>
-        <span class="pa-desc-table__value">CZ48207497</span>
-        <span class="pa-desc-table__label">VAT ID</span>
-        <span class="pa-desc-table__value">CZ48207497</span>
-        <span class="pa-desc-table__label">Contact</span>
-        <span class="pa-desc-table__value">Jan Novak</span>
-        <span class="pa-desc-table__label">Email</span>
-        <span class="pa-desc-table__value">jan.novak@novakpartners.cz</span>
-        <span class="pa-desc-table__label">Phone</span>
-        <span class="pa-desc-table__value">+420 234 111 222</span>
-      </div>
+      <.desc_table class="mb-8">
+        <.desc_label>Name</.desc_label>
+        <.desc_value>Novak &amp; Partners s.r.o.</.desc_value>
+        <.desc_label>Reg. No.</.desc_label>
+        <.desc_value>CZ48207497</.desc_value>
+        <.desc_label>VAT ID</.desc_label>
+        <.desc_value>CZ48207497</.desc_value>
+        <.desc_label>Contact</.desc_label>
+        <.desc_value>Jan Novak</.desc_value>
+        <.desc_label>Email</.desc_label>
+        <.desc_value>jan.novak@novakpartners.cz</.desc_value>
+        <.desc_label>Phone</.desc_label>
+        <.desc_value>+420 234 111 222</.desc_value>
+      </.desc_table>
 
       <%!-- Addresses: Banded rows side-by-side --%>
       <.grid class="mb-8">
         <.column size="1-2">
           <h4 class="mb-2">Receipt Address</h4>
-          <div class="pa-banded">
-            <div class="pa-banded__row">
-              <span class="pa-banded__label">Street</span>
-              <span class="pa-banded__value">Vinohradska 2468/164</span>
-            </div>
-            <div class="pa-banded__row">
-              <span class="pa-banded__label">City</span>
-              <span class="pa-banded__value">Prague 3, 130 00</span>
-            </div>
-            <div class="pa-banded__row">
-              <span class="pa-banded__label">Country</span>
-              <span class="pa-banded__value">Czech Republic</span>
-            </div>
-          </div>
+          <.banded>
+            <.banded_row label="Street" value="Vinohradska 2468/164" />
+            <.banded_row label="City" value="Prague 3, 130 00" />
+            <.banded_row label="Country" value="Czech Republic" />
+          </.banded>
         </.column>
         <.column size="1-2">
           <h4 class="mb-2">Delivery Address</h4>
-          <div class="pa-banded">
-            <div class="pa-banded__row">
-              <span class="pa-banded__label">Street</span>
-              <span class="pa-banded__value">Prumyslova 1234/5</span>
-            </div>
-            <div class="pa-banded__row">
-              <span class="pa-banded__label">City</span>
-              <span class="pa-banded__value">Brno-Slatina, 627 00</span>
-            </div>
-            <div class="pa-banded__row">
-              <span class="pa-banded__label">Country</span>
-              <span class="pa-banded__value">Czech Republic</span>
-            </div>
-          </div>
+          <.banded>
+            <.banded_row label="Street" value="Prumyslova 1234/5" />
+            <.banded_row label="City" value="Brno-Slatina, 627 00" />
+            <.banded_row label="Country" value="Czech Republic" />
+          </.banded>
         </.column>
       </.grid>
 
@@ -1079,28 +923,12 @@ defmodule DemoWeb.Live.DataDisplay2Live do
 
       <%!-- Totals: Dot leaders --%>
       <div style="max-width: 28rem; margin-inline-start: auto;">
-        <div class="pa-dot-leaders">
-          <div class="pa-dot-leaders__item">
-            <span class="pa-dot-leaders__label">Subtotal</span>
-            <span class="pa-dot-leaders__leader"></span>
-            <span class="pa-dot-leaders__value">$2,094.00</span>
-          </div>
-          <div class="pa-dot-leaders__item">
-            <span class="pa-dot-leaders__label">Shipping</span>
-            <span class="pa-dot-leaders__leader"></span>
-            <span class="pa-dot-leaders__value">$24.00</span>
-          </div>
-          <div class="pa-dot-leaders__item">
-            <span class="pa-dot-leaders__label">VAT 21%</span>
-            <span class="pa-dot-leaders__leader"></span>
-            <span class="pa-dot-leaders__value">$439.74</span>
-          </div>
-          <div class="pa-dot-leaders__item pa-dot-leaders__item--total">
-            <span class="pa-dot-leaders__label">Total</span>
-            <span class="pa-dot-leaders__leader"></span>
-            <span class="pa-dot-leaders__value">$2,557.74</span>
-          </div>
-        </div>
+        <.dot_leaders>
+          <.dot_leader label="Subtotal" value="$2,094.00" />
+          <.dot_leader label="Shipping" value="$24.00" />
+          <.dot_leader label="VAT 21%" value="$439.74" />
+          <.dot_leader label="Total" value="$2,557.74" is_total />
+        </.dot_leaders>
       </div>
     </.card>
 
