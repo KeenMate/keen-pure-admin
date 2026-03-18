@@ -18,7 +18,7 @@
 ### Demo
 - Split tables into three pages: Standard Tables, Table Sizing, Responsive
 - Rewrite Standard Tables demo to match pure-admin reference 1:1 (same data, sections, structure)
-- Add Table Sizing demo with all 5 size variants and reference table
+- Rewrite Table Sizing demo to match pure-admin reference 1:1 (same data, card structure with inline code headers, text action buttons with correct sizes per variant)
 - Add Responsive Tables demo with card stacking, product catalog, scrollable table card
 - Remove invented `pa-page-title`/`pa-page-subtitle` CSS classes from all demo pages — use plain `<p>` like the reference
 - Clean up `demo.css` — remove unused chart/activity/status classes
