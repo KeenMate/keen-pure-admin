@@ -7,8 +7,7 @@ defmodule DemoWeb.Live.TypographyLive do
 
   def render(assigns) do
     ~H"""
-    <h1 class="pa-page-title">Typography</h1>
-    <p class="pa-page-subtitle">Text styles and heading components.</p>
+    <p>Text styles and heading components.</p>
 
     <.card title_text="Headings">
       <.heading level="1">Heading 1</.heading>

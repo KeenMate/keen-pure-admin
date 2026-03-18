@@ -15,8 +15,7 @@ defmodule DemoWeb.Live.DashboardLive do
 
   def render(assigns) do
     ~H"""
-    <h1 class="pa-page-title">Dashboard</h1>
-    <p class="pa-page-subtitle">Real-time overview of key performance metrics</p>
+    <p>Real-time overview of key performance metrics</p>
 
     <%!-- KPI Cards --%>
     <.grid>

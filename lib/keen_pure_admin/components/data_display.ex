@@ -176,6 +176,8 @@ defmodule KPureAdmin.Components.DataDisplay do
   attr(:is_middle, :boolean, default: false, doc: "Vertically center cells")
   attr(:is_label_end, :boolean, default: false, doc: "Right-align labels")
   attr(:is_label_center, :boolean, default: false, doc: "Center-align labels")
+  attr(:is_value_end, :boolean, default: false, doc: "Right-align values")
+  attr(:is_value_center, :boolean, default: false, doc: "Center-align values")
   attr(:label_width, :string, default: nil, doc: "Custom label width CSS value")
   attr(:class, :string, default: nil)
   attr(:rest, :global)
@@ -194,7 +196,9 @@ defmodule KPureAdmin.Components.DataDisplay do
           {"pa-desc-table--truncate", @is_truncate},
           {"pa-desc-table--middle", @is_middle},
           {"pa-desc-table--label-end", @is_label_end},
-          {"pa-desc-table--label-center", @is_label_center}
+          {"pa-desc-table--label-center", @is_label_center},
+          {"pa-desc-table--value-end", @is_value_end},
+          {"pa-desc-table--value-center", @is_value_center}
         ], @class)}
         style={@computed_style}
         {@rest}
@@ -334,6 +338,8 @@ defmodule KPureAdmin.Components.DataDisplay do
   attr(:is_middle, :boolean, default: false, doc: "Vertically center labels")
   attr(:is_label_end, :boolean, default: false, doc: "Right-align labels")
   attr(:is_label_center, :boolean, default: false, doc: "Center-align labels")
+  attr(:is_value_end, :boolean, default: false, doc: "Right-align values")
+  attr(:is_value_center, :boolean, default: false, doc: "Center-align values")
   attr(:class, :string, default: nil)
   attr(:rest, :global)
   slot(:inner_block, required: true)
@@ -346,7 +352,9 @@ defmodule KPureAdmin.Components.DataDisplay do
       {"pa-banded--truncate", @is_truncate},
       {"pa-banded--middle", @is_middle},
       {"pa-banded--label-end", @is_label_end},
-      {"pa-banded--label-center", @is_label_center}
+      {"pa-banded--label-center", @is_label_center},
+      {"pa-banded--value-end", @is_value_end},
+      {"pa-banded--value-center", @is_value_center}
     ], @class)} {@rest}>
       <%= render_slot(@inner_block) %>
     </div>

@@ -53,8 +53,7 @@ defmodule DemoWeb.Live.CodeLive do
 
   def render(assigns) do
     ~H"""
-    <h1 class="pa-page-title">Code</h1>
-    <p class="pa-page-subtitle">Code display components for inline code and code blocks.</p>
+    <p>Code display components for inline code and code blocks.</p>
 
     <.card title_text="Inline Code">
       <p>

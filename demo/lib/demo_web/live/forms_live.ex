@@ -7,10 +7,7 @@ defmodule DemoWeb.Live.FormsLive do
 
   def render(assigns) do
     ~H"""
-    <h1 class="pa-page-title">Forms</h1>
-    <p class="pa-page-subtitle">
-      Complete set of form elements with various styles and states for data input.
-    </p>
+    <p>Complete set of form elements with various styles and states for data input.</p>
 
     <%!-- User Profile Form --%>
     <.card title_text="Profile Form">

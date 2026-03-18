@@ -5,6 +5,7 @@ defmodule KPureAdmin.Components.Pager do
   use Phoenix.Component
 
   import KPureAdmin.Helpers
+  import Phoenix.HTML, only: [raw: 1]
 
   @doc """
   Renders a pagination control.
@@ -28,6 +29,10 @@ defmodule KPureAdmin.Components.Pager do
   attr(:on_first, :string, default: nil, doc: "Event for first button (nil = hidden)")
   attr(:on_last, :string, default: nil, doc: "Event for last button (nil = hidden)")
   attr(:on_page_change, :string, default: nil, doc: "Event for page input change")
+  attr(:icon_first, :string, default: "&#171;", doc: "First page button icon")
+  attr(:icon_previous, :string, default: "&#8249;", doc: "Previous page button icon")
+  attr(:icon_next, :string, default: "&#8250;", doc: "Next page button icon")
+  attr(:icon_last, :string, default: "&#187;", doc: "Last page button icon")
   attr(:class, :string, default: nil)
   attr(:rest, :global)
   slot(:controls, doc: "Custom controls (overrides default buttons)")
@@ -41,38 +46,32 @@ defmodule KPureAdmin.Components.Pager do
           <%= render_slot(@controls) %>
         <% else %>
           <div class="pa-pager__controls">
-            <button :if={@on_first} class="pa-btn pa-btn--sm pa-btn--secondary" disabled={@page <= 1} phx-click={@on_first}>
-              &#171; First
-            </button>
-            <button class="pa-btn pa-btn--sm pa-btn--secondary" disabled={@page <= 1} phx-click={@on_previous}>
-              &#8249; Previous
-            </button>
-            <button class="pa-btn pa-btn--sm pa-btn--secondary" disabled={@page >= @total_pages} phx-click={@on_next}>
-              Next &#8250;
-            </button>
-            <button :if={@on_last} class="pa-btn pa-btn--sm pa-btn--secondary" disabled={@page >= @total_pages} phx-click={@on_last}>
-              Last &#187;
-            </button>
+            <button :if={@on_first} class="pa-btn pa-btn--sm pa-btn--secondary" title="First Page" disabled={@page <= 1} phx-click={@on_first}><%= raw(@icon_first) %></button>
+            <button class="pa-btn pa-btn--sm pa-btn--secondary" title="Previous Page" disabled={@page <= 1} phx-click={@on_previous}><%= raw(@icon_previous) %></button>
           </div>
-        <% end %>
 
-        <%= if @info != [] do %>
-          <%= render_slot(@info) %>
-        <% else %>
-          <div :if={@show_info && @show_page_input && @info_text == nil} class="pa-pager__info">
-            <span class="pa-pager__text">Page</span>
-            <input
-              type="number"
-              class="pa-input pa-input--sm pa-pager__input"
-              value={@page}
-              min="1"
-              max={@total_pages}
-              phx-change={@on_page_change}
-              name="page"
-            />
-            <span class="pa-pager__text">of <%= @total_pages %></span>
+          <%= if @info != [] do %>
+            <%= render_slot(@info) %>
+          <% else %>
+            <div :if={@show_info && @show_page_input && @info_text == nil} class="pa-pager__info">
+              <input
+                type="number"
+                class="pa-input pa-input--sm pa-pager__input"
+                value={@page}
+                min="1"
+                max={@total_pages}
+                phx-change={@on_page_change}
+                name="page"
+              />
+              <span class="pa-pager__text">/ <%= @total_pages %> pages</span>
+            </div>
+            <span :if={@info_text} class="pa-pager__text"><%= @info_text %></span>
+          <% end %>
+
+          <div class="pa-pager__controls">
+            <button class="pa-btn pa-btn--sm pa-btn--secondary" title="Next Page" disabled={@page >= @total_pages} phx-click={@on_next}><%= raw(@icon_next) %></button>
+            <button :if={@on_last} class="pa-btn pa-btn--sm pa-btn--secondary" title="Last Page" disabled={@page >= @total_pages} phx-click={@on_last}><%= raw(@icon_last) %></button>
           </div>
-          <span :if={@info_text} class="pa-pager__text"><%= @info_text %></span>
         <% end %>
       </div>
     </div>

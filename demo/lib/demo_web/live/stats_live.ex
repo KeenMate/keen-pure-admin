@@ -7,8 +7,7 @@ defmodule DemoWeb.Live.StatsLive do
 
   def render(assigns) do
     ~H"""
-    <h1 class="pa-page-title">Stats</h1>
-    <p class="pa-page-subtitle">Stat and metric display components.</p>
+    <p>Stat and metric display components.</p>
 
     <.card title_text="Basic Stats">
       <.grid>

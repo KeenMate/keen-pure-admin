@@ -7,8 +7,7 @@ defmodule DemoWeb.Live.TimelineLive do
 
   def render(assigns) do
     ~H"""
-    <h1 class="pa-page-title">Timeline</h1>
-    <p class="pa-page-subtitle">Timeline components for displaying chronological events.</p>
+    <p>Timeline components for displaying chronological events.</p>
 
     <.card title_text="Project Timeline">
       <.timeline>

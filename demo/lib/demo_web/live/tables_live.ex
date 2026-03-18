@@ -1,28 +1,139 @@
 defmodule DemoWeb.Live.TablesLive do
   use DemoWeb, :live_view
 
+  # -- Basic table data (matches pure-admin reference) --
   @users [
-    %{id: 1, name: "Tiger Nixon", email: "tiger@example.com", role: "Admin", status: "Active"},
-    %{id: 2, name: "Garrett Winters", email: "garrett@example.com", role: "Editor", status: "Active"},
-    %{id: 3, name: "Ashton Cox", email: "ashton@example.com", role: "User", status: "Inactive"},
-    %{id: 4, name: "Cedric Kelly", email: "cedric@example.com", role: "Admin", status: "Active"},
-    %{id: 5, name: "Airi Satou", email: "airi@example.com", role: "Editor", status: "Active"}
+    %{id: 1, name: "John Doe", email: "john.doe@example.com", role: "Admin", status: "Active"},
+    %{id: 2, name: "Jane Smith", email: "jane.smith@example.com", role: "User", status: "Pending"},
+    %{id: 3, name: "Bob Johnson", email: "bob.johnson@example.com", role: "User", status: "Active"},
+    %{id: 4, name: "Alice Brown", email: "alice.brown@example.com", role: "Moderator", status: "Inactive"},
+    %{id: 5, name: "Charlie Wilson", email: "charlie.wilson@example.com", role: "User", status: "Active"}
   ]
 
   @products [
-    %{name: "Widget Pro", category: "Electronics", price: "$299.99", stock: 45, status: "In Stock"},
-    %{name: "Gadget X", category: "Accessories", price: "$49.99", stock: 0, status: "Out of Stock"},
-    %{name: "Tool Kit", category: "Hardware", price: "$129.99", stock: 12, status: "Low Stock"},
-    %{name: "Smart Hub", category: "Electronics", price: "$199.99", stock: 89, status: "In Stock"}
+    %{name: "Laptop Pro", category: "Electronics", price: "$1,299.99", stock: 15, status: "In Stock"},
+    %{name: "Wireless Mouse", category: "Accessories", price: "$29.99", stock: 0, status: "Out of Stock"},
+    %{name: "Office Chair", category: "Furniture", price: "$249.99", stock: 8, status: "In Stock"},
+    %{name: "USB Cable", category: "Accessories", price: "$12.99", stock: 3, status: "Low Stock"}
   ]
 
-  @wide_data [
-    %{id: 1, name: "Tiger Nixon", email: "tiger@example.com", department: "Engineering",
-      location: "San Francisco", phone: "+1 555-0101", start_date: "2020-01-15",
-      salary: "$320,000", status: "Active"},
-    %{id: 2, name: "Garrett Winters", email: "garrett@example.com", department: "Marketing",
-      location: "New York", phone: "+1 555-0102", start_date: "2019-06-20",
-      salary: "$280,000", status: "Active"}
+  @transactions [
+    %{date: "2024-01-15", transaction: "Purchase at Store ABC", amount: "-$45.67", amount_class: "text-danger", balance: "$1,234.56"},
+    %{date: "2024-01-14", transaction: "Salary Deposit", amount: "+$2,500.00", amount_class: "text-success", balance: "$1,280.23"},
+    %{date: "2024-01-13", transaction: "ATM Withdrawal", amount: "-$100.00", amount_class: "text-danger", balance: "-$1,219.77"},
+    %{date: "2024-01-12", transaction: "Online Transfer", amount: "-$200.00", amount_class: "text-danger", balance: "-$1,119.77"}
+  ]
+
+  # Load more tables data
+  @lm_products [
+    %{name: "MacBook Pro", price: "$2,399", stock: 12, status: "Available"},
+    %{name: "iPhone 15", price: "$999", stock: 0, status: "Out of Stock"},
+    %{name: "iPad Air", price: "$599", stock: 8, status: "Available"}
+  ]
+
+  @lm_customers [
+    %{name: "John Smith", email: "john@example.com", orders: 23, total: "$4,567.89"},
+    %{name: "Sarah Johnson", email: "sarah@example.com", orders: 18, total: "$3,245.12"},
+    %{name: "Mike Davis", email: "mike@example.com", orders: 31, total: "$6,789.45"}
+  ]
+
+  @lm_invoices [
+    %{id: "#INV-001", date: "2024-01-15", amount: "$234.56", status: "Paid"},
+    %{id: "#INV-002", date: "2024-01-14", amount: "$567.89", status: "Pending"},
+    %{id: "#INV-003", date: "2024-01-13", amount: "$123.45", status: "Paid"}
+  ]
+
+  # Panel table data
+  @panel_products [
+    %{name: "Wireless Keyboard", sku: "WK-2024", price: "$79.99", stock: 45},
+    %{name: "USB-C Hub", sku: "HUB-7P", price: "$49.99", stock: 120},
+    %{name: "Monitor Stand", sku: "MS-ADJ", price: "$129.99", stock: 28}
+  ]
+
+  @panel_orders [
+    %{id: "#ORD-1001", customer: "Alice Johnson", date: "2024-01-28", total: "$234.50", status: "Shipped"},
+    %{id: "#ORD-1002", customer: "Bob Williams", date: "2024-01-27", total: "$89.00", status: "Processing"},
+    %{id: "#ORD-1003", customer: "Carol Davis", date: "2024-01-27", total: "$567.25", status: "Delivered"},
+    %{id: "#ORD-1004", customer: "David Miller", date: "2024-01-26", total: "$145.00", status: "Cancelled"}
+  ]
+
+  @activity_log [
+    %{time: "10:45 AM", user: "admin", action: "Updated product pricing"},
+    %{time: "10:32 AM", user: "john.doe", action: "Created new order #1005"},
+    %{time: "10:15 AM", user: "admin", action: "Approved refund request"}
+  ]
+
+  @stats_data [
+    %{metric: "Orders", value: "156"},
+    %{metric: "Revenue", value: "$12.4k"},
+    %{metric: "Refunds", value: "3"}
+  ]
+
+  # Table card data
+  @card_orders [
+    %{id: "#1001", customer: "John Smith", date: "2024-01-28", amount: "$250.00", status: "Completed"},
+    %{id: "#1002", customer: "Jane Doe", date: "2024-01-27", amount: "$180.00", status: "Pending"},
+    %{id: "#1003", customer: "Bob Wilson", date: "2024-01-26", amount: "$320.00", status: "Completed"}
+  ]
+
+  @card_primary [
+    %{user: "Alice", role: "Admin", status: "Active"},
+    %{user: "Bob", role: "Editor", status: "Active"}
+  ]
+
+  @card_success [
+    %{task: "Database backup", completed: "10:00 AM"},
+    %{task: "Cache cleared", completed: "10:15 AM"}
+  ]
+
+  @card_warning [
+    %{alert: "High CPU usage", time: "2 min ago"},
+    %{alert: "Low disk space", time: "5 min ago"}
+  ]
+
+  @card_danger [
+    %{error: "Connection timeout", count: 23},
+    %{error: "Auth failure", count: 7}
+  ]
+
+  @sales_by_region [
+    %{region: "North", q1: "$45,000", q2: "$52,000", q3: "$48,000"},
+    %{region: "South", q1: "$38,000", q2: "$41,000", q3: "$44,000"},
+    %{region: "East", q1: "$62,000", q2: "$58,000", q3: "$65,000"}
+  ]
+
+  @top_products [
+    %{product: "Widget Pro", units: "1,245", revenue: "$124,500"},
+    %{product: "Gadget Plus", units: "892", revenue: "$89,200"},
+    %{product: "Tool Master", units: "567", revenue: "$56,700"}
+  ]
+
+  @bordered_items [
+    %{item: "Widget A", qty: 10, price: "$25.00", total: "$250.00"},
+    %{item: "Widget B", qty: 5, price: "$45.00", total: "$225.00"},
+    %{item: "Widget C", qty: 8, price: "$30.00", total: "$240.00"}
+  ]
+
+  @dept_data [
+    %{department: "Engineering", employees: 45, budget: "$2.5M"},
+    %{department: "Marketing", employees: 22, budget: "$1.2M"},
+    %{department: "Sales", employees: 38, budget: "$1.8M"},
+    %{department: "HR", employees: 12, budget: "$0.6M"}
+  ]
+
+  @plain_pager_orders [
+    %{id: "#1001", customer: "John Smith", date: "2026-01-15", status: "Completed", total: "$245.00"},
+    %{id: "#1002", customer: "Jane Doe", date: "2026-01-16", status: "Pending", total: "$189.50"},
+    %{id: "#1003", customer: "Bob Wilson", date: "2026-01-17", status: "Completed", total: "$312.75"},
+    %{id: "#1004", customer: "Alice Brown", date: "2026-01-18", status: "Cancelled", total: "$78.00"},
+    %{id: "#1005", customer: "Charlie Davis", date: "2026-01-19", status: "Completed", total: "$456.25"}
+  ]
+
+  # Order detail data
+  @order_items [
+    %{product: "Wireless Bluetooth Headphones", sku: "WBH-PRO-BK", qty: 1, unit_price: "$149.99", total: "$149.99"},
+    %{product: "USB-C Charging Cable (2m)", sku: "USB-C-2M", qty: 2, unit_price: "$19.99", total: "$39.98"},
+    %{product: "Carrying Case", sku: "CASE-HP-01", qty: 1, unit_price: "$29.99", total: "$29.99"}
   ]
 
   def mount(_params, _session, socket) do
@@ -30,145 +141,557 @@ defmodule DemoWeb.Live.TablesLive do
       page_title: "Tables",
       users: @users,
       products: @products,
-      wide_data: @wide_data
+      transactions: @transactions,
+      lm_products: @lm_products,
+      lm_customers: @lm_customers,
+      lm_invoices: @lm_invoices,
+      panel_products: @panel_products,
+      panel_orders: @panel_orders,
+      activity_log: @activity_log,
+      stats_data: @stats_data,
+      card_orders: @card_orders,
+      card_primary: @card_primary,
+      card_success: @card_success,
+      card_warning: @card_warning,
+      card_danger: @card_danger,
+      sales_by_region: @sales_by_region,
+      top_products: @top_products,
+      bordered_items: @bordered_items,
+      dept_data: @dept_data,
+      plain_pager_orders: @plain_pager_orders,
+      order_items: @order_items,
+      page: 1,
+      total_pages: 10
     )}
   end
 
+  def handle_event("prev-page", _, socket) do
+    {:noreply, assign(socket, page: max(1, socket.assigns.page - 1))}
+  end
+
+  def handle_event("next-page", _, socket) do
+    {:noreply, assign(socket, page: min(socket.assigns.total_pages, socket.assigns.page + 1))}
+  end
+
+  def handle_event("first-page", _, socket) do
+    {:noreply, assign(socket, page: 1)}
+  end
+
+  def handle_event("last-page", _, socket) do
+    {:noreply, assign(socket, page: socket.assigns.total_pages)}
+  end
+
+  def handle_event("load_more", _, socket), do: {:noreply, socket}
+
+  defp status_variant("Active"), do: "success"
+  defp status_variant("Pending"), do: "warning"
+  defp status_variant("Inactive"), do: "danger"
+  defp status_variant(_), do: nil
+
+  defp stock_variant("In Stock"), do: "success"
+  defp stock_variant("Available"), do: "success"
+  defp stock_variant("Low Stock"), do: "warning"
+  defp stock_variant("Out of Stock"), do: "danger"
+  defp stock_variant(_), do: nil
+
+  defp order_variant("Completed"), do: "success"
+  defp order_variant("Shipped"), do: "success"
+  defp order_variant("Delivered"), do: "success"
+  defp order_variant("Processing"), do: "warning"
+  defp order_variant("Pending"), do: "warning"
+  defp order_variant("Cancelled"), do: "danger"
+  defp order_variant("Paid"), do: "success"
+  defp order_variant(_), do: nil
+
   def render(assigns) do
     ~H"""
-    <h1 class="pa-page-title">Tables</h1>
-    <p class="pa-page-subtitle">Data tables with sorting, pagination, and various styling options.</p>
+    <p>Data tables with sorting, pagination, and various styling options.</p>
 
-    <%!-- Basic Table --%>
-    <.card has_padding={false} title_text="Basic Table with Actions">
-      <.table rows={@users}>
-        <:col :let={user} label="ID">{user.id}</:col>
-        <:col :let={user} label="Name">{user.name}</:col>
-        <:col :let={user} label="Email">{user.email}</:col>
-        <:col :let={user} label="Role">{user.role}</:col>
-        <:col :let={user} label="Status">
-          <.badge variant={if user.status == "Active", do: "success", else: "secondary"} size="sm">
-            {user.status}
-          </.badge>
-        </:col>
-        <:action :let={user}>
-          <.button variant="info" size="xs" is_icon_only title={"View #{user.name}"}>
-            <i class="fa-solid fa-eye"></i>
-          </.button>
-          <.button variant="warning" size="xs" is_icon_only title={"Edit #{user.name}"}>
-            <i class="fa-solid fa-pen"></i>
-          </.button>
-          <.button variant="danger" size="xs" is_icon_only title={"Delete #{user.name}"}>
-            <i class="fa-solid fa-trash"></i>
-          </.button>
-        </:action>
-      </.table>
+    <%!-- ═══════════════════════════════════════════════════════════ --%>
+    <%!-- Basic Table with Pagination                               --%>
+    <%!-- ═══════════════════════════════════════════════════════════ --%>
+    <.card title_text="Basic Table with Pagination">
+      <%!-- Pager Above Table (Center) --%>
+      <.pager page={@page} total_pages={@total_pages} align="center"
+        on_first="first-page" on_last="last-page" on_previous="prev-page" on_next="next-page" />
+
+      <.table_container>
+        <.table rows={@users}>
+          <:action :let={user}>
+            <.button variant="primary" size="xs" is_icon_only title={"View #{user.name}"}>
+              <i class="fa-solid fa-eye"></i>
+            </.button>
+            <.button variant="secondary" size="xs" is_icon_only title={"Edit #{user.name}"}>
+              <i class="fa-solid fa-pen"></i>
+            </.button>
+            <.button variant="danger" size="xs" is_icon_only title={"Delete #{user.name}"}>
+              <i class="fa-solid fa-trash"></i>
+            </.button>
+          </:action>
+          <:col :let={user} label="ID">{user.id}</:col>
+          <:col :let={user} label="Name">{user.name}</:col>
+          <:col :let={user} label="Email">{user.email}</:col>
+          <:col :let={user} label="Role">{user.role}</:col>
+          <:col :let={user} label="Status">
+            <.badge variant={status_variant(user.status)} size="sm">{user.status}</.badge>
+          </:col>
+        </.table>
+      </.table_container>
+
+      <%!-- Pager Below Table (Right) --%>
+      <.pager page={@page} total_pages={@total_pages} align="end"
+        on_first="first-page" on_last="last-page" on_previous="prev-page" on_next="next-page" />
     </.card>
 
-    <%!-- Striped & Hover Table --%>
-    <.card has_padding={false} title_text="Striped & Hover Table">
-      <.table rows={@products} is_striped is_hover>
-        <:col :let={p} label="Product">{p.name}</:col>
-        <:col :let={p} label="Category">{p.category}</:col>
-        <:col :let={p} label="Price">{p.price}</:col>
-        <:col :let={p} label="Stock">{p.stock}</:col>
-        <:col :let={p} label="Status">
-          <.badge
-            variant={
-              cond do
-                p.status == "In Stock" -> "success"
-                p.status == "Low Stock" -> "warning"
-                true -> "danger"
-              end
-            }
-            size="sm"
-          >
-            {p.status}
-          </.badge>
-        </:col>
-      </.table>
+    <%!-- ═══════════════════════════════════════════════════════════ --%>
+    <%!-- Striped Table                                             --%>
+    <%!-- ═══════════════════════════════════════════════════════════ --%>
+    <.card title_text="Striped Table">
+      <.table_container>
+        <.table rows={@products} is_striped>
+          <:col :let={p} label="Product">{p.name}</:col>
+          <:col :let={p} label="Category">{p.category}</:col>
+          <:col :let={p} label="Price">{p.price}</:col>
+          <:col :let={p} label="Stock">{p.stock}</:col>
+          <:col :let={p} label="Status">
+            <.badge variant={stock_variant(p.status)} size="sm">{p.status}</.badge>
+          </:col>
+        </.table>
+      </.table_container>
     </.card>
 
-    <%!-- Table Size Variants --%>
-    <.section title_text="Table Size Variants">
-      <.paragraph class="mb-2">Table size variants synchronized with button/input sizes.</.paragraph>
-    </.section>
+    <%!-- ═══════════════════════════════════════════════════════════ --%>
+    <%!-- 2x Spacing Table                                          --%>
+    <%!-- ═══════════════════════════════════════════════════════════ --%>
+    <.card title_text="2x Spacing Table">
+      <%!-- Start-aligned pager --%>
+      <.pager page={2} total_pages={5} align="start"
+        on_first="first-page" on_last="last-page" on_previous="prev-page" on_next="next-page" />
+
+      <.table_container>
+        <.table rows={@transactions}>
+          <:action :let={t}>
+            <.button variant="primary" size="xs" is_icon_only title={"View #{t.transaction}"}>
+              <i class="fa-solid fa-eye"></i>
+            </.button>
+            <.button variant="secondary" size="xs" is_icon_only title={"Edit #{t.transaction}"}>
+              <i class="fa-solid fa-pen"></i>
+            </.button>
+            <.button variant="danger" size="xs" is_icon_only title={"Delete #{t.transaction}"}>
+              <i class="fa-solid fa-trash"></i>
+            </.button>
+          </:action>
+          <:col :let={t} label="Date">{t.date}</:col>
+          <:col :let={t} label="Transaction">{t.transaction}</:col>
+          <:col :let={t} label="Amount"><span class={t.amount_class}>{t.amount}</span></:col>
+          <:col :let={t} label="Balance">{t.balance}</:col>
+        </.table>
+      </.table_container>
+    </.card>
+
+    <%!-- ═══════════════════════════════════════════════════════════ --%>
+    <%!-- Load More Positioning                                     --%>
+    <%!-- ═══════════════════════════════════════════════════════════ --%>
+    <.card title_text="Load More Positioning">
+      <h4>Table with Start-aligned Load More</h4>
+      <.table_container>
+        <.table rows={@lm_products}>
+          <:col :let={p} label="Product">{p.name}</:col>
+          <:col :let={p} label="Price">{p.price}</:col>
+          <:col :let={p} label="Stock">{p.stock}</:col>
+          <:col :let={p} label="Status">
+            <.badge variant={stock_variant(p.status)} size="sm">{p.status}</.badge>
+          </:col>
+        </.table>
+      </.table_container>
+      <.load_more align="start" phx-click="load_more" count="showing 3 of 150">Load more products</.load_more>
+
+      <h4 class="mt-4">Table with Center Load More</h4>
+      <.table_container>
+        <.table rows={@lm_customers}>
+          <:col :let={c} label="Customer">{c.name}</:col>
+          <:col :let={c} label="Email">{c.email}</:col>
+          <:col :let={c} label="Orders">{c.orders}</:col>
+          <:col :let={c} label="Total">{c.total}</:col>
+        </.table>
+      </.table_container>
+      <.load_more align="center" phx-click="load_more" count="3 of 1,247">Load more customers</.load_more>
+
+      <h4 class="mt-4">Table with Right Load More (Loading State)</h4>
+      <.table_container>
+        <.table rows={@lm_invoices}>
+          <:col :let={i} label="Invoice">{i.id}</:col>
+          <:col :let={i} label="Date">{i.date}</:col>
+          <:col :let={i} label="Amount">{i.amount}</:col>
+          <:col :let={i} label="Status">
+            <.badge variant={order_variant(i.status)} size="sm">{i.status}</.badge>
+          </:col>
+        </.table>
+      </.table_container>
+      <.load_more align="end" is_loading phx-click="load_more">Loading...</.load_more>
+    </.card>
+
+    <%!-- ═══════════════════════════════════════════════════════════ --%>
+    <%!-- Pager Positioning Examples                                --%>
+    <%!-- ═══════════════════════════════════════════════════════════ --%>
+    <.card title_text="Pager Positioning Examples">
+      <h4>Start-aligned Pager</h4>
+      <.pager page={1} total_pages={10} align="start"
+        on_first="first-page" on_last="last-page" on_previous="prev-page" on_next="next-page" />
+
+      <h4>Center-aligned Pager (Default)</h4>
+      <.pager page={5} total_pages={10} align="center"
+        on_first="first-page" on_last="last-page" on_previous="prev-page" on_next="next-page" />
+
+      <h4>End-aligned Pager</h4>
+      <.pager page={10} total_pages={10} align="end"
+        on_first="first-page" on_last="last-page" on_previous="prev-page" on_next="next-page" />
+    </.card>
+
+    <%!-- ═══════════════════════════════════════════════════════════ --%>
+    <%!-- Alternative Pager Icon Sets                               --%>
+    <%!-- ═══════════════════════════════════════════════════════════ --%>
+    <.card title_text="Alternative Pager Icon Sets">
+      <h4>Double/Single Angles (Current)</h4>
+      <.pager page={1} total_pages={10} align="center"
+        on_first="first-page" on_last="last-page" on_previous="prev-page" on_next="next-page" />
+
+      <h4>Triangular Arrows</h4>
+      <.pager page={1} total_pages={10} align="center"
+        on_first="first-page" on_last="last-page" on_previous="prev-page" on_next="next-page"
+        icon_first="&#x23EE;" icon_previous="&#x25C0;" icon_next="&#x25B6;" icon_last="&#x23ED;" />
+
+      <h4>Simple Arrows</h4>
+      <.pager page={1} total_pages={10} align="center"
+        on_first="first-page" on_last="last-page" on_previous="prev-page" on_next="next-page"
+        icon_first="&#x21E4;" icon_previous="&#x2190;" icon_next="&#x2192;" icon_last="&#x21E5;" />
+
+      <h4>Mathematical Double Arrows</h4>
+      <.pager page={1} total_pages={10} align="center"
+        on_first="first-page" on_last="last-page" on_previous="prev-page" on_next="next-page"
+        icon_first="&#x21C7;" icon_previous="&#x21E6;" icon_next="&#x21E8;" icon_last="&#x21C9;" />
+    </.card>
+
+    <%!-- ═══════════════════════════════════════════════════════════ --%>
+    <%!-- Panel Tables                                              --%>
+    <%!-- ═══════════════════════════════════════════════════════════ --%>
+    <.card title_text="Panel Tables">
+      <.paragraph class="mb-4">Tables with card-like visual containment using the <.code>--panel</.code> modifier. Use when tables need to stand alongside cards without being wrapped in one.</.paragraph>
+
+      <h4>Basic Panel Table (no header)</h4>
+      <.table_container is_panel>
+        <.table rows={@panel_products}>
+          <:col :let={p} label="Product">{p.name}</:col>
+          <:col :let={p} label="SKU">{p.sku}</:col>
+          <:col :let={p} label="Price">{p.price}</:col>
+          <:col :let={p} label="Stock">{p.stock}</:col>
+        </.table>
+      </.table_container>
+
+      <h4>Panel Table with Header</h4>
+      <.table_container is_panel title_text="Recent Orders">
+        <:actions>
+          <.button variant="secondary" size="sm">Export</.button>
+          <.button variant="primary" size="sm">Add Order</.button>
+        </:actions>
+        <.table rows={@panel_orders} is_striped>
+          <:col :let={o} label="Order ID">{o.id}</:col>
+          <:col :let={o} label="Customer">{o.customer}</:col>
+          <:col :let={o} label="Date">{o.date}</:col>
+          <:col :let={o} label="Total">{o.total}</:col>
+          <:col :let={o} label="Status">
+            <.badge variant={order_variant(o.status)} size="sm">{o.status}</.badge>
+          </:col>
+        </.table>
+      </.table_container>
+
+      <h4>Panel Tables in Grid (75/25 split)</h4>
+      <.paragraph class="mb-4">Panel tables work inside grid just like cards.</.paragraph>
+    </.card>
+
+    <.grid>
+      <.column size="75">
+        <.table_container is_panel title_text="Activity Log (75%)">
+          <.table rows={@activity_log} size="sm">
+            <:col :let={row} label="Time">{row.time}</:col>
+            <:col :let={row} label="User">{row.user}</:col>
+            <:col :let={row} label="Action">{row.action}</:col>
+          </.table>
+        </.table_container>
+      </.column>
+      <.column size="25">
+        <.table_container is_panel title_text="Stats (25%)">
+          <.table rows={@stats_data} size="sm">
+            <:col :let={row} label="Metric">{row.metric}</:col>
+            <:col :let={row} label="Value">{row.value}</:col>
+          </.table>
+        </.table_container>
+      </.column>
+    </.grid>
+
+    <%!-- ═══════════════════════════════════════════════════════════ --%>
+    <%!-- Table Cards                                               --%>
+    <%!-- ═══════════════════════════════════════════════════════════ --%>
+    <.card title_text="Table Cards">
+      <.paragraph class="mb-4">The <.code>pa-table-card</.code> component is a card specifically designed for tables. It includes header, body (for the table), footer, and color variants like regular cards.</.paragraph>
+      <h4>Basic Table Card with Actions</h4>
+    </.card>
+
+    <.table_card title_text="Recent Orders">
+      <:actions>
+        <.button variant="secondary" size="sm">Export</.button>
+        <.button variant="primary" size="sm">Add Order</.button>
+      </:actions>
+      <.table rows={@card_orders} is_striped>
+        <:col :let={o} label="Order ID">{o.id}</:col>
+        <:col :let={o} label="Customer">{o.customer}</:col>
+        <:col :let={o} label="Date">{o.date}</:col>
+        <:col :let={o} label="Amount">{o.amount}</:col>
+        <:col :let={o} label="Status">
+          <.badge variant={order_variant(o.status)} size="sm">{o.status}</.badge>
+        </:col>
+      </.table>
+      <:footer>
+        <span>Showing 3 of 156 orders</span>
+        <.button variant="secondary" size="sm">View All</.button>
+      </:footer>
+    </.table_card>
+
+    <.card>
+      <h4>Color Variants</h4>
+      <.paragraph class="mb-4">Table cards support the same color variants as regular cards: <.code>--primary</.code>, <.code>--success</.code>, <.code>--warning</.code>, <.code>--danger</.code>, and theme colors <.code>--color-1</.code> through <.code>--color-9</.code>.</.paragraph>
+    </.card>
 
     <.grid>
       <.column size="50">
-        <.card has_padding={false} title_text="XS Size Table">
-          <.table rows={Enum.take(@users, 3)} size="xs">
-            <:col :let={user} label="Name">{user.name}</:col>
-            <:col :let={user} label="Role">{user.role}</:col>
-            <:action :let={_user}>
-              <.button variant="info" size="xs" is_icon_only title="Edit">
-                <i class="fa-solid fa-pen"></i>
-              </.button>
-              <.button variant="danger" size="xs" is_icon_only title="Delete">
-                <i class="fa-solid fa-trash"></i>
-              </.button>
-            </:action>
+        <.table_card title_text="Primary Table Card" variant="primary">
+          <:actions><.button variant="light" size="sm">Refresh</.button></:actions>
+          <.table rows={@card_primary} size="sm">
+            <:col :let={row} label="User">{row.user}</:col>
+            <:col :let={row} label="Role">{row.role}</:col>
+            <:col :let={row} label="Status">{row.status}</:col>
           </.table>
+        </.table_card>
+      </.column>
+      <.column size="50">
+        <.table_card title_text="Success Table Card" variant="success">
+          <:actions><.button variant="light" size="sm">Export</.button></:actions>
+          <.table rows={@card_success} size="sm">
+            <:col :let={row} label="Task">{row.task}</:col>
+            <:col :let={row} label="Completed">{row.completed}</:col>
+          </.table>
+        </.table_card>
+      </.column>
+    </.grid>
+
+    <.grid>
+      <.column size="50">
+        <.table_card title_text="Warning Table Card" variant="warning">
+          <.table rows={@card_warning} size="sm">
+            <:col :let={row} label="Alert">{row.alert}</:col>
+            <:col :let={row} label="Time">{row.time}</:col>
+          </.table>
+        </.table_card>
+      </.column>
+      <.column size="50">
+        <.table_card title_text="Danger Table Card" variant="danger">
+          <.table rows={@card_danger} size="sm">
+            <:col :let={row} label="Error">{row.error}</:col>
+            <:col :let={row} label="Count">{row.count}</:col>
+          </.table>
+        </.table_card>
+      </.column>
+    </.grid>
+
+    <%!-- Plain Table Cards --%>
+    <.card>
+      <h4>Plain Table Cards</h4>
+      <.paragraph class="mb-4">Use <.code>pa-table-card--plain</.code> to remove the card visual styling (border, shadow, background) while keeping grid behavior. Tables work side by side with proper gaps.</.paragraph>
+    </.card>
+
+    <.grid>
+      <.column size="50">
+        <.table_card title_text="Sales by Region" is_plain>
+          <.table rows={@sales_by_region} is_striped>
+            <:col :let={row} label="Region">{row.region}</:col>
+            <:col :let={row} label="Q1">{row.q1}</:col>
+            <:col :let={row} label="Q2">{row.q2}</:col>
+            <:col :let={row} label="Q3">{row.q3}</:col>
+          </.table>
+        </.table_card>
+      </.column>
+      <.column size="50">
+        <.table_card title_text="Top Products" is_plain>
+          <.table rows={@top_products} is_striped>
+            <:col :let={row} label="Product">{row.product}</:col>
+            <:col :let={row} label="Units">{row.units}</:col>
+            <:col :let={row} label="Revenue">{row.revenue}</:col>
+          </.table>
+        </.table_card>
+      </.column>
+    </.grid>
+
+    <.grid>
+      <.column size="50">
+        <.table_card title_text="Bordered Table" is_plain>
+          <.table rows={@bordered_items} is_bordered>
+            <:col :let={row} label="Item">{row.item}</:col>
+            <:col :let={row} label="Quantity">{row.qty}</:col>
+            <:col :let={row} label="Price">{row.price}</:col>
+            <:col :let={row} label="Total">{row.total}</:col>
+          </.table>
+        </.table_card>
+      </.column>
+      <.column size="50">
+        <.table_card title_text="Bordered + Striped" is_plain>
+          <.table rows={@dept_data} is_bordered is_striped>
+            <:col :let={row} label="Department">{row.department}</:col>
+            <:col :let={row} label="Employees">{row.employees}</:col>
+            <:col :let={row} label="Budget">{row.budget}</:col>
+          </.table>
+        </.table_card>
+      </.column>
+    </.grid>
+
+    <%!-- Plain Table with Pagers --%>
+    <.table_card title_text="Plain Table with Pagers" is_plain>
+      <:actions>
+        <.pager page={1} total_pages={16} align="end" show_page_input={false}
+          info_text="Showing 1-10 of 156" on_previous="prev-page" on_next="next-page" />
+      </:actions>
+      <.table rows={@plain_pager_orders} is_bordered is_striped>
+        <:col :let={o} label="ID">{o.id}</:col>
+        <:col :let={o} label="Customer">{o.customer}</:col>
+        <:col :let={o} label="Order Date">{o.date}</:col>
+        <:col :let={o} label="Status">
+          <.badge variant={order_variant(o.status)} size="sm">{o.status}</.badge>
+        </:col>
+        <:col :let={o} label="Total">{o.total}</:col>
+      </.table>
+      <:footer>
+        <.pager page={1} total_pages={16} on_previous="prev-page" on_next="next-page" />
+      </:footer>
+    </.table_card>
+
+    <%!-- ═══════════════════════════════════════════════════════════ --%>
+    <%!-- Real-World Example: Order Detail Layout                   --%>
+    <%!-- ═══════════════════════════════════════════════════════════ --%>
+    <.card title_text="Real-World Example: Order Detail Layout">
+      <.paragraph class="mb-4">Cards and panel tables side by side — all with consistent visual treatment.</.paragraph>
+    </.card>
+
+    <.grid>
+      <.column size="50">
+        <.card title_text="Customer Information">
+          <.fields is_horizontal>
+            <.field label="Name">John Smith</.field>
+            <.field label="Email">john.smith@example.com</.field>
+            <.field label="Phone">+1 (555) 123-4567</.field>
+            <.field label="Customer Since">March 2021</.field>
+          </.fields>
         </.card>
       </.column>
       <.column size="50">
-        <.card has_padding={false} title_text="LG Size Table">
-          <.table rows={Enum.take(@users, 3)} size="lg">
-            <:col :let={user} label="Name">{user.name}</:col>
-            <:col :let={user} label="Role">{user.role}</:col>
-            <:action :let={_user}>
-              <.button variant="info" size="lg" is_icon_only title="Edit">
-                <i class="fa-solid fa-pen"></i>
-              </.button>
-              <.button variant="danger" size="lg" is_icon_only title="Delete">
-                <i class="fa-solid fa-trash"></i>
-              </.button>
-            </:action>
-          </.table>
+        <.card title_text="Delivery Details">
+          <.fields is_horizontal>
+            <.field label="Address">123 Main Street, Apt 4B</.field>
+            <.field label="City">New York, NY 10001</.field>
+            <.field label="Delivery Method">Express Shipping</.field>
+            <.field label="Est. Delivery">Jan 30, 2024</.field>
+          </.fields>
         </.card>
       </.column>
     </.grid>
 
-    <%!-- Bordered & Borderless Tables --%>
-    <.grid>
-      <.column size="50">
-        <.card has_padding={false} title_text="Bordered Table">
-          <.table rows={Enum.take(@users, 3)} is_bordered>
-            <:col :let={user} label="Name">{user.name}</:col>
-            <:col :let={user} label="Email">{user.email}</:col>
-            <:col :let={user} label="Role">{user.role}</:col>
-          </.table>
-        </.card>
-      </.column>
-      <.column size="50">
-        <.card has_padding={false} title_text="Compact Table">
-          <.table rows={Enum.take(@users, 3)} is_compact>
-            <:col :let={user} label="Name">{user.name}</:col>
-            <:col :let={user} label="Email">{user.email}</:col>
-            <:col :let={user} label="Role">{user.role}</:col>
-          </.table>
-        </.card>
-      </.column>
-    </.grid>
-
-    <%!-- Responsive Table --%>
-    <.card title_text="Responsive Table">
-      <.table rows={@wide_data} is_responsive>
-        <:col :let={row} label="ID">{row.id}</:col>
-        <:col :let={row} label="Name">{row.name}</:col>
-        <:col :let={row} label="Email">{row.email}</:col>
-        <:col :let={row} label="Department">{row.department}</:col>
-        <:col :let={row} label="Location">{row.location}</:col>
-        <:col :let={row} label="Phone">{row.phone}</:col>
-        <:col :let={row} label="Start Date">{row.start_date}</:col>
-        <:col :let={row} label="Salary">{row.salary}</:col>
-        <:col :let={row} label="Status">
-          <.badge variant="success" size="sm">{row.status}</.badge>
-        </:col>
-        <:action :let={_row}>
-          <.button variant="info" size="xs">View</.button>
-        </:action>
+    <.table_container is_panel title_text="Order Items">
+      <.table rows={@order_items}>
+        <:col :let={item} label="Product">{item.product}</:col>
+        <:col :let={item} label="SKU">{item.sku}</:col>
+        <:col :let={item} label="Qty" align="end">{item.qty}</:col>
+        <:col :let={item} label="Unit Price" align="end">{item.unit_price}</:col>
+        <:col :let={item} label="Total" align="end">{item.total}</:col>
+        <:foot>
+          <tr>
+            <td colspan="4" class="text-end"><strong>Subtotal</strong></td>
+            <td class="text-end">$219.96</td>
+          </tr>
+          <tr>
+            <td colspan="4" class="text-end"><strong>Shipping</strong></td>
+            <td class="text-end">$12.99</td>
+          </tr>
+          <tr>
+            <td colspan="4" class="text-end"><strong>Tax</strong></td>
+            <td class="text-end">$18.70</td>
+          </tr>
+          <tr>
+            <td colspan="4" class="text-end"><strong>Total</strong></td>
+            <td class="text-end"><strong>$251.65</strong></td>
+          </tr>
+        </:foot>
       </.table>
+    </.table_container>
+
+    <%!-- ═══════════════════════════════════════════════════════════ --%>
+    <%!-- CSS Classes Reference                                     --%>
+    <%!-- ═══════════════════════════════════════════════════════════ --%>
+    <.card title_text="CSS Classes Reference">
+      <h4>Tables</h4>
+      <ul class="pa-list-basic pa-list-basic--compact">
+        <li><.code>pa-table-container</.code> — Scrollable table wrapper with border</li>
+        <li><.code>pa-table-container--panel</.code> — Card-like containment with shadow and margin</li>
+        <li><.code>pa-table-container__header</.code> — Header row for panel tables</li>
+        <li><.code>pa-table-container__title</.code> — Title text in header</li>
+        <li><.code>pa-table-container__actions</.code> — Actions container in header</li>
+        <li><.code>pa-table</.code> — Base table class</li>
+        <li><.code>pa-table--striped</.code> — Zebra striping on rows</li>
+        <li><.code>pa-table--xs</.code> — Extra small padding</li>
+        <li><.code>pa-table--sm</.code> — Small padding</li>
+        <li><.code>pa-table--lg</.code> — Large padding</li>
+        <li><.code>pa-table--xl</.code> — Extra large padding</li>
+        <li><.code>pa-table--responsive</.code> — Stacks into cards on mobile</li>
+        <li><.code>pa-table--responsive-grid</.code> — CSS grid layout on mobile</li>
+        <li><.code>.col-auto</.code> — Auto-width column (shrinks to content)</li>
+      </ul>
+
+      <h4 class="mt-4">Table Cards</h4>
+      <ul class="pa-list-basic pa-list-basic--compact">
+        <li><.code>pa-table-card</.code> — Card wrapper for tables</li>
+        <li><.code>pa-table-card--primary / success / warning / danger</.code> — Color variants</li>
+        <li><.code>pa-table-card--color-1</.code> through <.code>--color-9</.code> — Theme colors</li>
+        <li><.code>pa-table-card--plain</.code> — Remove card styling</li>
+        <li><.code>pa-table-card__header</.code> — Card header</li>
+        <li><.code>pa-table-card__title</.code> — Title wrapper</li>
+        <li><.code>pa-table-card__actions</.code> — Header actions</li>
+        <li><.code>pa-table-card__body</.code> — Table body wrapper</li>
+        <li><.code>pa-table-card__body--scrollable</.code> — Horizontal scroll</li>
+        <li><.code>pa-table-card__footer</.code> — Footer for pagination</li>
+      </ul>
+
+      <h4 class="mt-4">Pager</h4>
+      <ul class="pa-list-basic pa-list-basic--compact">
+        <li><.code>pa-pager</.code> — Pagination container (default: centered)</li>
+        <li><.code>pa-pager--start</.code> — Start-aligned</li>
+        <li><.code>pa-pager--center</.code> — Center-aligned</li>
+        <li><.code>pa-pager--end</.code> — End-aligned</li>
+        <li><.code>pa-pager__container</.code> — Inner wrapper (flex)</li>
+        <li><.code>pa-pager__controls</.code> — Navigation buttons</li>
+        <li><.code>pa-pager__info</.code> — Page input and text</li>
+        <li><.code>pa-pager__input</.code> — Page number input</li>
+        <li><.code>pa-pager__text</.code> — "/ X pages" text</li>
+      </ul>
+
+      <h4 class="mt-4">Load More</h4>
+      <ul class="pa-list-basic pa-list-basic--compact">
+        <li><.code>pa-load-more</.code> — Load more container (default: centered)</li>
+        <li><.code>pa-load-more--start</.code> — Start-aligned</li>
+        <li><.code>pa-load-more--center</.code> — Center-aligned</li>
+        <li><.code>pa-load-more--end</.code> — End-aligned</li>
+        <li><.code>pa-load-more__button</.code> — The button element</li>
+        <li><.code>pa-load-more__button--loading</.code> — Loading state</li>
+        <li><.code>pa-load-more__spinner</.code> — Spinner element</li>
+        <li><.code>pa-load-more__text</.code> — Button text</li>
+        <li><.code>pa-load-more__count</.code> — Count display (e.g., "3 of 150")</li>
+      </ul>
     </.card>
     """
   end

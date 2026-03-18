@@ -20,6 +20,8 @@ defmodule DemoWeb.Router do
       live "/alerts", Live.AlertsLive, :index
       live "/cards", Live.CardsLive, :index
       live "/tables", Live.TablesLive, :index
+      live "/tables-sizing", Live.TablesSizingLive, :index
+      live "/tables-responsive", Live.TablesResponsiveLive, :index
       live "/modals", Live.ModalsLive, :index
       live "/modal-dialogs", Live.ModalDialogsLive, :index
       live "/popconfirm", Live.PopconfirmLive, :index

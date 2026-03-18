@@ -1,5 +1,28 @@
 # Changelog
 
+## v0.3.2
+
+### Components
+- **table**: Add `table_card/1` — card wrapper with header/footer, color variants (primary/success/warning/danger), theme colors (1-9), `is_scrollable`, `is_plain`
+- **table**: Add `:foot` slot for `<tfoot>` support (colspan, totals rows)
+- **table**: Add `align` attr on `:col` slot (start/center/end) for per-column text alignment
+- **table**: Add `is_responsive_grid` modifier for CSS Grid responsive collapse
+- **table**: Render `:action` column first (leftmost) to match pure-admin reference
+- **table_container**: Add `is_panel` mode with `title_text`, `:header`, `:actions` slots
+- **table_container/table_card**: Use `<h3>` for titles to match pure-admin CSS selectors (colored header text)
+- **pager**: Fix layout to match pure-admin: controls-left | info-center | controls-right (was all-controls then info)
+- **pager**: Add `icon_first`, `icon_previous`, `icon_next`, `icon_last` attrs for custom icon sets
+- **pager**: Change info format to `/ N pages` (was `Page ... of N`)
+- **data_display**: Add `is_value_end` and `is_value_center` modifiers to `banded/1` and `desc_table/1`
+
+### Demo
+- Split tables into three pages: Standard Tables, Table Sizing, Responsive
+- Rewrite Standard Tables demo to match pure-admin reference 1:1 (same data, sections, structure)
+- Add Table Sizing demo with all 5 size variants and reference table
+- Add Responsive Tables demo with card stacking, product catalog, scrollable table card
+- Remove invented `pa-page-title`/`pa-page-subtitle` CSS classes from all demo pages — use plain `<p>` like the reference
+- Clean up `demo.css` — remove unused chart/activity/status classes
+
 ## v0.3.1
 
 ### New Components
