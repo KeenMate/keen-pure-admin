@@ -24,6 +24,7 @@ defmodule KPureAdmin.Components do
       import KPureAdmin.Components.CheckboxList
       import KPureAdmin.Components.Code
       import KPureAdmin.Components.DataDisplay
+      import KPureAdmin.Components.FilterCard
       import KPureAdmin.Components.DataViz
       import KPureAdmin.Components.Form
       import KPureAdmin.Components.Grid

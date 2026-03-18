@@ -416,4 +416,41 @@ defmodule KPureAdmin.Components.Form do
     </.form>
     """
   end
+
+  # ─── Input wrapper ───
+
+  @doc """
+  Wraps an input or select with an optional clear button.
+
+  The clear button emits a `phx-click` event when clicked (defaults to the
+  `on_clear` attr value) so the parent LiveView can reset the field.
+
+  ## Examples
+
+      <.input_wrapper>
+        <.input type="text" placeholder="Search..." />
+      </.input_wrapper>
+
+      <.input_wrapper on_clear="clear-search">
+        <.input type="text" placeholder="Search..." />
+      </.input_wrapper>
+
+      <.input_wrapper has_clear={false}>
+        <.input type="text" placeholder="No clear button" />
+      </.input_wrapper>
+  """
+  attr(:has_clear, :boolean, default: true, doc: "Show the clear (×) button")
+  attr(:on_clear, :string, default: nil, doc: "phx-click event for the clear button")
+  attr(:class, :string, default: nil)
+  attr(:rest, :global)
+  slot(:inner_block, required: true)
+
+  def input_wrapper(assigns) do
+    ~H"""
+    <div class={build_classes("pa-input-wrapper", [], @class)} {@rest}>
+      <%= render_slot(@inner_block) %>
+      <button :if={@has_clear} class="pa-input-wrapper__clear" type="button" phx-click={@on_clear}>×</button>
+    </div>
+    """
+  end
 end

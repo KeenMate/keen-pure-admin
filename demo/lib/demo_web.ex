@@ -79,11 +79,8 @@ defmodule DemoWeb do
     quote do
       # HTML escaping functionality
       import Phoenix.HTML
-      # Core UI components (exclude those replaced by Pure Admin)
-      import DemoWeb.CoreComponents,
-        except: [button: 1, table: 1, list: 1, input: 1, header: 1, modal: 1, simple_form: 1]
 
-      # Pure Admin components
+      # Pure Admin components (full CoreComponents replacement)
       use KPureAdmin.Components
 
       # Common modules used in templates

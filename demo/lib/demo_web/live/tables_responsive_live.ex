@@ -1,152 +1,409 @@
 defmodule DemoWeb.Live.TablesResponsiveLive do
   use DemoWeb, :live_view
 
-  @employees [
-    %{id: 1, name: "Tiger Nixon", email: "tiger@example.com", department: "Engineering",
-      location: "San Francisco", phone: "+1 555-0101", start_date: "2020-01-15",
-      salary: "$320,000", status: "Active"},
-    %{id: 2, name: "Garrett Winters", email: "garrett@example.com", department: "Marketing",
-      location: "New York", phone: "+1 555-0102", start_date: "2019-06-20",
-      salary: "$280,000", status: "Active"},
-    %{id: 3, name: "Ashton Cox", email: "ashton@example.com", department: "Design",
-      location: "London", phone: "+44 20-7946-0958", start_date: "2021-03-10",
-      salary: "$250,000", status: "Inactive"},
-    %{id: 4, name: "Cedric Kelly", email: "cedric@example.com", department: "Engineering",
-      location: "Berlin", phone: "+49 30-1234567", start_date: "2018-11-05",
-      salary: "$310,000", status: "Active"}
+  @users [
+    %{id: "#1001", name: "John Doe", email: "john.doe@example.com", role: "Admin", status: "Active"},
+    %{id: "#1002", name: "Jane Smith", email: "jane.smith@example.com", role: "Editor", status: "Pending"},
+    %{id: "#1003", name: "Bob Johnson", email: "bob.johnson@example.com", role: "Viewer", status: "Active"},
+    %{id: "#1004", name: "Alice Williams", email: "alice.w@example.com", role: "Editor", status: "Inactive"}
   ]
 
   @products [
-    %{name: "Widget Pro", sku: "WGT-001", category: "Electronics", price: "$299.99", stock: 45, status: "In Stock"},
-    %{name: "Gadget X", sku: "GDG-002", category: "Accessories", price: "$49.99", stock: 0, status: "Out of Stock"},
-    %{name: "Tool Kit", sku: "TLK-003", category: "Hardware", price: "$129.99", stock: 12, status: "Low Stock"},
-    %{name: "Smart Hub", sku: "SMH-004", category: "Electronics", price: "$199.99", stock: 89, status: "In Stock"}
+    %{name: "MacBook Pro 16\"", category: "Laptops", price: "$2,499.00", stock: "In Stock", rating: "4.8"},
+    %{name: "iPhone 15 Pro", category: "Smartphones", price: "$999.00", stock: "Low Stock", rating: "4.9"},
+    %{name: "AirPods Pro (2nd gen)", category: "Audio", price: "$249.00", stock: "In Stock", rating: "4.6"},
+    %{name: "iPad Air M2", category: "Tablets", price: "$599.00", stock: "Out of Stock", rating: "4.7"}
   ]
 
   @orders [
-    %{id: "#ORD-001", date: "2026-03-15", customer: "Tiger Nixon", items: "Widget Pro, Gadget X", total: "$349.98", status: "Delivered"},
-    %{id: "#ORD-002", date: "2026-03-14", customer: "Garrett Winters", items: "Smart Hub", total: "$199.99", status: "Shipped"},
-    %{id: "#ORD-003", date: "2026-03-13", customer: "Ashton Cox", items: "Tool Kit x3, Widget Pro x2", total: "$989.95", status: "Processing"}
+    %{id: "#ORD-2501", date: "Oct 23, 2025", customer: "Sarah Connor", items: "3 items", total: "$3,247.00", status: "Delivered"},
+    %{id: "#ORD-2502", date: "Oct 22, 2025", customer: "John Matrix", items: "1 item", total: "$999.00", status: "Shipped"},
+    %{id: "#ORD-2503", date: "Oct 21, 2025", customer: "Ellen Ripley", items: "5 items", total: "$1,847.00", status: "Processing"},
+    %{id: "#ORD-2504", date: "Oct 20, 2025", customer: "Martin Riggs", items: "2 items", total: "$548.00", status: "Cancelled"}
+  ]
+
+  @code_add_class ~S"""
+  <table class="pa-table pa-table--responsive">
+    <!-- table content -->
+  </table>
+  """
+
+  @code_data_label ~S"""
+  <table class="pa-table pa-table--responsive">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td data-label="Name">John Doe</td>
+        <td data-label="Email">john@example.com</td>
+        <td data-label="Status">
+          <span class="pa-badge pa-badge--success">Active</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  """
+
+  @code_component ~S"""
+  <.table rows={@users} is_responsive is_striped>
+    <:col :let={row} label="Name">{row.name}</:col>
+    <:col :let={row} label="Email">{row.email}</:col>
+    <:col :let={row} label="Status">
+      <.badge variant="success">{row.status}</.badge>
+    </:col>
+  </.table>
+  """
+
+  @code_in_card ~S"""
+  <.card title_text="Users" has_padding={false}>
+    <.table rows={@users} is_responsive>
+      <:col :let={row} label="Name">{row.name}</:col>
+      <:col :let={row} label="Email">{row.email}</:col>
+      <:col :let={row} label="Status">
+        <.badge variant="success">{row.status}</.badge>
+      </:col>
+    </.table>
+  </.card>
+  """
+
+  @code_key_points ~S"""
+  <%!-- The is_responsive attribute handles data-label automatically --%>
+  <.table rows={@data} is_responsive>
+    <:col :let={row} label="Column Name">{row.value}</:col>
+  </.table>
+
+  <%!-- Combine with table variants --%>
+  <.table rows={@data} is_responsive is_striped />
+  <.table rows={@data} is_responsive is_hover />
+
+  <%!-- Actions column with button groups --%>
+  <:action :let={row}>
+    <.button_group>
+      <.button size="xs">View</.button>
+      <.button size="xs">Edit</.button>
+    </.button_group>
+  </:action>
+  """
+
+  @grid_contacts [
+    %{first: "Sarah", last: "Johnson", email: "sarah.johnson@company.com", phone: "+1 (555) 123-4567", department: "Engineering", status: "Active"},
+    %{first: "Michael", last: "Chen", email: "michael.chen@company.com", phone: "+1 (555) 234-5678", department: "Marketing", status: "Pending"},
+    %{first: "Emma", last: "Rodriguez", email: "emma.rodriguez@company.com", phone: "+1 (555) 345-6789", department: "Sales", status: "Active"}
+  ]
+
+  @grid_attrs [
+    %{attribute: ~S'data-grid="2"', description: "2-column grid on mobile (applies to <tr>)", example: "Name fields side-by-side"},
+    %{attribute: ~S'data-grid="3"', description: "3-column grid on mobile (applies to <tr>)", example: "Compact data display"},
+    %{attribute: ~S'data-span="2"', description: "Span 2 columns (applies to <td>)", example: "Wider fields"},
+    %{attribute: ~S'data-span="3"', description: "Span 3 columns (applies to <td>)", example: "Extra wide fields"},
+    %{attribute: ~S'data-span="full"', description: "Span all columns (applies to <td>)", example: "Email, description, status"}
+  ]
+
+  @code_grid ~S"""
+  <table class="pa-table pa-table--responsive-grid">
+    <thead>
+      <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr data-grid="2">
+        <td data-label="First Name">John</td>
+        <td data-label="Last Name">Doe</td>
+        <td data-label="Email" data-span="full">john@example.com</td>
+        <td data-label="Phone">555-1234</td>
+      </tr>
+    </tbody>
+  </table>
+  """
+
+  @scss_vars [
+    %{variable: "$table-responsive-breakpoint", default: "768px", description: "Screen width where tables switch to stacked layout"},
+    %{variable: "$table-responsive-card-margin", default: "1rem", description: "Space between stacked row cards"},
+    %{variable: "$table-responsive-card-padding", default: "0.75rem", description: "Inner padding for each card cell"},
+    %{variable: "$table-responsive-label-width", default: "40%", description: "Width allocated for labels in mobile view"},
+    %{variable: "$table-responsive-label-font-weight", default: "$font-weight-semibold", description: "Font weight for labels (default: 600)"}
   ]
 
   def mount(_params, _session, socket) do
     {:ok, assign(socket,
       page_title: "Responsive Tables",
-      employees: @employees,
+      users: @users,
       products: @products,
-      orders: @orders
+      orders: @orders,
+      scss_vars: @scss_vars,
+      grid_contacts: @grid_contacts,
+      grid_attrs: @grid_attrs,
+      code_add_class: @code_add_class,
+      code_data_label: @code_data_label,
+      code_component: @code_component,
+      code_in_card: @code_in_card,
+      code_key_points: @code_key_points,
+      code_grid: @code_grid
     )}
   end
 
   def render(assigns) do
     ~H"""
-    <p>Tables that adapt to mobile screens with card-style stacking and CSS Grid layouts.</p>
+    <%!-- How It Works --%>
+    <.card title_text="How It Works">
+      <.grid>
+        <.column size="100" md="1-3">
+          <h4 class="mb-2">Desktop (&gt;1024px)</h4>
+          <.basic_list>
+            <li>Standard table layout with columns</li>
+            <li>Headers visible at top</li>
+            <li>Data in rows and columns</li>
+            <li>Full table width displayed</li>
+          </.basic_list>
+        </.column>
+        <.column size="100" md="1-3">
+          <h4 class="mb-2">Tablet (769px - 1024px)</h4>
+          <.basic_list>
+            <li>Table becomes horizontally scrollable</li>
+            <li>Maintains desktop structure</li>
+            <li>Prevents cramped columns</li>
+            <li>Smooth scrolling on touch devices</li>
+          </.basic_list>
+        </.column>
+        <.column size="100" md="1-3">
+          <h4 class="mb-2">Mobile (≤768px)</h4>
+          <.basic_list>
+            <li>Each row becomes a card</li>
+            <li>Headers hidden</li>
+            <li>Labels from <.code>data-label</.code></li>
+            <li>Label: Value pattern</li>
+            <li>Stacked vertically</li>
+          </.basic_list>
+        </.column>
+      </.grid>
+      <.alert variant="info" class="mt-4">
+        <:heading>Try it:</:heading>
+        Resize your browser window to see the responsive behavior:
+        <:list>
+          <li><strong>1024px → 769px:</strong> Table becomes scrollable (prevents cramping)</li>
+          <li><strong>768px and below:</strong> Transforms into stacked cards</li>
+        </:list>
+      </.alert>
+    </.card>
 
-    <%!-- How it works --%>
-    <.section title_text="How It Works">
-      <.paragraph class="mb-2">
-        Responsive tables transform into stacked card layouts on mobile devices (≤768px).
-        On tablet (769–1024px), the table scrolls horizontally. On desktop, the full table is visible.
-      </.paragraph>
-    </.section>
-
-    <%!-- Basic Responsive --%>
+    <%!-- Basic Responsive Table --%>
     <.card has_padding={false} title_text="Basic Responsive Table">
-      <:subtitle>Resize browser to see stacking behavior. Uses is_responsive on the table component.</:subtitle>
-      <.table rows={@employees} is_responsive is_striped is_hover>
+      <:subtitle>Simple user data table with automatic mobile transformation</:subtitle>
+      <.table rows={@users} is_responsive>
+        <:col :let={row} label="ID">{row.id}</:col>
         <:col :let={row} label="Name">{row.name}</:col>
         <:col :let={row} label="Email">{row.email}</:col>
-        <:col :let={row} label="Department">{row.department}</:col>
-        <:col :let={row} label="Location">{row.location}</:col>
-        <:col :let={row} label="Phone">{row.phone}</:col>
-        <:col :let={row} label="Start Date">{row.start_date}</:col>
-        <:col :let={row} label="Salary">{row.salary}</:col>
+        <:col :let={row} label="Role">{row.role}</:col>
         <:col :let={row} label="Status">
-          <.badge variant={if row.status == "Active", do: "success", else: "secondary"} size="sm">{row.status}</.badge>
+          <.badge variant={user_status_variant(row.status)} size="sm">{row.status}</.badge>
         </:col>
-        <:action :let={_row}>
-          <.button variant="info" size="xs">View</.button>
-        </:action>
       </.table>
     </.card>
 
     <%!-- Product Catalog --%>
-    <.card has_padding={false} title_text="Product Catalog — Responsive">
+    <.card has_padding={false} title_text="Product Catalog">
+      <:subtitle>E-commerce product table with prices and stock status</:subtitle>
       <.table rows={@products} is_responsive is_striped>
-        <:col :let={p} label="Product">{p.name}</:col>
-        <:col :let={p} label="SKU">{p.sku}</:col>
+        <:action :let={_p}>
+          <.button_group>
+            <.button size="xs" variant="primary" title="View">👁️</.button>
+            <.button size="xs" variant="secondary" title="Edit">✏️</.button>
+          </.button_group>
+        </:action>
+        <:col :let={p} label="Product"><strong>{p.name}</strong></:col>
         <:col :let={p} label="Category">{p.category}</:col>
         <:col :let={p} label="Price">{p.price}</:col>
-        <:col :let={p} label="Stock">{p.stock}</:col>
-        <:col :let={p} label="Status">
-          <.badge
-            variant={
-              cond do
-                p.status == "In Stock" -> "success"
-                p.status == "Low Stock" -> "warning"
-                true -> "danger"
-              end
-            }
-            size="sm"
-          >
-            {p.status}
-          </.badge>
+        <:col :let={p} label="Stock">
+          <.badge variant={stock_variant(p.stock)} size="sm">{p.stock}</.badge>
         </:col>
+        <:col :let={p} label="Rating">{"⭐⭐⭐⭐⭐ (#{p.rating})"}</:col>
       </.table>
     </.card>
 
     <%!-- Recent Orders --%>
-    <.card has_padding={false} title_text="Recent Orders — Responsive">
-      <.table rows={@orders} is_responsive is_hover>
-        <:col :let={o} label="Order">{o.id}</:col>
+    <.card has_padding={false} title_text="Recent Orders">
+      <:subtitle>Order management table with dates, customers, and amounts</:subtitle>
+      <.table rows={@orders} is_responsive>
+        <:action :let={_o}>
+          <.button size="xs" variant="secondary">View</.button>
+        </:action>
+        <:col :let={o} label="Order #">{o.id}</:col>
         <:col :let={o} label="Date">{o.date}</:col>
         <:col :let={o} label="Customer">{o.customer}</:col>
         <:col :let={o} label="Items">{o.items}</:col>
         <:col :let={o} label="Total">{o.total}</:col>
         <:col :let={o} label="Status">
-          <.badge
-            variant={
-              case o.status do
-                "Delivered" -> "success"
-                "Shipped" -> "info"
-                "Processing" -> "warning"
-                _ -> nil
-              end
-            }
-            size="sm"
-          >
-            {o.status}
-          </.badge>
+          <.badge variant={order_status_variant(o.status)} size="sm">{o.status}</.badge>
         </:col>
       </.table>
     </.card>
 
-    <%!-- Scrollable Table Container --%>
-    <.section title_text="Scrollable Table Container">
-      <.paragraph class="mb-2">
-        Wrap wide tables in a table_responsive or use table_card with is_scrollable for horizontal scroll without card stacking.
-      </.paragraph>
-    </.section>
+    <%!-- CSS Grid Custom Layouts --%>
+    <.card has_padding={false} title_text="CSS Grid Custom Layouts">
+      <:subtitle>Use <.code>.pa-table--responsive-grid</.code> for custom multi-column mobile layouts</:subtitle>
+      <table class="pa-table pa-table--responsive-grid pa-table--striped">
+        <thead>
+          <tr>
+            <th class="col-auto">Actions</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Department</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr :for={c <- @grid_contacts} data-grid="2">
+            <td data-label="Actions" class="col-auto">
+              <.button_group>
+                <.button size="xs" variant="primary" title="View">👁️</.button>
+                <.button size="xs" variant="secondary" title="Edit">✏️</.button>
+              </.button_group>
+            </td>
+            <td data-label="First Name">{c.first}</td>
+            <td data-label="Last Name">{c.last}</td>
+            <td data-label="Email" data-span="full">{c.email}</td>
+            <td data-label="Phone">{c.phone}</td>
+            <td data-label="Department">{c.department}</td>
+            <td data-label="Status" data-span="full">
+              <.badge variant={user_status_variant(c.status)} size="sm">{c.status}</.badge>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <:footer>
+        <.alert variant="info">
+          <:heading>On mobile:</:heading>
+          First name and last name appear side-by-side, email and status span full width, phone and department are on the same row.
+        </.alert>
+      </:footer>
+    </.card>
 
-    <.table_card title_text="Scrollable Table Card" is_scrollable>
-      <.table rows={@employees} is_striped is_hover>
-        <:col :let={row} label="ID">{row.id}</:col>
-        <:col :let={row} label="Name">{row.name}</:col>
-        <:col :let={row} label="Email">{row.email}</:col>
-        <:col :let={row} label="Department">{row.department}</:col>
-        <:col :let={row} label="Location">{row.location}</:col>
-        <:col :let={row} label="Phone">{row.phone}</:col>
-        <:col :let={row} label="Start Date">{row.start_date}</:col>
-        <:col :let={row} label="Salary">{row.salary}</:col>
-        <:col :let={row} label="Status">
-          <.badge variant={if row.status == "Active", do: "success", else: "secondary"} size="sm">{row.status}</.badge>
-        </:col>
-        <:action :let={_row}>
-          <.button variant="info" size="xs">View</.button>
-          <.button variant="warning" size="xs">Edit</.button>
-        </:action>
+    <%!-- HTML Implementation --%>
+    <.card title_text="HTML Implementation">
+      <:subtitle>How to make your tables responsive</:subtitle>
+      <h4 class="mb-2">1. Add the class modifier</h4>
+      <.paragraph class="mb-3">Add <.code>.pa-table--responsive</.code> to your table element:</.paragraph>
+      <.code_block language="html" class="mb-4">{@code_add_class}</.code_block>
+
+      <h4 class="mb-2">2. Add data-label attributes</h4>
+      <.paragraph class="mb-3">Each <.code>&lt;td&gt;</.code> needs a <.code>data-label</.code> attribute matching its column header:</.paragraph>
+      <.code_block language="html" class="mb-4">{@code_data_label}</.code_block>
+
+      <h4 class="mb-2">3. That's it!</h4>
+      <.paragraph>The table will automatically transform on screens smaller than 768px. No JavaScript required!</.paragraph>
+
+      <.alert variant="success" class="mt-4">
+        <:heading>Pro tip:</:heading>
+        Combine with <.code>.pa-table--striped</.code> for better readability on desktop. The striping is automatically disabled on mobile.
+      </.alert>
+
+      <hr class="mt-4 mb-4" />
+
+      <h3 class="mb-3">CSS Grid Layout (Advanced)</h3>
+      <.paragraph class="mb-3">For more control over mobile layouts, use <.code>.pa-table--responsive-grid</.code> instead:</.paragraph>
+      <.code_block language="html" class="mb-4">{@code_grid}</.code_block>
+
+      <h4 class="mb-2">Grid Attributes:</h4>
+      <.table rows={@grid_attrs}>
+        <:col :let={a} label="Attribute"><.code>{a.attribute}</.code></:col>
+        <:col :let={a} label="Description">{a.description}</:col>
+        <:col :let={a} label="Example">{a.example}</:col>
       </.table>
-    </.table_card>
+
+      <.alert variant="warning" class="mt-4">
+        <:heading>Grid vs Simple:</:heading>
+        Use <.code>--responsive-grid</.code> when you need custom layouts. Use plain <.code>--responsive</.code> for simple label:value stacking.
+      </.alert>
+    </.card>
+
+    <%!-- SCSS Variables Reference --%>
+    <.card title_text="Customization Variables">
+      <:subtitle>SCSS variables for responsive table styling</:subtitle>
+      <.table rows={@scss_vars}>
+        <:col :let={v} label="Variable"><.code>{v.variable}</.code></:col>
+        <:col :let={v} label="Default Value"><.code>{v.default}</.code></:col>
+        <:col :let={v} label="Description">{v.description}</:col>
+      </.table>
+
+      <.alert variant="info" class="mt-4">
+        <:heading>Customize in your theme:</:heading>
+        Override these variables in your theme file to adjust the responsive behavior and styling.
+      </.alert>
+    </.card>
+
+    <%!-- Testing Tips --%>
+    <.card title_text="Testing Tips">
+      <.grid>
+        <.column size="100" md="1-3">
+          <h4>Desktop Browser</h4>
+          <.basic_list>
+            <li>Resize browser window</li>
+            <li>Use DevTools device toolbar</li>
+            <li>Press F12 → Toggle device toolbar</li>
+          </.basic_list>
+        </.column>
+        <.column size="100" md="1-3">
+          <h4>Real Device</h4>
+          <.basic_list>
+            <li>Test on actual phones/tablets</li>
+            <li>Check both orientations</li>
+            <li>Verify touch interactions</li>
+          </.basic_list>
+        </.column>
+        <.column size="100" md="1-3">
+          <h4>Common Breakpoints</h4>
+          <.basic_list>
+            <li>Mobile: 320px - 767px</li>
+            <li>Tablet: 768px - 1023px</li>
+            <li>Desktop: 1024px+</li>
+          </.basic_list>
+        </.column>
+      </.grid>
+    </.card>
+
+    <%!-- LiveView Component Code Examples --%>
+    <.card title_text="LiveView Component Code Examples">
+      <.grid>
+        <.column size="100" md="50">
+          <h4 class="mb-2">Using Table Component</h4>
+          <.code_block language="heex">{@code_component}</.code_block>
+        </.column>
+        <.column size="100" md="50">
+          <h4 class="mb-2">Inside a Card</h4>
+          <.code_block language="heex">{@code_in_card}</.code_block>
+        </.column>
+      </.grid>
+
+      <h4 class="mb-2 mt-4">Key Points</h4>
+      <.code_block language="heex">{@code_key_points}</.code_block>
+    </.card>
     """
   end
+
+  defp user_status_variant("Active"), do: "success"
+  defp user_status_variant("Pending"), do: "warning"
+  defp user_status_variant("Inactive"), do: "danger"
+  defp user_status_variant(_), do: nil
+
+  defp stock_variant("In Stock"), do: "success"
+  defp stock_variant("Low Stock"), do: "warning"
+  defp stock_variant("Out of Stock"), do: "danger"
+  defp stock_variant(_), do: nil
+
+  defp order_status_variant("Delivered"), do: "success"
+  defp order_status_variant("Shipped"), do: "primary"
+  defp order_status_variant("Processing"), do: "warning"
+  defp order_status_variant("Cancelled"), do: "danger"
+  defp order_status_variant(_), do: nil
 end

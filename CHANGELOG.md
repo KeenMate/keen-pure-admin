@@ -14,12 +14,15 @@
 - **pager**: Add `icon_first`, `icon_previous`, `icon_next`, `icon_last` attrs for custom icon sets
 - **pager**: Change info format to `/ N pages` (was `Page ... of N`)
 - **data_display**: Add `is_value_end` and `is_value_center` modifiers to `banded/1` and `desc_table/1`
+- **form**: Add `input_wrapper/1` — wraps input/select with optional clear (×) button (`pa-input-wrapper` + `pa-input-wrapper__clear`), `has_clear`, `on_clear` attrs
+- **filter_card**: New `filter_card/1` component — expandable filter card with `:filters`, `:advanced_filters`, `:actions` slots, toggle/clear/refresh/apply buttons, `is_expanded`, `is_loading`, `is_disabled` states, matching Svelte `FilterCard`
 
 ### Demo
 - Split tables into three pages: Standard Tables, Table Sizing, Responsive
 - Rewrite Standard Tables demo to match pure-admin reference 1:1 (same data, sections, structure)
 - Rewrite Table Sizing demo to match pure-admin reference 1:1 (same data, card structure with inline code headers, text action buttons with correct sizes per variant)
-- Add Responsive Tables demo with card stacking, product catalog, scrollable table card
+- Rewrite Responsive Tables demo to match pure-admin reference 1:1 (How It Works grid, basic/product/orders tables with actions and badges, CSS Grid Custom Layouts with data-grid/data-span, HTML Implementation with grid advanced section, SCSS variables reference, Testing Tips, LiveView code examples)
+- Add Table Filters demo matching pure-admin reference (basic search filter, expandable filters with advanced section toggle, inline horizontal filters, active filter tags with composite badges)
 - Remove invented `pa-page-title`/`pa-page-subtitle` CSS classes from all demo pages — use plain `<p>` like the reference
 - Clean up `demo.css` — remove unused chart/activity/status classes
 

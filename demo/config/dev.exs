@@ -13,10 +13,9 @@ config :demo, DemoWeb.Endpoint,
   check_origin: false,
   code_reloader: true,
   debug_errors: true,
-  secret_key_base: "KfinuzoCv9KKmZX5lxhftwgX50QgEa2WS41ttBUVRLQXUGIFOkwVMHbN5V5o8ezJ",
+  secret_key_base: "VMKELbVWLstBml1ZIVH+eQA3JMusy7PLj+oE2V6O8YKOD/vYFOyX4hv36Kvh5ptl",
   watchers: [
-    esbuild: {Esbuild, :install_and_run, [:demo, ~w(--sourcemap=inline --watch)]},
-    tailwind: {Tailwind, :install_and_run, [:demo, ~w(--watch)]}
+    esbuild: {Esbuild, :install_and_run, [:demo, ~w(--sourcemap=inline --watch)]}
   ]
 
 # ## SSL Support
@@ -49,6 +48,8 @@ config :demo, DemoWeb.Endpoint,
     patterns: [
       # Static assets, except user uploads
       ~r"priv/static/(?!uploads/).*\.(js|css|png|jpeg|jpg|gif|svg)$",
+      # Gettext translations
+      ~r"priv/gettext/.*\.po$",
       # Router, Controllers, LiveViews and LiveComponents
       ~r"lib/demo_web/router\.ex$",
       ~r"lib/demo_web/(controllers|live|components)/.*\.(ex|heex)$"
