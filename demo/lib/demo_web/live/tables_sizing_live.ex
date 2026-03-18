@@ -1,65 +1,139 @@
 defmodule DemoWeb.Live.TablesSizingLive do
   use DemoWeb, :live_view
 
-  @users [
-    %{id: 1, name: "Tiger Nixon", email: "tiger@example.com", role: "Admin", status: "Active"},
-    %{id: 2, name: "Garrett Winters", email: "garrett@example.com", role: "Editor", status: "Active"},
-    %{id: 3, name: "Ashton Cox", email: "ashton@example.com", role: "User", status: "Inactive"},
-    %{id: 4, name: "Cedric Kelly", email: "cedric@example.com", role: "Admin", status: "Active"},
-    %{id: 5, name: "Airi Satou", email: "airi@example.com", role: "Editor", status: "Active"}
+  @employees [
+    %{name: "Tiger Nixon", position: "System Architect", office: "Edinburgh", age: 61},
+    %{name: "Garrett Winters", position: "Accountant", office: "Tokyo", age: 63},
+    %{name: "Ashton Cox", position: "Junior Technical Author", office: "San Francisco", age: 66}
   ]
 
   @sizes [
-    %{size: "xs", label: "XS — Extra Small", desc: "Dense data, logs, compact lists", btn_size: "xs"},
-    %{size: nil, label: "Default", desc: "Standard tables, most use cases", btn_size: "sm"},
-    %{size: "sm", label: "SM — Small", desc: "Slightly wider spacing", btn_size: "sm"},
-    %{size: "lg", label: "LG — Large", desc: "Forms in tables, spacious layouts", btn_size: "lg"},
-    %{size: "xl", label: "XL — Extra Large", desc: "Presentation tables, dashboards", btn_size: "lg"}
+    %{size: "xs", class: "pa-table--xs", padding: "0.6rem 0.8rem", best_for: "Dense data grids, logs"},
+    %{size: "Default", class: "pa-table", padding: "0.8rem 0.8rem", best_for: "Standard tables"},
+    %{size: "SM", class: "pa-table--sm", padding: "0.8rem 1rem", best_for: "Slightly wider spacing"},
+    %{size: "LG", class: "pa-table--lg", padding: "0.8rem 1.4rem", best_for: "Forms in tables"},
+    %{size: "XL", class: "pa-table--xl", padding: "0.8rem 1.6rem", best_for: "Presentation tables"}
   ]
 
   def mount(_params, _session, socket) do
     {:ok, assign(socket,
       page_title: "Table Sizing",
-      users: @users,
+      employees: @employees,
       sizes: @sizes
     )}
   end
 
   def render(assigns) do
     ~H"""
-    <p>Size variants synchronized with button and input sizes.</p>
+    <p>Table size variants synchronized with button/input sizes. Each variant provides enough space for buttons and inputs of the same size.</p>
 
-    <%= for s <- @sizes do %>
-      <.card has_padding={false} title_text={s.label}>
-        <:subtitle>{s.desc}</:subtitle>
-        <.table rows={Enum.take(@users, 3)} size={s.size} is_striped>
-          <:col :let={user} label="Name">{user.name}</:col>
-          <:col :let={user} label="Email">{user.email}</:col>
-          <:col :let={user} label="Role">{user.role}</:col>
-          <:col :let={user} label="Status">
-            <.badge variant={if user.status == "Active", do: "success", else: "secondary"} size="sm">
-              {user.status}
-            </.badge>
-          </:col>
-          <:action :let={_user}>
-            <.button variant="info" size={s.btn_size} is_icon_only title="Edit">
-              <i class="fa-solid fa-pen"></i>
-            </.button>
-            <.button variant="danger" size={s.btn_size} is_icon_only title="Delete">
-              <i class="fa-solid fa-trash"></i>
-            </.button>
+    <%!-- XS Size --%>
+    <.card>
+      <:header>
+        <h3>XS Size <.code>pa-table--xs</.code></h3>
+      </:header>
+      <p>Compact rows - fits button/input XS. Best for dense data grids.</p>
+      <.table_container>
+        <.table rows={@employees} size="xs">
+          <:col :let={e} label="Name">{e.name}</:col>
+          <:col :let={e} label="Position">{e.position}</:col>
+          <:col :let={e} label="Office">{e.office}</:col>
+          <:col :let={e} label="Age">{e.age}</:col>
+          <:action :let={_e}>
+            <.button variant="secondary" size="xs">Edit</.button>
+            <.button variant="danger" size="xs">Delete</.button>
           </:action>
         </.table>
-      </.card>
-    <% end %>
+      </.table_container>
+    </.card>
 
-    <%!-- Reference Table --%>
-    <.card has_padding={false} title_text="Size Reference">
-      <.table rows={@sizes} is_bordered>
-        <:col :let={s} label="Size">{s.size || "default"}</:col>
-        <:col :let={s} label="Label">{s.label}</:col>
-        <:col :let={s} label="Use Case">{s.desc}</:col>
-        <:col :let={s} label="Button Size">{s.btn_size}</:col>
+    <%!-- Default Size --%>
+    <.card>
+      <:header>
+        <h3>Default Size <.code>pa-table</.code></h3>
+      </:header>
+      <p>Standard rows - fits button/input SM and default sizes.</p>
+      <.table_container>
+        <.table rows={@employees}>
+          <:col :let={e} label="Name">{e.name}</:col>
+          <:col :let={e} label="Position">{e.position}</:col>
+          <:col :let={e} label="Office">{e.office}</:col>
+          <:col :let={e} label="Age">{e.age}</:col>
+          <:action :let={_e}>
+            <.button variant="secondary" size="sm">Edit</.button>
+            <.button variant="danger" size="sm">Delete</.button>
+          </:action>
+        </.table>
+      </.table_container>
+    </.card>
+
+    <%!-- SM Size --%>
+    <.card>
+      <:header>
+        <h3>SM Size <.code>pa-table--sm</.code></h3>
+      </:header>
+      <p>Slightly wider horizontal padding than default.</p>
+      <.table_container>
+        <.table rows={@employees} size="sm">
+          <:col :let={e} label="Name">{e.name}</:col>
+          <:col :let={e} label="Position">{e.position}</:col>
+          <:col :let={e} label="Office">{e.office}</:col>
+          <:col :let={e} label="Age">{e.age}</:col>
+          <:action :let={_e}>
+            <.button variant="secondary" size="sm">Edit</.button>
+            <.button variant="danger" size="sm">Delete</.button>
+          </:action>
+        </.table>
+      </.table_container>
+    </.card>
+
+    <%!-- LG Size --%>
+    <.card>
+      <:header>
+        <h3>LG Size <.code>pa-table--lg</.code></h3>
+      </:header>
+      <p>Spacious rows - fits button/input LG. Good for forms in tables.</p>
+      <.table_container>
+        <.table rows={@employees} size="lg">
+          <:col :let={e} label="Name">{e.name}</:col>
+          <:col :let={e} label="Position">{e.position}</:col>
+          <:col :let={e} label="Office">{e.office}</:col>
+          <:col :let={e} label="Age">{e.age}</:col>
+          <:action :let={_e}>
+            <.button variant="secondary" size="lg">Edit</.button>
+            <.button variant="danger" size="lg">Delete</.button>
+          </:action>
+        </.table>
+      </.table_container>
+    </.card>
+
+    <%!-- XL Size --%>
+    <.card>
+      <:header>
+        <h3>XL Size <.code>pa-table--xl</.code></h3>
+      </:header>
+      <p>Extra spacious rows - fits button/input XL. Best for presentation tables.</p>
+      <.table_container>
+        <.table rows={@employees} size="xl">
+          <:col :let={e} label="Name">{e.name}</:col>
+          <:col :let={e} label="Position">{e.position}</:col>
+          <:col :let={e} label="Office">{e.office}</:col>
+          <:col :let={e} label="Age">{e.age}</:col>
+          <:action :let={_e}>
+            <.button variant="secondary" size="xl">Edit</.button>
+            <.button variant="danger" size="xl">Delete</.button>
+          </:action>
+        </.table>
+      </.table_container>
+    </.card>
+
+    <%!-- Size Reference --%>
+    <.card title_text="Size Reference">
+      <.table rows={@sizes}>
+        <:col :let={s} label="Size">{s.size}</:col>
+        <:col :let={s} label="Class"><.code>{s.class}</.code></:col>
+        <:col :let={s} label="Padding">{s.padding}</:col>
+        <:col :let={s} label="Best for">{s.best_for}</:col>
       </.table>
     </.card>
     """
