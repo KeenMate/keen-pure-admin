@@ -195,6 +195,24 @@ defmodule DemoWeb.Live.ToastsLive do
       </.button>
     </.card>
 
+    <%!-- Filled Toast Variants --%>
+    <.card title_text="Filled Toast Variants">
+      <.button_group>
+        <.button :for={v <- ~w(primary success danger warning info)} variant={v} phx-click="push_toast" phx-value-variant={v} phx-value-title={String.capitalize(v)} phx-value-message={"Filled #{v} toast with full-color background."} phx-value-filled="true">
+          {String.capitalize(v)}
+        </.button>
+      </.button_group>
+    </.card>
+
+    <%!-- Theme Color Toasts --%>
+    <.card title_text="Theme Color Toasts">
+      <.button_group>
+        <.button :for={n <- 1..9} theme_color={to_string(n)} phx-click="push_toast" phx-value-variant={"color-#{n}"} phx-value-title={"Color #{n}"} phx-value-message={"Toast with theme color slot #{n}."}>
+          Color {n}
+        </.button>
+      </.button_group>
+    </.card>
+
     <.card title_text="How It Works">
       <.callout variant="info" heading_text="Architecture">
         <.paragraph>Toasts use a <strong>push_event</strong> pattern — the server decides <em>when</em> to show a toast, the client JS hook handles <em>rendering</em> and <em>auto-dismiss</em>. No server round-trips for display or dismissal.</.paragraph>

@@ -128,6 +128,20 @@ defmodule DemoWeb.Live.AlertsLive do
       </.alert>
     </.card>
 
+    <%!-- Theme Color Alerts --%>
+    <.card title_text="Theme Color Alerts">
+      <.alert :for={n <- 1..9} theme_color={to_string(n)}>
+        <strong>Color {n}!</strong> Theme color slot {n} alert.
+      </.alert>
+    </.card>
+
+    <%!-- Theme Color Outline Alerts --%>
+    <.card title_text="Theme Color Outline Alerts">
+      <.alert :for={n <- 1..9} theme_color={to_string(n)} is_outline>
+        <strong>Color {n} Outline!</strong> Theme color slot {n} outline alert.
+      </.alert>
+    </.card>
+
     <%!-- Compact Alerts in Grid --%>
     <.card title_text="Compact Alerts in Grid">
       <.grid>

@@ -95,6 +95,13 @@ defmodule DemoWeb.Live.CalloutsLive do
       </.grid>
     </.card>
 
+    <%!-- Theme Color Callouts --%>
+    <.card title_text="Theme Color Callouts">
+      <.callout :for={n <- 1..9} theme_color={to_string(n)}>
+        <strong>Color {n}</strong> - Theme color slot {n} callout.
+      </.callout>
+    </.card>
+
     <%!-- Callout Sizes --%>
     <.card title_text="Callout Sizes">
       <.callout variant="info" size="sm">
@@ -171,6 +178,7 @@ defmodule DemoWeb.Live.CalloutsLive do
         </.column>
       </.grid>
     </.card>
+
     """
   end
 end

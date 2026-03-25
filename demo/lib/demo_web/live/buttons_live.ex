@@ -62,6 +62,24 @@ defmodule DemoWeb.Live.ButtonsLive do
       </.column>
     </.grid>
 
+    <%!-- Theme Color Buttons --%>
+    <.grid>
+      <.column size="100" lg="1-2">
+        <.card title_text="Theme Color Buttons">
+          <.button_group>
+            <.button :for={n <- 1..9} theme_color={to_string(n)}>Color {n}</.button>
+          </.button_group>
+        </.card>
+      </.column>
+      <.column size="100" lg="1-2">
+        <.card title_text="Theme Color Outline Buttons">
+          <.button_group>
+            <.button :for={n <- 1..9} theme_color={to_string(n)} is_outline>Color {n}</.button>
+          </.button_group>
+        </.card>
+      </.column>
+    </.grid>
+
     <%!-- Outline and States --%>
     <.grid>
       <.column size="100" lg="1-2">
