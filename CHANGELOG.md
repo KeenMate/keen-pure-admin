@@ -53,6 +53,7 @@ First release candidate. Consolidates all v0.x development into a stable API.
 - **`grid/1`** — added `align="stretch"` to allowed values
 - **`column/1`** — added `is_no_padding`, `is_grow`, `is_shrink` props for flex layout control
 - **`values:` validation** — added compile-time value validation to all `variant`, `color`, `theme_color`, and `level` attrs across alert, badge, label, composite_badge, button, popconfirm, data_display, form, table, and typography components. Typos like `variant="outine-danger"` or `color="10"` now produce compile warnings
+- **pure-admin 2.2.0 support** — updated CSS to v2.2.0. Added `theme_color` attr to `button/1`, `callout/1`, and `toast/1` for theme color slots 1-9. Added `is_filled` attr to `toast/1` for full-color background toasts. Alert `theme_color` now uses proper `pa-alert--color-{N}` / `pa-alert--outline-color-{N}` classes (was `pa-bg-color-{N}`)
 
 ### Demo
 
@@ -72,7 +73,7 @@ First release candidate. Consolidates all v0.x development into a stable API.
 - Added Podman build/run/deploy instructions with `make` targets
 - Updated component and hook tables
 
-Compatible with `@keenmate/pure-admin-core` v2.1.0.
+Compatible with `@keenmate/pure-admin-core` v2.2.0.
 
 ---
 

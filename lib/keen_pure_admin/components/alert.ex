@@ -103,17 +103,23 @@ defmodule KPureAdmin.Components.Alert do
 
   defp alert_classes(assigns) do
     variant_class =
-      if assigns.is_outline,
-        do: "pa-alert--outline-#{assigns.variant}",
-        else: "pa-alert--#{assigns.variant}"
+      cond do
+        assigns.theme_color != nil and assigns.is_outline ->
+          "pa-alert--outline-color-#{assigns.theme_color}"
+        assigns.theme_color != nil ->
+          "pa-alert--color-#{assigns.theme_color}"
+        assigns.is_outline ->
+          "pa-alert--outline-#{assigns.variant}"
+        true ->
+          "pa-alert--#{assigns.variant}"
+      end
 
     build_classes(
       "pa-alert",
       [
         {variant_class, true},
         {"pa-alert--#{assigns.size}", assigns.size != nil},
-        {"pa-alert--dismissible", assigns.is_dismissible},
-        {"pa-bg-color-#{assigns.theme_color}", assigns.theme_color != nil}
+        {"pa-alert--dismissible", assigns.is_dismissible}
       ],
       assigns.class
     )

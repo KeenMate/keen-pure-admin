@@ -59,6 +59,11 @@ defmodule KPureAdmin.Components.Toast do
   attr(:id, :string, default: nil)
   attr(:variant, :string, default: "info",
     values: ["primary", "success", "danger", "warning", "info"])
+  attr(:theme_color, :string, default: nil,
+    values: [nil, "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+    doc: "Theme color slot 1-9 (overrides variant)")
+  attr(:is_filled, :boolean, default: false,
+    doc: "Filled style with full-color background and contrast text")
   attr(:title_text, :string, default: nil, doc: "Toast title")
   attr(:message_text, :string, default: nil, doc: "Toast message")
   attr(:is_visible, :boolean, default: true, doc: "Show/hide the toast")
@@ -74,7 +79,7 @@ defmodule KPureAdmin.Components.Toast do
       :if={@is_visible}
       id={@id}
       class={build_classes("pa-toast", [
-        {"pa-toast--#{@variant}", true},
+        {toast_variant_class(assigns), true},
         {"pa-toast--show", @is_visible}
       ], @class)}
       {@rest}
@@ -139,5 +144,18 @@ defmodule KPureAdmin.Components.Toast do
       <%= if @inner_block != [], do: render_slot(@inner_block) %>
     </div>
     """
+  end
+
+  defp toast_variant_class(assigns) do
+    cond do
+      assigns.theme_color != nil and assigns.is_filled ->
+        "pa-toast--filled-color-#{assigns.theme_color}"
+      assigns.theme_color != nil ->
+        "pa-toast--color-#{assigns.theme_color}"
+      assigns.is_filled ->
+        "pa-toast--filled-#{assigns.variant}"
+      true ->
+        "pa-toast--#{assigns.variant}"
+    end
   end
 end

@@ -329,7 +329,7 @@ Browse the live component showcase and theme previews at [pureadmin.io](https://
 
 - Elixir ~> 1.15
 - Phoenix LiveView ~> 1.0
-- `@keenmate/pure-admin-core` CSS (v2.1.0+)
+- `@keenmate/pure-admin-core` CSS (v2.2.0+)
 
 ## Development
 

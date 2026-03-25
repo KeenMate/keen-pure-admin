@@ -28,6 +28,9 @@ defmodule KPureAdmin.Components.Callout do
   attr(:variant, :string, default: "info",
     values: ["primary", "secondary", "info", "success", "warning", "danger"])
   attr(:size, :string, default: nil, values: [nil, "sm", "lg"], doc: "Callout size")
+  attr(:theme_color, :string, default: nil,
+    values: [nil, "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+    doc: "Theme color slot 1-9 (overrides variant)")
   attr(:heading_text, :string, default: nil, doc: "Callout heading text (shorthand for :title slot)")
   attr(:class, :string, default: nil)
   attr(:rest, :global)
@@ -67,10 +70,15 @@ defmodule KPureAdmin.Components.Callout do
   end
 
   defp callout_classes(assigns) do
+    variant_class =
+      if assigns.theme_color != nil,
+        do: "pa-callout--color-#{assigns.theme_color}",
+        else: "pa-callout--#{assigns.variant}"
+
     build_classes(
       "pa-callout",
       [
-        {"pa-callout--#{assigns.variant}", true},
+        {variant_class, true},
         {"pa-callout--#{assigns.size}", assigns.size != nil}
       ],
       assigns.class

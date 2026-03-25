@@ -37,6 +37,9 @@ defmodule KPureAdmin.Components.Button do
     values: ["primary", "secondary", "success", "warning", "danger", "info", "light", "dark", "ghost"],
     doc: "Color variant")
   attr(:size, :string, default: nil, values: [nil, "xs", "sm", "lg", "xl"], doc: "Button size")
+  attr(:theme_color, :string, default: nil,
+    values: [nil, "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+    doc: "Theme color slot 1-9 (overrides variant)")
   attr(:is_outline, :boolean, default: false, doc: "Outline style")
   attr(:is_block, :boolean, default: false, doc: "Full-width block button")
   attr(:is_loading, :boolean, default: false, doc: "Loading state with spinner")
@@ -88,9 +91,16 @@ defmodule KPureAdmin.Components.Button do
 
   defp button_classes(assigns) do
     variant_class =
-      if assigns.is_outline,
-        do: "pa-btn--outline-#{assigns.variant}",
-        else: "pa-btn--#{assigns.variant}"
+      cond do
+        assigns.theme_color != nil and assigns.is_outline ->
+          "pa-btn--outline-color-#{assigns.theme_color}"
+        assigns.theme_color != nil ->
+          "pa-btn--color-#{assigns.theme_color}"
+        assigns.is_outline ->
+          "pa-btn--outline-#{assigns.variant}"
+        true ->
+          "pa-btn--#{assigns.variant}"
+      end
 
     build_classes(
       "pa-btn",
