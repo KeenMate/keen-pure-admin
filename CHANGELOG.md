@@ -50,6 +50,9 @@ First release candidate. Consolidates all v0.x development into a stable API.
 - **`timeline_item/1`** — auto-detects layout from props: block/alternating pattern when `icon_text` or `:icon` is provided, simple pattern otherwise
 - **`card/1`** — added `is_bordered` attr for bordered card styling — replaces raw `class="pa-card--bordered"` usage
 - **`button_group/1`** — added `responsive` attr (`"sm-vertical"`, `"md-horizontal"`, etc.) for responsive direction changes at breakpoints — replaces raw `class="pa-btn-group--md-vertical"` usage
+- **`grid/1`** — added `align="stretch"` to allowed values
+- **`column/1`** — added `is_no_padding`, `is_grow`, `is_shrink` props for flex layout control
+- **`values:` validation** — added compile-time value validation to all `variant`, `color`, `theme_color`, and `level` attrs across alert, badge, label, composite_badge, button, popconfirm, data_display, form, table, and typography components. Typos like `variant="outine-danger"` or `color="10"` now produce compile warnings
 
 ### Demo
 
