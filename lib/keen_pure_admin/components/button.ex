@@ -125,6 +125,10 @@ defmodule KPureAdmin.Components.Button do
   attr(:is_vertical, :boolean, default: false, doc: "Vertical orientation")
   attr(:align, :string, default: nil, values: [nil, "center", "end", "stretch"], doc: "Vertical alignment")
   attr(:is_nowrap, :boolean, default: false, doc: "Prevent wrapping")
+  attr(:responsive, :string, default: nil,
+    values: [nil, "sm-vertical", "sm-horizontal", "md-vertical", "md-horizontal",
+             "lg-vertical", "lg-horizontal", "xl-vertical", "xl-horizontal"],
+    doc: "Responsive direction change at breakpoint (e.g. 'md-vertical' becomes vertical at 768px+)")
   attr(:class, :string, default: nil, doc: "Additional CSS classes")
   attr(:rest, :global)
   slot(:inner_block, required: true)
@@ -143,7 +147,8 @@ defmodule KPureAdmin.Components.Button do
       [
         {"pa-btn-group--vertical", assigns.is_vertical},
         {"pa-btn-group--#{assigns.align}", assigns.align != nil},
-        {"pa-btn-group--nowrap", assigns.is_nowrap}
+        {"pa-btn-group--nowrap", assigns.is_nowrap},
+        {"pa-btn-group--#{assigns.responsive}", assigns.responsive != nil}
       ],
       assigns.class
     )

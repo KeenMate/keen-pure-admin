@@ -41,6 +41,7 @@ defmodule KPureAdmin.Components.Card do
   attr(:live_state, :string, default: nil, values: [nil, "up", "down", "neutral"],
     doc: "Persistent tinted background reflecting latest change")
   attr(:is_ghost, :boolean, default: false, doc: "Ghost mode with no bg, border, shadow")
+  attr(:is_bordered, :boolean, default: false, doc: "Bordered card with colored left border")
   attr(:has_padding, :boolean, default: true, doc: "Body padding toggle")
   attr(:title_text, :string, default: nil, doc: "Simple title text (shorthand for :title slot)")
   attr(:description_text, :string, default: nil, doc: "Inline description text, truncates with ellipsis")
@@ -202,6 +203,7 @@ defmodule KPureAdmin.Components.Card do
       [
         {"pa-card--#{assigns.variant}", assigns.variant != nil},
         {"pa-card--ghost", assigns.is_ghost},
+        {"pa-card--bordered", assigns.is_bordered},
         {"pa-card--live-#{assigns.live_state}", assigns.live_state != nil}
       ],
       assigns.class

@@ -316,41 +316,41 @@ defmodule DemoWeb.Live.BadgesLive do
         <.column size="100" md="1-2">
           <.heading level={4}>Various Fixed Widths</.heading>
           <div class="component-showcase">
-            <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="Short">
+            <.tooltip text="Short" position="bottom">
               <.badge variant="primary" max_width="5">Short</.badge>
-            </span>
-            <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="This is medium text">
+            </.tooltip>
+            <.tooltip text="This is medium text" position="bottom">
               <.badge variant="info" max_width="8">This is medium text</.badge>
-            </span>
-            <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="This is longer text that will be truncated">
+            </.tooltip>
+            <.tooltip text="This is longer text that will be truncated" position="bottom">
               <.badge variant="success" max_width="10">This is longer text that will be truncated</.badge>
-            </span>
-            <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="Very long badge text that definitely needs ellipsis">
+            </.tooltip>
+            <.tooltip text="Very long badge text that definitely needs ellipsis" position="bottom">
               <.badge variant="warning" max_width="15">Very long badge text that definitely needs ellipsis</.badge>
-            </span>
-            <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="Super extremely long badge text example">
+            </.tooltip>
+            <.tooltip text="Super extremely long badge text example" position="bottom">
               <.badge variant="danger" max_width="20">Super extremely long badge text example</.badge>
-            </span>
+            </.tooltip>
           </div>
         </.column>
         <.column size="100" md="1-2">
           <.heading level={4}>Small Fixed-Width Badges</.heading>
           <div class="component-showcase">
-            <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="OK">
+            <.tooltip text="OK" position="bottom">
               <.badge size="sm" variant="primary" max_width="4">OK</.badge>
-            </span>
-            <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="Status">
+            </.tooltip>
+            <.tooltip text="Status" position="bottom">
               <.badge size="sm" variant="info" max_width="6">Status</.badge>
-            </span>
-            <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="Completed Task">
+            </.tooltip>
+            <.tooltip text="Completed Task" position="bottom">
               <.badge size="sm" variant="success" max_width="8">Completed Task</.badge>
-            </span>
-            <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="Pending Review Process">
+            </.tooltip>
+            <.tooltip text="Pending Review Process" position="bottom">
               <.badge size="sm" variant="warning" max_width="10">Pending Review Process</.badge>
-            </span>
-            <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="Critical Error in Production">
+            </.tooltip>
+            <.tooltip text="Critical Error in Production" position="bottom">
               <.badge size="sm" variant="danger" max_width="15">Critical Error in Production</.badge>
-            </span>
+            </.tooltip>
           </div>
         </.column>
       </.grid>
@@ -359,24 +359,24 @@ defmodule DemoWeb.Live.BadgesLive do
         <.column size="100">
           <.heading level={4}>Practical Example: Tags with Consistent Width</.heading>
           <div class="component-showcase">
-            <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="JavaScript">
+            <.tooltip text="JavaScript" position="bottom">
               <.badge is_pill variant="secondary" max_width="10">JavaScript</.badge>
-            </span>
-            <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="TypeScript">
+            </.tooltip>
+            <.tooltip text="TypeScript" position="bottom">
               <.badge is_pill variant="secondary" max_width="10">TypeScript</.badge>
-            </span>
-            <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="React">
+            </.tooltip>
+            <.tooltip text="React" position="bottom">
               <.badge is_pill variant="secondary" max_width="10">React</.badge>
-            </span>
-            <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="Node.js">
+            </.tooltip>
+            <.tooltip text="Node.js" position="bottom">
               <.badge is_pill variant="secondary" max_width="10">Node.js</.badge>
-            </span>
-            <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="PostgreSQL Database">
+            </.tooltip>
+            <.tooltip text="PostgreSQL Database" position="bottom">
               <.badge is_pill variant="secondary" max_width="10">PostgreSQL Database</.badge>
-            </span>
-            <span class="pa-tooltip pa-tooltip--bottom" data-tooltip="Express.js Framework">
+            </.tooltip>
+            <.tooltip text="Express.js Framework" position="bottom">
               <.badge is_pill variant="secondary" max_width="10">Express.js Framework</.badge>
-            </span>
+            </.tooltip>
           </div>
         </.column>
       </.grid>
@@ -386,18 +386,18 @@ defmodule DemoWeb.Live.BadgesLive do
           <.heading level={4}>Start-Side Ellipsis (Path/Hierarchy Display)</.heading>
           <.paragraph class="text-xs mb-2">When the important part is at the end (breadcrumbs, file paths, etc.)</.paragraph>
           <div class="component-showcase">
-            <span class="pa-tooltip pa-tooltip--bottom pa-tooltip--multiline" data-tooltip="Settings > User Preferences > Notifications > Email">
+            <.tooltip text="Settings > User Preferences > Notifications > Email" position="bottom" multiline>
               <.badge variant="secondary" max_width="15" is_ellipsis_start>Settings > User Preferences > Notifications > Email</.badge>
-            </span>
-            <span class="pa-tooltip pa-tooltip--bottom pa-tooltip--multiline" data-tooltip="/var/www/html/application/config/database.php">
+            </.tooltip>
+            <.tooltip text="/var/www/html/application/config/database.php" position="bottom" multiline>
               <.badge variant="info" max_width="20" is_ellipsis_start>/var/www/html/application/config/database.php</.badge>
-            </span>
-            <span class="pa-tooltip pa-tooltip--bottom pa-tooltip--multiline" data-tooltip="Components > Forms > Inputs > TextArea.svelte">
+            </.tooltip>
+            <.tooltip text="Components > Forms > Inputs > TextArea.svelte" position="bottom" multiline>
               <.badge variant="primary" max_width="15" is_ellipsis_start>Components > Forms > Inputs > TextArea.svelte</.badge>
-            </span>
-            <span class="pa-tooltip pa-tooltip--bottom pa-tooltip--multiline" data-tooltip="Europe > Germany > Berlin > Mitte > Alexanderplatz">
+            </.tooltip>
+            <.tooltip text="Europe > Germany > Berlin > Mitte > Alexanderplatz" position="bottom" multiline>
               <.badge variant="warning" max_width="15" is_ellipsis_start>Europe > Germany > Berlin > Mitte > Alexanderplatz</.badge>
-            </span>
+            </.tooltip>
           </div>
         </.column>
       </.grid>

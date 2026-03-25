@@ -222,7 +222,7 @@ defmodule DemoWeb.Live.ButtonsLive do
         <.card title_text="Responsive Direction">
           <.heading level={4}>Horizontal → Vertical at md (768px)</.heading>
           <.paragraph class="text-muted mb-1">Resize window to see change</.paragraph>
-          <.button_group class="pa-btn-group--md-vertical">
+          <.button_group responsive="md-vertical">
             <.button variant="primary">Save</.button>
             <.button variant="secondary">Cancel</.button>
             <.button variant="danger">Delete</.button>
@@ -230,7 +230,7 @@ defmodule DemoWeb.Live.ButtonsLive do
 
           <.heading level={4} class="mt-2">Vertical → Horizontal at lg (992px)</.heading>
           <.paragraph class="text-muted mb-1">Starts vertical, becomes horizontal on large screens</.paragraph>
-          <.button_group is_vertical class="pa-btn-group--lg-horizontal">
+          <.button_group is_vertical responsive="lg-horizontal">
             <.button variant="success">Approve</.button>
             <.button variant="warning">Review</.button>
             <.button variant="danger">Reject</.button>

@@ -208,12 +208,9 @@ defmodule DemoWeb.Live.CardsLive do
           <.card>
             <:header>
               <h4>Dashboard</h4>
-              <p
-                class="pa-tooltip pa-tooltip--multiline pa-tooltip--bottom"
-                data-tooltip="View real-time metrics, KPIs, and performance indicators for your organization. Includes customizable widgets, drill-down reports, and automated alerts."
-              >
-                View real-time metrics, KPIs, and performance indicators for your organization. Includes customizable widgets, drill-down reports, and automated alerts.
-              </p>
+              <.tooltip text="View real-time metrics, KPIs, and performance indicators for your organization. Includes customizable widgets, drill-down reports, and automated alerts." position="bottom" multiline>
+                <p>View real-time metrics, KPIs, and performance indicators for your organization. Includes customizable widgets, drill-down reports, and automated alerts.</p>
+              </.tooltip>
               <.button variant="primary" size="sm">Open</.button>
             </:header>
             <.paragraph>Hover over the truncated description to see the full text in a multiline tooltip.</.paragraph>
@@ -224,12 +221,9 @@ defmodule DemoWeb.Live.CardsLive do
           <.card>
             <:header>
               <h4>Audit Log</h4>
-              <p
-                class="pa-tooltip pa-tooltip--multiline pa-tooltip--bottom"
-                data-tooltip="Complete history of system changes, user actions, and security events. Filter by date, user, action type, or resource. Export to CSV for compliance reporting."
-              >
-                Complete history of system changes, user actions, and security events. Filter by date, user, action type, or resource. Export to CSV for compliance reporting.
-              </p>
+              <.tooltip text="Complete history of system changes, user actions, and security events. Filter by date, user, action type, or resource. Export to CSV for compliance reporting." position="bottom" multiline>
+                <p>Complete history of system changes, user actions, and security events. Filter by date, user, action type, or resource. Export to CSV for compliance reporting.</p>
+              </.tooltip>
               <.button_group>
                 <.button variant="secondary" size="sm">Export</.button>
                 <.button variant="primary" size="sm">View</.button>
@@ -340,22 +334,22 @@ defmodule DemoWeb.Live.CardsLive do
       </.paragraph>
       <.grid>
         <.column size="100" md="1-2">
-          <.card class="pa-card--bordered" title_text="Bordered Card">
+          <.card is_bordered title_text="Bordered Card">
             <.paragraph>Card with visible border styling.</.paragraph>
           </.card>
         </.column>
         <.column size="100" md="1-2">
-          <.card class="pa-card--bordered" variant="primary" title_text="Bordered Primary">
+          <.card is_bordered variant="primary" title_text="Bordered Primary">
             <.paragraph>Bordered card with color variant.</.paragraph>
           </.card>
         </.column>
         <.column size="100" md="1-2">
-          <.card class="pa-card--bordered" variant="success" title_text="Bordered Success">
+          <.card is_bordered variant="success" title_text="Bordered Success">
             <.paragraph>Bordered card with success variant.</.paragraph>
           </.card>
         </.column>
         <.column size="100" md="1-2">
-          <.card class="pa-card--bordered" variant="danger" title_text="Bordered Danger">
+          <.card is_bordered variant="danger" title_text="Bordered Danger">
             <.paragraph>Bordered card with danger variant.</.paragraph>
           </.card>
         </.column>

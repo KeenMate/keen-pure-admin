@@ -73,7 +73,7 @@ defmodule DemoWeb.Live.TimelineBlockLive do
         <.column size="1-3">
           <.card title_text="Start Aligned">
             <:description>All items on start side</:description>
-            <.timeline variant="alternating" class="pa-timeline--start">
+            <.timeline variant="alternating" align="start">
               <.timeline_item time_text="Jan" icon_text="💡">
                 <:title>Idea</:title>
                 Initial concept and brainstorming.
@@ -92,7 +92,7 @@ defmodule DemoWeb.Live.TimelineBlockLive do
         <.column size="1-3">
           <.card title_text="End Aligned">
             <:description>All items on end side</:description>
-            <.timeline variant="alternating" class="pa-timeline--end">
+            <.timeline variant="alternating" align="end">
               <.timeline_item time_text="Jan" icon_text="💡">
                 <:title>Idea</:title>
                 Initial concept and brainstorming.
@@ -111,7 +111,7 @@ defmodule DemoWeb.Live.TimelineBlockLive do
         <.column size="1-3">
           <.card title_text="Keep Layout">
             <:description>No mobile collapse</:description>
-            <.timeline variant="alternating" class="pa-timeline--keep-layout">
+            <.timeline variant="alternating" is_keep_layout>
               <.timeline_item time_text="Jan" icon_text="💡">
                 <:title>Idea</:title>
                 Initial concept and brainstorming.
@@ -133,7 +133,7 @@ defmodule DemoWeb.Live.TimelineBlockLive do
         <.column size="50">
           <.card title_text="Start + Keep Layout">
             <:description>Start-aligned, stays start on mobile</:description>
-            <.timeline variant="alternating" class="pa-timeline--start pa-timeline--keep-layout">
+            <.timeline variant="alternating" align="start" is_keep_layout>
               <.timeline_item time_text="Step 1" icon_text="📋">
                 <:title>Plan</:title>
                 Define objectives and milestones.
@@ -152,7 +152,7 @@ defmodule DemoWeb.Live.TimelineBlockLive do
         <.column size="50">
           <.card title_text="End + Keep Layout">
             <:description>End-aligned, stays end on mobile</:description>
-            <.timeline variant="alternating" class="pa-timeline--end pa-timeline--keep-layout">
+            <.timeline variant="alternating" align="end" is_keep_layout>
               <.timeline_item time_text="Step 1" icon_text="📋">
                 <:title>Plan</:title>
                 Define objectives and milestones.

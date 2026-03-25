@@ -25,6 +25,10 @@ defmodule KPureAdmin.Components.Timeline do
   """
   attr(:variant, :string, default: nil, values: [nil, "simple", "alternating", "feed"],
     doc: "Timeline variant")
+  attr(:align, :string, default: nil, values: [nil, "start", "end"],
+    doc: "Alignment for alternating variant")
+  attr(:is_keep_layout, :boolean, default: false,
+    doc: "Prevent mobile collapse for alternating variant")
   attr(:class, :string, default: nil)
   attr(:rest, :global)
   slot(:inner_block, required: true)
@@ -37,7 +41,9 @@ defmodule KPureAdmin.Components.Timeline do
     <.dynamic_tag
       tag_name={@tag}
       class={build_classes("pa-timeline", [
-        {"pa-timeline--#{@variant}", @variant != nil}
+        {"pa-timeline--#{@variant}", @variant != nil},
+        {"pa-timeline--#{@align}", @align != nil},
+        {"pa-timeline--keep-layout", @is_keep_layout}
       ], @class)}
       {@rest}
     >
