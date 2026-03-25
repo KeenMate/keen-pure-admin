@@ -93,7 +93,9 @@ defmodule KPureAdmin.Components.DataDisplay do
   attr(:is_linear, :boolean, default: false, doc: "Linear minimal layout")
   attr(:is_chips, :boolean, default: false, doc: "Chip/tag layout")
   attr(:is_no_border, :boolean, default: false, doc: "Remove border")
-  attr(:color, :string, default: nil, doc: "Color variant 1-9")
+  attr(:color, :string, default: nil,
+    values: [nil, "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+    doc: "Color variant 1-9")
   attr(:class, :string, default: nil)
   attr(:rest, :global)
   slot(:inner_block, required: true)
@@ -409,7 +411,9 @@ defmodule KPureAdmin.Components.DataDisplay do
   @doc "Renders a single accent grid item."
   attr(:label, :string, required: true)
   attr(:value, :string, required: true)
-  attr(:color, :string, default: nil, doc: "Accent color 1-9")
+  attr(:color, :string, default: nil,
+    values: [nil, "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+    doc: "Accent color 1-9")
   attr(:variant, :string, default: nil, values: [nil, "primary", "success", "warning", "danger", "info"],
     doc: "Semantic color variant")
   attr(:class, :string, default: nil)

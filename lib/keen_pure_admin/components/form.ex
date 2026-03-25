@@ -28,7 +28,9 @@ defmodule KPureAdmin.Components.Form do
   attr(:validation, :string, default: nil, values: [nil, "success", "warning", "error"])
   attr(:is_error, :boolean, default: false, doc: "Shorthand for validation=\"error\"")
   attr(:is_success, :boolean, default: false, doc: "Shorthand for validation=\"success\"")
-  attr(:color, :string, default: nil, doc: "Theme color (1-9)")
+  attr(:color, :string, default: nil,
+    values: [nil, "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+    doc: "Theme color (1-9)")
   attr(:class, :string, default: nil)
   attr(:rest, :global, include: ~w(placeholder disabled readonly required autocomplete autofocus
     min max step pattern maxlength minlength form phx-change phx-blur phx-focus phx-debounce))
@@ -77,7 +79,8 @@ defmodule KPureAdmin.Components.Form do
   attr(:value, :any, default: nil)
   attr(:size, :string, default: nil, values: [nil, "xs", "sm", "lg", "xl"])
   attr(:validation, :string, default: nil, values: [nil, "success", "warning", "error"])
-  attr(:color, :string, default: nil)
+  attr(:color, :string, default: nil,
+    values: [nil, "1", "2", "3", "4", "5", "6", "7", "8", "9"])
   attr(:class, :string, default: nil)
   attr(:rest, :global, include: ~w(placeholder disabled readonly required rows cols
     form phx-change phx-blur phx-debounce))
@@ -119,7 +122,8 @@ defmodule KPureAdmin.Components.Form do
   attr(:prompt, :string, default: nil, doc: "Placeholder option")
   attr(:size, :string, default: nil, values: [nil, "xs", "sm", "lg", "xl"])
   attr(:validation, :string, default: nil, values: [nil, "success", "warning", "error"])
-  attr(:color, :string, default: nil)
+  attr(:color, :string, default: nil,
+    values: [nil, "1", "2", "3", "4", "5", "6", "7", "8", "9"])
   attr(:class, :string, default: nil)
   attr(:rest, :global, include: ~w(disabled required multiple form phx-change phx-blur phx-debounce))
 
@@ -288,7 +292,9 @@ defmodule KPureAdmin.Components.Form do
   Renders help/hint text below inputs.
   """
   attr(:variant, :string, default: nil, values: [nil, "success", "warning", "error"])
-  attr(:color, :string, default: nil, doc: "Theme color (1-9)")
+  attr(:color, :string, default: nil,
+    values: [nil, "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+    doc: "Theme color (1-9)")
   attr(:class, :string, default: nil)
   attr(:rest, :global)
   slot(:inner_block, required: true)

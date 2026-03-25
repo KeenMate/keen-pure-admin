@@ -177,7 +177,7 @@ defmodule DemoWeb.Live.DetailPanelLive do
         <.button variant="primary" size="sm">
           <i class="fa-solid fa-pen-to-square"></i> Edit
         </.button>
-        <.button variant="outline-danger" size="sm">
+        <.button variant="danger" is_outline size="sm">
           <i class="fa-solid fa-trash"></i> Delete
         </.button>
         <.button variant="secondary" size="sm" style="margin-left: auto;" phx-click="close_panel">

@@ -43,7 +43,9 @@ defmodule KPureAdmin.Components.Popconfirm do
   attr(:is_compact, :boolean, default: false, doc: "Compact variant for table actions")
   attr(:confirm_text, :string, default: "Confirm", doc: "Confirm button text")
   attr(:cancel_text, :string, default: "Cancel", doc: "Cancel button text")
-  attr(:confirm_variant, :string, default: "danger", doc: "Confirm button color variant")
+  attr(:confirm_variant, :string, default: "danger",
+    values: ["primary", "secondary", "success", "warning", "danger", "info"],
+    doc: "Confirm button color variant")
   attr(:confirm_event, :string, default: nil, doc: "LiveView event to push on confirm")
   attr(:confirm_value, :map, default: %{}, doc: "Value to send with confirm event")
   attr(:class, :string, default: nil)

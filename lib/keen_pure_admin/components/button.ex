@@ -33,7 +33,9 @@ defmodule KPureAdmin.Components.Button do
         <:icon><i class="fa-solid fa-floppy-disk"></i></:icon>
       </.button>
   """
-  attr(:variant, :string, default: "primary", doc: "Color variant")
+  attr(:variant, :string, default: "primary",
+    values: ["primary", "secondary", "success", "warning", "danger", "info", "light", "dark", "ghost"],
+    doc: "Color variant")
   attr(:size, :string, default: nil, values: [nil, "xs", "sm", "lg", "xl"], doc: "Button size")
   attr(:is_outline, :boolean, default: false, doc: "Outline style")
   attr(:is_block, :boolean, default: false, doc: "Full-width block button")

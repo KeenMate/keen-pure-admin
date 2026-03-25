@@ -225,7 +225,9 @@ defmodule KPureAdmin.Components.Table do
   attr(:variant, :string, default: nil,
     values: [nil, "primary", "success", "warning", "danger"],
     doc: "Semantic color variant for header accent")
-  attr(:color, :string, default: nil, doc: "Theme color 1-9")
+  attr(:color, :string, default: nil,
+    values: [nil, "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+    doc: "Theme color 1-9")
   attr(:is_scrollable, :boolean, default: false, doc: "Horizontal scrolling for wide tables")
   attr(:is_plain, :boolean, default: false, doc: "Remove card styling (border, shadow, background)")
   attr(:class, :string, default: nil)

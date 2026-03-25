@@ -36,12 +36,16 @@ defmodule KPureAdmin.Components.Alert do
       </.alert>
   """
   attr(:id, :string, default: nil)
-  attr(:variant, :string, default: "info", doc: "Color variant")
+  attr(:variant, :string, default: "info",
+    values: ["primary", "secondary", "success", "warning", "danger", "info", "light", "dark"],
+    doc: "Color variant")
   attr(:size, :string, default: nil, values: [nil, "sm", "lg"])
   attr(:is_outline, :boolean, default: false, doc: "Outline style")
   attr(:is_dismissible, :boolean, default: false, doc: "Show close button")
   attr(:heading_text, :string, default: nil, doc: "Alert heading text (shorthand for :heading slot)")
-  attr(:theme_color, :string, default: nil, doc: "Theme color 1-9")
+  attr(:theme_color, :string, default: nil,
+    values: [nil, "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+    doc: "Theme color 1-9")
   attr(:class, :string, default: nil)
   attr(:rest, :global)
   slot(:icon, doc: "Alert icon (wraps content in pa-alert__content)")
