@@ -91,21 +91,16 @@ defmodule DemoWeb.Live.GridLive do
         </.column>
         <.column size="100" md="50">
           <h4>Breakpoints</h4>
-          <table class="pa-table pa-table--striped">
-            <thead>
-              <tr>
-                <th>Prefix</th>
-                <th>Min Width</th>
-                <th>Example</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td><.code>sm</.code></td><td>576px</td><td><.code>pa-col-sm-50</.code></td></tr>
-              <tr><td><.code>md</.code></td><td>768px</td><td><.code>pa-col-md-50</.code></td></tr>
-              <tr><td><.code>lg</.code></td><td>992px</td><td><.code>pa-col-lg-50</.code></td></tr>
-              <tr><td><.code>xl</.code></td><td>1200px</td><td><.code>pa-col-xl-50</.code></td></tr>
-            </tbody>
-          </table>
+          <.table rows={[
+            %{prefix: "sm", width: "576px", example: "pa-col-sm-50"},
+            %{prefix: "md", width: "768px", example: "pa-col-md-50"},
+            %{prefix: "lg", width: "992px", example: "pa-col-lg-50"},
+            %{prefix: "xl", width: "1200px", example: "pa-col-xl-50"}
+          ]} is_striped>
+            <:col :let={row} label="Prefix"><.code>{row.prefix}</.code></:col>
+            <:col :let={row} label="Min Width">{row.width}</:col>
+            <:col :let={row} label="Example"><.code>{row.example}</.code></:col>
+          </.table>
         </.column>
       </.grid>
     </.card>
@@ -390,22 +385,17 @@ defmodule DemoWeb.Live.GridLive do
 
     <%!-- Visibility Utilities --%>
     <.card title_text="Visibility Utilities" subtitle_text="Show/hide elements at different breakpoints">
-      <table class="pa-table pa-table--striped mb-4">
-        <thead>
-          <tr>
-            <th>Class</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td><.code>.pa-hide</.code></td><td>Always hidden</td></tr>
-          <tr><td><.code>.pa-show</.code></td><td>Always visible</td></tr>
-          <tr><td><.code>.pa-hide-&#123;bp&#125;</.code></td><td>Hidden at breakpoint and up</td></tr>
-          <tr><td><.code>.pa-show-&#123;bp&#125;</.code></td><td>Visible at breakpoint and up</td></tr>
-          <tr><td><.code>.pa-hide-below-&#123;bp&#125;</.code></td><td>Hidden below breakpoint</td></tr>
-          <tr><td><.code>.pa-show-below-&#123;bp&#125;</.code></td><td>Visible below breakpoint</td></tr>
-        </tbody>
-      </table>
+      <.table rows={[
+        %{class: ".pa-hide", desc: "Always hidden"},
+        %{class: ".pa-show", desc: "Always visible"},
+        %{class: ".pa-hide-{bp}", desc: "Hidden at breakpoint and up"},
+        %{class: ".pa-show-{bp}", desc: "Visible at breakpoint and up"},
+        %{class: ".pa-hide-below-{bp}", desc: "Hidden below breakpoint"},
+        %{class: ".pa-show-below-{bp}", desc: "Visible below breakpoint"}
+      ]} is_striped class="mb-4">
+        <:col :let={row} label="Class"><.code>{row.class}</.code></:col>
+        <:col :let={row} label="Description">{row.desc}</:col>
+      </.table>
 
       <h4>Live Demo (resize browser)</h4>
       <.grid>

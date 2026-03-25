@@ -1,5 +1,110 @@
 # Changelog
 
+## v1.0.0-rc.1
+
+First release candidate. Consolidates all v0.x development into a stable API.
+
+### Highlights
+
+- **35+ function components** covering the full Pure Admin CSS framework: layout, navigation, forms, tables, data display, modals, toasts, and more
+- **13 JS hooks** for interactive features: settings panel, tooltips, popovers, split buttons, sidebar persistence, command palette, character counters, and more
+- **Drop-in `CoreComponents` replacement** -- `use KPureAdmin.Components` gives you everything
+- **Full BEM class support** with `build_classes/3` helper
+- **RTL support** for tooltips and popovers
+- **Podman/Docker support** for the demo app
+- **Live demo** at [elixir.demo.pureadmin.io](https://elixir.demo.pureadmin.io)
+
+### Settings Panel
+
+- **Dynamic theme manifests** — settings panel JS now fetches `/api/themes/manifests` and dynamically populates theme selector (sorted alphabetically), replacing hardcoded `themes` prop
+- **Color variants** — new `data-section="color-variant"` section, shown/hidden based on theme manifest. Applies `pa-color-{variant}` CSS class to body. Supports per-variant mode lists
+- **Mode per variant** — mode selector updates when color variant changes, auto-hides if only one mode available, auto-applies single mode
+- **Font detection from manifest** — "Theme Default" option shows bundled font name (e.g., "Theme Default (Fira Sans Condensed)"), skips Google Fonts download if theme already bundles the font
+- **Removed `themes` attr** from `settings_panel/1` — themes are now loaded dynamically, only `default_theme` attr remains
+
+### On-Demand Theme Downloads
+
+- **ThemePlug** — new Plug that serves `/themes/:name.css` with on-demand downloading from pureadmin.io. When a theme CSS is requested that isn't bundled at build time, it downloads from `pureadmin.io/api/themes/:name/download`, extracts CSS and `theme.json` manifest from the zip, and caches to disk
+- **`/api/themes/manifests`** — returns all available theme manifests as JSON (from both build-time `priv/static/themes/` and on-demand cache)
+- **`/api/themes/:name/manifest`** — returns a single theme's manifest
+- **Negative cache** — failed downloads are cached for 10 minutes (ETS-based)
+- **Slug validation** — theme names must match `^[a-z0-9-]+$`
+- **Pure Erlang** — uses `:httpc` and `:zip` for downloads, no external tools needed in runtime image
+- **`?theme=cobalt2`** — query param sets localStorage and swaps CSS link before paint, triggering on-demand download if theme not bundled
+
+### Dockerfile & Deployment
+
+- **Dockerfile** (`demo/Dockerfile`) — multi-stage build with `elixir:1.18-slim` builder and `debian:trixie-slim` runtime. Downloads theme bundles from pureadmin.io at build time (CSS + manifests). Configurable via `THEMES_URL` build arg
+- **Makefile** — added `podman-build`, `podman-run`, `podman-stop`, `podman-restart`, `podman-logs`, `podman-clean`, `podman-deploy`, `podman-push` targets matching pure-admin conventions. Registry: `registry.km8.es`
+- **.dockerignore** — excludes `_build/`, `deps/`, `node_modules/`, `.git/`
+- **`force_ssl`** — now opt-in via `FORCE_SSL=true` build-time env var (was always-on, breaking local container testing)
+
+### New Hooks
+
+- **`PureAdminInfiniteScroll`** — IntersectionObserver-based infinite scroll hook. Fires a LiveView event when a sentinel element scrolls into view. Configurable via `data-event`, `data-has-more`, `data-throttle`, `data-root-margin`. Throttled to prevent rapid-fire triggers.
+
+### Components
+
+- **`list_item/1`** — added `:meta` slot for rich meta content (badges, icons) alongside existing `meta_text` string attr
+- **`timeline/1`** — fixed alternating variant to use `<div>` container and correct BEM classes (`pa-timeline__date` + `pa-timeline__icon` instead of `pa-timeline__time` + `pa-timeline__marker`)
+- **`timeline_item/1`** — auto-detects layout from props: block/alternating pattern when `icon_text` or `:icon` is provided, simple pattern otherwise
+
+### Demo
+
+- **45 demo pages** covering all Pure Admin CSS components (up from 34)
+- **Dashboard** — rewritten to match pure-admin reference 1:1: 4 hero stat KPIs, 6 square stats with color variants, revenue trend SVG placeholder, traffic sources table, timeline activity feed, recent orders with badges, top products, system status with badge meta, quick actions
+- **Timeline pages** — split into 4 pages matching pure-admin: Simple (color-coded, filled bullets), Block (alternating with layout modifiers: start/end/keep-layout), Feed (avatars, comments, date headers, load more, infinite scroll), Advanced
+- **Design pages** — new section: Colors (semantic + theme slots), Theme Variables (45 CSS custom properties), CSS Helpers (visibility, borders, overflow, cursor), Layouts (structure, navbar, sidebar, container width)
+- **New pages** — Components Overview (index with 27 component cards), Notifications (interactive list with filtering), Sizing & Layout (width/spacing/display utilities), Virtual Scroll (infinite scroll demo with `PureAdminInfiniteScroll` hook, virtual scroll planned)
+- **Raw HTML consolidation** — converted remaining raw `pa-` HTML across 10+ demo pages to use components
+- **Root layout** — theme CSS loaded via `<link id="pa-theme-css">` with inline script that reads `?theme=` from URL and swaps href before paint
+- **Footer** — updated version to v1.0.0-rc.1
+
+### README
+
+- Added Hex/GitHub/path installation options
+- Added full setup guide (CSS, Floating UI, Font Awesome, FOUC, toasts)
+- Added Podman build/run/deploy instructions with `make` targets
+- Updated component and hook tables
+
+Compatible with `@keenmate/pure-admin-core` v2.1.0.
+
+---
+
+## v0.3.4
+
+### New Components
+- **comparison**: New `comparison_table/1`, `comparison_row/1`, `comparison_section/1`, `comparison_value/1` — comparison table components for two-column and three-column data diff patterns (version control, merge conflicts). `:cell` slot with `is_changed`, `is_solid`, `is_conflict` modifiers. `comparison_value/1` includes copy-to-clipboard button with visual feedback (icon swap)
+
+### Layout
+- **sidebar_submenu**: Fix accordion behavior — opening one submenu no longer closes all others. Each submenu now uses scoped `toggle_submenu/1` with `{:closest, ".pa-sidebar__item"}` and ID-targeted `<ul>`
+- **sidebar_submenu**: Add `id` attr for stable submenu identification, `phx-hook="PureAdminSidebarSubmenu"` for localStorage persistence of open/closed state across navigations
+- **sidebar_submenu**: Add FOAC prevention — `fouc_prevention_script` injects `<style>` tag from localStorage before sidebar HTML renders, eliminating flash of collapsed submenus
+- **split_button**: Close other open split buttons when opening a new one
+- **split_button**: Add `on_click` and `action` attrs to `:item` slot for LiveView event handling via hook `pushEvent`
+
+### JS
+- **clipboard**: Global `kpa:clipboard-copy` event listener — copy to clipboard via `JS.dispatch`, with visual icon feedback (clipboard → checkmark → revert). Works anywhere, no per-page setup needed
+- **PureAdminSidebarSubmenu** (new hook): Persists sidebar submenu open/closed state to localStorage. Restores state on mount, URL-active submenus always win over localStorage. Uses MutationObserver to detect JS command class changes
+- **PureAdminSplitButton**: Fix multiple open menus — opening a split button now closes any other open one
+
+### Demo
+- Add Comparison Tables demo (`/tables/comparison`) — two-column, three-column, solid background variants using `table_card`
+- Restructure routes to hierarchical paths (`/components/buttons`, `/tables/standard`, etc.) — enables `String.starts_with?` for sidebar submenu `is_open` derivation from URL
+- Add global toast service — `<.toast_container>` in app layout, PubSub-based `handle_info` hook in `on_mount` for cross-page toast delivery
+- Add Split Buttons demo section to buttons page with primary actions, dropdown items, sizes, and toast feedback
+- Background task toasts now use PubSub broadcast instead of direct `send/2`, so toasts arrive on whichever page is active
+
+## v0.3.3
+
+### Components (pure-admin 2.1.0 sync)
+- **button**: Add `split_button/1` — split button with primary action + dropdown toggle via `PureAdminSplitButton` JS hook. `:item` slot with `is_danger` modifier, `placement` attr for Floating UI positioning, `on_click` for primary action
+- **tooltip**: Add `is_keyword` modifier — dotted underline + help cursor for inline term explanations (`pa-tooltip--keyword`)
+
+### Demo
+- Add Table Multi-Select demo with cross-filter selection, summary bar, expandable details, bulk actions
+- Update pure-admin CSS to v2.1.0
+
 ## v0.3.2
 
 ### Components

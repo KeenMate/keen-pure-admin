@@ -36,6 +36,7 @@ defmodule KPureAdmin.Components.Tooltip do
   attr(:multiline, :boolean, default: false, doc: "Multiline tooltip (wider, left-aligned)")
   attr(:is_help, :boolean, default: false, doc: "Help cursor (question mark)")
   attr(:is_inline, :boolean, default: false, doc: "Inline text style with dotted underline")
+  attr(:is_keyword, :boolean, default: false, doc: "Dotted underline + help cursor for inline term explanations")
   attr(:class, :string, default: nil)
   attr(:rest, :global)
   slot(:inner_block, required: true)
@@ -48,7 +49,8 @@ defmodule KPureAdmin.Components.Tooltip do
         {"pa-tooltip--#{@position}", @position != nil},
         {"pa-tooltip--#{@variant}", @variant != nil},
         {"pa-tooltip--multiline", @multiline},
-        {"pa-tooltip--help", @is_help}
+        {"pa-tooltip--help", @is_help},
+        {"pa-tooltip--keyword", @is_keyword}
       ], @class)}
       data-tooltip={@text}
       {@rest}

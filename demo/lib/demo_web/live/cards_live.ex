@@ -608,36 +608,16 @@ defmodule DemoWeb.Live.CardsLive do
             <:tools>
               <.button variant="secondary" size="sm">View All</.button>
             </:tools>
-            <table class="pa-table">
-              <thead>
-                <tr>
-                  <th>Order ID</th>
-                  <th>Customer</th>
-                  <th>Amount</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>#1234</td>
-                  <td>John Doe</td>
-                  <td>$299.99</td>
-                  <td><.badge variant="success">Completed</.badge></td>
-                </tr>
-                <tr>
-                  <td>#1235</td>
-                  <td>Jane Smith</td>
-                  <td>$149.50</td>
-                  <td><.badge variant="warning">Pending</.badge></td>
-                </tr>
-                <tr>
-                  <td>#1236</td>
-                  <td>Bob Johnson</td>
-                  <td>$89.99</td>
-                  <td><.badge variant="info">Processing</.badge></td>
-                </tr>
-              </tbody>
-            </table>
+            <.table rows={[
+              %{id: "#1234", customer: "John Doe", amount: "$299.99", status: "Completed", status_variant: "success"},
+              %{id: "#1235", customer: "Jane Smith", amount: "$149.50", status: "Pending", status_variant: "warning"},
+              %{id: "#1236", customer: "Bob Johnson", amount: "$89.99", status: "Processing", status_variant: "info"}
+            ]}>
+              <:col :let={row} label="Order ID">{row.id}</:col>
+              <:col :let={row} label="Customer">{row.customer}</:col>
+              <:col :let={row} label="Amount">{row.amount}</:col>
+              <:col :let={row} label="Status"><.badge variant={row.status_variant}>{row.status}</.badge></:col>
+            </.table>
           </.card>
         </.column>
 
@@ -675,16 +655,16 @@ defmodule DemoWeb.Live.CardsLive do
     <%!-- CSS Classes Reference --%>
     <.card title_text="CSS Classes Reference">
       <.heading level={4}>Card Base & Sections</.heading>
-      <ul class="pa-list pa-list--compact">
+      <.basic_list spacing="compact">
         <li><code>pa-card</code> - Base card container</li>
         <li><code>pa-card__header</code> - Card header with title/tools</li>
         <li><code>pa-card__body</code> - Card body content area</li>
         <li><code>pa-card__body--no-padding</code> - Remove body padding (for tables)</li>
         <li><code>pa-card__footer</code> - Card footer with actions/meta</li>
-      </ul>
+      </.basic_list>
 
       <.heading level={4} class="mt-4">Header Elements</.heading>
-      <ul class="pa-list pa-list--compact">
+      <.basic_list spacing="compact">
         <li><code>pa-card__header</code> - Flexbox header with gap between children</li>
         <li><code>pa-card__header--wrap</code> - Allow description to wrap to new line</li>
         <li><code>h1-h6</code> (direct child) - Title, fixed width, won't shrink</li>
@@ -695,16 +675,16 @@ defmodule DemoWeb.Live.CardsLive do
         <li><code>pa-card__tools</code> - Tool buttons container (right side)</li>
         <li><code>pa-card__actions</code> - Actions container, fixed width</li>
         <li><code>pa-btn-group</code> - Button group in header, fixed width</li>
-      </ul>
+      </.basic_list>
 
       <.heading level={4} class="mt-4">Footer Elements</.heading>
-      <ul class="pa-list pa-list--compact">
+      <.basic_list spacing="compact">
         <li><code>pa-card__actions</code> - Action buttons container</li>
         <li><code>pa-card__meta</code> - Meta text (timestamps, etc.)</li>
-      </ul>
+      </.basic_list>
 
       <.heading level={4} class="mt-4">Color Variants</.heading>
-      <ul class="pa-list pa-list--compact">
+      <.basic_list spacing="compact">
         <li><code>pa-card--primary</code> - Primary color header</li>
         <li><code>pa-card--success</code> - Success color header</li>
         <li><code>pa-card--warning</code> - Warning color header</li>
@@ -712,23 +692,23 @@ defmodule DemoWeb.Live.CardsLive do
         <li><code>pa-card--color-1</code> through <code>pa-card--color-9</code> - Theme color slots with automatic contrast text</li>
         <li><code>pa-card--stat</code> - Compact padding for stat cards</li>
         <li><code>pa-card--ghost</code> - Invisible container (no background, border, or shadow)</li>
-      </ul>
+      </.basic_list>
 
       <.heading level={4} class="mt-4">Card Tabs</.heading>
-      <ul class="pa-list pa-list--compact">
+      <.basic_list spacing="compact">
         <li><code>pa-card__tabs</code> - Tab navigation container</li>
         <li><code>pa-card__tabs--inline</code> - Inline tabs in header (same height as regular header)</li>
         <li><code>pa-card__tab</code> - Individual tab button</li>
         <li><code>pa-card__tab--active</code> - Active tab state</li>
         <li><code>pa-card__tab-content</code> - Tab content panel</li>
         <li><code>pa-card__tab-content--active</code> - Active content panel</li>
-      </ul>
+      </.basic_list>
 
       <.heading level={4} class="mt-4">Section Helpers</.heading>
-      <ul class="pa-list pa-list--compact">
+      <.basic_list spacing="compact">
         <li><code>pa-section</code> - Page section with margin</li>
         <li><code>pa-section-title</code> - Standalone section title with accent border</li>
-      </ul>
+      </.basic_list>
     </.card>
     """
   end

@@ -158,10 +158,11 @@ defmodule KPureAdmin.Components.List do
   attr(:class, :string, default: nil)
   attr(:rest, :global)
   slot(:avatar, doc: "Avatar content")
+  slot(:meta, doc: "Rich meta content (right side, overrides meta_text)")
   slot(:inner_block, doc: "Custom content (overrides title/subtitle/meta)")
 
   def list_item(assigns) do
-    has_structured = assigns.title_text != nil || assigns.subtitle_text != nil || assigns.meta_text != nil
+    has_structured = assigns.title_text != nil || assigns.subtitle_text != nil || assigns.meta_text != nil || assigns.meta != []
 
     assigns = assign(assigns, :has_structured, has_structured)
 
@@ -179,7 +180,13 @@ defmodule KPureAdmin.Components.List do
           <div :if={@title_text} class="pa-list__title"><%= @title_text %></div>
           <div :if={@subtitle_text} class="pa-list__subtitle"><%= @subtitle_text %></div>
         </div>
-        <div :if={@meta_text} class="pa-list__meta"><%= @meta_text %></div>
+        <%= if @meta != [] do %>
+          <%= for meta <- @meta do %>
+            <%= render_slot(meta) %>
+          <% end %>
+        <% else %>
+          <div :if={@meta_text} class="pa-list__meta"><%= @meta_text %></div>
+        <% end %>
         <%= if @inner_block != [] do %>
           <%= render_slot(@inner_block) %>
         <% end %>

@@ -7,17 +7,19 @@ import Config
 # before starting your production server.
 config :demo, DemoWeb.Endpoint, cache_static_manifest: "priv/static/cache_manifest.json"
 
-# Force using SSL in production. This also sets the "strict-security-transport" header,
-# known as HSTS. If you have a health check endpoint, you may want to exclude it below.
+# Force SSL when behind a reverse proxy (e.g., Traefik/Nginx).
+# Disabled by default — enable by setting FORCE_SSL=true at build time.
 # Note `:force_ssl` is required to be set at compile-time.
-config :demo, DemoWeb.Endpoint,
-  force_ssl: [
-    rewrite_on: [:x_forwarded_proto],
-    exclude: [
-      # paths: ["/health"],
-      hosts: ["localhost", "127.0.0.1"]
+if System.get_env("FORCE_SSL") == "true" do
+  config :demo, DemoWeb.Endpoint,
+    force_ssl: [
+      rewrite_on: [:x_forwarded_proto],
+      exclude: [
+        # paths: ["/health"],
+        hosts: ["localhost", "127.0.0.1"]
+      ]
     ]
-  ]
+end
 
 # Do not print debug messages in production
 config :logger, level: :info

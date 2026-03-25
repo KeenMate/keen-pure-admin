@@ -148,4 +148,88 @@ defmodule KPureAdmin.Components.Button do
       assigns.class
     )
   end
+
+  # -- split_button/1 --
+
+  @doc """
+  Renders a split button with a primary action and a dropdown toggle.
+
+  Uses the `PureAdminSplitButton` JS hook for Floating UI positioning.
+  Menu items are rendered from the `:item` slot.
+
+  ## Examples
+
+      <.split_button label="Save" variant="primary">
+        <:item>Save as Draft</:item>
+        <:item>Save & Close</:item>
+      </.split_button>
+
+      <.split_button label="Export" variant="primary" on_click="export">
+        <:item phx-click="export-csv">Export as CSV</:item>
+        <:item phx-click="export-pdf">Export as PDF</:item>
+        <:item is_danger phx-click="delete-all">Delete All</:item>
+      </.split_button>
+
+      <.split_button label="Upload" variant="primary" placement="top-end">
+        <:item>Upload File</:item>
+        <:item>Upload Folder</:item>
+      </.split_button>
+  """
+  attr(:label, :string, required: true, doc: "Primary button label")
+  attr(:variant, :string, default: "primary",
+    values: ~w(primary secondary success warning danger info light dark))
+  attr(:size, :string, default: nil, values: [nil, "xs", "sm", "lg", "xl"])
+  attr(:placement, :string, default: "bottom-end", doc: "Menu placement (Floating UI)")
+  attr(:on_click, :string, default: nil, doc: "phx-click event for the primary button")
+  attr(:disabled, :boolean, default: false)
+  attr(:class, :string, default: nil)
+  attr(:rest, :global)
+
+  slot :item, required: true, doc: "Menu items" do
+    attr(:is_danger, :boolean, doc: "Danger styling for destructive actions")
+    attr(:on_click, :string, doc: "LiveView click event name")
+    attr(:action, :string, doc: "Action value sent with the click event")
+  end
+
+  def split_button(assigns) do
+    size_class = if assigns.size, do: " pa-btn--#{assigns.size}", else: ""
+    assigns = assign(assigns, :size_class, size_class)
+
+    ~H"""
+    <div
+      class={build_classes("pa-btn-split", [], @class)}
+      data-placement={@placement}
+      phx-hook="PureAdminSplitButton"
+      id={@rest[:id] || "split-btn-#{System.unique_integer([:positive])}"}
+      {@rest}
+    >
+      <button
+        class={"pa-btn pa-btn--#{@variant}#{@size_class}"}
+        type="button"
+        disabled={@disabled}
+        phx-click={@on_click}
+      >
+        <%= @label %>
+      </button>
+      <button
+        class={"pa-btn pa-btn--#{@variant}#{@size_class} pa-btn-split__toggle"}
+        type="button"
+        disabled={@disabled}
+      >
+        <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
+      </button>
+      <div class="pa-btn-split__menu">
+        <button
+          :for={item <- @item}
+          class={"pa-btn-split__item#{if item[:is_danger], do: " pa-btn-split__item--danger", else: ""}"}
+          type="button"
+          data-phx-click={item[:on_click]}
+          data-phx-value-action={item[:action]}
+        >
+          <%= render_slot(item) %>
+        </button>
+      </div>
+    </div>
+    """
+  end
 end

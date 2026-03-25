@@ -30,15 +30,19 @@ defmodule KPureAdmin.Components.Timeline do
   slot(:inner_block, required: true)
 
   def timeline(assigns) do
+    tag = if assigns.variant == "alternating", do: "div", else: "ul"
+    assigns = assign(assigns, :tag, tag)
+
     ~H"""
-    <ul
+    <.dynamic_tag
+      tag_name={@tag}
       class={build_classes("pa-timeline", [
         {"pa-timeline--#{@variant}", @variant != nil}
       ], @class)}
       {@rest}
     >
       <%= render_slot(@inner_block) %>
-    </ul>
+    </.dynamic_tag>
     """
   end
 
@@ -74,8 +78,11 @@ defmodule KPureAdmin.Components.Timeline do
   slot(:inner_block, required: true)
 
   def timeline_item(assigns) do
+    tag = if assigns.icon_text != nil || assigns.icon != [], do: "div", else: "li"
+    assigns = assign(assigns, :tag, tag)
+
     ~H"""
-    <li class={timeline_item_classes(assigns)} {@rest}>
+    <.dynamic_tag tag_name={@tag} class={timeline_item_classes(assigns)} {@rest}>
       <%= cond do %>
         <% @is_date_header -> %>
           <div :if={@icon_text || @icon != []} class="pa-timeline__date-icon">
@@ -99,9 +106,10 @@ defmodule KPureAdmin.Components.Timeline do
             </div>
           </div>
 
-        <% true -> %>
-          <div :if={@time_text} class="pa-timeline__time"><%= @time_text %></div>
-          <div class="pa-timeline__marker">
+        <% @icon_text != nil || @icon != [] -> %>
+          <%!-- Block/alternating layout: date + icon + content --%>
+          <div :if={@time_text} class="pa-timeline__date"><%= @time_text %></div>
+          <div class="pa-timeline__icon">
             <%= if @icon != [] do %>
               <%= for icon <- @icon do %><%= render_slot(icon) %><% end %>
             <% else %>
@@ -110,17 +118,25 @@ defmodule KPureAdmin.Components.Timeline do
           </div>
           <div class="pa-timeline__content">
             <%= for title <- @title do %>
+              <h3><%= render_slot(title) %></h3>
+            <% end %>
+            <p><%= render_slot(@inner_block) %></p>
+          </div>
+
+        <% true -> %>
+          <%!-- Simple layout: time + content --%>
+          <div :if={@time_text} class="pa-timeline__time"><%= @time_text %></div>
+          <div class="pa-timeline__content">
+            <%= for title <- @title do %>
               <div class="pa-timeline__title"><%= render_slot(title) %></div>
             <% end %>
             <%= for meta <- @meta do %>
               <div class="pa-timeline__meta"><%= render_slot(meta) %></div>
             <% end %>
-            <div class="pa-timeline__body">
-              <%= render_slot(@inner_block) %>
-            </div>
+            <%= render_slot(@inner_block) %>
           </div>
       <% end %>
-    </li>
+    </.dynamic_tag>
     """
   end
 

@@ -151,53 +151,27 @@ defmodule DemoWeb.Live.DetailPanelLive do
         </button>
       </div>
       <div class="pa-detail-panel__body">
-        <div class="pa-field-group">
-          <div class="pa-field-group__title">Personal</div>
-          <div class="pa-fields pa-fields--cols-2">
-            <div class="pa-field">
-              <span class="pa-field__label">Name</span>
-              <span class="pa-field__value">{@user.name}</span>
-            </div>
-            <div class="pa-field">
-              <span class="pa-field__label">Email</span>
-              <span class="pa-field__value">{@user.email}</span>
-            </div>
-            <div class="pa-field">
-              <span class="pa-field__label">Phone</span>
-              <span class="pa-field__value">{@user.phone}</span>
-            </div>
-            <div class="pa-field">
-              <span class="pa-field__label">Location</span>
-              <span class="pa-field__value">{@user.location}</span>
-            </div>
-          </div>
-        </div>
+        <.field_group title="Personal">
+          <.fields cols="2">
+            <.field label="Name">{@user.name}</.field>
+            <.field label="Email">{@user.email}</.field>
+            <.field label="Phone">{@user.phone}</.field>
+            <.field label="Location">{@user.location}</.field>
+          </.fields>
+        </.field_group>
 
-        <div class="pa-field-group">
-          <div class="pa-field-group__title">Employment</div>
-          <div class="pa-fields pa-fields--cols-2">
-            <div class="pa-field">
-              <span class="pa-field__label">Role</span>
-              <span class="pa-field__value">{@user.role}</span>
-            </div>
-            <div class="pa-field">
-              <span class="pa-field__label">Department</span>
-              <span class="pa-field__value">{@user.department}</span>
-            </div>
-            <div class="pa-field">
-              <span class="pa-field__label">Start Date</span>
-              <span class="pa-field__value">{@user.start_date}</span>
-            </div>
-            <div class="pa-field">
-              <span class="pa-field__label">Status</span>
-              <span class="pa-field__value">
-                <.badge variant={status_variant(@user.status)} size="sm">
-                  {@user.status}
-                </.badge>
-              </span>
-            </div>
-          </div>
-        </div>
+        <.field_group title="Employment">
+          <.fields cols="2">
+            <.field label="Role">{@user.role}</.field>
+            <.field label="Department">{@user.department}</.field>
+            <.field label="Start Date">{@user.start_date}</.field>
+            <.field label="Status">
+              <.badge variant={status_variant(@user.status)} size="sm">
+                {@user.status}
+              </.badge>
+            </.field>
+          </.fields>
+        </.field_group>
       </div>
       <div class="pa-detail-panel__footer">
         <.button variant="primary" size="sm">

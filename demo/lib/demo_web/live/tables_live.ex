@@ -636,7 +636,7 @@ defmodule DemoWeb.Live.TablesLive do
     <%!-- ═══════════════════════════════════════════════════════════ --%>
     <.card title_text="CSS Classes Reference">
       <h4>Tables</h4>
-      <ul class="pa-list-basic pa-list-basic--compact">
+      <.basic_list spacing="compact">
         <li><.code>pa-table-container</.code> — Scrollable table wrapper with border</li>
         <li><.code>pa-table-container--panel</.code> — Card-like containment with shadow and margin</li>
         <li><.code>pa-table-container__header</.code> — Header row for panel tables</li>
@@ -651,10 +651,10 @@ defmodule DemoWeb.Live.TablesLive do
         <li><.code>pa-table--responsive</.code> — Stacks into cards on mobile</li>
         <li><.code>pa-table--responsive-grid</.code> — CSS grid layout on mobile</li>
         <li><.code>.col-auto</.code> — Auto-width column (shrinks to content)</li>
-      </ul>
+      </.basic_list>
 
       <h4 class="mt-4">Table Cards</h4>
-      <ul class="pa-list-basic pa-list-basic--compact">
+      <.basic_list spacing="compact">
         <li><.code>pa-table-card</.code> — Card wrapper for tables</li>
         <li><.code>pa-table-card--primary / success / warning / danger</.code> — Color variants</li>
         <li><.code>pa-table-card--color-1</.code> through <.code>--color-9</.code> — Theme colors</li>
@@ -665,10 +665,10 @@ defmodule DemoWeb.Live.TablesLive do
         <li><.code>pa-table-card__body</.code> — Table body wrapper</li>
         <li><.code>pa-table-card__body--scrollable</.code> — Horizontal scroll</li>
         <li><.code>pa-table-card__footer</.code> — Footer for pagination</li>
-      </ul>
+      </.basic_list>
 
       <h4 class="mt-4">Pager</h4>
-      <ul class="pa-list-basic pa-list-basic--compact">
+      <.basic_list spacing="compact">
         <li><.code>pa-pager</.code> — Pagination container (default: centered)</li>
         <li><.code>pa-pager--start</.code> — Start-aligned</li>
         <li><.code>pa-pager--center</.code> — Center-aligned</li>
@@ -678,10 +678,10 @@ defmodule DemoWeb.Live.TablesLive do
         <li><.code>pa-pager__info</.code> — Page input and text</li>
         <li><.code>pa-pager__input</.code> — Page number input</li>
         <li><.code>pa-pager__text</.code> — "/ X pages" text</li>
-      </ul>
+      </.basic_list>
 
       <h4 class="mt-4">Load More</h4>
-      <ul class="pa-list-basic pa-list-basic--compact">
+      <.basic_list spacing="compact">
         <li><.code>pa-load-more</.code> — Load more container (default: centered)</li>
         <li><.code>pa-load-more--start</.code> — Start-aligned</li>
         <li><.code>pa-load-more--center</.code> — Center-aligned</li>
@@ -691,7 +691,7 @@ defmodule DemoWeb.Live.TablesLive do
         <li><.code>pa-load-more__spinner</.code> — Spinner element</li>
         <li><.code>pa-load-more__text</.code> — Button text</li>
         <li><.code>pa-load-more__count</.code> — Count display (e.g., "3 of 150")</li>
-      </ul>
+      </.basic_list>
     </.card>
     """
   end

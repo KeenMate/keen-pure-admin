@@ -17,14 +17,14 @@ defmodule DemoWeb.Live.DataVisualizationLive do
 
       <%!-- Basic progress bars --%>
       <h4 class="mb-sm">Default (with labels)</h4>
-      <div class="pa-row gap-base">
-        <div class="pa-col">
+      <.grid>
+        <.column size="50">
           <.progress_group label="Storage Used" value={65} />
-        </div>
-        <div class="pa-col">
+        </.column>
+        <.column size="50">
           <.progress_group label="Upload Progress" value={89} variant="success" />
-        </div>
-      </div>
+        </.column>
+      </.grid>
 
       <%!-- Color variants --%>
       <h4 class="mt-lg mb-sm">Color Variants</h4>
@@ -273,8 +273,8 @@ defmodule DemoWeb.Live.DataVisualizationLive do
     <.card title_text="8. Combined: KPI Dashboard" subtitle_text="Real-world example combining stat cards, progress rings, sparklines, and data bars.">
 
       <%!-- KPI Row: Stat cards with sparklines --%>
-      <div class="pa-row gap-base">
-        <div class="pa-col">
+      <.grid>
+        <.column size="1-3">
           <.card>
             <div class="d-flex justify-content-between align-items-start">
               <div>
@@ -285,8 +285,8 @@ defmodule DemoWeb.Live.DataVisualizationLive do
               <.sparkline values={[40, 55, 50, 65, 75, 85, 90]} variant="success" />
             </div>
           </.card>
-        </div>
-        <div class="pa-col">
+        </.column>
+        <.column size="1-3">
           <.card>
             <div class="d-flex justify-content-between align-items-start">
               <div>
@@ -297,8 +297,8 @@ defmodule DemoWeb.Live.DataVisualizationLive do
               <.sparkline values={[60, 65, 70, 68, 75, 80, 85]} variant="info" />
             </div>
           </.card>
-        </div>
-        <div class="pa-col">
+        </.column>
+        <.column size="1-3">
           <.card>
             <div class="d-flex justify-content-between align-items-start">
               <div>
@@ -309,8 +309,8 @@ defmodule DemoWeb.Live.DataVisualizationLive do
               <.sparkline values={[20, 15, 25, 18, 22, 30, 28]} variant="danger" />
             </div>
           </.card>
-        </div>
-      </div>
+        </.column>
+      </.grid>
 
       <%!-- System Health: Progress rings row --%>
       <h4 class="mt-xl mb-base">System Health</h4>

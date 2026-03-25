@@ -2,18 +2,16 @@ defmodule KPureAdmin.Components.SettingsPanel do
   @moduledoc """
   Settings panel component for Pure Admin.
 
-  Provides runtime-configurable settings for theme mode, layout width,
-  sidebar behavior, display options, and font preferences. All settings
-  persist to localStorage and are applied via JavaScript (the `PureAdminSettings` hook).
+  Provides runtime-configurable settings for theme, color variant, mode,
+  layout width, sidebar behavior, display options, and font preferences.
+  Theme/variant/mode selectors are populated dynamically from `/api/themes/manifests`.
+  All settings persist to localStorage via the `PureAdminSettings` JS hook.
 
   ## Examples
 
       <.settings_panel />
 
-      <.settings_panel themes={[
-        %{id: "audi", name: "Audi", css_path: "/themes/audi.css"},
-        %{id: "bmw", name: "BMW", css_path: "/themes/bmw.css"}
-      ]} />
+      <.settings_panel default_theme="audi" />
   """
   use Phoenix.Component
 
@@ -22,30 +20,21 @@ defmodule KPureAdmin.Components.SettingsPanel do
   @doc """
   Renders the floating settings panel.
 
-  All controls use `data-setting` attributes. The JS hook binds change events
-  and updates localStorage + DOM classes. No `phx-` events needed — purely client-side.
+  Theme, color variant, and mode selectors are populated dynamically
+  by the JS hook from `/api/themes/manifests`. All other controls use
+  `data-setting` attributes bound to localStorage.
   """
   attr(:id, :string, default: "settingsPanel")
-  attr(:themes, :list, default: [], doc: "List of theme maps: %{id, name, css_path}")
   attr(:default_theme, :string, default: nil)
   attr(:class, :string, default: nil)
   attr(:rest, :global)
 
   def settings_panel(assigns) do
-    themes_json =
-      case assigns.themes do
-        [] -> nil
-        themes -> Jason.encode!(themes)
-      end
-
-    assigns = assign(assigns, :themes_json, themes_json)
-
     ~H"""
     <div
       id={@id}
       class={build_classes("pa-settings-panel", [], @class)}
       phx-hook="PureAdminSettings"
-      data-themes={@themes_json}
       data-default-theme={@default_theme}
       {@rest}
     >
@@ -56,25 +45,37 @@ defmodule KPureAdmin.Components.SettingsPanel do
       <div class="pa-settings-panel__content">
         <h3 class="pa-settings-panel__title">Settings</h3>
 
-        <!-- Theme -->
-        <div :if={@themes != []} class="pa-settings-panel__section">
+        <%!-- Theme (populated dynamically from manifests) --%>
+        <div class="pa-settings-panel__section">
           <label class="pa-settings-panel__label" for={"#{@id}-theme"}>Theme</label>
           <select id={"#{@id}-theme"} class="pa-settings-panel__select" data-setting="theme">
-            <option :for={theme <- @themes} value={theme.id}>{theme.name}</option>
+            <option value="">Loading...</option>
           </select>
         </div>
 
-        <!-- Theme Mode -->
-        <div class="pa-settings-panel__section">
-          <label class="pa-settings-panel__label" for={"#{@id}-theme-mode"}>Theme Mode</label>
-          <select id={"#{@id}-theme-mode"} class="pa-settings-panel__select" data-setting="theme-mode">
-            <option value="light">Light</option>
-            <option value="dark">Dark</option>
-            <option value="auto">Auto (System)</option>
+        <%!-- Color Variant (shown/hidden dynamically based on manifest) --%>
+        <div class="pa-settings-panel__section" data-section="color-variant" style="display: none;">
+          <label class="pa-settings-panel__label" for={"#{@id}-color-variant"}>Color Variant</label>
+          <select
+            id={"#{@id}-color-variant"}
+            class="pa-settings-panel__select"
+            data-setting="color-variant"
+          >
           </select>
         </div>
 
-        <!-- Container Width -->
+        <%!-- Theme Mode (shown/hidden dynamically based on manifest) --%>
+        <div class="pa-settings-panel__section" data-section="theme-mode" style="display: none;">
+          <label class="pa-settings-panel__label" for={"#{@id}-theme-mode"}>Mode</label>
+          <select
+            id={"#{@id}-theme-mode"}
+            class="pa-settings-panel__select"
+            data-setting="theme-mode"
+          >
+          </select>
+        </div>
+
+        <%!-- Container Width --%>
         <div class="pa-settings-panel__section">
           <label class="pa-settings-panel__label" for={"#{@id}-container-width"}>Layout Width</label>
           <select
@@ -91,7 +92,7 @@ defmodule KPureAdmin.Components.SettingsPanel do
           </select>
         </div>
 
-        <!-- Sidebar Mode -->
+        <%!-- Sidebar Mode --%>
         <div class="pa-settings-panel__section">
           <label class="pa-settings-panel__label" for={"#{@id}-sidebar-mode"}>Sidebar Mode</label>
           <select
@@ -104,7 +105,7 @@ defmodule KPureAdmin.Components.SettingsPanel do
           </select>
         </div>
 
-        <!-- Sidebar Behavior -->
+        <%!-- Sidebar Behavior --%>
         <div class="pa-settings-panel__section">
           <label class="pa-settings-panel__label" for={"#{@id}-sidebar-behavior"}>
             Sidebar Behavior
@@ -119,7 +120,7 @@ defmodule KPureAdmin.Components.SettingsPanel do
           </select>
         </div>
 
-        <!-- Sidebar Options -->
+        <%!-- Sidebar Options --%>
         <div class="pa-settings-panel__section">
           <span class="pa-settings-panel__label">Sidebar</span>
           <div class="pa-settings-panel__checkbox-group">
@@ -134,7 +135,7 @@ defmodule KPureAdmin.Components.SettingsPanel do
           </div>
         </div>
 
-        <!-- Display Options -->
+        <%!-- Display Options --%>
         <div class="pa-settings-panel__section">
           <span class="pa-settings-panel__label">Display</span>
           <div class="pa-settings-panel__checkbox-group">
@@ -149,7 +150,7 @@ defmodule KPureAdmin.Components.SettingsPanel do
           </div>
         </div>
 
-        <!-- Profile Panel -->
+        <%!-- Profile Panel --%>
         <div class="pa-settings-panel__section">
           <span class="pa-settings-panel__label">Profile Panel</span>
           <div class="pa-settings-panel__checkbox-group">
@@ -164,7 +165,7 @@ defmodule KPureAdmin.Components.SettingsPanel do
           </div>
         </div>
 
-        <!-- Font Size -->
+        <%!-- Font Size --%>
         <div class="pa-settings-panel__section">
           <label class="pa-settings-panel__label" for={"#{@id}-font-size"}>Font Size</label>
           <select id={"#{@id}-font-size"} class="pa-settings-panel__select" data-setting="font-size">
@@ -178,7 +179,7 @@ defmodule KPureAdmin.Components.SettingsPanel do
           </small>
         </div>
 
-        <!-- Font Family -->
+        <%!-- Font Family --%>
         <div class="pa-settings-panel__section">
           <label class="pa-settings-panel__label" for={"#{@id}-font-family"}>Font Family</label>
           <select
@@ -201,7 +202,7 @@ defmodule KPureAdmin.Components.SettingsPanel do
           </select>
         </div>
 
-        <!-- Reset Button -->
+        <%!-- Reset Button --%>
         <div class="pa-settings-panel__section">
           <button class="pa-btn pa-btn--secondary pa-btn--block" type="button" data-reset>
             Reset to Defaults

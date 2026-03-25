@@ -10,6 +10,11 @@ defmodule DemoWeb.Live.ButtonsLive do
     {:noreply, assign(socket, :loading_btn, btn)}
   end
 
+  def handle_event("split_action", params, socket) do
+    action = params["action"] || "primary click"
+    {:noreply, KPureAdmin.Components.Toast.push_toast(socket, "info", "Split Button", "Action: #{action}")}
+  end
+
   def handle_info({:stop_loading, _btn}, socket) do
     {:noreply, assign(socket, :loading_btn, nil)}
   end
@@ -557,6 +562,67 @@ defmodule DemoWeb.Live.ButtonsLive do
       </.column>
     </.grid>
 
+    <%!-- Split Buttons --%>
+    <.grid>
+      <.column size="100" lg="1-2">
+        <.card title_text="Split Buttons">
+          <.paragraph class="mb-1">A primary action with a dropdown for secondary actions:</.paragraph>
+          <.button_group>
+            <.split_button label="Save" variant="primary" on_click="split_action">
+              <:item on_click="split_action" action="save-draft">Save as Draft</:item>
+              <:item on_click="split_action" action="save-close">Save & Close</:item>
+            </.split_button>
+
+            <.split_button label="Export" variant="primary" on_click="split_action">
+              <:item on_click="split_action" action="export-csv">Export as CSV</:item>
+              <:item on_click="split_action" action="export-pdf">Export as PDF</:item>
+              <:item is_danger on_click="split_action" action="delete-all">Delete All</:item>
+            </.split_button>
+
+            <.split_button label="Delete" variant="danger" on_click="split_action">
+              <:item is_danger on_click="split_action" action="delete-permanent">Delete Permanently</:item>
+              <:item on_click="split_action" action="move-trash">Move to Trash</:item>
+            </.split_button>
+          </.button_group>
+        </.card>
+      </.column>
+
+      <.column size="100" lg="1-2">
+        <.card title_text="Split Button Variants">
+          <.paragraph class="mb-1">Upward placement and custom icons:</.paragraph>
+          <.button_group>
+            <.split_button label="Upload" variant="primary" placement="top-end">
+              <:item>Upload File</:item>
+              <:item>Upload Folder</:item>
+            </.split_button>
+
+            <.split_button label="Share" variant="secondary">
+              <:item>Share via Email</:item>
+              <:item>Share via Link</:item>
+            </.split_button>
+          </.button_group>
+
+          <.paragraph class="mb-1 mt-2">Different sizes:</.paragraph>
+          <.button_group>
+            <.split_button label="Small" variant="primary" size="sm">
+              <:item>Option A</:item>
+              <:item>Option B</:item>
+            </.split_button>
+
+            <.split_button label="Default" variant="primary">
+              <:item>Option A</:item>
+              <:item>Option B</:item>
+            </.split_button>
+
+            <.split_button label="Large" variant="primary" size="lg">
+              <:item>Option A</:item>
+              <:item>Option B</:item>
+            </.split_button>
+          </.button_group>
+        </.card>
+      </.column>
+    </.grid>
+
     <%!-- Usage Guide --%>
     <.card title_text="Usage Guide">
       <.heading level={4}>Ripple Effect</.heading>
@@ -570,23 +636,23 @@ defmodule DemoWeb.Live.ButtonsLive do
       </.paragraph>
 
       <.heading level={4}>Best Practices</.heading>
-      <ul>
+      <.basic_list>
         <li><strong>Fast Sites:</strong> Always show loading feedback, even for quick operations (200-500ms minimum)</li>
         <li><strong>User Confidence:</strong> Ripple effects confirm button clicks were registered</li>
         <li><strong>Prevent Double-clicks:</strong> Disable buttons during loading to prevent duplicate submissions</li>
         <li><strong>Accessibility:</strong> Loading states are announced to screen readers</li>
-      </ul>
+      </.basic_list>
     </.card>
 
     <%!-- CSS Classes Reference --%>
     <.card title_text="CSS Classes Reference">
       <.heading level={4}>Button Base</.heading>
-      <ul class="pa-list-basic--compact">
+      <.basic_list spacing="compact">
         <li><code>pa-btn</code> - Base button styling</li>
-      </ul>
+      </.basic_list>
 
       <.heading level={4} class="mt-4">Button Variants (Colors)</.heading>
-      <ul class="pa-list-basic--compact">
+      <.basic_list spacing="compact">
         <li><code>pa-btn--primary</code> - Primary accent color</li>
         <li><code>pa-btn--secondary</code> - Secondary/neutral color</li>
         <li><code>pa-btn--success</code> - Success/green color</li>
@@ -595,64 +661,64 @@ defmodule DemoWeb.Live.ButtonsLive do
         <li><code>pa-btn--info</code> - Info/blue color</li>
         <li><code>pa-btn--light</code> - Light background</li>
         <li><code>pa-btn--dark</code> - Dark background</li>
-      </ul>
+      </.basic_list>
 
       <.heading level={4} class="mt-4">Outline Variants</.heading>
-      <ul class="pa-list-basic--compact">
+      <.basic_list spacing="compact">
         <li><code>pa-btn--outline-primary</code> - Outline primary</li>
         <li><code>pa-btn--outline-secondary</code> - Outline secondary</li>
         <li><code>pa-btn--outline-success</code> - Outline success</li>
         <li><code>pa-btn--outline-warning</code> - Outline warning</li>
         <li><code>pa-btn--outline-danger</code> - Outline danger</li>
         <li><code>pa-btn--outline-info</code> - Outline info</li>
-      </ul>
+      </.basic_list>
 
       <.heading level={4} class="mt-4">Button Sizes</.heading>
-      <ul class="pa-list-basic--compact">
+      <.basic_list spacing="compact">
         <li><code>pa-btn--xs</code> - Extra small button</li>
         <li><code>pa-btn--sm</code> - Small button</li>
         <li><code>pa-btn--lg</code> - Large button</li>
         <li><code>pa-btn--xl</code> - Extra large button</li>
-      </ul>
+      </.basic_list>
 
       <.heading level={4} class="mt-4">Button States & Modifiers</.heading>
-      <ul class="pa-list-basic--compact">
+      <.basic_list spacing="compact">
         <li><code>pa-btn--loading</code> - Loading state with spinner</li>
         <li><code>pa-btn--ripple</code> - Enable ripple click effect</li>
         <li><code>pa-btn--block</code> - Full width block button</li>
         <li><code>pa-btn--icon-only</code> - Square icon-only button</li>
-      </ul>
+      </.basic_list>
 
       <.heading level={4} class="mt-4">Content Alignment</.heading>
-      <ul class="pa-list-basic--compact">
+      <.basic_list spacing="compact">
         <li><code>pa-btn--align-start</code> - Inline-start align content (RTL: right)</li>
         <li><code>pa-btn--align-end</code> - Inline-end align content (RTL: left)</li>
         <li><code>pa-btn--align-center</code> - Center-align content</li>
         <li><code>pa-btn--align-justify</code> - Space-between content</li>
-      </ul>
+      </.basic_list>
 
       <.heading level={4} class="mt-4">Button Elements</.heading>
-      <ul class="pa-list-basic--compact">
+      <.basic_list spacing="compact">
         <li><code>pa-btn__icon</code> - Icon container with fixed width</li>
         <li><code>pa-btn__spinner</code> - Loading spinner element</li>
-      </ul>
+      </.basic_list>
 
       <.heading level={4} class="mt-4">Button Groups</.heading>
-      <ul class="pa-list-basic--compact">
+      <.basic_list spacing="compact">
         <li><code>pa-btn-group</code> - Container for grouped buttons</li>
         <li><code>pa-btn-group--vertical</code> - Vertical stacking</li>
         <li><code>pa-btn-group--nowrap</code> - Prevent wrapping</li>
-      </ul>
+      </.basic_list>
 
       <.heading level={4} class="mt-4">Button Group Alignment (vertical only)</.heading>
-      <ul class="pa-list-basic--compact">
+      <.basic_list spacing="compact">
         <li><code>pa-btn-group--center</code> - Center-align buttons</li>
         <li><code>pa-btn-group--end</code> - End-align buttons</li>
         <li><code>pa-btn-group--stretch</code> - Full width buttons</li>
-      </ul>
+      </.basic_list>
 
       <.heading level={4} class="mt-4">Responsive Button Groups</.heading>
-      <ul class="pa-list-basic--compact">
+      <.basic_list spacing="compact">
         <li><code>pa-btn-group--sm-vertical</code> - Vertical at 576px+</li>
         <li><code>pa-btn-group--sm-horizontal</code> - Horizontal at 576px+</li>
         <li><code>pa-btn-group--md-vertical</code> - Vertical at 768px+</li>
@@ -661,7 +727,7 @@ defmodule DemoWeb.Live.ButtonsLive do
         <li><code>pa-btn-group--lg-horizontal</code> - Horizontal at 992px+</li>
         <li><code>pa-btn-group--xl-vertical</code> - Vertical at 1200px+</li>
         <li><code>pa-btn-group--xl-horizontal</code> - Horizontal at 1200px+</li>
-      </ul>
+      </.basic_list>
     </.card>
     """
   end

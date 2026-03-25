@@ -68,54 +68,19 @@ defmodule DemoWeb.Live.BadgesLive do
 
     <%!-- Badge Sizes Reference --%>
     <.card title_text="Badge Sizes Reference" has_padding={false}>
-      <table class="pa-table pa-table--striped">
-        <thead>
-          <tr>
-            <th>Size</th>
-            <th>Class</th>
-            <th>Font Size</th>
-            <th>Padding</th>
-            <th>Example</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>XS</strong></td>
-            <td><code>.pa-badge--xs</code></td>
-            <td>1rem (10px)</td>
-            <td>0.2rem 0.4rem</td>
-            <td><.badge size="xs" variant="primary">Extra Small</.badge></td>
-          </tr>
-          <tr>
-            <td><strong>SM</strong></td>
-            <td><code>.pa-badge--sm</code></td>
-            <td>1.2rem (12px)</td>
-            <td>0.25rem 0.5rem</td>
-            <td><.badge size="sm" variant="primary">Small Badge</.badge></td>
-          </tr>
-          <tr>
-            <td><strong>Default</strong></td>
-            <td><code>.pa-badge</code></td>
-            <td>1.2rem (12px)</td>
-            <td>0.4rem 0.8rem</td>
-            <td><.badge variant="primary">Default Badge</.badge></td>
-          </tr>
-          <tr>
-            <td><strong>LG</strong></td>
-            <td><code>.pa-badge--lg</code></td>
-            <td>1.4rem (14px)</td>
-            <td>0.5rem 1rem</td>
-            <td><.badge size="lg" variant="primary">Large Badge</.badge></td>
-          </tr>
-          <tr>
-            <td><strong>XL</strong></td>
-            <td><code>.pa-badge--xl</code></td>
-            <td>1.6rem (16px)</td>
-            <td>0.6rem 1.2rem</td>
-            <td><.badge size="xl" variant="primary">Extra Large</.badge></td>
-          </tr>
-        </tbody>
-      </table>
+      <.table rows={[
+        %{size: "XS", class: ".pa-badge--xs", font: "1rem (10px)", padding: "0.2rem 0.4rem", example_size: "xs", example_text: "Extra Small"},
+        %{size: "SM", class: ".pa-badge--sm", font: "1.2rem (12px)", padding: "0.25rem 0.5rem", example_size: "sm", example_text: "Small Badge"},
+        %{size: "Default", class: ".pa-badge", font: "1.2rem (12px)", padding: "0.4rem 0.8rem", example_size: nil, example_text: "Default Badge"},
+        %{size: "LG", class: ".pa-badge--lg", font: "1.4rem (14px)", padding: "0.5rem 1rem", example_size: "lg", example_text: "Large Badge"},
+        %{size: "XL", class: ".pa-badge--xl", font: "1.6rem (16px)", padding: "0.6rem 1.2rem", example_size: "xl", example_text: "Extra Large"}
+      ]} is_striped>
+        <:col :let={row} label="Size"><strong>{row.size}</strong></:col>
+        <:col :let={row} label="Class"><code>{row.class}</code></:col>
+        <:col :let={row} label="Font Size">{row.font}</:col>
+        <:col :let={row} label="Padding">{row.padding}</:col>
+        <:col :let={row} label="Example"><.badge size={row.example_size} variant="primary">{row.example_text}</.badge></:col>
+      </.table>
     </.card>
 
     <%!-- Basic Badges --%>
@@ -217,47 +182,18 @@ defmodule DemoWeb.Live.BadgesLive do
 
     <%!-- Label Sizes Reference --%>
     <.card title_text="Label Sizes Reference" has_padding={false}>
-      <table class="pa-table pa-table--striped">
-        <thead>
-          <tr>
-            <th>Size</th>
-            <th>Class</th>
-            <th>Font Size</th>
-            <th>Padding</th>
-            <th>Example</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>XS</strong></td>
-            <td><code>.pa-label--xs</code></td>
-            <td>1rem (10px)</td>
-            <td>0.2rem 0.4rem</td>
-            <td><.label size="sm" variant="primary">Extra Small</.label></td>
-          </tr>
-          <tr>
-            <td><strong>SM</strong></td>
-            <td><code>.pa-label--sm</code></td>
-            <td>1.2rem (12px)</td>
-            <td>0.25rem 0.5rem</td>
-            <td><.label size="sm" variant="primary">Small Label</.label></td>
-          </tr>
-          <tr>
-            <td><strong>Default</strong></td>
-            <td><code>.pa-label</code></td>
-            <td>1.2rem (12px)</td>
-            <td>0.4rem 0.8rem</td>
-            <td><.label variant="primary">Default Label</.label></td>
-          </tr>
-          <tr>
-            <td><strong>LG</strong></td>
-            <td><code>.pa-label--lg</code></td>
-            <td>1.4rem (14px)</td>
-            <td>0.5rem 1rem</td>
-            <td><.label size="lg" variant="primary">Large Label</.label></td>
-          </tr>
-        </tbody>
-      </table>
+      <.table rows={[
+        %{size: "XS", class: ".pa-label--xs", font: "1rem (10px)", padding: "0.2rem 0.4rem", example_size: "sm", example_text: "Extra Small"},
+        %{size: "SM", class: ".pa-label--sm", font: "1.2rem (12px)", padding: "0.25rem 0.5rem", example_size: "sm", example_text: "Small Label"},
+        %{size: "Default", class: ".pa-label", font: "1.2rem (12px)", padding: "0.4rem 0.8rem", example_size: nil, example_text: "Default Label"},
+        %{size: "LG", class: ".pa-label--lg", font: "1.4rem (14px)", padding: "0.5rem 1rem", example_size: "lg", example_text: "Large Label"}
+      ]} is_striped>
+        <:col :let={row} label="Size"><strong>{row.size}</strong></:col>
+        <:col :let={row} label="Class"><code>{row.class}</code></:col>
+        <:col :let={row} label="Font Size">{row.font}</:col>
+        <:col :let={row} label="Padding">{row.padding}</:col>
+        <:col :let={row} label="Example"><.label size={row.example_size} variant="primary">{row.example_text}</.label></:col>
+      </.table>
     </.card>
 
     <%!-- Labels --%>

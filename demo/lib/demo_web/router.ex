@@ -15,38 +15,61 @@ defmodule DemoWeb.Router do
       pipe_through :browser
 
       live "/", Live.DashboardLive, :index
-      live "/buttons", Live.ButtonsLive, :index
-      live "/badges", Live.BadgesLive, :index
-      live "/alerts", Live.AlertsLive, :index
-      live "/cards", Live.CardsLive, :index
-      live "/tables", Live.TablesLive, :index
-      live "/tables-sizing", Live.TablesSizingLive, :index
-      live "/tables-responsive", Live.TablesResponsiveLive, :index
-      live "/table-filters", Live.TableFiltersLive, :index
-      live "/modals", Live.ModalsLive, :index
-      live "/modal-dialogs", Live.ModalDialogsLive, :index
-      live "/popconfirm", Live.PopconfirmLive, :index
-      live "/command-palette", Live.CommandPaletteLive, :index
-      live "/tabs", Live.TabsLive, :index
-      live "/grid", Live.GridLive, :index
       live "/forms", Live.FormsLive, :index
-      live "/inputs", Live.InputsLive, :index
-      live "/validations", Live.ValidationsLive, :index
-      live "/checkbox-lists", Live.CheckboxListsLive, :index
-      live "/toasts", Live.ToastsLive, :index
-      live "/pagers", Live.PagersLive, :index
-      live "/tooltips", Live.TooltipsLive, :index
-      live "/loaders", Live.LoadersLive, :index
-      live "/lists", Live.ListsLive, :index
-      live "/timeline", Live.TimelineLive, :index
-      live "/typography", Live.TypographyLive, :index
-      live "/stats", Live.StatsLive, :index
-      live "/callouts", Live.CalloutsLive, :index
-      live "/code", Live.CodeLive, :index
-      live "/data-display", Live.DataDisplayLive, :index
-      live "/data-display-2", Live.DataDisplay2Live, :index
-      live "/data-visualization", Live.DataVisualizationLive, :index
-      live "/detail-panel", Live.DetailPanelLive, :index
+
+      # Components
+      live "/components", Live.ComponentsOverviewLive, :index
+      live "/components/buttons", Live.ButtonsLive, :index
+      live "/components/badges", Live.BadgesLive, :index
+      live "/components/alerts", Live.AlertsLive, :index
+      live "/components/cards", Live.CardsLive, :index
+      live "/components/tabs", Live.TabsLive, :index
+      live "/components/grid", Live.GridLive, :index
+      live "/components/inputs", Live.InputsLive, :index
+      live "/components/validations", Live.ValidationsLive, :index
+      live "/components/checkbox-lists", Live.CheckboxListsLive, :index
+      live "/components/modals", Live.ModalsLive, :index
+      live "/components/modal-dialogs", Live.ModalDialogsLive, :index
+      live "/components/popconfirm", Live.PopconfirmLive, :index
+      live "/components/command-palette", Live.CommandPaletteLive, :index
+      live "/components/toasts", Live.ToastsLive, :index
+      live "/components/pagers", Live.PagersLive, :index
+      live "/components/tooltips", Live.TooltipsLive, :index
+      live "/components/loaders", Live.LoadersLive, :index
+      live "/components/lists", Live.ListsLive, :index
+      live "/components/callouts", Live.CalloutsLive, :index
+      live "/components/code", Live.CodeLive, :index
+      live "/components/data-display", Live.DataDisplayLive, :index
+      live "/components/data-display-2", Live.DataDisplay2Live, :index
+      live "/components/data-visualization", Live.DataVisualizationLive, :index
+      live "/components/detail-panel", Live.DetailPanelLive, :index
+      live "/components/stats", Live.StatsLive, :index
+      live "/components/typography", Live.TypographyLive, :index
+      live "/components/notifications", Live.NotificationsLive, :index
+      live "/components/sizing", Live.SizingLive, :index
+
+      # Design
+      live "/design/colors", Live.ColorsLive, :index
+      live "/design/helpers", Live.HelpersLive, :index
+      live "/design/layouts", Live.LayoutsLive, :index
+      live "/design/theme-variables", Live.ThemeVariablesLive, :index
+
+      # Tables
+      live "/tables/standard", Live.TablesLive, :index
+      live "/tables/sizing", Live.TablesSizingLive, :index
+      live "/tables/responsive", Live.TablesResponsiveLive, :index
+      live "/tables/filters", Live.TableFiltersLive, :index
+      live "/tables/multi-select", Live.TableMultiSelectLive, :index
+      live "/tables/comparison", Live.TablesComparisonLive, :index
+
+      # Virtual Scroll
+      live "/virtual-scroll/demo", Live.VirtualScrollLive, :index
+
+      # Timeline
+      live "/timeline/simple", Live.TimelineSimpleLive, :index
+      live "/timeline/block", Live.TimelineBlockLive, :index
+      live "/timeline/advanced", Live.TimelineLive, :index
+      live "/timeline/feed", Live.TimelineFeedLive, :index
     end
   end
 end

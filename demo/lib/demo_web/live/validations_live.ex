@@ -571,42 +571,42 @@ defmodule DemoWeb.Live.ValidationsLive do
     <%!-- CSS Classes Reference --%>
     <.card title_text="CSS Classes Reference">
       <.heading level={4}>Form Group States</.heading>
-      <ul class="pa-list-basic--compact">
+      <.basic_list spacing="compact">
         <li><code>pa-form-group--success</code> - Success state (green)</li>
         <li><code>pa-form-group--warning</code> - Warning state (yellow/orange)</li>
         <li><code>pa-form-group--error</code> - Error state (red)</li>
-      </ul>
+      </.basic_list>
 
       <.heading level={4} class="mt-4">Input States</.heading>
-      <ul class="pa-list-basic--compact">
+      <.basic_list spacing="compact">
         <li><code>pa-input--success</code> - Success border on input</li>
         <li><code>pa-input--warning</code> - Warning border on input</li>
         <li><code>pa-input--error</code> - Error border on input</li>
-      </ul>
+      </.basic_list>
 
       <.heading level={4} class="mt-4">Help/Message Text</.heading>
-      <ul class="pa-list-basic--compact">
+      <.basic_list spacing="compact">
         <li><code>pa-form-help</code> - Base help text styling</li>
         <li><code>pa-form-help--success</code> - Green help text</li>
         <li><code>pa-form-help--warning</code> - Yellow/orange help text</li>
         <li><code>pa-form-help--error</code> - Red help text</li>
-      </ul>
+      </.basic_list>
 
       <.heading level={4} class="mt-4">Alert Variants (for Summary Blocks)</.heading>
-      <ul class="pa-list-basic--compact">
+      <.basic_list spacing="compact">
         <li><code>pa-alert pa-alert--danger</code> - Error summary block</li>
         <li><code>pa-alert pa-alert--warning</code> - Warning summary block</li>
         <li><code>pa-alert pa-alert--success</code> - Success message block</li>
         <li><code>pa-alert pa-alert--info</code> - Info message block</li>
-      </ul>
+      </.basic_list>
 
       <.heading level={4} class="mt-4">Text Utility Classes</.heading>
-      <ul class="pa-list-basic--compact">
+      <.basic_list spacing="compact">
         <li><code>text-danger</code> - Red text color</li>
         <li><code>text-warning</code> - Yellow/orange text color</li>
         <li><code>text-success</code> - Green text color</li>
         <li><code>text-muted</code> - Muted/gray text color</li>
-      </ul>
+      </.basic_list>
     </.card>
     """
   end

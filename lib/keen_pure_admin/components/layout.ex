@@ -542,6 +542,7 @@ defmodule KPureAdmin.Components.Layout do
         <.sidebar_item href="/tables-lazy" icon="⚡" label="Lazy Loading" />
       </.sidebar_submenu>
   """
+  attr(:id, :string, default: nil)
   attr(:icon, :string, default: nil)
   attr(:label, :string, required: true)
   attr(:is_open, :boolean, default: false)
@@ -550,18 +551,28 @@ defmodule KPureAdmin.Components.Layout do
   slot(:inner_block, required: true)
 
   def sidebar_submenu(assigns) do
+    assigns =
+      assign_new(assigns, :submenu_id, fn ->
+        assigns[:id] || "submenu-#{System.unique_integer([:positive])}"
+      end)
+
     ~H"""
-    <li class={build_classes("pa-sidebar__item", [{"pa-sidebar__item--open", @is_open}], @class)}>
+    <li
+      class={build_classes("pa-sidebar__item", [{"pa-sidebar__item--open", @is_open}], @class)}
+      phx-hook="PureAdminSidebarSubmenu"
+      id={"#{@submenu_id}-wrapper"}
+      data-has-active-page={to_string(@is_open)}
+    >
       <button
         class="pa-sidebar__toggle"
-        phx-click={toggle_submenu()}
+        phx-click={toggle_submenu(@submenu_id)}
         {@rest}
       >
         <span :if={@icon} class="pa-sidebar__icon"><i class={@icon}></i></span>
         <span class="pa-sidebar__label"><%= @label %></span>
         <span class="pa-sidebar__chevron">&#8250;</span>
       </button>
-      <ul class={build_classes("pa-sidebar__submenu", [{"pa-sidebar__submenu--open", @is_open}])}>
+      <ul id={@submenu_id} class={build_classes("pa-sidebar__submenu", [{"pa-sidebar__submenu--open", @is_open}])}>
         <%= render_slot(@inner_block) %>
       </ul>
     </li>
@@ -691,6 +702,11 @@ defmodule KPureAdmin.Components.Layout do
         if(localStorage.getItem('sidebar-hidden')==='true')b.classList.add('sidebar-hidden');
         if(localStorage.getItem('compact-mode')==='true')b.classList.add('compact-mode');
         if(localStorage.getItem('rtl-mode')==='true')h.setAttribute('dir','rtl');
+        var ss=localStorage.getItem('pa-sidebar-submenus');
+        if(ss){try{var sm=JSON.parse(ss);var r=[];for(var id in sm){if(sm[id]){
+        r.push('#'+id+'-wrapper>.pa-sidebar__submenu{display:block}');
+        r.push('#'+id+'-wrapper>.pa-sidebar__chevron,#'+id+'-wrapper .pa-sidebar__chevron{transform:rotate(90deg)}');
+        }}if(r.length){var st=document.createElement('style');st.id='pa-submenu-preload';st.textContent=r.join('');document.head.appendChild(st)}}catch(e){}}
       })();
     </script>
     """
@@ -705,10 +721,10 @@ defmodule KPureAdmin.Components.Layout do
   end
 
   @doc "JS command to toggle a submenu open/closed."
-  @spec toggle_submenu() :: JS.t()
-  def toggle_submenu do
+  @spec toggle_submenu(String.t()) :: JS.t()
+  def toggle_submenu(submenu_id) do
     %JS{}
-    |> JS.toggle_class("pa-sidebar__item--open")
-    |> JS.toggle_class("pa-sidebar__submenu--open", to: ".pa-sidebar__submenu")
+    |> JS.toggle_class("pa-sidebar__item--open", to: {:closest, ".pa-sidebar__item"})
+    |> JS.toggle_class("pa-sidebar__submenu--open", to: "##{submenu_id}")
   end
 end

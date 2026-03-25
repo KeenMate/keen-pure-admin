@@ -496,95 +496,95 @@ defmodule DemoWeb.Live.InputsLive do
     <%!-- CSS Classes Reference --%>
     <.card title_text="CSS Classes Reference">
       <.heading level={4}>Text Inputs</.heading>
-      <ul class="pa-list-basic--compact">
+      <.basic_list spacing="compact">
         <li><code>pa-input</code> - Base input styling</li>
         <li><code>pa-input--xs</code> - Extra small input</li>
         <li><code>pa-input--sm</code> - Small input</li>
         <li><code>pa-input--lg</code> - Large input</li>
         <li><code>pa-input--xl</code> - Extra large input</li>
-      </ul>
+      </.basic_list>
 
       <.heading level={4} class="mt-4">Select Dropdowns</.heading>
-      <ul class="pa-list-basic--compact">
+      <.basic_list spacing="compact">
         <li><code>pa-select</code> - Base select styling</li>
         <li><code>pa-select--xs</code> - Extra small select</li>
         <li><code>pa-select--sm</code> - Small select</li>
         <li><code>pa-select--lg</code> - Large select</li>
         <li><code>pa-select--xl</code> - Extra large select</li>
-      </ul>
+      </.basic_list>
 
       <.heading level={4} class="mt-4">Textareas</.heading>
-      <ul class="pa-list-basic--compact">
+      <.basic_list spacing="compact">
         <li><code>pa-textarea</code> - Base textarea styling</li>
         <li><code>pa-textarea--xs</code> - Extra small textarea</li>
         <li><code>pa-textarea--sm</code> - Small textarea</li>
         <li><code>pa-textarea--lg</code> - Large textarea</li>
         <li><code>pa-textarea--xl</code> - Extra large textarea</li>
-      </ul>
+      </.basic_list>
 
       <.heading level={4} class="mt-4">Input Groups</.heading>
-      <ul class="pa-list-basic--compact">
+      <.basic_list spacing="compact">
         <li><code>pa-input-group</code> - Container for input with addons</li>
         <li><code>pa-input-group__prepend</code> - Addon before input</li>
         <li><code>pa-input-group__append</code> - Addon after input</li>
         <li><code>pa-input-group__button</code> - Button addon</li>
-      </ul>
+      </.basic_list>
 
       <.heading level={4} class="mt-4">Form Layout</.heading>
-      <ul class="pa-list-basic--compact">
+      <.basic_list spacing="compact">
         <li><code>pa-form</code> - Form container with label styling</li>
         <li><code>pa-form-group</code> - Form field container with spacing</li>
         <li><code>pa-form-group--horizontal</code> - Horizontal label/input layout</li>
         <li><code>pa-form-actions</code> - Container for form buttons</li>
-      </ul>
+      </.basic_list>
 
       <.heading level={4} class="mt-4">Validation States (on form-group)</.heading>
-      <ul class="pa-list-basic--compact">
+      <.basic_list spacing="compact">
         <li><code>pa-form-group--success</code> - Success state (green border)</li>
         <li><code>pa-form-group--warning</code> - Warning state (yellow border)</li>
         <li><code>pa-form-group--error</code> - Error state (red border)</li>
-      </ul>
+      </.basic_list>
 
       <.heading level={4} class="mt-4">Validation States (on input)</.heading>
-      <ul class="pa-list-basic--compact">
+      <.basic_list spacing="compact">
         <li><code>pa-input--success</code>, <code>pa-select--success</code>, <code>pa-textarea--success</code> - Success state</li>
         <li><code>pa-input--warning</code>, <code>pa-select--warning</code>, <code>pa-textarea--warning</code> - Warning state</li>
         <li><code>pa-input--error</code>, <code>pa-select--error</code>, <code>pa-textarea--error</code> - Error state</li>
-      </ul>
+      </.basic_list>
 
       <.heading level={4} class="mt-4">Theme Color Variants (on input)</.heading>
-      <ul class="pa-list-basic--compact">
+      <.basic_list spacing="compact">
         <li><code>pa-input--color-1</code> through <code>pa-input--color-9</code> - Theme color slots</li>
         <li><code>pa-select--color-1</code> through <code>pa-select--color-9</code> - Theme color slots</li>
         <li><code>pa-textarea--color-1</code> through <code>pa-textarea--color-9</code> - Theme color slots</li>
-      </ul>
+      </.basic_list>
 
       <.heading level={4} class="mt-4">Help Text</.heading>
-      <ul class="pa-list-basic--compact">
+      <.basic_list spacing="compact">
         <li><code>pa-form-help</code> - Help text below input</li>
         <li><code>pa-form-help--success</code> - Success colored help text</li>
         <li><code>pa-form-help--warning</code> - Warning colored help text</li>
         <li><code>pa-form-help--error</code> - Error colored help text</li>
         <li><code>pa-form-help--color-1</code> through <code>pa-form-help--color-9</code> - Theme color slots</li>
-      </ul>
+      </.basic_list>
 
       <.heading level={4} class="mt-4">Checkboxes</.heading>
-      <ul class="pa-list-basic--compact">
+      <.basic_list spacing="compact">
         <li><code>pa-checkbox-group</code> - Container for multiple checkboxes</li>
         <li><code>pa-checkbox</code> - Checkbox wrapper (label element)</li>
         <li><code>pa-checkbox__box</code> - Custom checkbox visual</li>
         <li><code>pa-checkbox__label</code> - Checkbox label text</li>
         <li><code>pa-checkbox--xs</code> through <code>pa-checkbox--xl</code> - Size variants</li>
         <li><code>pa-checkbox--disabled</code> - Disabled state</li>
-      </ul>
+      </.basic_list>
 
       <.heading level={4} class="mt-4">Radio Buttons</.heading>
-      <ul class="pa-list-basic--compact">
+      <.basic_list spacing="compact">
         <li><code>pa-radio-group</code> - Container for multiple radios</li>
         <li><code>pa-radio</code> - Radio button wrapper (label element)</li>
         <li><code>pa-radio__label</code> - Radio label text</li>
         <li><code>pa-radio--xs</code> through <code>pa-radio--xl</code> - Size variants</li>
-      </ul>
+      </.basic_list>
     </.card>
     """
   end

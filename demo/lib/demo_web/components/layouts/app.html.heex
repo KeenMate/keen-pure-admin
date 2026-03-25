@@ -7,32 +7,32 @@
       </.navbar_brand>
       <.navbar_nav>
         <.navbar_nav_item href="/">Dashboard</.navbar_nav_item>
-        <.navbar_nav_item href="/buttons" has_dropdown>
+        <.navbar_nav_item href="/components/buttons" has_dropdown>
           Components
           <:dropdown>
             <.navbar_dropdown>
-              <.navbar_nav_item href="/buttons">Buttons</.navbar_nav_item>
-              <.navbar_nav_item href="/cards">Cards</.navbar_nav_item>
-              <.navbar_nav_item href="/tabs">Tabs</.navbar_nav_item>
+              <.navbar_nav_item href="/components/buttons">Buttons</.navbar_nav_item>
+              <.navbar_nav_item href="/components/cards">Cards</.navbar_nav_item>
+              <.navbar_nav_item href="/components/tabs">Tabs</.navbar_nav_item>
               <.navbar_nav_item has_dropdown>
                 More ›
                 <:dropdown>
                   <.navbar_dropdown is_level2>
-                    <.navbar_nav_item href="/badges">Badges</.navbar_nav_item>
-                    <.navbar_nav_item href="/modals">Modals</.navbar_nav_item>
-                    <.navbar_nav_item href="/modal-dialogs">Modal Dialogs</.navbar_nav_item>
-                    <.navbar_nav_item href="/popconfirm">Popconfirm</.navbar_nav_item>
-                    <.navbar_nav_item href="/command-palette">Command Palette</.navbar_nav_item>
-                    <.navbar_nav_item href="/data-display">Data Display</.navbar_nav_item>
-                    <.navbar_nav_item href="/data-display-2">Data Display 2</.navbar_nav_item>
-                    <.navbar_nav_item href="/data-visualization">Data Visualization</.navbar_nav_item>
-                    <.navbar_nav_item href="/detail-panel">Detail Panel</.navbar_nav_item>
-                    <.navbar_nav_item href="/loaders">Loaders</.navbar_nav_item>
-                    <.navbar_nav_item href="/lists">Lists</.navbar_nav_item>
-                    <.navbar_nav_item href="/code">Code</.navbar_nav_item>
-                    <.navbar_nav_item href="/callouts">Callouts</.navbar_nav_item>
-                    <.navbar_nav_item href="/typography">Typography</.navbar_nav_item>
-                    <.navbar_nav_item href="/stats">Stats</.navbar_nav_item>
+                    <.navbar_nav_item href="/components/badges">Badges</.navbar_nav_item>
+                    <.navbar_nav_item href="/components/modals">Modals</.navbar_nav_item>
+                    <.navbar_nav_item href="/components/modal-dialogs">Modal Dialogs</.navbar_nav_item>
+                    <.navbar_nav_item href="/components/popconfirm">Popconfirm</.navbar_nav_item>
+                    <.navbar_nav_item href="/components/command-palette">Command Palette</.navbar_nav_item>
+                    <.navbar_nav_item href="/components/data-display">Data Display</.navbar_nav_item>
+                    <.navbar_nav_item href="/components/data-display-2">Data Display 2</.navbar_nav_item>
+                    <.navbar_nav_item href="/components/data-visualization">Data Visualization</.navbar_nav_item>
+                    <.navbar_nav_item href="/components/detail-panel">Detail Panel</.navbar_nav_item>
+                    <.navbar_nav_item href="/components/loaders">Loaders</.navbar_nav_item>
+                    <.navbar_nav_item href="/components/lists">Lists</.navbar_nav_item>
+                    <.navbar_nav_item href="/components/code">Code</.navbar_nav_item>
+                    <.navbar_nav_item href="/components/callouts">Callouts</.navbar_nav_item>
+                    <.navbar_nav_item href="/components/typography">Typography</.navbar_nav_item>
+                    <.navbar_nav_item href="/components/stats">Stats</.navbar_nav_item>
                   </.navbar_dropdown>
                 </:dropdown>
               </.navbar_nav_item>
@@ -49,8 +49,8 @@
     </:center>
     <:end_>
       <.navbar_nav position="end">
-        <.navbar_nav_item href="/alerts">Alerts</.navbar_nav_item>
-        <.navbar_nav_item href="/tables">Tables</.navbar_nav_item>
+        <.navbar_nav_item href="/components/alerts">Alerts</.navbar_nav_item>
+        <.navbar_nav_item href="/tables/standard">Tables</.navbar_nav_item>
       </.navbar_nav>
       <.notifications count={3}>
         <.notification_item variant="primary" icon="fa-solid fa-file-pen" is_unread>
@@ -92,44 +92,62 @@
         is_active={@current_path == "/forms"}
       />
 
-      <.sidebar_submenu label="Components" icon="fa-solid fa-puzzle-piece" is_open>
-        <.sidebar_item label="Buttons" href="/buttons" is_active={@current_path == "/buttons"} />
-        <.sidebar_item label="Inputs" href="/inputs" is_active={@current_path == "/inputs"} />
-        <.sidebar_item label="Validations" href="/validations" is_active={@current_path == "/validations"} />
-        <.sidebar_item label="Cards" href="/cards" is_active={@current_path == "/cards"} />
-        <.sidebar_item label="Grid System" href="/grid" is_active={@current_path == "/grid"} />
-        <.sidebar_item label="Tabs" href="/tabs" is_active={@current_path == "/tabs"} />
-        <.sidebar_item label="Badges" href="/badges" is_active={@current_path == "/badges"} />
-        <.sidebar_item label="Lists" href="/lists" is_active={@current_path == "/lists"} />
-        <.sidebar_item label="Checkbox Lists" href="/checkbox-lists" is_active={@current_path == "/checkbox-lists"} />
-        <.sidebar_item label="Code" href="/code" is_active={@current_path == "/code"} />
-        <.sidebar_item label="Alerts" href="/alerts" is_active={@current_path == "/alerts"} />
-        <.sidebar_item label="Callouts" href="/callouts" is_active={@current_path == "/callouts"} />
-        <.sidebar_item label="Toasts" href="/toasts" is_active={@current_path == "/toasts"} />
-        <.sidebar_item label="Loaders" href="/loaders" is_active={@current_path == "/loaders"} />
-        <.sidebar_item label="Pagers" href="/pagers" is_active={@current_path == "/pagers"} />
-        <.sidebar_item label="Tooltips" href="/tooltips" is_active={@current_path == "/tooltips"} />
-        <.sidebar_item label="Modals" href="/modals" is_active={@current_path == "/modals"} />
-        <.sidebar_item label="Modal Dialogs" href="/modal-dialogs" is_active={@current_path == "/modal-dialogs"} />
-        <.sidebar_item label="Popconfirm" href="/popconfirm" is_active={@current_path == "/popconfirm"} />
-        <.sidebar_item label="Command Palette" href="/command-palette" is_active={@current_path == "/command-palette"} />
-        <.sidebar_item label="Data Display" href="/data-display" is_active={@current_path == "/data-display"} />
-        <.sidebar_item label="Data Display 2" href="/data-display-2" is_active={@current_path == "/data-display-2"} />
-        <.sidebar_item label="Data Visualization" href="/data-visualization" is_active={@current_path == "/data-visualization"} />
-        <.sidebar_item label="Detail Panel" href="/detail-panel" is_active={@current_path == "/detail-panel"} />
-        <.sidebar_item label="Stats" href="/stats" is_active={@current_path == "/stats"} />
-        <.sidebar_item label="Typography" href="/typography" is_active={@current_path == "/typography"} />
+      <.sidebar_submenu id="components" label="Components" icon="fa-solid fa-puzzle-piece" is_open={String.starts_with?(@current_path, "/components")}>
+        <.sidebar_item label="Buttons" href="/components/buttons" is_active={@current_path == "/components/buttons"} />
+        <.sidebar_item label="Inputs" href="/components/inputs" is_active={@current_path == "/components/inputs"} />
+        <.sidebar_item label="Validations" href="/components/validations" is_active={@current_path == "/components/validations"} />
+        <.sidebar_item label="Cards" href="/components/cards" is_active={@current_path == "/components/cards"} />
+        <.sidebar_item label="Grid System" href="/components/grid" is_active={@current_path == "/components/grid"} />
+        <.sidebar_item label="Tabs" href="/components/tabs" is_active={@current_path == "/components/tabs"} />
+        <.sidebar_item label="Badges" href="/components/badges" is_active={@current_path == "/components/badges"} />
+        <.sidebar_item label="Lists" href="/components/lists" is_active={@current_path == "/components/lists"} />
+        <.sidebar_item label="Checkbox Lists" href="/components/checkbox-lists" is_active={@current_path == "/components/checkbox-lists"} />
+        <.sidebar_item label="Code" href="/components/code" is_active={@current_path == "/components/code"} />
+        <.sidebar_item label="Alerts" href="/components/alerts" is_active={@current_path == "/components/alerts"} />
+        <.sidebar_item label="Callouts" href="/components/callouts" is_active={@current_path == "/components/callouts"} />
+        <.sidebar_item label="Toasts" href="/components/toasts" is_active={@current_path == "/components/toasts"} />
+        <.sidebar_item label="Loaders" href="/components/loaders" is_active={@current_path == "/components/loaders"} />
+        <.sidebar_item label="Pagers" href="/components/pagers" is_active={@current_path == "/components/pagers"} />
+        <.sidebar_item label="Tooltips" href="/components/tooltips" is_active={@current_path == "/components/tooltips"} />
+        <.sidebar_item label="Modals" href="/components/modals" is_active={@current_path == "/components/modals"} />
+        <.sidebar_item label="Modal Dialogs" href="/components/modal-dialogs" is_active={@current_path == "/components/modal-dialogs"} />
+        <.sidebar_item label="Popconfirm" href="/components/popconfirm" is_active={@current_path == "/components/popconfirm"} />
+        <.sidebar_item label="Command Palette" href="/components/command-palette" is_active={@current_path == "/components/command-palette"} />
+        <.sidebar_item label="Data Display" href="/components/data-display" is_active={@current_path == "/components/data-display"} />
+        <.sidebar_item label="Data Display 2" href="/components/data-display-2" is_active={@current_path == "/components/data-display-2"} />
+        <.sidebar_item label="Data Visualization" href="/components/data-visualization" is_active={@current_path == "/components/data-visualization"} />
+        <.sidebar_item label="Detail Panel" href="/components/detail-panel" is_active={@current_path == "/components/detail-panel"} />
+        <.sidebar_item label="Notifications" href="/components/notifications" is_active={@current_path == "/components/notifications"} />
+        <.sidebar_item label="Stats" href="/components/stats" is_active={@current_path == "/components/stats"} />
+        <.sidebar_item label="Sizing" href="/components/sizing" is_active={@current_path == "/components/sizing"} />
+        <.sidebar_item label="Typography" href="/components/typography" is_active={@current_path == "/components/typography"} />
       </.sidebar_submenu>
 
-      <.sidebar_submenu label="Tables" icon="fa-solid fa-table">
-        <.sidebar_item label="Standard Tables" href="/tables" is_active={@current_path == "/tables"} />
-        <.sidebar_item label="Table Sizing" href="/tables-sizing" is_active={@current_path == "/tables-sizing"} />
-        <.sidebar_item label="Responsive" href="/tables-responsive" is_active={@current_path == "/tables-responsive"} />
-        <.sidebar_item label="Filters" href="/table-filters" is_active={@current_path == "/table-filters"} />
+      <.sidebar_submenu id="design" label="Design" icon="fa-solid fa-palette" is_open={String.starts_with?(@current_path, "/design")}>
+        <.sidebar_item label="Colors" href="/design/colors" is_active={@current_path == "/design/colors"} />
+        <.sidebar_item label="Theme Variables" href="/design/theme-variables" is_active={@current_path == "/design/theme-variables"} />
+        <.sidebar_item label="CSS Helpers" href="/design/helpers" is_active={@current_path == "/design/helpers"} />
+        <.sidebar_item label="Layouts" href="/design/layouts" is_active={@current_path == "/design/layouts"} />
       </.sidebar_submenu>
 
-      <.sidebar_submenu label="Timeline" icon="fa-solid fa-clock-rotate-left">
-        <.sidebar_item label="Timeline" href="/timeline" is_active={@current_path == "/timeline"} />
+      <.sidebar_submenu id="tables" label="Tables" icon="fa-solid fa-table" is_open={String.starts_with?(@current_path, "/tables")}>
+        <.sidebar_item label="Standard Tables" href="/tables/standard" is_active={@current_path == "/tables/standard"} />
+        <.sidebar_item label="Table Sizing" href="/tables/sizing" is_active={@current_path == "/tables/sizing"} />
+        <.sidebar_item label="Responsive" href="/tables/responsive" is_active={@current_path == "/tables/responsive"} />
+        <.sidebar_item label="Filters" href="/tables/filters" is_active={@current_path == "/tables/filters"} />
+        <.sidebar_item label="Multi-Select" href="/tables/multi-select" is_active={@current_path == "/tables/multi-select"} />
+        <.sidebar_item label="Comparison" href="/tables/comparison" is_active={@current_path == "/tables/comparison"} />
+      </.sidebar_submenu>
+
+      <.sidebar_submenu id="timeline" label="Timeline" icon="fa-solid fa-clock-rotate-left" is_open={String.starts_with?(@current_path, "/timeline")}>
+        <.sidebar_item label="Simple" href="/timeline/simple" is_active={@current_path == "/timeline/simple"} />
+        <.sidebar_item label="Block" href="/timeline/block" is_active={@current_path == "/timeline/block"} />
+        <.sidebar_item label="Feed" href="/timeline/feed" is_active={@current_path == "/timeline/feed"} />
+        <.sidebar_item label="Advanced" href="/timeline/advanced" is_active={@current_path == "/timeline/advanced"} />
+      </.sidebar_submenu>
+
+      <.sidebar_submenu id="virtual-scroll" label="Virtual Scroll" icon="fa-solid fa-arrows-up-down" is_open={String.starts_with?(@current_path, "/virtual-scroll")}>
+        <.sidebar_item label="Demo" href="/virtual-scroll/demo" is_active={@current_path == "/virtual-scroll/demo"} />
       </.sidebar_submenu>
     </.sidebar>
 
@@ -144,7 +162,7 @@
           <span>Pure Admin LiveView Demo &copy; 2024 KeenMate</span>
         </:start>
         <:end_>
-          <span>v0.1.0</span>
+          <span>v1.0.0-rc.1</span>
         </:end_>
       </.footer>
     </.layout_content>
@@ -214,4 +232,6 @@
   </:footer_>
 </.profile_panel>
 
-<.settings_panel />
+<.settings_panel default_theme="audi" />
+
+<.toast_container id="toasts" position="top-end" is_hook />

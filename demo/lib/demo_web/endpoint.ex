@@ -24,8 +24,10 @@ defmodule DemoWeb.Endpoint do
     at: "/",
     from: :demo,
     gzip: not code_reloading?,
-    only: DemoWeb.static_paths(),
-    raise_on_missing_only: code_reloading?
+    only: DemoWeb.static_paths()
+
+  # On-demand theme CSS downloads from pureadmin.io (for themes not bundled at build time)
+  plug DemoWeb.ThemePlug
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.

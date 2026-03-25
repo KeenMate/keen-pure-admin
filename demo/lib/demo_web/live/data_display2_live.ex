@@ -751,33 +751,16 @@ defmodule DemoWeb.Live.DataDisplay2Live do
 
       <%!-- Items: regular table --%>
       <h4 class="mb-2">Items</h4>
-      <table class="pa-table pa-table--hover pa-table--striped mb-8">
-        <thead>
-          <tr>
-            <th>Product</th>
-            <th>SKU</th>
-            <th style="text-align: right;">Qty</th>
-            <th style="text-align: right;">Price</th>
-            <th style="text-align: right;">Total</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Mechanical Keyboard</td>
-            <td>KB-MX-BRN</td>
-            <td style="text-align: right;">2</td>
-            <td style="text-align: right;">$149</td>
-            <td style="text-align: right;">$298</td>
-          </tr>
-          <tr>
-            <td>27" 4K Monitor</td>
-            <td>MON-27-4K</td>
-            <td style="text-align: right;">4</td>
-            <td style="text-align: right;">$449</td>
-            <td style="text-align: right;">$1,796</td>
-          </tr>
-        </tbody>
-      </table>
+      <.table rows={[
+        %{product: "Mechanical Keyboard", sku: "KB-MX-BRN", qty: "2", price: "$149", total: "$298"},
+        %{product: "27\" 4K Monitor", sku: "MON-27-4K", qty: "4", price: "$449", total: "$1,796"}
+      ]} is_striped is_hover class="mb-8">
+        <:col :let={row} label="Product">{row.product}</:col>
+        <:col :let={row} label="SKU">{row.sku}</:col>
+        <:col :let={row} label="Qty" align="end">{row.qty}</:col>
+        <:col :let={row} label="Price" align="end">{row.price}</:col>
+        <:col :let={row} label="Total" align="end">{row.total}</:col>
+      </.table>
 
       <%!-- Totals: Dot leaders --%>
       <div style="max-width: 28rem; margin-inline-start: auto;">

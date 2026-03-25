@@ -1,0 +1,37 @@
+# Build artifacts
+_build/
+deps/
+demo/_build/
+demo/deps/
+
+# Node
+node_modules/
+demo/assets/node_modules/
+
+# Generated files
+*.beam
+*.ez
+
+# IDE / editor
+.elixir_ls/
+.vscode/
+.idea/
+
+# Git
+.git/
+.gitignore
+
+# Docker
+**/Dockerfile
+**/.dockerignore
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test
+cover/
+test/
+
+# Documentation
+doc/

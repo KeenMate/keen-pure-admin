@@ -49,25 +49,22 @@ defmodule DemoWeb.Live.ToastsLive do
 
   def handle_event("start_task", _params, socket) do
     # Simulate a long-running background task (3-8 seconds)
-    pid = self()
     Task.start(fn ->
       duration = Enum.random(3000..8000)
       Process.sleep(duration)
       seconds = Float.round(duration / 1000, 1)
-      send(pid, {:task_complete, seconds})
+
+      Phoenix.PubSub.broadcast(
+        Demo.PubSub,
+        "toasts",
+        {:push_toast, "success", "Task Complete!", "Background task finished in #{seconds}s. This toast appeared wherever you are.", duration: 0}
+      )
     end)
 
     {:noreply,
       socket
       |> assign(:task_running, true)
       |> PureToast.push_toast("info", "Task Started", "Processing in background... Navigate away and come back — the toast will appear when done.", duration: 3000)}
-  end
-
-  def handle_info({:task_complete, seconds}, socket) do
-    {:noreply,
-      socket
-      |> assign(:task_running, false)
-      |> PureToast.push_toast("success", "Task Complete!", "Background task finished in #{seconds}s. This toast appeared wherever you are.", duration: 0)}
   end
 
   def render(assigns) do

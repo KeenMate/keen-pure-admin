@@ -403,33 +403,16 @@ defmodule DemoWeb.Live.DataDisplayLive do
       </.grid>
 
       <.field_group title="Items" style="margin-top: 2.4rem;">
-        <table class="pa-table pa-table--hover pa-table--striped">
-          <thead>
-            <tr>
-              <th>Product</th>
-              <th>SKU</th>
-              <th style="text-align: right;">Qty</th>
-              <th style="text-align: right;">Price</th>
-              <th style="text-align: right;">Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Mechanical Keyboard</td>
-              <td>KB-MX-BRN</td>
-              <td style="text-align: right;">2</td>
-              <td style="text-align: right;">$149</td>
-              <td style="text-align: right;">$298</td>
-            </tr>
-            <tr>
-              <td>27" 4K Monitor</td>
-              <td>MON-27-4K</td>
-              <td style="text-align: right;">4</td>
-              <td style="text-align: right;">$449</td>
-              <td style="text-align: right;">$1,796</td>
-            </tr>
-          </tbody>
-        </table>
+        <.table rows={[
+          %{product: "Mechanical Keyboard", sku: "KB-MX-BRN", qty: "2", price: "$149", total: "$298"},
+          %{product: "27\" 4K Monitor", sku: "MON-27-4K", qty: "4", price: "$449", total: "$1,796"}
+        ]} is_striped is_hover>
+          <:col :let={row} label="Product">{row.product}</:col>
+          <:col :let={row} label="SKU">{row.sku}</:col>
+          <:col :let={row} label="Qty" align="end">{row.qty}</:col>
+          <:col :let={row} label="Price" align="end">{row.price}</:col>
+          <:col :let={row} label="Total" align="end">{row.total}</:col>
+        </.table>
       </.field_group>
 
       <.fields is_horizontal style="max-width: 25rem; margin-left: auto; margin-top: 1.2rem;">
@@ -474,30 +457,30 @@ defmodule DemoWeb.Live.DataDisplayLive do
           <.grid>
             <.column size="1-2">
               <h4>Field Elements</h4>
-              <ul class="pa-list-basic pa-list-basic--compact">
+              <.basic_list spacing="compact">
                 <li><code>pa-field</code> - Label-value pair</li>
                 <li><code>pa-field__label</code> - Label element</li>
                 <li><code>pa-field__value</code> - Value element</li>
                 <li><code>pa-field--full</code> - Span all grid columns</li>
-              </ul>
+              </.basic_list>
 
               <h4 class="mt-4">Container &amp; Groups</h4>
-              <ul class="pa-list-basic pa-list-basic--compact">
+              <.basic_list spacing="compact">
                 <li><code>pa-fields</code> - Field container</li>
                 <li><code>pa-field-group</code> - Section wrapper</li>
                 <li><code>pa-field-group__title</code> - Section title</li>
-              </ul>
+              </.basic_list>
 
               <h4 class="mt-4">Grid Columns</h4>
-              <ul class="pa-list-basic pa-list-basic--compact">
+              <.basic_list spacing="compact">
                 <li><code>pa-fields--cols-2</code> - 2 columns</li>
                 <li><code>pa-fields--cols-3</code> - 3 columns</li>
                 <li><code>pa-fields--cols-4</code> - 4 columns</li>
-              </ul>
+              </.basic_list>
             </.column>
             <.column size="1-2">
               <h4>Layout Modifiers</h4>
-              <ul class="pa-list-basic pa-list-basic--compact">
+              <.basic_list spacing="compact">
                 <li><code>pa-fields--horizontal</code> - Label left, value right</li>
                 <li><code>pa-fields--table</code> - Table-like widths</li>
                 <li><code>pa-fields--bordered</code> - Row separators</li>
@@ -509,15 +492,15 @@ defmodule DemoWeb.Live.DataDisplayLive do
                 <li><code>pa-fields--filled</code> - Background panel</li>
                 <li><code>pa-fields--color-{1-9}</code> - Border color</li>
                 <li><code>pa-fields--no-border</code> - Remove border</li>
-              </ul>
+              </.basic_list>
 
               <h4 class="mt-4">Combining</h4>
-              <ul class="pa-list-basic pa-list-basic--compact">
+              <.basic_list spacing="compact">
                 <li><code>--table --bordered</code></li>
                 <li><code>--horizontal --compact</code></li>
                 <li><code>--filled --cols-2</code></li>
                 <li><code>--filled --color-1</code> (tinted bg)</li>
-              </ul>
+              </.basic_list>
             </.column>
           </.grid>
         </.card>
