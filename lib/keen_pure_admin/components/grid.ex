@@ -26,7 +26,7 @@ defmodule KPureAdmin.Components.Grid do
   """
   attr(:is_no_gutter, :boolean, default: false)
   attr(:is_same_height, :boolean, default: false)
-  attr(:align, :string, default: nil, values: [nil, "center", "end", "between", "around"])
+  attr(:align, :string, default: nil, values: [nil, "center", "end", "between", "around", "stretch"])
   attr(:valign, :string, default: nil, values: [nil, "top", "middle", "bottom"])
   attr(:class, :string, default: nil)
   attr(:rest, :global)
@@ -73,6 +73,9 @@ defmodule KPureAdmin.Components.Grid do
   attr(:lg, :string, default: nil, doc: "Size at lg breakpoint (>=992px)")
   attr(:xl, :string, default: nil, doc: "Size at xl breakpoint (>=1200px)")
   attr(:offset, :string, default: nil, doc: "Offset from left (e.g. '25', '35')")
+  attr(:is_no_padding, :boolean, default: false, doc: "Remove column padding")
+  attr(:is_grow, :boolean, default: false, doc: "Flex grow to fill available space")
+  attr(:is_shrink, :boolean, default: false, doc: "Flex shrink to fit content")
   attr(:class, :string, default: nil)
   attr(:rest, :global)
   slot(:inner_block, required: true)
@@ -94,6 +97,9 @@ defmodule KPureAdmin.Components.Grid do
         assigns.lg && "pa-col-lg-#{assigns.lg}",
         assigns.xl && "pa-col-xl-#{assigns.xl}",
         assigns.offset && "pa-offset-#{assigns.offset}",
+        assigns.is_no_padding && "pa-col--no-padding",
+        assigns.is_grow && "pa-col--grow",
+        assigns.is_shrink && "pa-col--shrink",
         assigns.class
       ]
       |> Enum.reject(&is_nil/1)
