@@ -265,7 +265,7 @@ Client-side settings panel for theme mode, layout width, sidebar options, fonts,
 
 | Component | Description |
 |---|---|
-| `button/1`, `split_button/1` | Buttons with variants, sizes, loading state, split dropdown |
+| `button/1`, `split_button/1`, `button_group/1` | Buttons with variants, sizes, loading, split dropdown, responsive groups |
 | `badge/1`, `label/1`, `composite_badge/1`, `badge_group/1` | Badges, labels, composite badges with expand/collapse |
 | `alert/1` | Dismissible alerts |
 | `callout/1` | Callout/info boxes |

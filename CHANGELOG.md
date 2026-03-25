@@ -46,8 +46,10 @@ First release candidate. Consolidates all v0.x development into a stable API.
 ### Components
 
 - **`list_item/1`** — added `:meta` slot for rich meta content (badges, icons) alongside existing `meta_text` string attr
-- **`timeline/1`** — fixed alternating variant to use `<div>` container and correct BEM classes (`pa-timeline__date` + `pa-timeline__icon` instead of `pa-timeline__time` + `pa-timeline__marker`)
+- **`timeline/1`** — fixed alternating variant to use `<div>` container and correct BEM classes (`pa-timeline__date` + `pa-timeline__icon` instead of `pa-timeline__time` + `pa-timeline__marker`). Added `align` attr (`"start"`, `"end"`) and `is_keep_layout` for alternating layout control — replaces raw `class="pa-timeline--start"` usage
 - **`timeline_item/1`** — auto-detects layout from props: block/alternating pattern when `icon_text` or `:icon` is provided, simple pattern otherwise
+- **`card/1`** — added `is_bordered` attr for bordered card styling — replaces raw `class="pa-card--bordered"` usage
+- **`button_group/1`** — added `responsive` attr (`"sm-vertical"`, `"md-horizontal"`, etc.) for responsive direction changes at breakpoints — replaces raw `class="pa-btn-group--md-vertical"` usage
 
 ### Demo
 
