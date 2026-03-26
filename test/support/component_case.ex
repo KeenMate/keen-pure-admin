@@ -1,13 +1,13 @@
-defmodule KPureAdmin.ComponentCase do
+defmodule PureAdmin.ComponentCase do
   @moduledoc """
-  Test case for KPureAdmin component tests.
+  Test case for PureAdmin component tests.
 
   Provides helpers for rendering and asserting on component HTML output.
 
-      use KPureAdmin.ComponentCase
+      use PureAdmin.ComponentCase
 
       test "renders a button" do
-        html = render_component(&KPureAdmin.Components.Button.button/1, variant: "primary") do
+        html = render_component(&PureAdmin.Components.Button.button/1, variant: "primary") do
           "Click me"
         end
 

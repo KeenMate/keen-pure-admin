@@ -1,7 +1,7 @@
-defmodule KPureAdmin.Components.ButtonTest do
-  use KPureAdmin.ComponentCase, async: true
+defmodule PureAdmin.Components.ButtonTest do
+  use PureAdmin.ComponentCase, async: true
 
-  alias KPureAdmin.Components.Button
+  alias PureAdmin.Components.Button
 
   describe "button/1" do
     test "renders default primary button" do

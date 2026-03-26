@@ -1,7 +1,7 @@
-defmodule KPureAdmin.Components.GridTest do
-  use KPureAdmin.ComponentCase, async: true
+defmodule PureAdmin.Components.GridTest do
+  use PureAdmin.ComponentCase, async: true
 
-  alias KPureAdmin.Components.Grid
+  alias PureAdmin.Components.Grid
 
   describe "grid/1" do
     test "renders basic row" do

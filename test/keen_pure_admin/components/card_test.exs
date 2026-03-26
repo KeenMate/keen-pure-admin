@@ -1,7 +1,7 @@
-defmodule KPureAdmin.Components.CardTest do
-  use KPureAdmin.ComponentCase, async: true
+defmodule PureAdmin.Components.CardTest do
+  use PureAdmin.ComponentCase, async: true
 
-  alias KPureAdmin.Components.Card
+  alias PureAdmin.Components.Card
 
   defp default_assigns(overrides \\ %{}) do
     Map.merge(
@@ -61,7 +61,7 @@ defmodule KPureAdmin.Components.CardTest do
 
       assert html =~ "pa-card__header"
       assert html =~ "My Title"
-      assert html =~ "pa-card__title-text"
+      assert html =~ "<h3>"
     end
 
     test "renders ghost card" do

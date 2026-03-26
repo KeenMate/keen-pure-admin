@@ -1,7 +1,7 @@
-defmodule KPureAdmin.Components.TableTest do
-  use KPureAdmin.ComponentCase, async: true
+defmodule PureAdmin.Components.TableTest do
+  use PureAdmin.ComponentCase, async: true
 
-  alias KPureAdmin.Components.Table
+  alias PureAdmin.Components.Table
 
   describe "table/1" do
     test "renders basic table" do

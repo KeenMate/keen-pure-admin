@@ -1,7 +1,7 @@
-defmodule KPureAdmin.Components.AlertTest do
-  use KPureAdmin.ComponentCase, async: true
+defmodule PureAdmin.Components.AlertTest do
+  use PureAdmin.ComponentCase, async: true
 
-  alias KPureAdmin.Components.Alert
+  alias PureAdmin.Components.Alert
 
   describe "alert/1" do
     test "renders basic alert" do

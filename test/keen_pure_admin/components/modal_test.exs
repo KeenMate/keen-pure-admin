@@ -1,7 +1,7 @@
-defmodule KPureAdmin.Components.ModalTest do
-  use KPureAdmin.ComponentCase, async: true
+defmodule PureAdmin.Components.ModalTest do
+  use PureAdmin.ComponentCase, async: true
 
-  alias KPureAdmin.Components.Modal
+  alias PureAdmin.Components.Modal
 
   describe "modal/1" do
     test "renders basic modal" do

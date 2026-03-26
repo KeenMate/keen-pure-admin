@@ -1,7 +1,7 @@
-defmodule KPureAdmin.Components.BadgeTest do
-  use KPureAdmin.ComponentCase, async: true
+defmodule PureAdmin.Components.BadgeTest do
+  use PureAdmin.ComponentCase, async: true
 
-  alias KPureAdmin.Components.Badge
+  alias PureAdmin.Components.Badge
 
   describe "badge/1" do
     test "renders default badge" do
