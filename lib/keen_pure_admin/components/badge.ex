@@ -1,10 +1,10 @@
-defmodule KPureAdmin.Components.Badge do
+defmodule PureAdmin.Components.Badge do
   @moduledoc """
   Badge, Label, CompositeBadge, and BadgeGroup components for Pure Admin.
   """
   use Phoenix.Component
 
-  import KPureAdmin.Helpers
+  import PureAdmin.Helpers
 
   # -- badge/1 --
 

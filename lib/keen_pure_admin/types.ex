@@ -1,6 +1,6 @@
-defmodule KPureAdmin.Types do
+defmodule PureAdmin.Types do
   @moduledoc """
-  Shared type definitions for KPureAdmin components.
+  Shared type definitions for PureAdmin components.
   """
 
   @type variant ::

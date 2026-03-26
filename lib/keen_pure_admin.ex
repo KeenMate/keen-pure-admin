@@ -1,8 +1,8 @@
-defmodule KPureAdmin do
+defmodule PureAdmin do
   @moduledoc """
   Phoenix LiveView component library for the Pure Admin CSS framework.
 
-  KPureAdmin wraps Pure Admin's HTML/CSS BEM patterns into Phoenix LiveView
+  PureAdmin wraps Pure Admin's HTML/CSS BEM patterns into Phoenix LiveView
   function components and LiveComponents, providing a full CoreComponents
   replacement for Phoenix applications.
 
@@ -10,7 +10,7 @@ defmodule KPureAdmin do
 
   1. Add `keen_pure_admin` to your `mix.exs` dependencies
   2. Install `@keenmate/pure-admin-core` via npm in `assets/`
-  3. Replace `import MyAppWeb.CoreComponents` with `use KPureAdmin.Components`
+  3. Replace `import MyAppWeb.CoreComponents` with `use PureAdmin.Components`
   4. Import JS hooks in `app.js`:
 
       ```javascript
@@ -20,11 +20,11 @@ defmodule KPureAdmin do
 
   ## Module Structure
 
-  - `KPureAdmin.Components` - `use` macro that imports all function components
-  - `KPureAdmin.Components.*` - Individual component modules (Button, Badge, Alert, etc.)
-  - `KPureAdmin.Live.*` - Stateful LiveComponents (CommandPalette, ToastLive, DialogService)
-  - `KPureAdmin.Helpers` - BEM class builder utilities
-  - `KPureAdmin.Config` - NimbleOptions configuration
-  - `KPureAdmin.Types` - Shared type definitions
+  - `PureAdmin.Components` - `use` macro that imports all function components
+  - `PureAdmin.Components.*` - Individual component modules (Button, Badge, Alert, etc.)
+  - `PureAdmin.Live.*` - Stateful LiveComponents (CommandPalette, ToastLive, DialogService)
+  - `PureAdmin.Helpers` - BEM class builder utilities
+  - `PureAdmin.Config` - NimbleOptions configuration
+  - `PureAdmin.Types` - Shared type definitions
   """
 end

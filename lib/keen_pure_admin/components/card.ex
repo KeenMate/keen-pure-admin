@@ -1,4 +1,4 @@
-defmodule KPureAdmin.Components.Card do
+defmodule PureAdmin.Components.Card do
   @moduledoc """
   Card components for Pure Admin.
 
@@ -7,7 +7,7 @@ defmodule KPureAdmin.Components.Card do
   """
   use Phoenix.Component
 
-  import KPureAdmin.Helpers
+  import PureAdmin.Helpers
 
   @doc """
   Renders a card with Pure Admin BEM classes.

@@ -1,4 +1,4 @@
-defmodule KPureAdmin.Components.Toast do
+defmodule PureAdmin.Components.Toast do
   @moduledoc """
   Toast notification components for Pure Admin.
 
@@ -19,7 +19,7 @@ defmodule KPureAdmin.Components.Toast do
   """
   use Phoenix.Component
 
-  import KPureAdmin.Helpers
+  import PureAdmin.Helpers
 
   @doc """
   Pushes a toast notification to the client via `push_event`.

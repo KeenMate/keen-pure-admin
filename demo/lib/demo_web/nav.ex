@@ -6,7 +6,7 @@ defmodule DemoWeb.Nav do
   import Phoenix.LiveView
   import Phoenix.Component
 
-  alias KPureAdmin.Components.Toast, as: PureToast
+  alias PureAdmin.Components.Toast, as: PureToast
 
   def on_mount(:default, _params, _session, socket) do
     Phoenix.PubSub.subscribe(Demo.PubSub, "toasts")

@@ -1,4 +1,4 @@
-defmodule KPureAdmin.Components.Grid do
+defmodule PureAdmin.Components.Grid do
   @moduledoc """
   Grid system components for Pure Admin.
 
@@ -6,7 +6,7 @@ defmodule KPureAdmin.Components.Grid do
   """
   use Phoenix.Component
 
-  import KPureAdmin.Helpers
+  import PureAdmin.Helpers
 
   @doc """
   Renders a grid row container.

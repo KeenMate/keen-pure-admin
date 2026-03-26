@@ -1,4 +1,4 @@
-# KPureAdmin
+# PureAdmin
 
 [![Hex.pm](https://img.shields.io/hexpm/v/keen_pure_admin.svg)](https://hex.pm/packages/keen_pure_admin)
 [![Hex Docs](https://img.shields.io/badge/hex-docs-blue.svg)](https://hexdocs.pm/keen_pure_admin)
@@ -54,11 +54,11 @@ mix deps.get
 
 ### 1. Import components
 
-Replace your `CoreComponents` import with `KPureAdmin.Components`:
+Replace your `CoreComponents` import with `PureAdmin.Components`:
 
 ```elixir
 # In your app's html_helpers or MyAppWeb module
-use KPureAdmin.Components
+use PureAdmin.Components
 ```
 
 ### 2. Include Pure Admin CSS
@@ -137,7 +137,7 @@ Add a toast container to your app layout for app-wide toast notifications:
 Then push toasts from any LiveView:
 
 ```elixir
-alias KPureAdmin.Components.Toast, as: PureToast
+alias PureAdmin.Components.Toast, as: PureToast
 
 socket |> PureToast.push_toast("success", "Saved!", "Changes saved successfully.")
 ```

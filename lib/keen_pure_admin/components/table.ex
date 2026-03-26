@@ -1,4 +1,4 @@
-defmodule KPureAdmin.Components.Table do
+defmodule PureAdmin.Components.Table do
   @moduledoc """
   Table components for Pure Admin.
 
@@ -6,7 +6,7 @@ defmodule KPureAdmin.Components.Table do
   """
   use Phoenix.Component
 
-  import KPureAdmin.Helpers
+  import PureAdmin.Helpers
 
   @doc """
   Renders a data table with Pure Admin BEM classes.

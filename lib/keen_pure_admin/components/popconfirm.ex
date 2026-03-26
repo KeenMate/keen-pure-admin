@@ -1,4 +1,4 @@
-defmodule KPureAdmin.Components.Popconfirm do
+defmodule PureAdmin.Components.Popconfirm do
   @moduledoc """
   Popconfirm component for Pure Admin.
 
@@ -8,7 +8,7 @@ defmodule KPureAdmin.Components.Popconfirm do
   """
   use Phoenix.Component
 
-  import KPureAdmin.Helpers
+  import PureAdmin.Helpers
 
   @doc """
   Renders a popconfirm with a trigger button and confirmation dialog.

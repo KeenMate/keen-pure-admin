@@ -1,4 +1,4 @@
-defmodule KPureAdmin.Components.List do
+defmodule PureAdmin.Components.List do
   @moduledoc """
   List components for Pure Admin.
 
@@ -7,7 +7,7 @@ defmodule KPureAdmin.Components.List do
   """
   use Phoenix.Component
 
-  import KPureAdmin.Helpers
+  import PureAdmin.Helpers
 
   # ─── Basic HTML Lists ───
 

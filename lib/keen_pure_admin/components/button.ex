@@ -1,4 +1,4 @@
-defmodule KPureAdmin.Components.Button do
+defmodule PureAdmin.Components.Button do
   @moduledoc """
   Button components for Pure Admin.
 
@@ -9,7 +9,7 @@ defmodule KPureAdmin.Components.Button do
   """
   use Phoenix.Component
 
-  import KPureAdmin.Helpers
+  import PureAdmin.Helpers
 
   # -- button/1 --
 

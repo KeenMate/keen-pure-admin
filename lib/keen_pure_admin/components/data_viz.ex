@@ -1,4 +1,4 @@
-defmodule KPureAdmin.Components.DataViz do
+defmodule PureAdmin.Components.DataViz do
   @moduledoc """
   Data visualization components for Pure Admin.
 
@@ -7,7 +7,7 @@ defmodule KPureAdmin.Components.DataViz do
   """
   use Phoenix.Component
 
-  import KPureAdmin.Helpers
+  import PureAdmin.Helpers
 
   # -- progress/1 --
 

@@ -1,4 +1,4 @@
-defmodule KPureAdmin.Components.Callout do
+defmodule PureAdmin.Components.Callout do
   @moduledoc """
   Callout components for Pure Admin.
 
@@ -7,7 +7,7 @@ defmodule KPureAdmin.Components.Callout do
   """
   use Phoenix.Component
 
-  import KPureAdmin.Helpers
+  import PureAdmin.Helpers
 
   @doc """
   Renders a callout box.

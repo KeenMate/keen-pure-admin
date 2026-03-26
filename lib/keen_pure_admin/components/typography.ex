@@ -1,10 +1,10 @@
-defmodule KPureAdmin.Components.Typography do
+defmodule PureAdmin.Components.Typography do
   @moduledoc """
   Typography components for Pure Admin. (Phase 2)
   """
   use Phoenix.Component
 
-  import KPureAdmin.Helpers
+  import PureAdmin.Helpers
 
   @doc "Renders a heading (h1-h6)."
   attr(:level, :any, default: 2,

@@ -1,4 +1,4 @@
-defmodule KPureAdmin.Helpers do
+defmodule PureAdmin.Helpers do
   @moduledoc """
   BEM class builder utilities for Pure Admin components.
 
@@ -11,10 +11,10 @@ defmodule KPureAdmin.Helpers do
 
   ## Examples
 
-      iex> KPureAdmin.Helpers.build_classes("pa-btn", [{"pa-btn--primary", true}, {"pa-btn--sm", false}])
+      iex> PureAdmin.Helpers.build_classes("pa-btn", [{"pa-btn--primary", true}, {"pa-btn--sm", false}])
       "pa-btn pa-btn--primary"
 
-      iex> KPureAdmin.Helpers.build_classes("pa-btn", [{"pa-btn--primary", true}], "extra-class")
+      iex> PureAdmin.Helpers.build_classes("pa-btn", [{"pa-btn--primary", true}], "extra-class")
       "pa-btn pa-btn--primary extra-class"
   """
   @spec build_classes(String.t(), [{String.t(), boolean()}], String.t() | nil) :: String.t()
@@ -32,10 +32,10 @@ defmodule KPureAdmin.Helpers do
 
   ## Examples
 
-      iex> KPureAdmin.Helpers.maybe_modifier("pa-btn", "primary", "primary")
+      iex> PureAdmin.Helpers.maybe_modifier("pa-btn", "primary", "primary")
       "pa-btn--primary"
 
-      iex> KPureAdmin.Helpers.maybe_modifier("pa-btn", nil, nil)
+      iex> PureAdmin.Helpers.maybe_modifier("pa-btn", nil, nil)
       nil
   """
   @spec maybe_modifier(String.t(), String.t() | nil, any()) :: String.t() | nil

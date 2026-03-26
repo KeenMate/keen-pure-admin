@@ -1,4 +1,4 @@
-defmodule KPureAdmin.Components.FilterCard do
+defmodule PureAdmin.Components.FilterCard do
   @moduledoc """
   Filter card component for Pure Admin.
 
@@ -7,7 +7,7 @@ defmodule KPureAdmin.Components.FilterCard do
   """
   use Phoenix.Component
 
-  import KPureAdmin.Helpers
+  import PureAdmin.Helpers
 
   @doc """
   Renders an expandable filter card with inline filters and optional advanced section.

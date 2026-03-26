@@ -1,10 +1,10 @@
-defmodule KPureAdmin.Components.Code do
+defmodule PureAdmin.Components.Code do
   @moduledoc """
   Code display components for Pure Admin. (Phase 2)
   """
   use Phoenix.Component
 
-  import KPureAdmin.Helpers
+  import PureAdmin.Helpers
 
   @doc "Renders inline code."
   attr(:class, :string, default: nil)

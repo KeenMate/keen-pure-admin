@@ -1,9 +1,9 @@
 defmodule DemoWeb.Live.ToastsLive do
   use DemoWeb, :live_view
 
-  # push_toast is not a component function, so it's not in `use KPureAdmin.Components`
+  # push_toast is not a component function, so it's not in `use PureAdmin.Components`
   # Import it directly without conflicting with the bulk component import
-  alias KPureAdmin.Components.Toast, as: PureToast
+  alias PureAdmin.Components.Toast, as: PureToast
 
   @toast_messages %{
     "primary" => %{title: "Primary", message: "This is a primary toast notification."},

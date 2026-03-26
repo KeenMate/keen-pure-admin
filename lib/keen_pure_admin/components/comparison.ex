@@ -1,4 +1,4 @@
-defmodule KPureAdmin.Components.Comparison do
+defmodule PureAdmin.Components.Comparison do
   @moduledoc """
   Comparison table components for Pure Admin.
 
@@ -28,7 +28,7 @@ defmodule KPureAdmin.Components.Comparison do
   """
   use Phoenix.Component
 
-  import KPureAdmin.Helpers
+  import PureAdmin.Helpers
 
   # -- comparison_table/1 --
 

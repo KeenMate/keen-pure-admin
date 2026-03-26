@@ -1,4 +1,4 @@
-defmodule KPureAdmin.Components.CheckboxList do
+defmodule PureAdmin.Components.CheckboxList do
   @moduledoc """
   Checkbox list components for Pure Admin.
 
@@ -7,7 +7,7 @@ defmodule KPureAdmin.Components.CheckboxList do
   """
   use Phoenix.Component
 
-  import KPureAdmin.Helpers
+  import PureAdmin.Helpers
 
   @doc """
   Renders a low-level checkbox (input + box) without label text.

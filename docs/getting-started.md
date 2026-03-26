@@ -1,6 +1,6 @@
 # Getting Started
 
-KPureAdmin is a Phoenix LiveView component library that wraps the [Pure Admin](https://pureadmin.io) CSS framework into function components. It serves as a drop-in replacement for Phoenix's generated `CoreComponents`.
+PureAdmin is a Phoenix LiveView component library that wraps the [Pure Admin](https://pureadmin.io) CSS framework into function components. It serves as a drop-in replacement for Phoenix's generated `CoreComponents`.
 
 ## Installation
 
@@ -29,7 +29,7 @@ defp html_helpers do
     # import MyAppWeb.CoreComponents
 
     # With this:
-    use KPureAdmin.Components
+    use PureAdmin.Components
 
     alias Phoenix.LiveView.JS
     unquote(verified_routes())
@@ -124,6 +124,6 @@ Add to your root layout before `{@inner_content}` to prevent flash of unstyled c
 
 ## Next Steps
 
-- Browse the [component reference](KPureAdmin.Components.html) for all available components
+- Browse the [component reference](PureAdmin.Components.html) for all available components
 - Check the [JS hooks guide](js-hooks.html) for interactive features
 - See the [live demo](https://elixir.demo.pureadmin.io) for visual examples

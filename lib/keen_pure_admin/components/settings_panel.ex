@@ -1,4 +1,4 @@
-defmodule KPureAdmin.Components.SettingsPanel do
+defmodule PureAdmin.Components.SettingsPanel do
   @moduledoc """
   Settings panel component for Pure Admin.
 
@@ -15,7 +15,7 @@ defmodule KPureAdmin.Components.SettingsPanel do
   """
   use Phoenix.Component
 
-  import KPureAdmin.Helpers
+  import PureAdmin.Helpers
 
   @doc """
   Renders the floating settings panel.

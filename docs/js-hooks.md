@@ -1,6 +1,6 @@
 # JS Hooks
 
-KPureAdmin ships 13 JavaScript hooks for interactive features. Import them all via `PureAdminHooks` or individually.
+PureAdmin ships 13 JavaScript hooks for interactive features. Import them all via `PureAdminHooks` or individually.
 
 ## Setup
 

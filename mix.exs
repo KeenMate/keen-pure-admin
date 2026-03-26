@@ -1,4 +1,4 @@
-defmodule KPureAdmin.MixProject do
+defmodule PureAdmin.MixProject do
   use Mix.Project
 
   @version "1.0.0-rc.1"
@@ -13,7 +13,7 @@ defmodule KPureAdmin.MixProject do
       deps: deps(),
       aliases: aliases(),
       elixirc_paths: elixirc_paths(Mix.env()),
-      name: "KPureAdmin",
+      name: "PureAdmin",
       description: "Phoenix LiveView component library for the Pure Admin CSS framework",
       package: package(),
       docs: docs(),
@@ -74,49 +74,49 @@ defmodule KPureAdmin.MixProject do
       ],
       groups_for_modules: [
         "Layout & Navigation": [
-          KPureAdmin.Components.Layout,
-          KPureAdmin.Components.Navigation,
-          KPureAdmin.Components.Profile,
-          KPureAdmin.Components.SettingsPanel,
-          KPureAdmin.Components.Grid
+          PureAdmin.Components.Layout,
+          PureAdmin.Components.Navigation,
+          PureAdmin.Components.Profile,
+          PureAdmin.Components.SettingsPanel,
+          PureAdmin.Components.Grid
         ],
         "UI Components": [
-          KPureAdmin.Components.Button,
-          KPureAdmin.Components.Badge,
-          KPureAdmin.Components.Alert,
-          KPureAdmin.Components.Callout,
-          KPureAdmin.Components.Card,
-          KPureAdmin.Components.Modal,
-          KPureAdmin.Components.Popconfirm,
-          KPureAdmin.Components.Toast,
-          KPureAdmin.Components.Tooltip,
-          KPureAdmin.Components.Loader,
-          KPureAdmin.Components.Stat,
-          KPureAdmin.Components.Code,
-          KPureAdmin.Components.Typography
+          PureAdmin.Components.Button,
+          PureAdmin.Components.Badge,
+          PureAdmin.Components.Alert,
+          PureAdmin.Components.Callout,
+          PureAdmin.Components.Card,
+          PureAdmin.Components.Modal,
+          PureAdmin.Components.Popconfirm,
+          PureAdmin.Components.Toast,
+          PureAdmin.Components.Tooltip,
+          PureAdmin.Components.Loader,
+          PureAdmin.Components.Stat,
+          PureAdmin.Components.Code,
+          PureAdmin.Components.Typography
         ],
         "Data & Tables": [
-          KPureAdmin.Components.Table,
-          KPureAdmin.Components.Comparison,
-          KPureAdmin.Components.DataDisplay,
-          KPureAdmin.Components.DataViz,
-          KPureAdmin.Components.FilterCard,
-          KPureAdmin.Components.Pager
+          PureAdmin.Components.Table,
+          PureAdmin.Components.Comparison,
+          PureAdmin.Components.DataDisplay,
+          PureAdmin.Components.DataViz,
+          PureAdmin.Components.FilterCard,
+          PureAdmin.Components.Pager
         ],
         "Forms & Inputs": [
-          KPureAdmin.Components.Form,
-          KPureAdmin.Components.CheckboxList
+          PureAdmin.Components.Form,
+          PureAdmin.Components.CheckboxList
         ],
         "Lists & Timeline": [
-          KPureAdmin.Components.List,
-          KPureAdmin.Components.Timeline
+          PureAdmin.Components.List,
+          PureAdmin.Components.Timeline
         ],
-        "Live Components": ~r/KPureAdmin\.Live\./,
+        "Live Components": ~r/PureAdmin\.Live\./,
         "Helpers & Config": [
-          KPureAdmin.Components,
-          KPureAdmin.Helpers,
-          KPureAdmin.Config,
-          KPureAdmin.Types
+          PureAdmin.Components,
+          PureAdmin.Helpers,
+          PureAdmin.Config,
+          PureAdmin.Types
         ]
       ]
     ]

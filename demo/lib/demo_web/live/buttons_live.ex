@@ -12,7 +12,7 @@ defmodule DemoWeb.Live.ButtonsLive do
 
   def handle_event("split_action", params, socket) do
     action = params["action"] || "primary click"
-    {:noreply, KPureAdmin.Components.Toast.push_toast(socket, "info", "Split Button", "Action: #{action}")}
+    {:noreply, PureAdmin.Components.Toast.push_toast(socket, "info", "Split Button", "Action: #{action}")}
   end
 
   def handle_info({:stop_loading, _btn}, socket) do

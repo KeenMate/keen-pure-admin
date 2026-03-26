@@ -1,4 +1,4 @@
-defmodule KPureAdmin.Components.Timeline do
+defmodule PureAdmin.Components.Timeline do
   @moduledoc """
   Timeline components for Pure Admin.
 
@@ -6,7 +6,7 @@ defmodule KPureAdmin.Components.Timeline do
   """
   use Phoenix.Component
 
-  import KPureAdmin.Helpers
+  import PureAdmin.Helpers
 
   @doc """
   Renders a timeline container.

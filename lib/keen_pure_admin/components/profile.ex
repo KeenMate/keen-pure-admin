@@ -1,4 +1,4 @@
-defmodule KPureAdmin.Components.Profile do
+defmodule PureAdmin.Components.Profile do
   @moduledoc """
   Profile panel components for Pure Admin.
 
@@ -8,7 +8,7 @@ defmodule KPureAdmin.Components.Profile do
   use Phoenix.Component
 
   alias Phoenix.LiveView.JS
-  import KPureAdmin.Helpers
+  import PureAdmin.Helpers
 
   @doc """
   Renders a profile panel with overlay.

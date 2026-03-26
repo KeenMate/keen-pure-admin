@@ -1,4 +1,4 @@
-defmodule KPureAdmin.Components.Stat do
+defmodule PureAdmin.Components.Stat do
   @moduledoc """
   Stat and metric display components for Pure Admin.
 
@@ -6,7 +6,7 @@ defmodule KPureAdmin.Components.Stat do
   """
   use Phoenix.Component
 
-  import KPureAdmin.Helpers
+  import PureAdmin.Helpers
 
   @doc """
   Renders a stat display.

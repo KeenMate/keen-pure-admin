@@ -8,7 +8,7 @@ First release candidate. Consolidates all v0.x development into a stable API.
 
 - **35+ function components** covering the full Pure Admin CSS framework: layout, navigation, forms, tables, data display, modals, toasts, and more
 - **13 JS hooks** for interactive features: settings panel, tooltips, popovers, split buttons, sidebar persistence, command palette, character counters, and more
-- **Drop-in `CoreComponents` replacement** -- `use KPureAdmin.Components` gives you everything
+- **Drop-in `CoreComponents` replacement** -- `use PureAdmin.Components` gives you everything
 - **Full BEM class support** with `build_classes/3` helper
 - **RTL support** for tooltips and popovers
 - **Podman/Docker support** for the demo app
@@ -272,4 +272,4 @@ Compatible with `@keenmate/pure-admin-core` v2.0.2.
 - Phase 1: Foundation + 10 key components (button, badge, alert, card, table, modal, tabs, form, layout, grid)
 - BEM class builder helpers
 - JS hook scaffold
-- `use KPureAdmin.Components` for bulk import
+- `use PureAdmin.Components` for bulk import

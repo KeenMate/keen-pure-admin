@@ -1,4 +1,4 @@
-defmodule KPureAdmin.Components.Loader do
+defmodule PureAdmin.Components.Loader do
   @moduledoc """
   Loader and spinner components for Pure Admin.
 
@@ -7,7 +7,7 @@ defmodule KPureAdmin.Components.Loader do
   """
   use Phoenix.Component
 
-  import KPureAdmin.Helpers
+  import PureAdmin.Helpers
 
   @doc """
   Renders a spinner.

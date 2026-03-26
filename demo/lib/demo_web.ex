@@ -81,7 +81,7 @@ defmodule DemoWeb do
       import Phoenix.HTML
 
       # Pure Admin components (full CoreComponents replacement)
-      use KPureAdmin.Components
+      use PureAdmin.Components
 
       # Common modules used in templates
       alias Phoenix.LiveView.JS

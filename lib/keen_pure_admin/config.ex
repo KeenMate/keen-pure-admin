@@ -1,6 +1,6 @@
-defmodule KPureAdmin.Config do
+defmodule PureAdmin.Config do
   @moduledoc """
-  Configuration for KPureAdmin components via NimbleOptions.
+  Configuration for PureAdmin components via NimbleOptions.
 
   Configuration can be set in `config/config.exs`:
 

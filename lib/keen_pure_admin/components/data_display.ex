@@ -1,4 +1,4 @@
-defmodule KPureAdmin.Components.DataDisplay do
+defmodule PureAdmin.Components.DataDisplay do
   @moduledoc """
   Data display components for Pure Admin.
 
@@ -7,7 +7,7 @@ defmodule KPureAdmin.Components.DataDisplay do
   """
   use Phoenix.Component
 
-  import KPureAdmin.Helpers
+  import PureAdmin.Helpers
 
   # -- field/1 --
 

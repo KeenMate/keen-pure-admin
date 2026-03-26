@@ -1,4 +1,4 @@
-defmodule KPureAdmin.Components.Navigation do
+defmodule PureAdmin.Components.Navigation do
   @moduledoc """
   Tab and navigation components for Pure Admin.
 
@@ -8,7 +8,7 @@ defmodule KPureAdmin.Components.Navigation do
   use Phoenix.Component
 
   alias Phoenix.LiveView.JS
-  import KPureAdmin.Helpers
+  import PureAdmin.Helpers
 
   @doc """
   Renders a tab bar container.

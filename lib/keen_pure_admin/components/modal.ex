@@ -1,4 +1,4 @@
-defmodule KPureAdmin.Components.Modal do
+defmodule PureAdmin.Components.Modal do
   @moduledoc """
   Modal components for Pure Admin with JS-command-based show/hide.
 
@@ -8,7 +8,7 @@ defmodule KPureAdmin.Components.Modal do
   use Phoenix.Component
 
   alias Phoenix.LiveView.JS
-  import KPureAdmin.Helpers
+  import PureAdmin.Helpers
 
   @doc """
   Renders a modal dialog.

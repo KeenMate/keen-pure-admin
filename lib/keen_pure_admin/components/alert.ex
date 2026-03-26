@@ -1,11 +1,11 @@
-defmodule KPureAdmin.Components.Alert do
+defmodule PureAdmin.Components.Alert do
   @moduledoc """
   Alert components for Pure Admin with JS-command-based dismiss support.
   """
   use Phoenix.Component
 
   alias Phoenix.LiveView.JS
-  import KPureAdmin.Helpers
+  import PureAdmin.Helpers
 
   @doc """
   Renders an alert with Pure Admin BEM classes.

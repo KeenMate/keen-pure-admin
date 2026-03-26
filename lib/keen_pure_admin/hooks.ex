@@ -1,6 +1,6 @@
-defmodule KPureAdmin.Hooks do
+defmodule PureAdmin.Hooks do
   @moduledoc """
-  Documents available JS hooks shipped with KPureAdmin.
+  Documents available JS hooks shipped with PureAdmin.
 
   Users must import hooks in their `app.js`:
 

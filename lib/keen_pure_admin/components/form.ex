@@ -1,4 +1,4 @@
-defmodule KPureAdmin.Components.Form do
+defmodule PureAdmin.Components.Form do
   @moduledoc """
   Form components for Pure Admin.
 
@@ -8,7 +8,7 @@ defmodule KPureAdmin.Components.Form do
   """
   use Phoenix.Component
 
-  import KPureAdmin.Helpers
+  import PureAdmin.Helpers
 
   # ─── Low-level components ───
 

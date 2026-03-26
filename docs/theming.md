@@ -1,6 +1,6 @@
 # Theming
 
-KPureAdmin supports the Pure Admin theme system with dynamic theme switching, color variants, and light/dark modes.
+PureAdmin supports the Pure Admin theme system with dynamic theme switching, color variants, and light/dark modes.
 
 ## Available Themes
 

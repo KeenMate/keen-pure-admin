@@ -1,10 +1,10 @@
-defmodule KPureAdmin.Components.Pager do
+defmodule PureAdmin.Components.Pager do
   @moduledoc """
   Pager and LoadMore components for Pure Admin.
   """
   use Phoenix.Component
 
-  import KPureAdmin.Helpers
+  import PureAdmin.Helpers
   import Phoenix.HTML, only: [raw: 1]
 
   @doc """

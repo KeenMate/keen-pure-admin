@@ -1,4 +1,4 @@
-defmodule KPureAdmin.Components.Layout do
+defmodule PureAdmin.Components.Layout do
   @moduledoc """
   Layout components for Pure Admin.
 
@@ -7,7 +7,7 @@ defmodule KPureAdmin.Components.Layout do
   use Phoenix.Component
 
   alias Phoenix.LiveView.JS
-  import KPureAdmin.Helpers
+  import PureAdmin.Helpers
 
   @doc """
   Renders the top navbar.

@@ -1,6 +1,6 @@
-defmodule KPureAdmin.Components.CommandPalette do
+defmodule PureAdmin.Components.CommandPalette do
   use Phoenix.Component
-  import KPureAdmin.Helpers
+  import PureAdmin.Helpers
 
   @doc """
   Renders a command palette (Spotlight-style search overlay).
