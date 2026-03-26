@@ -130,7 +130,7 @@ defmodule DemoWeb.Live.TableMultiSelectLive do
         </:list>
       </.alert>
 
-      <h4 class="mt-4">Key Features:</h4>
+      <.heading level={4} class="mt-4">Key Features:</.heading>
       <.basic_list>
         <li><strong>Compact Summary Bar:</strong> Shows selection count and actions without pushing content down</li>
         <li><strong>Expandable Details:</strong> Click "Show Details" to see full list of selected items</li>
@@ -143,7 +143,7 @@ defmodule DemoWeb.Live.TableMultiSelectLive do
     <%!-- Filter Tabs --%>
     <.card>
       <:header>
-        <h4>Filter by Status</h4>
+        <.heading level={4}>Filter by Status</.heading>
       </:header>
       <div class="d-flex gap-5 flex-wrap">
         <.button
@@ -274,10 +274,10 @@ defmodule DemoWeb.Live.TableMultiSelectLive do
     <%!-- Implementation Notes --%>
     <.card>
       <:header>
-        <h4>Implementation Notes</h4>
+        <.heading level={4}>Implementation Notes</.heading>
       </:header>
 
-      <h5>Visual Pattern Components</h5>
+      <.heading level={5}>Visual Pattern Components</.heading>
       <.ordered_list>
         <li>
           <strong>Selection Summary Bar</strong>
@@ -321,7 +321,7 @@ defmodule DemoWeb.Live.TableMultiSelectLive do
         </li>
       </.ordered_list>
 
-      <h5 class="mt-4">LiveView Implementation</h5>
+      <.heading level={5} class="mt-4">LiveView Implementation</.heading>
       <.paragraph>This demo uses server-side state management via LiveView assigns:</.paragraph>
       <.basic_list>
         <li>Selection stored as a Map keyed by item ID with item data and source filter</li>

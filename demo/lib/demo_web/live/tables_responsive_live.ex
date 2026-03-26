@@ -157,7 +157,7 @@ defmodule DemoWeb.Live.TablesResponsiveLive do
     <.card title_text="How It Works">
       <.grid>
         <.column size="100" md="1-3">
-          <h4 class="mb-2">Desktop (&gt;1024px)</h4>
+          <.heading level={4} class="mb-2">Desktop (&gt;1024px)</.heading>
           <.basic_list>
             <li>Standard table layout with columns</li>
             <li>Headers visible at top</li>
@@ -166,7 +166,7 @@ defmodule DemoWeb.Live.TablesResponsiveLive do
           </.basic_list>
         </.column>
         <.column size="100" md="1-3">
-          <h4 class="mb-2">Tablet (769px - 1024px)</h4>
+          <.heading level={4} class="mb-2">Tablet (769px - 1024px)</.heading>
           <.basic_list>
             <li>Table becomes horizontally scrollable</li>
             <li>Maintains desktop structure</li>
@@ -175,7 +175,7 @@ defmodule DemoWeb.Live.TablesResponsiveLive do
           </.basic_list>
         </.column>
         <.column size="100" md="1-3">
-          <h4 class="mb-2">Mobile (≤768px)</h4>
+          <.heading level={4} class="mb-2">Mobile (≤768px)</.heading>
           <.basic_list>
             <li>Each row becomes a card</li>
             <li>Headers hidden</li>
@@ -292,15 +292,15 @@ defmodule DemoWeb.Live.TablesResponsiveLive do
     <%!-- HTML Implementation --%>
     <.card title_text="HTML Implementation">
       <:subtitle>How to make your tables responsive</:subtitle>
-      <h4 class="mb-2">1. Add the class modifier</h4>
+      <.heading level={4} class="mb-2">1. Add the class modifier</.heading>
       <.paragraph class="mb-3">Add <.code>.pa-table--responsive</.code> to your table element:</.paragraph>
       <.code_block language="html" class="mb-4">{@code_add_class}</.code_block>
 
-      <h4 class="mb-2">2. Add data-label attributes</h4>
+      <.heading level={4} class="mb-2">2. Add data-label attributes</.heading>
       <.paragraph class="mb-3">Each <.code>&lt;td&gt;</.code> needs a <.code>data-label</.code> attribute matching its column header:</.paragraph>
       <.code_block language="html" class="mb-4">{@code_data_label}</.code_block>
 
-      <h4 class="mb-2">3. That's it!</h4>
+      <.heading level={4} class="mb-2">3. That's it!</.heading>
       <.paragraph>The table will automatically transform on screens smaller than 768px. No JavaScript required!</.paragraph>
 
       <.alert variant="success" class="mt-4">
@@ -310,11 +310,11 @@ defmodule DemoWeb.Live.TablesResponsiveLive do
 
       <hr class="mt-4 mb-4" />
 
-      <h3 class="mb-3">CSS Grid Layout (Advanced)</h3>
+      <.heading level={3} class="mb-3">CSS Grid Layout (Advanced)</.heading>
       <.paragraph class="mb-3">For more control over mobile layouts, use <.code>.pa-table--responsive-grid</.code> instead:</.paragraph>
       <.code_block language="html" class="mb-4">{@code_grid}</.code_block>
 
-      <h4 class="mb-2">Grid Attributes:</h4>
+      <.heading level={4} class="mb-2">Grid Attributes:</.heading>
       <.table rows={@grid_attrs}>
         <:col :let={a} label="Attribute"><.code>{a.attribute}</.code></:col>
         <:col :let={a} label="Description">{a.description}</:col>
@@ -346,7 +346,7 @@ defmodule DemoWeb.Live.TablesResponsiveLive do
     <.card title_text="Testing Tips">
       <.grid>
         <.column size="100" md="1-3">
-          <h4>Desktop Browser</h4>
+          <.heading level={4}>Desktop Browser</.heading>
           <.basic_list>
             <li>Resize browser window</li>
             <li>Use DevTools device toolbar</li>
@@ -354,7 +354,7 @@ defmodule DemoWeb.Live.TablesResponsiveLive do
           </.basic_list>
         </.column>
         <.column size="100" md="1-3">
-          <h4>Real Device</h4>
+          <.heading level={4}>Real Device</.heading>
           <.basic_list>
             <li>Test on actual phones/tablets</li>
             <li>Check both orientations</li>
@@ -362,7 +362,7 @@ defmodule DemoWeb.Live.TablesResponsiveLive do
           </.basic_list>
         </.column>
         <.column size="100" md="1-3">
-          <h4>Common Breakpoints</h4>
+          <.heading level={4}>Common Breakpoints</.heading>
           <.basic_list>
             <li>Mobile: 320px - 767px</li>
             <li>Tablet: 768px - 1023px</li>
@@ -376,16 +376,16 @@ defmodule DemoWeb.Live.TablesResponsiveLive do
     <.card title_text="LiveView Component Code Examples">
       <.grid>
         <.column size="100" md="50">
-          <h4 class="mb-2">Using Table Component</h4>
+          <.heading level={4} class="mb-2">Using Table Component</.heading>
           <.code_block language="heex">{@code_component}</.code_block>
         </.column>
         <.column size="100" md="50">
-          <h4 class="mb-2">Inside a Card</h4>
+          <.heading level={4} class="mb-2">Inside a Card</.heading>
           <.code_block language="heex">{@code_in_card}</.code_block>
         </.column>
       </.grid>
 
-      <h4 class="mb-2 mt-4">Key Points</h4>
+      <.heading level={4} class="mb-2 mt-4">Key Points</.heading>
       <.code_block language="heex">{@code_key_points}</.code_block>
     </.card>
     """

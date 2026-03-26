@@ -207,7 +207,7 @@ defmodule DemoWeb.Live.CardsLive do
         <.column size="100" lg="1-2">
           <.card>
             <:header>
-              <h4>Dashboard</h4>
+              <.heading level={4}>Dashboard</.heading>
               <.tooltip text="View real-time metrics, KPIs, and performance indicators for your organization. Includes customizable widgets, drill-down reports, and automated alerts." position="bottom" multiline>
                 <p>View real-time metrics, KPIs, and performance indicators for your organization. Includes customizable widgets, drill-down reports, and automated alerts.</p>
               </.tooltip>
@@ -220,7 +220,7 @@ defmodule DemoWeb.Live.CardsLive do
         <.column size="100" lg="1-2">
           <.card>
             <:header>
-              <h4>Audit Log</h4>
+              <.heading level={4}>Audit Log</.heading>
               <.tooltip text="Complete history of system changes, user actions, and security events. Filter by date, user, action type, or resource. Export to CSV for compliance reporting." position="bottom" multiline>
                 <p>Complete history of system changes, user actions, and security events. Filter by date, user, action type, or resource. Export to CSV for compliance reporting.</p>
               </.tooltip>

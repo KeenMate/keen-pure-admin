@@ -44,7 +44,7 @@ defmodule DemoWeb.Live.PopconfirmLive do
     <.card title_text="Popconfirm Component" subtitle_text="Small confirmation dialogs anchored to trigger buttons">
       <.grid>
         <.column size="100" md="1-2">
-          <h4>Basic Popconfirms</h4>
+          <.heading level={4}>Basic Popconfirms</.heading>
           <div class="min-h-12x">
             <div style="display: flex; gap: 8px; flex-wrap: wrap;">
               <.popconfirm
@@ -85,7 +85,7 @@ defmodule DemoWeb.Live.PopconfirmLive do
         </.column>
 
         <.column size="100" md="1-2">
-          <h4>Compact Variant</h4>
+          <.heading level={4}>Compact Variant</.heading>
           <div class="min-h-12x">
             <div style="display: flex; gap: 8px; flex-wrap: wrap;">
               <.popconfirm

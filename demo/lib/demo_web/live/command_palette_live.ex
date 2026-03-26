@@ -108,7 +108,7 @@ defmodule DemoWeb.Live.CommandPaletteLive do
           <.alert variant="primary" class="mb-4">
             <strong>Try it now!</strong> Click the button above or press <kbd>Ctrl+K</kbd> (Windows/Linux) or <kbd>⌘K</kbd> (Mac).
           </.alert>
-          <h4 class="mb-2">Keyboard Shortcuts</h4>
+          <.heading level={4} class="mb-2">Keyboard Shortcuts</.heading>
           <.table rows={@shortcuts} size="sm">
             <:col :let={row} label="Key"><kbd>{row.key}</kbd></:col>
             <:col :let={row} label="Action">{row.action}</:col>
@@ -146,26 +146,26 @@ defmodule DemoWeb.Live.CommandPaletteLive do
         <.card title_text="Search Examples" class="mb-4">
           <.paragraph class="mb-3">Click a button to open the palette with a pre-filled query:</.paragraph>
 
-          <h4 class="mb-2">Products</h4>
+          <.heading level={4} class="mb-2">Products</.heading>
           <div class="mb-3" style="display: flex; gap: 8px; flex-wrap: wrap;">
             <.button variant="secondary" size="sm" phx-click="open_palette_with_query" phx-value-query="/p macbook">/p macbook</.button>
             <.button variant="secondary" size="sm" phx-click="open_palette_with_query" phx-value-query="/p iphone">/p iphone</.button>
             <.button variant="secondary" size="sm" phx-click="open_palette_with_query" phx-value-query="/p airpods">/p airpods</.button>
           </div>
 
-          <h4 class="mb-2">Orders</h4>
+          <.heading level={4} class="mb-2">Orders</.heading>
           <div class="mb-3" style="display: flex; gap: 8px; flex-wrap: wrap;">
             <.button variant="secondary" size="sm" phx-click="open_palette_with_query" phx-value-query="/o shipped">/o shipped</.button>
             <.button variant="secondary" size="sm" phx-click="open_palette_with_query" phx-value-query="/o pending">/o pending</.button>
           </div>
 
-          <h4 class="mb-2">Users</h4>
+          <.heading level={4} class="mb-2">Users</.heading>
           <div class="mb-3" style="display: flex; gap: 8px; flex-wrap: wrap;">
             <.button variant="secondary" size="sm" phx-click="open_palette_with_query" phx-value-query="/u john">/u john</.button>
             <.button variant="secondary" size="sm" phx-click="open_palette_with_query" phx-value-query="/u admin">/u admin</.button>
           </div>
 
-          <h4 class="mb-2">Invoices</h4>
+          <.heading level={4} class="mb-2">Invoices</.heading>
           <div style="display: flex; gap: 8px; flex-wrap: wrap;">
             <.button variant="secondary" size="sm" phx-click="open_palette_with_query" phx-value-query="/i overdue">/i overdue</.button>
             <.button variant="secondary" size="sm" phx-click="open_palette_with_query" phx-value-query="/i unpaid">/i unpaid</.button>

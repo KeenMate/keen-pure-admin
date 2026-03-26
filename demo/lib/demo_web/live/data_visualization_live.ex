@@ -16,7 +16,7 @@ defmodule DemoWeb.Live.DataVisualizationLive do
     <.card title_text="1. Progress Bars" subtitle_text="Horizontal progress indicators with size, color, striped, and animated variants.">
 
       <%!-- Basic progress bars --%>
-      <h4 class="mb-sm">Default (with labels)</h4>
+      <.heading level={4} class="mb-sm">Default (with labels)</.heading>
       <.grid>
         <.column size="50">
           <.progress_group label="Storage Used" value={65} />
@@ -27,7 +27,7 @@ defmodule DemoWeb.Live.DataVisualizationLive do
       </.grid>
 
       <%!-- Color variants --%>
-      <h4 class="mt-lg mb-sm">Color Variants</h4>
+      <.heading level={4} class="mt-lg mb-sm">Color Variants</.heading>
       <div class="d-flex flex-column gap-sm">
         <.progress value={70} />
         <.progress value={55} variant="success" />
@@ -37,7 +37,7 @@ defmodule DemoWeb.Live.DataVisualizationLive do
       </div>
 
       <%!-- Sizes --%>
-      <h4 class="mt-lg mb-sm">Sizes</h4>
+      <.heading level={4} class="mt-lg mb-sm">Sizes</.heading>
       <div class="d-flex flex-column gap-sm">
         <div>
           <span class="text-muted font-xs">XS</span>
@@ -58,7 +58,7 @@ defmodule DemoWeb.Live.DataVisualizationLive do
       </div>
 
       <%!-- Striped & Animated --%>
-      <h4 class="mt-lg mb-sm">Striped &amp; Animated</h4>
+      <.heading level={4} class="mt-lg mb-sm">Striped &amp; Animated</.heading>
       <div class="d-flex flex-column gap-sm">
         <.progress value={72} size="lg" is_striped />
         <.progress value={58} size="lg" variant="success" is_striped is_animated />
@@ -66,7 +66,7 @@ defmodule DemoWeb.Live.DataVisualizationLive do
       </div>
 
       <%!-- Rounded --%>
-      <h4 class="mt-lg mb-sm">Rounded (Pill)</h4>
+      <.heading level={4} class="mt-lg mb-sm">Rounded (Pill)</.heading>
       <div class="d-flex flex-column gap-sm">
         <.progress value={75} size="lg" is_rounded />
         <.progress value={50} size="lg" variant="info" is_rounded is_striped is_animated />
@@ -80,7 +80,7 @@ defmodule DemoWeb.Live.DataVisualizationLive do
     <.card title_text="2. Stacked Bars" subtitle_text="Multiple colored segments in one bar showing breakdowns and distributions.">
 
       <%!-- Disk usage --%>
-      <h4 class="mb-sm">Disk Usage (256 GB)</h4>
+      <.heading level={4} class="mb-sm">Disk Usage (256 GB)</.heading>
       <.stacked_bar>
         <.stacked_segment value={35} />
         <.stacked_segment value={25} variant="success" />
@@ -95,7 +95,7 @@ defmodule DemoWeb.Live.DataVisualizationLive do
       </.stacked_bar_legend>
 
       <%!-- Browser share --%>
-      <h4 class="mt-xl mb-sm">Browser Market Share</h4>
+      <.heading level={4} class="mt-xl mb-sm">Browser Market Share</.heading>
       <.stacked_bar is_rounded size="lg">
         <.stacked_segment value={65} variant="info" />
         <.stacked_segment value={18} variant="danger" />
@@ -117,7 +117,7 @@ defmodule DemoWeb.Live.DataVisualizationLive do
     <.card title_text="3. Progress Rings" subtitle_text={"Circular progress indicators using CSS conic-gradient. Set value via style=\"--value: 72\" (0-100)."}>
 
       <%!-- Default rings --%>
-      <h4 class="mb-sm">Color Variants</h4>
+      <.heading level={4} class="mb-sm">Color Variants</.heading>
       <div class="d-flex gap-xl flex-wrap align-items-center">
         <.progress_ring value={72} label="CPU" />
         <.progress_ring value={94} label="Uptime" variant="success" />
@@ -127,7 +127,7 @@ defmodule DemoWeb.Live.DataVisualizationLive do
       </div>
 
       <%!-- Sizes --%>
-      <h4 class="mt-xl mb-sm">Sizes</h4>
+      <.heading level={4} class="mt-xl mb-sm">Sizes</.heading>
       <div class="d-flex gap-xl flex-wrap align-items-center">
         <.progress_ring value={65} size="sm" />
         <.progress_ring value={65} label="Default" />
@@ -224,12 +224,12 @@ defmodule DemoWeb.Live.DataVisualizationLive do
 
     <.card title_text="6. Activity Heatmap" subtitle_text={"GitHub contribution-style activity grid. Each cell uses data-level=\"0-4\" for intensity."}>
 
-      <h4 class="mb-sm">Contribution Activity (12 weeks)</h4>
+      <.heading level={4} class="mb-sm">Contribution Activity (12 weeks)</.heading>
       <.heatmap columns={12} levels={[0,1,2,0,3,1,0, 1,2,4,3,2,1,0, 0,0,1,2,3,4,2, 3,4,4,3,2,1,0, 1,0,2,3,1,2,0, 2,3,1,0,4,3,2, 0,1,3,4,2,1,3, 2,0,1,2,4,3,1, 1,2,0,3,1,0,2, 4,3,2,4,3,2,1, 0,1,2,3,4,2,1, 1,0,2,1,3,4,2]} />
       <.heatmap_legend />
 
       <%!-- Success color variant --%>
-      <h4 class="mt-xl mb-sm">Color Variant (Success)</h4>
+      <.heading level={4} class="mt-xl mb-sm">Color Variant (Success)</.heading>
       <.heatmap columns={7} variant="success" levels={[0,1,2,3,4,2,0, 1,3,4,2,1,3,4, 2,0,1,4,3,2,1]} />
     </.card>
 
@@ -313,7 +313,7 @@ defmodule DemoWeb.Live.DataVisualizationLive do
       </.grid>
 
       <%!-- System Health: Progress rings row --%>
-      <h4 class="mt-xl mb-base">System Health</h4>
+      <.heading level={4} class="mt-xl mb-base">System Health</.heading>
       <div class="d-flex gap-xl flex-wrap justify-content-center">
         <div class="text-center">
           <.progress_ring value={72} size="sm" />
@@ -334,7 +334,7 @@ defmodule DemoWeb.Live.DataVisualizationLive do
       </div>
 
       <%!-- Storage breakdown --%>
-      <h4 class="mt-xl mb-sm">Storage Breakdown</h4>
+      <.heading level={4} class="mt-xl mb-sm">Storage Breakdown</.heading>
       <div class="pa-progress-group">
         <div class="pa-progress__label">
           <span>Server Cluster Storage</span>

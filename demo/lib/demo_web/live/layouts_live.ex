@@ -74,7 +74,7 @@ defmodule DemoWeb.Live.LayoutsLive do
     <.card title_text="Sidebar Components">
       <.grid>
         <.column size="50">
-          <h4>LiveView Components</h4>
+          <.heading level={4}>LiveView Components</.heading>
           <.basic_list spacing="compact">
             <li><code>&lt;.sidebar&gt;</code> - Sidebar container with optional <code>id</code></li>
             <li><code>&lt;.sidebar_item&gt;</code> - Link item with <code>label</code>, <code>icon</code>, <code>href</code>, <code>is_active</code></li>
@@ -82,7 +82,7 @@ defmodule DemoWeb.Live.LayoutsLive do
           </.basic_list>
         </.column>
         <.column size="50">
-          <h4>Sidebar Behavior</h4>
+          <.heading level={4}>Sidebar Behavior</.heading>
           <.basic_list spacing="compact">
             <li><strong>Hide</strong> - <code>sidebar-hidden</code> on body hides completely</li>
             <li><strong>Icon collapse</strong> - <code>pa-layout__sidebar--icon-collapse</code> shows icons only</li>

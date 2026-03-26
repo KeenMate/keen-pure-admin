@@ -43,7 +43,7 @@ defmodule DemoWeb.Live.ComponentsOverviewLive do
       <.column :for={comp <- @components} size="100" md="50" lg="1-3">
         <a href={comp.href} class="pa-card pa-card--interactive mb-2 d-block text-decoration-none">
           <div class="pa-card__header">
-            <h4><i class={comp.icon}></i> {comp.title}</h4>
+            <.heading level={4}><i class={comp.icon}></i> {comp.title}</.heading>
             <.badge variant="primary" size="sm">{comp.count}</.badge>
           </div>
           <div class="pa-card__body">

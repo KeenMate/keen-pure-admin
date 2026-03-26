@@ -216,12 +216,12 @@ defmodule DemoWeb.Live.DataDisplayLive do
 
       <.column size="1-4">
         <.card title_text="Form vs Display">
-          <h4>Edit</h4>
+          <.heading level={4}>Edit</.heading>
           <.form_group>
             <.form_label>Name</.form_label>
             <.input type="text" value="Tomas" />
           </.form_group>
-          <h4>View</h4>
+          <.heading level={4}>View</.heading>
           <.fields>
             <.field label="Name">Tomas</.field>
           </.fields>
@@ -236,7 +236,7 @@ defmodule DemoWeb.Live.DataDisplayLive do
     <.card title_text="Color Variants">
       <:description>Theme colors for border and filled background. Uses <code>pa-fields--color-{1-9}</code>. Combine with <code>pa-fields--filled</code> for tinted backgrounds. Use <code>pa-fields--no-border</code> to remove the border.</:description>
 
-      <h4>Border Colors</h4>
+      <.heading level={4}>Border Colors</.heading>
       <.grid>
         <.column size="1-3">
           <.fields color="1">
@@ -255,7 +255,7 @@ defmodule DemoWeb.Live.DataDisplayLive do
         </.column>
       </.grid>
 
-      <h4 class="mt-4">Filled + Color (Tinted Background)</h4>
+      <.heading level={4} class="mt-4">Filled + Color (Tinted Background)</.heading>
       <.grid>
         <.column size="1-3">
           <.fields is_filled color="1">
@@ -277,7 +277,7 @@ defmodule DemoWeb.Live.DataDisplayLive do
         </.column>
       </.grid>
 
-      <h4 class="mt-4">No Border</h4>
+      <.heading level={4} class="mt-4">No Border</.heading>
       <.grid>
         <.column size="1-2">
           <.fields is_no_border>
@@ -303,7 +303,7 @@ defmodule DemoWeb.Live.DataDisplayLive do
 
       <.grid>
         <.column size="1-3">
-          <h4>Copy Button (always visible)</h4>
+          <.heading level={4}>Copy Button (always visible)</.heading>
           <p class="text-secondary mb-2">Uses <code>pa-field--copy-btn</code></p>
           <.fields is_no_border>
             <.field label="Email" is_copy_btn copy_value="elena.petrova@example.com">elena.petrova@example.com</.field>
@@ -311,7 +311,7 @@ defmodule DemoWeb.Live.DataDisplayLive do
           </.fields>
         </.column>
         <.column size="1-3">
-          <h4>Click Value to Copy</h4>
+          <.heading level={4}>Click Value to Copy</.heading>
           <p class="text-secondary mb-2">Uses <code>pa-field--copy-click</code></p>
           <.fields is_no_border>
             <.field label="Phone" is_copy_click copy_value="+420 776 123 456">+420 776 123 456</.field>
@@ -319,7 +319,7 @@ defmodule DemoWeb.Live.DataDisplayLive do
           </.fields>
         </.column>
         <.column size="1-3">
-          <h4>Icon on Hover Only</h4>
+          <.heading level={4}>Icon on Hover Only</.heading>
           <p class="text-secondary mb-2">Uses <code>pa-field--copy-hover</code></p>
           <.fields is_no_border>
             <.field label="IBAN" is_copy_hover copy_value="CZ65 0800 0000 1920 0014 5399">CZ65 0800 0000 1920 0014 5399</.field>
@@ -456,7 +456,7 @@ defmodule DemoWeb.Live.DataDisplayLive do
         <.card title_text="CSS Classes Reference">
           <.grid>
             <.column size="1-2">
-              <h4>Field Elements</h4>
+              <.heading level={4}>Field Elements</.heading>
               <.basic_list spacing="compact">
                 <li><code>pa-field</code> - Label-value pair</li>
                 <li><code>pa-field__label</code> - Label element</li>
@@ -464,14 +464,14 @@ defmodule DemoWeb.Live.DataDisplayLive do
                 <li><code>pa-field--full</code> - Span all grid columns</li>
               </.basic_list>
 
-              <h4 class="mt-4">Container &amp; Groups</h4>
+              <.heading level={4} class="mt-4">Container &amp; Groups</.heading>
               <.basic_list spacing="compact">
                 <li><code>pa-fields</code> - Field container</li>
                 <li><code>pa-field-group</code> - Section wrapper</li>
                 <li><code>pa-field-group__title</code> - Section title</li>
               </.basic_list>
 
-              <h4 class="mt-4">Grid Columns</h4>
+              <.heading level={4} class="mt-4">Grid Columns</.heading>
               <.basic_list spacing="compact">
                 <li><code>pa-fields--cols-2</code> - 2 columns</li>
                 <li><code>pa-fields--cols-3</code> - 3 columns</li>
@@ -479,7 +479,7 @@ defmodule DemoWeb.Live.DataDisplayLive do
               </.basic_list>
             </.column>
             <.column size="1-2">
-              <h4>Layout Modifiers</h4>
+              <.heading level={4}>Layout Modifiers</.heading>
               <.basic_list spacing="compact">
                 <li><code>pa-fields--horizontal</code> - Label left, value right</li>
                 <li><code>pa-fields--table</code> - Table-like widths</li>
@@ -494,7 +494,7 @@ defmodule DemoWeb.Live.DataDisplayLive do
                 <li><code>pa-fields--no-border</code> - Remove border</li>
               </.basic_list>
 
-              <h4 class="mt-4">Combining</h4>
+              <.heading level={4} class="mt-4">Combining</.heading>
               <.basic_list spacing="compact">
                 <li><code>--table --bordered</code></li>
                 <li><code>--horizontal --compact</code></li>

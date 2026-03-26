@@ -67,7 +67,7 @@ defmodule DemoWeb.Live.VirtualScrollLive do
     <.card title_text="How It Works">
       <.grid>
         <.column size="50">
-          <h4>Virtual Scroll (True Virtualization)</h4>
+          <.heading level={4}>Virtual Scroll (True Virtualization)</.heading>
           <.basic_list>
             <li><strong>Constant DOM size</strong> - Only ~20 items in DOM regardless of total dataset</li>
             <li><strong>Performance</strong> - Can handle millions of items smoothly</li>
@@ -77,7 +77,7 @@ defmodule DemoWeb.Live.VirtualScrollLive do
           </.basic_list>
         </.column>
         <.column size="50">
-          <h4>Infinite Scroll (Lazy Loading)</h4>
+          <.heading level={4}>Infinite Scroll (Lazy Loading)</.heading>
           <.basic_list>
             <li><strong>Growing DOM</strong> - All loaded items stay in DOM</li>
             <li><strong>Performance</strong> - Good for hundreds/low thousands of items</li>

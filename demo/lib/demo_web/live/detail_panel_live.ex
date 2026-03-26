@@ -145,7 +145,7 @@ defmodule DemoWeb.Live.DetailPanelLive do
     ~H"""
     <div class="pa-detail-panel__content">
       <div class="pa-detail-panel__header">
-        <h4 class="pa-detail-panel__title">{@user.name}</h4>
+        <.heading level={4} class="pa-detail-panel__title">{@user.name}</.heading>
         <button class="pa-detail-panel__close" phx-click="close_panel" aria-label="Close panel">
           <i class="fa-solid fa-xmark"></i>
         </button>

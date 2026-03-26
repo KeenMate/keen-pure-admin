@@ -482,7 +482,7 @@ defmodule DemoWeb.Live.DataDisplay2Live do
       <:description>Three copy-to-clipboard styles applied to the new data display patterns. Click to test each variant.</:description>
       <.grid>
         <.column size="1-3">
-          <h4>Copy Button (always visible)</h4>
+          <.heading level={4}>Copy Button (always visible)</.heading>
           <p class="text-secondary mb-2"><code>pa-banded__row--copy-btn</code></p>
           <div class="pa-banded">
             <div class="pa-banded__row pa-banded__row--copy-btn">
@@ -506,7 +506,7 @@ defmodule DemoWeb.Live.DataDisplay2Live do
           </div>
         </.column>
         <.column size="1-3">
-          <h4>Click Value to Copy</h4>
+          <.heading level={4}>Click Value to Copy</.heading>
           <p class="text-secondary mb-2"><code>pa-banded__row--copy-click</code></p>
           <div class="pa-banded">
             <div class="pa-banded__row pa-banded__row--copy-click">
@@ -520,7 +520,7 @@ defmodule DemoWeb.Live.DataDisplay2Live do
           </div>
         </.column>
         <.column size="1-3">
-          <h4>Icon on Hover Only</h4>
+          <.heading level={4}>Icon on Hover Only</.heading>
           <p class="text-secondary mb-2"><code>pa-banded__row--copy-hover</code></p>
           <div class="pa-banded">
             <div class="pa-banded__row pa-banded__row--copy-hover">
@@ -547,7 +547,7 @@ defmodule DemoWeb.Live.DataDisplay2Live do
 
       <.grid class="mt-8">
         <.column size="1-2">
-          <h4>Property Card — Hover Copy</h4>
+          <.heading level={4}>Property Card — Hover Copy</.heading>
           <p class="text-secondary mb-2"><code>pa-prop-card__row--copy-hover</code></p>
           <div class="pa-prop-card">
             <div class="pa-prop-card__header">Order Details</div>
@@ -580,7 +580,7 @@ defmodule DemoWeb.Live.DataDisplay2Live do
           </div>
         </.column>
         <.column size="1-2">
-          <h4>Descriptions Table — Copy Button</h4>
+          <.heading level={4}>Descriptions Table — Copy Button</.heading>
           <p class="text-secondary mb-2"><code>pa-desc-table__value--copy-btn</code></p>
           <div class="pa-desc-container">
             <div class="pa-desc-table pa-desc-table--cols-2">
@@ -617,7 +617,7 @@ defmodule DemoWeb.Live.DataDisplay2Live do
         </.column>
       </.grid>
 
-      <h4 class="mt-8">Accent Grid — Hover Copy</h4>
+      <.heading level={4} class="mt-8">Accent Grid — Hover Copy</.heading>
       <p class="text-secondary mb-2"><code>pa-accent-grid__item--copy-hover</code></p>
       <div class="pa-accent-grid">
         <div class="pa-accent-grid__item pa-accent-grid__item--copy-hover">
@@ -713,7 +713,7 @@ defmodule DemoWeb.Live.DataDisplay2Live do
       <:description>Descriptions table for customer, banded rows for addresses, dot leaders for totals.</:description>
 
       <%!-- Customer: Ant-style descriptions --%>
-      <h4 class="mb-2">Customer</h4>
+      <.heading level={4} class="mb-2">Customer</.heading>
       <.desc_table class="mb-8">
         <.desc_label>Name</.desc_label>
         <.desc_value>Novak &amp; Partners s.r.o.</.desc_value>
@@ -732,7 +732,7 @@ defmodule DemoWeb.Live.DataDisplay2Live do
       <%!-- Addresses: Banded rows side-by-side --%>
       <.grid class="mb-8">
         <.column size="1-2">
-          <h4 class="mb-2">Receipt Address</h4>
+          <.heading level={4} class="mb-2">Receipt Address</.heading>
           <.banded>
             <.banded_row label="Street" value="Vinohradska 2468/164" />
             <.banded_row label="City" value="Prague 3, 130 00" />
@@ -740,7 +740,7 @@ defmodule DemoWeb.Live.DataDisplay2Live do
           </.banded>
         </.column>
         <.column size="1-2">
-          <h4 class="mb-2">Delivery Address</h4>
+          <.heading level={4} class="mb-2">Delivery Address</.heading>
           <.banded>
             <.banded_row label="Street" value="Prumyslova 1234/5" />
             <.banded_row label="City" value="Brno-Slatina, 627 00" />
@@ -750,7 +750,7 @@ defmodule DemoWeb.Live.DataDisplay2Live do
       </.grid>
 
       <%!-- Items: regular table --%>
-      <h4 class="mb-2">Items</h4>
+      <.heading level={4} class="mb-2">Items</.heading>
       <.table rows={[
         %{product: "Mechanical Keyboard", sku: "KB-MX-BRN", qty: "2", price: "$149", total: "$298"},
         %{product: "27\" 4K Monitor", sku: "MON-27-4K", qty: "4", price: "$449", total: "$1,796"}

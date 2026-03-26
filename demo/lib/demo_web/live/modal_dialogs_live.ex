@@ -242,7 +242,7 @@ defmodule DemoWeb.Live.ModalDialogsLive do
 
     <%!-- API Reference --%>
     <.card title_text="API Reference">
-      <h3 style="margin-top: 0;">PureAdmin.confirm(options)</h3>
+      <.heading level={3} style="margin-top: 0;">PureAdmin.confirm(options)</.heading>
       <.paragraph class="mb-2">Returns <code>Promise&lt;boolean&gt;</code></.paragraph>
       <.table rows={[
         %{option: "title", type: "string", default: "'Confirm'", desc: "Dialog title"},
@@ -261,7 +261,7 @@ defmodule DemoWeb.Live.ModalDialogsLive do
         <:col :let={row} label="Description">{row.desc}</:col>
       </.table>
 
-      <h3 class="mt-4">PureAdmin.alert(options)</h3>
+      <.heading level={3} class="mt-4">PureAdmin.alert(options)</.heading>
       <.paragraph class="mb-2">Returns <code>Promise&lt;void&gt;</code></.paragraph>
       <.table rows={[
         %{option: "title", type: "string", default: "'Alert'", desc: "Dialog title"},
@@ -277,7 +277,7 @@ defmodule DemoWeb.Live.ModalDialogsLive do
         <:col :let={row} label="Description">{row.desc}</:col>
       </.table>
 
-      <h3 class="mt-4">PureAdmin.prompt(options)</h3>
+      <.heading level={3} class="mt-4">PureAdmin.prompt(options)</.heading>
       <.paragraph class="mb-2">Returns <code>Promise&lt;string | null&gt;</code></.paragraph>
       <.table rows={[
         %{option: "title", type: "string", default: "'Input'", desc: "Dialog title"},

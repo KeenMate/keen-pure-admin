@@ -111,7 +111,7 @@ defmodule DemoWeb.Live.NotificationsLive do
       <:description>Components used in the navbar notification dropdown</:description>
       <.grid>
         <.column size="50">
-          <h4>Navbar Notifications</h4>
+          <.heading level={4}>Navbar Notifications</.heading>
           <.code_block language="heex">
             &lt;.notifications count={3}&gt;
               &lt;.notification_item variant="primary" icon="fa-solid fa-bell" is_unread&gt;
@@ -123,7 +123,7 @@ defmodule DemoWeb.Live.NotificationsLive do
           </.code_block>
         </.column>
         <.column size="50">
-          <h4>Available Props</h4>
+          <.heading level={4}>Available Props</.heading>
           <.table rows={[
             %{prop: "count", desc: "Badge count on bell icon"},
             %{prop: "variant", desc: "Color variant (primary, success, warning, danger, info)"},

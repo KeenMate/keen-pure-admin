@@ -29,7 +29,7 @@ defmodule DemoWeb.Live.HelpersLive do
     <.card title_text="Border Utilities">
       <.grid>
         <.column size="50">
-          <h4>Border Add/Remove</h4>
+          <.heading level={4}>Border Add/Remove</.heading>
           <.basic_list spacing="compact">
             <li><code>border</code> - All sides</li>
             <li><code>border-top</code> / <code>border-bottom</code></li>
@@ -38,7 +38,7 @@ defmodule DemoWeb.Live.HelpersLive do
           </.basic_list>
         </.column>
         <.column size="50">
-          <h4>Border Radius</h4>
+          <.heading level={4}>Border Radius</.heading>
           <.basic_list spacing="compact">
             <li><code>rounded</code> - Default radius</li>
             <li><code>rounded-0</code> - No radius</li>

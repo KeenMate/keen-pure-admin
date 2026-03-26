@@ -293,7 +293,7 @@ defmodule DemoWeb.Live.TablesLive do
     <%!-- Load More Positioning                                     --%>
     <%!-- ═══════════════════════════════════════════════════════════ --%>
     <.card title_text="Load More Positioning">
-      <h4>Table with Start-aligned Load More</h4>
+      <.heading level={4}>Table with Start-aligned Load More</.heading>
       <.table_container>
         <.table rows={@lm_products}>
           <:col :let={p} label="Product">{p.name}</:col>
@@ -306,7 +306,7 @@ defmodule DemoWeb.Live.TablesLive do
       </.table_container>
       <.load_more align="start" phx-click="load_more" count="showing 3 of 150">Load more products</.load_more>
 
-      <h4 class="mt-4">Table with Center Load More</h4>
+      <.heading level={4} class="mt-4">Table with Center Load More</.heading>
       <.table_container>
         <.table rows={@lm_customers}>
           <:col :let={c} label="Customer">{c.name}</:col>
@@ -317,7 +317,7 @@ defmodule DemoWeb.Live.TablesLive do
       </.table_container>
       <.load_more align="center" phx-click="load_more" count="3 of 1,247">Load more customers</.load_more>
 
-      <h4 class="mt-4">Table with Right Load More (Loading State)</h4>
+      <.heading level={4} class="mt-4">Table with Right Load More (Loading State)</.heading>
       <.table_container>
         <.table rows={@lm_invoices}>
           <:col :let={i} label="Invoice">{i.id}</:col>
@@ -335,15 +335,15 @@ defmodule DemoWeb.Live.TablesLive do
     <%!-- Pager Positioning Examples                                --%>
     <%!-- ═══════════════════════════════════════════════════════════ --%>
     <.card title_text="Pager Positioning Examples">
-      <h4>Start-aligned Pager</h4>
+      <.heading level={4}>Start-aligned Pager</.heading>
       <.pager page={1} total_pages={10} align="start"
         on_first="first-page" on_last="last-page" on_previous="prev-page" on_next="next-page" />
 
-      <h4>Center-aligned Pager (Default)</h4>
+      <.heading level={4}>Center-aligned Pager (Default)</.heading>
       <.pager page={5} total_pages={10} align="center"
         on_first="first-page" on_last="last-page" on_previous="prev-page" on_next="next-page" />
 
-      <h4>End-aligned Pager</h4>
+      <.heading level={4}>End-aligned Pager</.heading>
       <.pager page={10} total_pages={10} align="end"
         on_first="first-page" on_last="last-page" on_previous="prev-page" on_next="next-page" />
     </.card>
@@ -352,21 +352,21 @@ defmodule DemoWeb.Live.TablesLive do
     <%!-- Alternative Pager Icon Sets                               --%>
     <%!-- ═══════════════════════════════════════════════════════════ --%>
     <.card title_text="Alternative Pager Icon Sets">
-      <h4>Double/Single Angles (Current)</h4>
+      <.heading level={4}>Double/Single Angles (Current)</.heading>
       <.pager page={1} total_pages={10} align="center"
         on_first="first-page" on_last="last-page" on_previous="prev-page" on_next="next-page" />
 
-      <h4>Triangular Arrows</h4>
+      <.heading level={4}>Triangular Arrows</.heading>
       <.pager page={1} total_pages={10} align="center"
         on_first="first-page" on_last="last-page" on_previous="prev-page" on_next="next-page"
         icon_first="&#x23EE;" icon_previous="&#x25C0;" icon_next="&#x25B6;" icon_last="&#x23ED;" />
 
-      <h4>Simple Arrows</h4>
+      <.heading level={4}>Simple Arrows</.heading>
       <.pager page={1} total_pages={10} align="center"
         on_first="first-page" on_last="last-page" on_previous="prev-page" on_next="next-page"
         icon_first="&#x21E4;" icon_previous="&#x2190;" icon_next="&#x2192;" icon_last="&#x21E5;" />
 
-      <h4>Mathematical Double Arrows</h4>
+      <.heading level={4}>Mathematical Double Arrows</.heading>
       <.pager page={1} total_pages={10} align="center"
         on_first="first-page" on_last="last-page" on_previous="prev-page" on_next="next-page"
         icon_first="&#x21C7;" icon_previous="&#x21E6;" icon_next="&#x21E8;" icon_last="&#x21C9;" />
@@ -378,7 +378,7 @@ defmodule DemoWeb.Live.TablesLive do
     <.card title_text="Panel Tables">
       <.paragraph class="mb-4">Tables with card-like visual containment using the <.code>--panel</.code> modifier. Use when tables need to stand alongside cards without being wrapped in one.</.paragraph>
 
-      <h4>Basic Panel Table (no header)</h4>
+      <.heading level={4}>Basic Panel Table (no header)</.heading>
       <.table_container is_panel>
         <.table rows={@panel_products}>
           <:col :let={p} label="Product">{p.name}</:col>
@@ -388,7 +388,7 @@ defmodule DemoWeb.Live.TablesLive do
         </.table>
       </.table_container>
 
-      <h4>Panel Table with Header</h4>
+      <.heading level={4}>Panel Table with Header</.heading>
       <.table_container is_panel title_text="Recent Orders">
         <:actions>
           <.button variant="secondary" size="sm">Export</.button>
@@ -405,7 +405,7 @@ defmodule DemoWeb.Live.TablesLive do
         </.table>
       </.table_container>
 
-      <h4>Panel Tables in Grid (75/25 split)</h4>
+      <.heading level={4}>Panel Tables in Grid (75/25 split)</.heading>
       <.paragraph class="mb-4">Panel tables work inside grid just like cards.</.paragraph>
     </.card>
 
@@ -434,7 +434,7 @@ defmodule DemoWeb.Live.TablesLive do
     <%!-- ═══════════════════════════════════════════════════════════ --%>
     <.card title_text="Table Cards">
       <.paragraph class="mb-4">The <.code>pa-table-card</.code> component is a card specifically designed for tables. It includes header, body (for the table), footer, and color variants like regular cards.</.paragraph>
-      <h4>Basic Table Card with Actions</h4>
+      <.heading level={4}>Basic Table Card with Actions</.heading>
     </.card>
 
     <.table_card title_text="Recent Orders">
@@ -458,7 +458,7 @@ defmodule DemoWeb.Live.TablesLive do
     </.table_card>
 
     <.card>
-      <h4>Color Variants</h4>
+      <.heading level={4}>Color Variants</.heading>
       <.paragraph class="mb-4">Table cards support the same color variants as regular cards: <.code>--primary</.code>, <.code>--success</.code>, <.code>--warning</.code>, <.code>--danger</.code>, and theme colors <.code>--color-1</.code> through <.code>--color-9</.code>.</.paragraph>
     </.card>
 
@@ -505,7 +505,7 @@ defmodule DemoWeb.Live.TablesLive do
 
     <%!-- Plain Table Cards --%>
     <.card>
-      <h4>Plain Table Cards</h4>
+      <.heading level={4}>Plain Table Cards</.heading>
       <.paragraph class="mb-4">Use <.code>pa-table-card--plain</.code> to remove the card visual styling (border, shadow, background) while keeping grid behavior. Tables work side by side with proper gaps.</.paragraph>
     </.card>
 
@@ -635,7 +635,7 @@ defmodule DemoWeb.Live.TablesLive do
     <%!-- CSS Classes Reference                                     --%>
     <%!-- ═══════════════════════════════════════════════════════════ --%>
     <.card title_text="CSS Classes Reference">
-      <h4>Tables</h4>
+      <.heading level={4}>Tables</.heading>
       <.basic_list spacing="compact">
         <li><.code>pa-table-container</.code> — Scrollable table wrapper with border</li>
         <li><.code>pa-table-container--panel</.code> — Card-like containment with shadow and margin</li>
@@ -653,7 +653,7 @@ defmodule DemoWeb.Live.TablesLive do
         <li><.code>.col-auto</.code> — Auto-width column (shrinks to content)</li>
       </.basic_list>
 
-      <h4 class="mt-4">Table Cards</h4>
+      <.heading level={4} class="mt-4">Table Cards</.heading>
       <.basic_list spacing="compact">
         <li><.code>pa-table-card</.code> — Card wrapper for tables</li>
         <li><.code>pa-table-card--primary / success / warning / danger</.code> — Color variants</li>
@@ -667,7 +667,7 @@ defmodule DemoWeb.Live.TablesLive do
         <li><.code>pa-table-card__footer</.code> — Footer for pagination</li>
       </.basic_list>
 
-      <h4 class="mt-4">Pager</h4>
+      <.heading level={4} class="mt-4">Pager</.heading>
       <.basic_list spacing="compact">
         <li><.code>pa-pager</.code> — Pagination container (default: centered)</li>
         <li><.code>pa-pager--start</.code> — Start-aligned</li>
@@ -680,7 +680,7 @@ defmodule DemoWeb.Live.TablesLive do
         <li><.code>pa-pager__text</.code> — "/ X pages" text</li>
       </.basic_list>
 
-      <h4 class="mt-4">Load More</h4>
+      <.heading level={4} class="mt-4">Load More</.heading>
       <.basic_list spacing="compact">
         <li><.code>pa-load-more</.code> — Load more container (default: centered)</li>
         <li><.code>pa-load-more--start</.code> — Start-aligned</li>

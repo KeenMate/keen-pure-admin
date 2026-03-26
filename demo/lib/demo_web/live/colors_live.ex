@@ -14,7 +14,7 @@ defmodule DemoWeb.Live.ColorsLive do
       <.grid>
         <.column :for={variant <- ~w(primary secondary success warning danger info)} size="1-3">
           <div class={"pa-card pa-card--#{variant} mb-2"}>
-            <div class="pa-card__header"><h4>{String.capitalize(variant)}</h4></div>
+            <div class="pa-card__header"><.heading level={4}>{String.capitalize(variant)}</.heading></div>
             <div class="pa-card__body">
               <.badge variant={variant}>{variant}</.badge>
               <.button variant={variant} size="sm" class="ml-2">{variant}</.button>
@@ -29,7 +29,7 @@ defmodule DemoWeb.Live.ColorsLive do
       <.grid>
         <.column :for={n <- 1..9} size="1-3">
           <div class={"pa-card pa-card--color-#{n} mb-2"}>
-            <div class="pa-card__header"><h4>Color {n}</h4></div>
+            <div class="pa-card__header"><.heading level={4}>Color {n}</.heading></div>
             <div class="pa-card__body">
               <code>--base-color-#{n}</code>
             </div>
@@ -42,7 +42,7 @@ defmodule DemoWeb.Live.ColorsLive do
       <:description>Apply text colors using utility classes</:description>
       <.grid>
         <.column size="50">
-          <h4>Semantic Text Colors</h4>
+          <.heading level={4}>Semantic Text Colors</.heading>
           <.basic_list>
             <li><span class="text-primary"><strong>text-primary</strong> - Primary accent color</span></li>
             <li><span class="text-secondary"><strong>text-secondary</strong> - Muted/secondary text</span></li>
@@ -54,7 +54,7 @@ defmodule DemoWeb.Live.ColorsLive do
           </.basic_list>
         </.column>
         <.column size="50">
-          <h4>CSS Variables</h4>
+          <.heading level={4}>CSS Variables</.heading>
           <.table rows={[
             %{var: "--accent-color", desc: "Primary accent"},
             %{var: "--base-text-color", desc: "Default text"},

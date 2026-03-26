@@ -58,7 +58,7 @@ defmodule DemoWeb.Live.SizingLive do
       <:description>Margin and padding classes based on spacing scale</:description>
       <.grid>
         <.column size="50">
-          <h4>Spacing Scale</h4>
+          <.heading level={4}>Spacing Scale</.heading>
           <.table rows={[
             %{name: "xs", value: "0.4rem (4px)"},
             %{name: "sm", value: "0.8rem (8px)"},
@@ -73,7 +73,7 @@ defmodule DemoWeb.Live.SizingLive do
           </.table>
         </.column>
         <.column size="50">
-          <h4>Class Pattern</h4>
+          <.heading level={4}>Class Pattern</.heading>
           <.basic_list spacing="compact">
             <li><code>m-&#123;size&#125;</code> - Margin all sides</li>
             <li><code>mt-&#123;size&#125;</code> - Margin top</li>
@@ -109,7 +109,7 @@ defmodule DemoWeb.Live.SizingLive do
       <:description>Common display and flex utilities</:description>
       <.grid>
         <.column size="50">
-          <h4>Display</h4>
+          <.heading level={4}>Display</.heading>
           <.basic_list spacing="compact">
             <li><code>d-none</code> - Hidden</li>
             <li><code>d-block</code> - Block</li>
@@ -121,7 +121,7 @@ defmodule DemoWeb.Live.SizingLive do
           </.basic_list>
         </.column>
         <.column size="50">
-          <h4>Flex</h4>
+          <.heading level={4}>Flex</.heading>
           <.basic_list spacing="compact">
             <li><code>flex-row</code> / <code>flex-column</code></li>
             <li><code>flex-wrap</code> / <code>flex-nowrap</code></li>
@@ -138,13 +138,13 @@ defmodule DemoWeb.Live.SizingLive do
       <:description>Typography and text alignment helpers</:description>
       <.grid>
         <.column size="50">
-          <h4>Alignment</h4>
+          <.heading level={4}>Alignment</.heading>
           <.basic_list spacing="compact">
             <li><code>text-start</code> - Start-aligned (RTL-aware)</li>
             <li><code>text-center</code> - Centered</li>
             <li><code>text-end</code> - End-aligned (RTL-aware)</li>
           </.basic_list>
-          <h4 class="mt-4">Wrapping</h4>
+          <.heading level={4} class="mt-4">Wrapping</.heading>
           <.basic_list spacing="compact">
             <li><code>text-truncate</code> - Ellipsis overflow</li>
             <li><code>text-nowrap</code> - No wrapping</li>
@@ -152,7 +152,7 @@ defmodule DemoWeb.Live.SizingLive do
           </.basic_list>
         </.column>
         <.column size="50">
-          <h4>Font Size</h4>
+          <.heading level={4}>Font Size</.heading>
           <.basic_list spacing="compact">
             <li><code>font-xs</code> - 1rem</li>
             <li><code>font-sm</code> - 1.2rem</li>
@@ -161,7 +161,7 @@ defmodule DemoWeb.Live.SizingLive do
             <li><code>font-xl</code> - 2.4rem</li>
             <li><code>font-2xl</code> - 3.2rem</li>
           </.basic_list>
-          <h4 class="mt-4">Font Weight</h4>
+          <.heading level={4} class="mt-4">Font Weight</.heading>
           <.basic_list spacing="compact">
             <li><code>font-light</code> - 300</li>
             <li><code>font-normal</code> - 400</li>

@@ -11,7 +11,7 @@ defmodule DemoWeb.Live.ModalsLive do
     <.card title_text="Basic Modals" subtitle_text="Standard modal dialogs for user interactions">
       <.grid>
         <.column size="100" md="1-2">
-          <h4>Standard Sizes</h4>
+          <.heading level={4}>Standard Sizes</.heading>
           <div style="display: flex; gap: 8px; flex-wrap: wrap;">
             <.button variant="primary" phx-click={show_modal("modal-sm")}>Small Modal</.button>
             <.button variant="primary" phx-click={show_modal("modal-md")}>Medium Modal</.button>
@@ -22,7 +22,7 @@ defmodule DemoWeb.Live.ModalsLive do
           </div>
         </.column>
         <.column size="100" md="1-2">
-          <h4>Modal Types</h4>
+          <.heading level={4}>Modal Types</.heading>
           <div style="display: flex; gap: 8px; flex-wrap: wrap;">
             <.button variant="success" phx-click={show_modal("modal-success")}>Success Modal</.button>
             <.button variant="warning" phx-click={show_modal("modal-warning")}>Warning Modal</.button>
@@ -32,7 +32,7 @@ defmodule DemoWeb.Live.ModalsLive do
       </.grid>
       <.grid class="mt-4">
         <.column size="100" md="1-2">
-          <h4>Position Modifiers</h4>
+          <.heading level={4}>Position Modifiers</.heading>
           <div style="display: flex; gap: 8px;">
             <.button variant="secondary" phx-click={show_modal("modal-centered")}>
               Centered (Default)
@@ -41,7 +41,7 @@ defmodule DemoWeb.Live.ModalsLive do
           </div>
         </.column>
         <.column size="100" md="1-2">
-          <h4>Behavior Modifiers</h4>
+          <.heading level={4}>Behavior Modifiers</.heading>
           <div style="display: flex; gap: 8px;">
             <.button variant="warning" phx-click={show_modal("modal-static")}>Static Modal</.button>
           </div>
@@ -101,12 +101,12 @@ defmodule DemoWeb.Live.ModalsLive do
     <.modal id="modal-lg" size="lg" title_text="Large Modal">
       <.grid>
         <.column size="100" md="1-2">
-          <h5>Column 1</h5>
+          <.heading level={5}>Column 1</.heading>
           <p>Large modals are perfect for complex content layouts with multiple columns.</p>
           <p>You can use the PureCSS grid system inside modals to create sophisticated layouts.</p>
         </.column>
         <.column size="100" md="1-2">
-          <h5>Column 2</h5>
+          <.heading level={5}>Column 2</.heading>
           <p>This second column demonstrates how you can organize content in larger modal dialogs.</p>
           <.alert variant="info">
             <strong>Tip:</strong> Large modals work great for dashboards and detailed forms.
@@ -122,19 +122,19 @@ defmodule DemoWeb.Live.ModalsLive do
     <.modal id="modal-xl" size="xl" title_text="Extra Large Modal">
       <.grid>
         <.column size="100" md="1-3">
-          <h5>Column 1</h5>
+          <.heading level={5}>Column 1</.heading>
           <p>Extra large modals provide ample space for comprehensive content displays.</p>
           <p>Perfect for data tables, reports, and detailed analytics dashboards.</p>
         </.column>
         <.column size="100" md="1-3">
-          <h5>Column 2</h5>
+          <.heading level={5}>Column 2</.heading>
           <p>You can display complex data structures, charts, and visualizations.</p>
           <.alert variant="info">
             <strong>Note:</strong> XL modals are 70rem wide (1120px).
           </.alert>
         </.column>
         <.column size="100" md="1-3">
-          <h5>Column 3</h5>
+          <.heading level={5}>Column 3</.heading>
           <p>Three-column layouts work beautifully in extra large modals.</p>
           <p>Ideal for comparison views and side-by-side content.</p>
         </.column>
@@ -148,19 +148,19 @@ defmodule DemoWeb.Live.ModalsLive do
     <.modal id="modal-xxl" size="xxl" title_text="XXL Modal - Maximum Size">
       <.grid>
         <.column size="100" md="25">
-          <h5>Section 1</h5>
+          <.heading level={5}>Section 1</.heading>
           <p>XXL modals are the largest available size at 90rem (1440px) wide.</p>
           <p>Perfect for full-featured application interfaces within a modal.</p>
         </.column>
         <.column size="100" md="25">
-          <h5>Section 2</h5>
+          <.heading level={5}>Section 2</.heading>
           <p>Ideal for complex workflows that require maximum screen real estate.</p>
           <.alert variant="success">
             <strong>Great for:</strong> Data grids, reporting tools, and analytics.
           </.alert>
         </.column>
         <.column size="100" md="25">
-          <h5>Section 3</h5>
+          <.heading level={5}>Section 3</.heading>
           <p>Four-column layouts provide exceptional flexibility for content organization.</p>
           <ul>
             <li>Dashboard views</li>
@@ -169,7 +169,7 @@ defmodule DemoWeb.Live.ModalsLive do
           </ul>
         </.column>
         <.column size="100" md="25">
-          <h5>Section 4</h5>
+          <.heading level={5}>Section 4</.heading>
           <p>On smaller screens, these columns will stack responsively.</p>
           <.alert variant="warning">
             <strong>Note:</strong> Consider viewport size when using XXL modals.
@@ -178,7 +178,7 @@ defmodule DemoWeb.Live.ModalsLive do
       </.grid>
       <.grid class="mt-4">
         <.column size="100">
-          <h5>Full Width Content Area</h5>
+          <.heading level={5}>Full Width Content Area</.heading>
           <p>You can also use the full width for single-column content when needed. This is particularly useful for wide tables, code editors, or visual design tools.</p>
           <.card class="mt-3">
             <p>Nested cards and components work seamlessly within XXL modals, allowing you to create rich, interactive interfaces.</p>
@@ -352,7 +352,7 @@ defmodule DemoWeb.Live.ModalsLive do
     <.modal id="modal-settings" size="lg" title_text="Settings">
       <.grid>
         <.column size="100" md="1-2">
-          <h5>General Settings</h5>
+          <.heading level={5}>General Settings</.heading>
           <.form_group label="Theme">
             <.select options={["Default", "Dark", "Audi"]} />
           </.form_group>
@@ -361,7 +361,7 @@ defmodule DemoWeb.Live.ModalsLive do
           </.form_group>
         </.column>
         <.column size="100" md="1-2">
-          <h5>Privacy Settings</h5>
+          <.heading level={5}>Privacy Settings</.heading>
           <.form_group>
             <.checkbox label="Share analytics data" />
           </.form_group>
