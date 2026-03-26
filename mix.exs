@@ -48,7 +48,7 @@ defmodule KPureAdmin.MixProject do
       name: "keen_pure_admin",
       licenses: ["MIT"],
       links: %{"GitHub" => @source_url},
-      files: ~w(lib .formatter.exs mix.exs README.md LICENSE CHANGELOG.md)
+      files: ~w(lib docs .formatter.exs mix.exs README.md LICENSE CHANGELOG.md)
     ]
   end
 
@@ -56,15 +56,64 @@ defmodule KPureAdmin.MixProject do
     [
       main: "readme",
       source_ref: "v#{@version}",
+      logo: nil,
       extras: [
         "README.md",
+        "docs/getting-started.md",
+        "docs/js-hooks.md",
+        "docs/theming.md",
         "CHANGELOG.md",
         "LICENSE"
       ],
+      groups_for_extras: [
+        Guides: [
+          "docs/getting-started.md",
+          "docs/js-hooks.md",
+          "docs/theming.md"
+        ]
+      ],
       groups_for_modules: [
-        Components: ~r/KPureAdmin\.Components\./,
-        LiveComponents: ~r/KPureAdmin\.Live\./,
+        "Layout & Navigation": [
+          KPureAdmin.Components.Layout,
+          KPureAdmin.Components.Navigation,
+          KPureAdmin.Components.Profile,
+          KPureAdmin.Components.SettingsPanel,
+          KPureAdmin.Components.Grid
+        ],
+        "UI Components": [
+          KPureAdmin.Components.Button,
+          KPureAdmin.Components.Badge,
+          KPureAdmin.Components.Alert,
+          KPureAdmin.Components.Callout,
+          KPureAdmin.Components.Card,
+          KPureAdmin.Components.Modal,
+          KPureAdmin.Components.Popconfirm,
+          KPureAdmin.Components.Toast,
+          KPureAdmin.Components.Tooltip,
+          KPureAdmin.Components.Loader,
+          KPureAdmin.Components.Stat,
+          KPureAdmin.Components.Code,
+          KPureAdmin.Components.Typography
+        ],
+        "Data & Tables": [
+          KPureAdmin.Components.Table,
+          KPureAdmin.Components.Comparison,
+          KPureAdmin.Components.DataDisplay,
+          KPureAdmin.Components.DataViz,
+          KPureAdmin.Components.FilterCard,
+          KPureAdmin.Components.Pager
+        ],
+        "Forms & Inputs": [
+          KPureAdmin.Components.Form,
+          KPureAdmin.Components.CheckboxList
+        ],
+        "Lists & Timeline": [
+          KPureAdmin.Components.List,
+          KPureAdmin.Components.Timeline
+        ],
+        "Live Components": ~r/KPureAdmin\.Live\./,
         "Helpers & Config": [
+          KPureAdmin.Components,
           KPureAdmin.Helpers,
           KPureAdmin.Config,
           KPureAdmin.Types
