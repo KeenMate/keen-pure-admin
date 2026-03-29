@@ -46,7 +46,7 @@ Used by: `<.toast_container is_hook />`
 
 ### PureAdminFlash
 
-Independent inline flash message containers. Multiple containers on the same page receive messages independently via `push_flash/5`. Renders `pa-alert` elements client-side. Supports markdown body (**bold**, *italic*, [links](url), lists, `---` horizontal rules), action buttons with server callbacks, and auto-dismiss.
+Independent inline flash message containers. Multiple containers on the same page receive messages independently via `push_flash/5`. Renders `pa-alert` elements client-side. Supports markdown body (**bold**, *italic*, `[links](url)`, lists, `---` horizontal rules), action buttons with server callbacks, and auto-dismiss.
 
 Used by: `<.flash_container />`
 

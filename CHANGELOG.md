@@ -7,7 +7,7 @@
 - **`PureAdmin.Components.Flash`** — new module with two approaches:
   - **Standard flash** — `flash/1` and `flash_group/1` as drop-in replacements for CoreComponents, styled with `pa-alert` BEM classes. Works with Phoenix's built-in `put_flash/3`
   - **Independent flash containers** — `flash_container/1` + `push_flash/5` for multiple independent flash groups on the same page. Each container receives messages independently via a JS hook
-- **`PureAdminFlash`** JS hook — client-side rendering of flash alerts. Supports markdown body (**bold**, *italic*, [links](url), lists, `---` horizontal rules), action buttons with `pushEvent` callbacks, auto-dismiss, and dismissible close button
+- **`PureAdminFlash`** JS hook — client-side rendering of flash alerts. Supports markdown body (**bold**, *italic*, `[links](url)`, lists, `---` horizontal rules), action buttons with `pushEvent` callbacks, auto-dismiss, and dismissible close button
 - **Markdown body** — flash message text supports basic markdown rendered as proper `pa-alert__content` HTML
 - **Action buttons** — flash messages can include action buttons that push events back to the LiveView or dismiss the flash
 

@@ -145,7 +145,7 @@ defmodule PureAdmin.Components.Flash do
   client-side using the `PureAdminFlash` JS hook. Multiple containers on the
   same page work independently.
 
-  The message body supports basic markdown: **bold**, *italic*, [links](url),
+  The message body supports basic markdown: **bold**, *italic*, `[links](url)`,
   unordered lists (`- item`), ordered lists (`1. item`), and paragraphs.
 
   ## Options
