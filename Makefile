@@ -1,44 +1,50 @@
-.PHONY: setup dev build publish publish-dry deps test format quality docs docs-serve clean podman-build podman-run podman-stop podman-restart podman-logs podman-clean podman-deploy podman-push
+.PHONY: help setup dev build publish publish-dry deps test format quality docs docs-serve clean themes-clear podman-build podman-run podman-stop podman-restart podman-logs podman-clean podman-deploy podman-push
 
-setup: deps
+help: ## Show this help
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-20s\033[0m %s\n", $$1, $$2}'
+
+setup: deps ## Install deps and compile library + demo
 	mix compile
 	cd demo && mix compile
 
-deps:
+deps: ## Install dependencies for library and demo
 	mix deps.get
 	cd demo && mix deps.get
 
-dev:
+dev: ## Start demo app with iex
 	cd demo && iex -S mix phx.server
 
-build:
+build: ## Build hex package
 	mix hex.build
 
-publish:
+publish: ## Publish to hex.pm
 	mix hex.publish
 
-publish-dry:
+publish-dry: ## Dry-run hex publish
 	mix hex.publish --dry-run
 
-test:
+test: ## Run tests
 	mix test
 
-format:
+format: ## Format code in library and demo
 	mix format
 	cd demo && mix format
 
-quality:
+quality: ## Run format check + credo + dialyzer
 	mix quality
 
-docs:
+docs: ## Generate documentation
 	mix docs
 
-docs-serve: docs
+docs-serve: docs ## Generate and serve docs on port 5555
 	npx five-server doc --port 5555
 
-clean:
+clean: ## Clean build artifacts
 	mix clean
 	cd demo && mix clean
+
+themes-clear: ## Clear cached themes (forces re-download on next access)
+	cd demo && mix eval 'File.rm_rf!(Path.join(System.tmp_dir!(), "pure-admin-themes")); IO.puts("Theme cache cleared")'
 
 # === Docker Commands ===
 # Docker image settings
@@ -48,14 +54,12 @@ DOCKER_TAG = production
 DOCKER_CONTAINER_NAME = keen-pure-admin-demo
 DOCKER_PORT = 4000
 
-# Build Docker image
-podman-build:
+podman-build: ## Build Docker image
 	@echo "Building Docker image: $(DOCKER_IMAGE_NAME):$(DOCKER_TAG)"
 	podman build -f demo/Dockerfile -t $(DOCKER_IMAGE_NAME):$(DOCKER_TAG) .
 	@echo "Docker image built successfully!"
 
-# Run Docker container
-podman-run:
+podman-run: ## Run Docker container
 	@echo "Starting Docker container on port $(DOCKER_PORT)"
 	@if [ $$(podman ps -q -f name=$(DOCKER_CONTAINER_NAME)) ]; then \
 		echo "Container is already running at http://localhost:$(DOCKER_PORT)"; \
@@ -72,8 +76,7 @@ podman-run:
 		echo "Application is running at: http://localhost:$(DOCKER_PORT)"; \
 	fi
 
-# Stop Docker container
-podman-stop:
+podman-stop: ## Stop Docker container
 	@echo "Stopping Docker container"
 	@if [ $$(podman ps -q -f name=$(DOCKER_CONTAINER_NAME)) ]; then \
 		podman stop $(DOCKER_CONTAINER_NAME); \
@@ -82,19 +85,16 @@ podman-stop:
 		echo "Container is not running"; \
 	fi
 
-# Restart Docker container
-podman-restart: podman-stop podman-run
+podman-restart: podman-stop podman-run ## Restart Docker container
 
-# Show Docker container logs
-podman-logs:
+podman-logs: ## Show Docker container logs
 	@if [ $$(podman ps -aq -f name=$(DOCKER_CONTAINER_NAME)) ]; then \
 		podman logs -f $(DOCKER_CONTAINER_NAME); \
 	else \
 		echo "Container does not exist"; \
 	fi
 
-# Remove Docker container and image
-podman-clean: podman-stop
+podman-clean: podman-stop ## Remove Docker container and image
 	@echo "Cleaning up Docker resources"
 	@if [ $$(podman ps -aq -f name=$(DOCKER_CONTAINER_NAME)) ]; then \
 		podman rm $(DOCKER_CONTAINER_NAME); \
@@ -105,11 +105,9 @@ podman-clean: podman-stop
 		echo "Image removed"; \
 	fi
 
-# Build and run Docker container
-podman-deploy: podman-build podman-run
+podman-deploy: podman-build podman-run ## Build and run Docker container
 
-# Tag and push image to registry
-podman-push:
+podman-push: ## Tag and push image to registry
 	@echo "Tagging and pushing image to $(DOCKER_REGISTRY)"
 	podman tag $(DOCKER_IMAGE_NAME):$(DOCKER_TAG) $(DOCKER_REGISTRY)/$(DOCKER_IMAGE_NAME):$(DOCKER_TAG)
 	podman push $(DOCKER_REGISTRY)/$(DOCKER_IMAGE_NAME):$(DOCKER_TAG)

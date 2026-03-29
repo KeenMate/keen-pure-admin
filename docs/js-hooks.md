@@ -1,6 +1,6 @@
 # JS Hooks
 
-PureAdmin ships 13 JavaScript hooks for interactive features. Import them all via `PureAdminHooks` or individually.
+PureAdmin ships 14 JavaScript hooks for interactive features. Import them all via `PureAdminHooks` or individually.
 
 ## Setup
 
@@ -44,6 +44,44 @@ Toast auto-dismiss with configurable duration. Handles show/hide transitions and
 
 Used by: `<.toast_container is_hook />`
 
+### PureAdminFlash
+
+Independent inline flash message containers. Multiple containers on the same page receive messages independently via `push_flash/5`. Renders `pa-alert` elements client-side. Supports markdown body (**bold**, *italic*, [links](url), lists, `---` horizontal rules), action buttons with server callbacks, and auto-dismiss.
+
+Used by: `<.flash_container />`
+
+**Usage:**
+
+```heex
+<.flash_container id="my-form" />
+```
+
+```elixir
+# Simple flash
+socket |> push_flash("my-form", "success", "Saved!")
+
+# With markdown body and action buttons
+socket |> push_flash("my-form", "warning", """
+Are you sure you want to delete **Invoice #1234**?
+
+This action cannot be undone.
+""",
+  title: "Confirm Deletion",
+  actions: [
+    %{label: "Delete", event: "delete-record", params: %{id: 1234}, variant: "danger"},
+    %{label: "Cancel", dismiss: true, variant: "secondary"}
+  ])
+```
+
+**Options:**
+
+| Option | Default | Description |
+|---|---|---|
+| `:title` | `nil` | Heading above the message |
+| `:duration` | `0` | Auto-dismiss in ms (0 = persistent) |
+| `:dismissible` | `true` | Show close button |
+| `:actions` | `[]` | Action button maps (see above) |
+
 ### PureAdminCommandPalette
 
 Command palette with keyboard navigation (arrow keys, Enter, Escape), search filtering, context switching, and pagination.
@@ -76,7 +114,7 @@ Used by: `<.checkbox is_indeterminate />`
 
 ### PureAdminSplitButton
 
-Split button dropdown via Floating UI. Manages open/close state, closes other open split buttons, and handles `pushEvent` for menu item clicks.
+Split button dropdown via Floating UI. Manages open/close state, closes other open split buttons, and handles `pushEvent` for menu item clicks and inline action buttons. Since the menu is moved to `document.body` for positioning, native `phx-click` doesn't work — the hook forwards clicks via `pushEvent`.
 
 Used by: `<.split_button />`
 

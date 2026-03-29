@@ -97,7 +97,88 @@ defmodule DemoWeb.ThemePlug do
         end
 
       dir ->
+        # Check if cached theme is stale (in background, don't block serving)
+        maybe_refresh_theme_async(name, dir)
         dir
+    end
+  end
+
+  # Check if cached theme is stale by comparing content_sha with the API.
+  # Runs asynchronously so theme serving is not blocked.
+  defp maybe_refresh_theme_async(name, dir) do
+    # Throttle: only check once per 10 minutes per theme
+    table = freshness_table()
+    now = System.monotonic_time(:millisecond)
+
+    case :ets.lookup(table, {:freshness, name}) do
+      [{_, checked_at}] when now - checked_at < @failed_ttl_ms ->
+        :ok
+
+      _ ->
+        :ets.insert(table, {{:freshness, name}, now})
+
+        Task.start(fn ->
+          check_and_refresh_theme(name, dir)
+        end)
+    end
+  end
+
+  defp check_and_refresh_theme(name, dir) do
+    cached_sha = read_cached_content_sha(dir)
+    ensure_httpc()
+
+    url = ~c"#{@pureadmin_api}/api/themes/#{name}"
+
+    headers =
+      if cached_sha do
+        [{~c"if-none-match", ~c"\"#{cached_sha}\""}]
+      else
+        []
+      end
+
+    case :httpc.request(:get, {url, headers}, [ssl: ssl_opts()], body_format: :binary) do
+      {:ok, {{_, 304, _}, _, _}} ->
+        Logger.debug("Theme \"#{name}\" is up-to-date (304)")
+
+      {:ok, {{_, 200, _}, _, body}} ->
+        case Jason.decode(body) do
+          {:ok, %{"theme" => %{"content_sha" => remote_sha}}} when remote_sha != cached_sha ->
+            Logger.info("Theme \"#{name}\" is stale (#{cached_sha || "none"} -> #{remote_sha}), re-downloading...")
+            download_theme(name)
+
+          _ ->
+            Logger.debug("Theme \"#{name}\" content_sha unchanged, skipping re-download")
+        end
+
+      _ ->
+        :ok
+    end
+  rescue
+    e -> Logger.warning("Theme freshness check failed for \"#{name}\": #{inspect(e)}")
+  end
+
+  defp read_cached_content_sha(dir) do
+    manifest_path = Path.join(dir, "theme.json")
+
+    case File.read(manifest_path) do
+      {:ok, content} ->
+        case Jason.decode(content) do
+          {:ok, %{"checksums" => %{"content_sha" => sha}}} when is_binary(sha) -> sha
+          _ -> nil
+        end
+
+      _ ->
+        nil
+    end
+  end
+
+  defp freshness_table do
+    case :ets.whereis(:theme_freshness) do
+      :undefined ->
+        :ets.new(:theme_freshness, [:set, :public, :named_table])
+
+      ref ->
+        ref
     end
   end
 
@@ -262,7 +343,8 @@ defmodule DemoWeb.ThemePlug do
           File.write!(dest, content)
         end
 
-        # Fetch manifest from API if not in zip
+        # The ZIP's theme.json has the full package manifest (colorVariants, fonts, etc.)
+        # but may lack content_sha. Fetch it from the API and merge it in.
         manifest_path = Path.join(theme_path, "theme.json")
 
         unless File.exists?(manifest_path) do

@@ -8,7 +8,19 @@ Phoenix LiveView component library wrapping the [Pure Admin](https://github.com/
 
 Drop-in replacement for Phoenix `CoreComponents` -- provides `button/1`, `badge/1`, `card/1`, `modal/1`, `table/1`, `input/1`, and 35+ more components with full BEM class support.
 
+**Main site:** [pureadmin.io](https://pureadmin.io) -- themes, documentation, and component showcase
+
 **Live demo:** [elixir.demo.pureadmin.io](https://elixir.demo.pureadmin.io)
+
+## Prerequisites
+
+Create a new Phoenix project **without Tailwind** — Pure Admin provides its own CSS framework:
+
+```bash
+mix phx.new my_app --no-tailwind
+```
+
+> If you have an existing project that uses Tailwind, remove the Tailwind dependency and its configuration before adding Pure Admin, as the two CSS frameworks will conflict.
 
 ## Installation
 
@@ -60,6 +72,13 @@ Replace your `CoreComponents` import with `PureAdmin.Components`:
 # In your app's html_helpers or MyAppWeb module
 use PureAdmin.Components
 ```
+
+This replaces `button/1`, `input/1`, `simple_form/1`, `modal/1`, `table/1`, `list/1`, `label/1`, `flash/1`, and `flash_group/1`. A few CoreComponents functions are not replaced:
+
+- **`header/1`** — use `@page_title` in `<.navbar_title>` (the layout renders it, each LiveView sets it)
+- **`icon/1`** — use Font Awesome directly: `<i class="fa-solid fa-user"></i>`
+- **`translate_error/1`** — keep your app's Gettext-based implementation or copy it from the generated CoreComponents
+- **`show/1`**, **`hide/1`** — use `Phoenix.LiveView.JS.show/1` and `JS.hide/1` directly
 
 ### 2. Include Pure Admin CSS
 
@@ -171,7 +190,7 @@ Full page structure matching the Pure Admin three-section navbar + sidebar + con
   <.navbar>
     <:start>
       <.navbar_burger />
-      <.navbar_brand><h1>My App</h1></.navbar_brand>
+      <.navbar_brand><.heading level="1">My App</.heading></.navbar_brand>
       <.navbar_nav>
         <.navbar_nav_item href="/">Dashboard</.navbar_nav_item>
         <.navbar_nav_item href="/reports" has_dropdown>
@@ -186,7 +205,7 @@ Full page structure matching the Pure Admin three-section navbar + sidebar + con
       </.navbar_nav>
     </:start>
     <:center>
-      <.navbar_title><h2>Dashboard</h2></.navbar_title>
+      <.navbar_title><.heading level="2">Dashboard</.heading></.navbar_title>
     </:center>
     <:end_>
       <.notifications count={3}>
@@ -210,7 +229,10 @@ Full page structure matching the Pure Admin three-section navbar + sidebar + con
     </.sidebar>
 
     <.layout_content>
-      <.main>{@inner_content}</.main>
+      <.main>
+        <.flash_group flash={@flash} />
+        {@inner_content}
+      </.main>
       <.footer>
         <:start>&copy; 2026 My App</:start>
       </.footer>
@@ -288,6 +310,7 @@ Client-side settings panel for theme mode, layout width, sidebar options, fonts,
 | `code/1`, `code_block/1` | Inline code and code blocks |
 | `tooltip/1`, `popover/1` | Tooltips and popovers with Floating UI positioning |
 | `toast/1`, `toast_container/1`, `push_toast/5` | Toast notifications with client-side rendering via JS hook |
+| `flash/1`, `flash_group/1`, `flash_container/1`, `push_flash/5` | Flash messages — standard `@flash` compat + independent containers with markdown body and action buttons |
 | `pager/1`, `load_more/1` | Pagination with page input, first/last buttons |
 
 ### JS Hooks
@@ -299,6 +322,7 @@ Client-side settings panel for theme mode, layout width, sidebar options, fonts,
 | `PureAdminTooltip` | Tooltip positioning |
 | `PureAdminPopover` | Popover positioning |
 | `PureAdminToast` | Toast auto-dismiss |
+| `PureAdminFlash` | Independent inline flash containers with markdown and action buttons |
 | `PureAdminCommandPalette` | Command palette keyboard navigation |
 | `PureAdminDetailPanel` | Detail panel toggle |
 | `PureAdminSidebarResize` | Drag-to-resize sidebar |
@@ -324,6 +348,65 @@ Browse the live component showcase and theme previews at [pureadmin.io](https://
 | Dark | `@keenmate/pure-admin-theme-dark` |
 | Express | `@keenmate/pure-admin-theme-express` |
 | Minimal | `@keenmate/pure-admin-theme-minimal` |
+
+### Installing Themes
+
+Theme zips are self-contained — compiled CSS in `dist/` references fonts via relative paths (`../assets/fonts/...`), so extracting preserves correct asset resolution with no path adjustments needed. Each theme includes compiled CSS, SCSS source (for customization), bundled fonts, and a `theme.json` manifest.
+
+#### Option A: Manual download
+
+Download theme zips from [pureadmin.io](https://pureadmin.io) and extract them into `priv/static/themes/`:
+
+```
+priv/static/themes/
+├── themes.json
+├── audi/
+│   ├── theme.json
+│   ├── dist/audi.css
+│   ├── scss/audi.scss
+│   └── assets/fonts/*.woff2
+├── dark/
+│   ├── dist/dark.css
+│   └── ...
+└── ...
+```
+
+#### Option B: Pure Admin CLI
+
+Install the [`@keenmate/pureadmin`](https://www.npmjs.com/package/@keenmate/pureadmin) CLI and manage themes in your project:
+
+```bash
+npm install -g @keenmate/pureadmin
+pureadmin themes audi dark express    # download and extract
+pureadmin update                      # re-download only changed themes
+```
+
+The CLI tracks versions and checksums in `pure-admin.json` — only changed themes are re-downloaded.
+
+#### Option C: Download during CI/CD build
+
+Fetch themes automatically in your Dockerfile using the bundle API:
+
+```dockerfile
+ARG THEMES_URL=https://pureadmin.io/api/bundle?themes=audi,dark,express,corporate,minimal
+RUN apt-get update && apt-get install -y --no-install-recommends curl unzip && rm -rf /var/lib/apt/lists/* \
+  && mkdir -p priv/static/themes \
+  && curl -fsSL -o /tmp/themes.zip "${THEMES_URL}" \
+  && unzip -o /tmp/themes.zip -d priv/static/themes \
+  && rm -f /tmp/themes.zip
+```
+
+Pass a comma-separated list of theme names to the `themes` query parameter. The API returns a single zip with all requested themes. See `demo/Dockerfile` for a complete example.
+
+#### Theme cache invalidation
+
+The demo app's `ThemePlug` caches downloaded themes to disk. Each theme's `theme.json` contains a `checksums.content_sha` field — a SHA-256 hash of the package contents. On access, the plug validates the cache in the background by sending a conditional request (`If-None-Match: <content_sha>`) to pureadmin.io. If the server returns 200 (theme updated), it re-downloads without blocking the current request. Freshness checks are throttled to once per 10 minutes per theme.
+
+To force-clear the cache:
+
+```bash
+make themes-clear
+```
 
 ## Requirements
 

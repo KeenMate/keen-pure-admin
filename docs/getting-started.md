@@ -2,6 +2,16 @@
 
 PureAdmin is a Phoenix LiveView component library that wraps the [Pure Admin](https://pureadmin.io) CSS framework into function components. It serves as a drop-in replacement for Phoenix's generated `CoreComponents`.
 
+## Prerequisites
+
+Create a new Phoenix project **without Tailwind** — Pure Admin provides its own CSS framework:
+
+```bash
+mix phx.new my_app --no-tailwind
+```
+
+> If you have an existing project that uses Tailwind, remove the Tailwind dependency and its configuration before adding Pure Admin, as the two CSS frameworks will conflict.
+
 ## Installation
 
 Add `keen_pure_admin` to your `mix.exs`:
@@ -36,6 +46,13 @@ defp html_helpers do
   end
 end
 ```
+
+This replaces `button/1`, `input/1`, `simple_form/1`, `modal/1`, `table/1`, `list/1`, `label/1`, `flash/1`, and `flash_group/1`. Functions **not** replaced:
+
+- **`header/1`** — use `@page_title` in `<.navbar_title>` (layout renders it, LiveView sets it)
+- **`icon/1`** — use Font Awesome directly: `<i class="fa-solid fa-user"></i>`
+- **`translate_error/1`** — keep your app's Gettext-based implementation
+- **`show/1`**, **`hide/1`** — use `Phoenix.LiveView.JS` directly
 
 ### 2. Include Pure Admin CSS
 
@@ -100,10 +117,10 @@ Add to your root layout before `{@inner_content}` to prevent flash of unstyled c
   <.navbar>
     <:start>
       <.navbar_burger />
-      <.navbar_brand><h1>My App</h1></.navbar_brand>
+      <.navbar_brand><.heading level="1">My App</.heading></.navbar_brand>
     </:start>
     <:center>
-      <.navbar_title><h2>Dashboard</h2></.navbar_title>
+      <.navbar_title><.heading level="2">Dashboard</.heading></.navbar_title>
     </:center>
   </.navbar>
 
@@ -113,7 +130,10 @@ Add to your root layout before `{@inner_content}` to prevent flash of unstyled c
     </.sidebar>
 
     <.layout_content>
-      <.main>{@inner_content}</.main>
+      <.main>
+        <.flash_group flash={@flash} />
+        {@inner_content}
+      </.main>
       <.footer>
         <:start>&copy; 2026 My App</:start>
       </.footer>

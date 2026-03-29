@@ -92,6 +92,11 @@
         is_active={@current_path == "/forms"}
       />
 
+      <.sidebar_submenu id="phoenix" label="Phoenix / LiveView" icon="fa-solid fa-fire" is_open={String.starts_with?(@current_path, "/phoenix")}>
+        <.sidebar_item label="CoreComponents Migration" href="/phoenix/core-components" is_active={@current_path == "/phoenix/core-components"} />
+        <.sidebar_item label="Flash Messages" href="/phoenix/flash" is_active={@current_path == "/phoenix/flash"} />
+      </.sidebar_submenu>
+
       <.sidebar_submenu id="components" label="Components" icon="fa-solid fa-puzzle-piece" is_open={String.starts_with?(@current_path, "/components")}>
         <.sidebar_item label="Buttons" href="/components/buttons" is_active={@current_path == "/components/buttons"} />
         <.sidebar_item label="Inputs" href="/components/inputs" is_active={@current_path == "/components/inputs"} />
@@ -153,7 +158,7 @@
 
     <.layout_content>
       <.main>
-        <Layouts.flash_group flash={@flash} />
+        <.flash_group flash={@flash} />
         {@inner_content}
       </.main>
 

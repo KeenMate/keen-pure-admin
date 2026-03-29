@@ -62,6 +62,10 @@ defmodule DemoWeb.Router do
       live "/tables/multi-select", Live.TableMultiSelectLive, :index
       live "/tables/comparison", Live.TablesComparisonLive, :index
 
+      # Phoenix / LiveView
+      live "/phoenix/core-components", Live.CoreComponentsLive, :index
+      live "/phoenix/flash", Live.FlashLive, :index
+
       # Virtual Scroll
       live "/virtual-scroll/demo", Live.VirtualScrollLive, :index
 

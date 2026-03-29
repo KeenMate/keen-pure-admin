@@ -26,6 +26,7 @@ defmodule PureAdmin.Components do
       import PureAdmin.Components.Code
       import PureAdmin.Components.DataDisplay
       import PureAdmin.Components.FilterCard
+      import PureAdmin.Components.Flash
       import PureAdmin.Components.DataViz
       import PureAdmin.Components.Form
       import PureAdmin.Components.Grid

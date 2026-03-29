@@ -1,5 +1,56 @@
 # Changelog
 
+## Unreleased
+
+### Flash Messages
+
+- **`PureAdmin.Components.Flash`** — new module with two approaches:
+  - **Standard flash** — `flash/1` and `flash_group/1` as drop-in replacements for CoreComponents, styled with `pa-alert` BEM classes. Works with Phoenix's built-in `put_flash/3`
+  - **Independent flash containers** — `flash_container/1` + `push_flash/5` for multiple independent flash groups on the same page. Each container receives messages independently via a JS hook
+- **`PureAdminFlash`** JS hook — client-side rendering of flash alerts. Supports markdown body (**bold**, *italic*, [links](url), lists, `---` horizontal rules), action buttons with `pushEvent` callbacks, auto-dismiss, and dismissible close button
+- **Markdown body** — flash message text supports basic markdown rendered as proper `pa-alert__content` HTML
+- **Action buttons** — flash messages can include action buttons that push events back to the LiveView or dismiss the flash
+
+### Toast Updates (pure-admin 2.3.0)
+
+- **Toast action buttons** — `push_toast/5` accepts `:actions` option with `%{label, event, params, variant, dismiss}` maps. JS hook renders `pa-toast__actions` with `pa-btn--xs` buttons inside `pa-toast__content`. Clicking an action fires `pushEvent` back to the server, then auto-dismisses
+- **Toast progress bar** — `:progress` option renders `pa-toast__progress` bar that animates from 100% to 0% over the duration. `:progress_color` option overrides the bar color via inline style
+- **Filled toasts via push_toast** — `:filled` option renders `pa-toast--filled-{variant}` class
+- **`max_width`** — custom max-width per toast (e.g. `max_width: "50rem"`)
+- **Width ratchet** — container `min-width` tracks the widest toast shown, resets when container is empty
+- **Click-to-dismiss** — toasts without actions are click-to-dismiss (cursor: pointer). Toasts with actions require close button or action click
+
+### Components (pure-admin 2.3.1)
+
+- **`split_button/1`** — chevron icon now points up (`fa-chevron-up`) for `top-*` placements, down for `bottom-*`
+- **`split_button/1` primary icon** — new `icon` attr for Font Awesome icon on the primary button (e.g. `icon="fas fa-download"`)
+- **`split_button/1` item icons** — `:item` slot now accepts `icon` attr (e.g. `icon="fas fa-file"`) rendering as `pa-btn-split__item-icon`
+- **`split_button/1` inline action buttons** — `:item` slot accepts `action_icon`, `action_event`, `action_value`, `action_variant` attrs for inline action buttons beside menu items (e.g. delete/remove). The JS hook forwards clicks via `pushEvent` since the menu is moved to `document.body`
+- **`button/1` label wrapping** — button text is wrapped in `<span class="pa-btn__label">` when an icon is present, enabling proper centering with `align="center"`
+- **`input_group/1`** — `:button` slot now documented to use `class="pa-input-group__button"` on the button element
+
+### Demo
+
+- **Phoenix / LiveView** sidebar section — new section for framework-specific features (matches Svelte demo's "Svelte" section)
+- **CoreComponents Migration** page — migration table showing replaced vs manual functions, setup timeline
+- **Flash Messages** page — independent containers demo, variant showcase, markdown + action buttons demo, standard `@flash` compatibility
+- **Toasts** page — added progress bar demos (standard + filled), action toast demos (Undo, Retry, Update, Filled + Actions), theme color toasts with filled subsection
+- **Buttons** page — split buttons card moved after Responsive Direction to match pure-admin layout 1:1, consolidated into single card with subsections (Sizes, Upward Placement, Custom Icons)
+
+### Theme Cache Invalidation
+
+- **`ThemePlug` auto-refresh** — cached themes are validated against pureadmin.io using `content_sha` from the theme's `checksums` field. On first access after startup, the plug sends a conditional request (`If-None-Match`) to the API in the background. If the server returns 200 (sha mismatch), the theme is re-downloaded without blocking the current request. 304 means the cache is fresh. Freshness checks are throttled to once per 10 minutes per theme
+- **`make themes-clear`** — new Makefile target to force-clear the theme cache, triggering fresh downloads on next access
+
+### Documentation
+
+- **Prerequisites** section added to README and getting-started guide (`mix phx.new --no-tailwind`)
+- **Main site** link added to README ([pureadmin.io](https://pureadmin.io))
+- **Theme installation** guide — actual zip structure from pureadmin.io API, self-contained relative paths. Three installation options: Pure Admin CLI (`@keenmate/pureadmin`), manual download, CI/CD Dockerfile
+- **Creating custom themes** — new section in theming docs referencing the CLI's `init`, `build`, `pack`, `publish` workflow
+- **Theme customization via SCSS** — variable overrides, custom fonts, baseline correction, complete example
+- **`make help`** — all Makefile targets now have `## description` comments
+
 ## v1.0.0-rc.1
 
 First release candidate. Consolidates all v0.x development into a stable API.

@@ -69,7 +69,7 @@ defmodule PureAdmin.Components.Button do
       >
         <span :if={@is_loading} class="pa-btn__spinner"></span>
         <span :if={@icon != [] && @icon_position == "start"} :for={icon <- @icon} class="pa-btn__icon"><%= render_slot(icon) %></span>
-        <%= render_slot(@inner_block) %>
+        <%= if @icon != [] do %><span class="pa-btn__label"><%= render_slot(@inner_block) %></span><% else %><%= render_slot(@inner_block) %><% end %>
         <span :if={@icon != [] && @icon_position == "end"} :for={icon <- @icon} class="pa-btn__icon"><%= render_slot(icon) %></span>
       </a>
     <% else %>
@@ -82,7 +82,7 @@ defmodule PureAdmin.Components.Button do
       >
         <span :if={@is_loading} class="pa-btn__spinner"></span>
         <span :if={@icon != [] && @icon_position == "start"} :for={icon <- @icon} class="pa-btn__icon"><%= render_slot(icon) %></span>
-        <%= render_slot(@inner_block) %>
+        <%= if @icon != [] do %><span class="pa-btn__label"><%= render_slot(@inner_block) %></span><% else %><%= render_slot(@inner_block) %><% end %>
         <span :if={@icon != [] && @icon_position == "end"} :for={icon <- @icon} class="pa-btn__icon"><%= render_slot(icon) %></span>
       </button>
     <% end %>
@@ -176,23 +176,46 @@ defmodule PureAdmin.Components.Button do
 
   ## Examples
 
-      <.split_button label="Save" variant="primary">
-        <:item>Save as Draft</:item>
-        <:item>Save & Close</:item>
+      <.split_button label="Save" variant="primary" on_click="save">
+        <:item icon="fas fa-file" on_click="save" action="draft">Save as Draft</:item>
+        <:item icon="fas fa-door-closed" on_click="save" action="close">Save & Close</:item>
       </.split_button>
 
-      <.split_button label="Export" variant="primary" on_click="export">
-        <:item phx-click="export-csv">Export as CSV</:item>
-        <:item phx-click="export-pdf">Export as PDF</:item>
-        <:item is_danger phx-click="delete-all">Delete All</:item>
+      <.split_button label="Export" icon="fas fa-download" variant="secondary" on_click="export">
+        <:item icon="fas fa-file-csv" on_click="export" action="csv">Export as CSV</:item>
+        <:item icon="fas fa-file-pdf" on_click="export" action="pdf">Export as PDF</:item>
+        <:item is_danger on_click="export" action="delete-all">Delete All</:item>
       </.split_button>
 
-      <.split_button label="Upload" variant="primary" placement="top-end">
-        <:item>Upload File</:item>
-        <:item>Upload Folder</:item>
+  ## Item icons
+
+  Menu items can have icons via the `icon` attr, rendered as `pa-btn-split__item-icon`.
+
+  ## Inline action buttons
+
+  Items can include an inline action button (e.g. delete) beside the item text.
+  Set `action_icon` to enable it:
+
+      <.split_button label="Bookmarks" icon="fas fa-bookmark" variant="primary">
+        <:item icon="fas fa-home" on_click="navigate" action="dashboard"
+               action_icon="fas fa-trash-can" action_event="remove_bookmark" action_value="dashboard">
+          Dashboard
+        </:item>
       </.split_button>
+
+  - `action_icon` — Font Awesome class for the inline button (required to show it)
+  - `action_event` — LiveView event name pushed when clicked
+  - `action_value` — string value sent as `%{"action" => value}` with the event.
+    Falls back to the item's `action` attr if not set
+  - `action_variant` — button color variant (default: `"danger"`)
+
+  ## Upward placement
+
+  Use `placement="top-end"` to open the menu upward. The chevron icon
+  automatically points up. Floating UI will auto-flip if there's not enough space.
   """
   attr(:label, :string, required: true, doc: "Primary button label")
+  attr(:icon, :string, default: nil, doc: "Font Awesome icon class for the primary button (e.g. \"fas fa-download\")")
   attr(:variant, :string, default: "primary",
     values: ~w(primary secondary success warning danger info light dark))
   attr(:size, :string, default: nil, values: [nil, "xs", "sm", "lg", "xl"])
@@ -206,11 +229,17 @@ defmodule PureAdmin.Components.Button do
     attr(:is_danger, :boolean, doc: "Danger styling for destructive actions")
     attr(:on_click, :string, doc: "LiveView click event name")
     attr(:action, :string, doc: "Action value sent with the click event")
+    attr(:icon, :string, doc: "Font Awesome icon class for the item (e.g. \"fas fa-file\")")
+    attr(:action_icon, :string, doc: "Inline action button icon (e.g. \"fas fa-trash-can\")")
+    attr(:action_event, :string, doc: "LiveView event for the inline action button")
+    attr(:action_value, :string, doc: "Value sent with the inline action event")
+    attr(:action_variant, :string, doc: "Variant for the inline action button (default: \"danger\")")
   end
 
   def split_button(assigns) do
     size_class = if assigns.size, do: " pa-btn--#{assigns.size}", else: ""
-    assigns = assign(assigns, :size_class, size_class)
+    chevron = if String.starts_with?(assigns.placement, "top"), do: "fa-chevron-up", else: "fa-chevron-down"
+    assigns = assigns |> assign(:size_class, size_class) |> assign(:chevron, chevron)
 
     ~H"""
     <div
@@ -226,6 +255,7 @@ defmodule PureAdmin.Components.Button do
         disabled={@disabled}
         phx-click={@on_click}
       >
+        <span :if={@icon} class="pa-btn__icon"><i class={@icon}></i></span>
         <%= @label %>
       </button>
       <button
@@ -233,18 +263,43 @@ defmodule PureAdmin.Components.Button do
         type="button"
         disabled={@disabled}
       >
-        <i class="fas fa-chevron-down text-2xs pa-btn-split__chevron"></i>
+        <i class={"fas #{@chevron} text-2xs pa-btn-split__chevron"}></i>
       </button>
       <div class="pa-btn-split__menu">
-        <button
-          :for={item <- @item}
-          class={"pa-btn-split__item#{if item[:is_danger], do: " pa-btn-split__item--danger", else: ""}"}
-          type="button"
-          data-phx-click={item[:on_click]}
-          data-phx-value-action={item[:action]}
-        >
-          <%= render_slot(item) %>
-        </button>
+        <%= for item <- @item do %>
+          <%= if item[:action_icon] do %>
+            <div style="display: flex; align-items: center;">
+              <button
+                class={"pa-btn-split__item#{if item[:is_danger], do: " pa-btn-split__item--danger", else: ""}"}
+                type="button"
+                data-phx-click={item[:on_click]}
+                data-phx-value-action={item[:action]}
+              >
+                <span :if={item[:icon]} class="pa-btn-split__item-icon"><i class={item[:icon]}></i></span>
+                <%= render_slot(item) %>
+              </button>
+              <button
+                class={"pa-btn pa-btn--#{item[:action_variant] || "danger"} pa-btn--xs pa-btn--icon-only"}
+                type="button"
+                style="margin-inline-end: 0.5rem;"
+                phx-click={item[:action_event]}
+                phx-value-action={item[:action_value] || item[:action]}
+              >
+                <i class={item[:action_icon]}></i>
+              </button>
+            </div>
+          <% else %>
+            <button
+              class={"pa-btn-split__item#{if item[:is_danger], do: " pa-btn-split__item--danger", else: ""}"}
+              type="button"
+              data-phx-click={item[:on_click]}
+              data-phx-value-action={item[:action]}
+            >
+              <span :if={item[:icon]} class="pa-btn-split__item-icon"><i class={item[:icon]}></i></span>
+              <%= render_slot(item) %>
+            </button>
+          <% end %>
+        <% end %>
       </div>
     </div>
     """

@@ -38,14 +38,27 @@ defmodule PureAdmin.Components.Toast do
       socket |> push_toast("info", "Note", "FYI", position: "bottom-end")
   """
   def push_toast(socket, variant, title, message, opts \\ []) do
-    Phoenix.LiveView.push_event(socket, "toast", %{
+    payload = %{
       variant: variant,
       title: title,
       message: message,
       duration: Keyword.get(opts, :duration, 5000),
-      position: Keyword.get(opts, :position, "top-end")
-    })
+      position: Keyword.get(opts, :position, "top-end"),
+      filled: Keyword.get(opts, :filled, false),
+      progress: Keyword.get(opts, :progress, false)
+    }
+
+    payload =
+      payload
+      |> maybe_put(:progress_color, Keyword.get(opts, :progress_color))
+      |> maybe_put(:max_width, Keyword.get(opts, :max_width))
+      |> maybe_put(:actions, Keyword.get(opts, :actions))
+
+    Phoenix.LiveView.push_event(socket, "toast", payload)
   end
+
+  defp maybe_put(map, _key, nil), do: map
+  defp maybe_put(map, key, value), do: Map.put(map, key, value)
 
   @doc """
   Renders a toast notification.

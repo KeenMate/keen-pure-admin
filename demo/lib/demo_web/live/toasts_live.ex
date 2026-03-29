@@ -27,14 +27,79 @@ defmodule DemoWeb.Live.ToastsLive do
     )}
   end
 
-  def handle_event("add_toast", params, socket) do
+  def handle_event("show_toast", params, socket) do
     variant = params["variant"] || "info"
     position = params["position"] || "top-end"
     duration = String.to_integer(params["duration"] || "5000")
+    filled = params["filled"] == "true"
     title = params["title"] || @toast_messages[variant].title
     message = params["message"] || @toast_messages[variant].message
 
-    {:noreply, PureToast.push_toast(socket, variant, title, message, duration: duration, position: position)}
+    progress = params["progress"] == "true"
+    {:noreply, PureToast.push_toast(socket, variant, title, message, duration: duration, position: position, filled: filled, progress: progress)}
+  end
+
+  def handle_event("show_action_toast", %{"type" => "undo"}, socket) do
+    {:noreply,
+     PureToast.push_toast(socket, "warning", "Item Deleted", "The item has been moved to trash.",
+       duration: 8000,
+       progress: true,
+       actions: [
+         %{label: "Undo", event: "undo_delete", variant: "warning"},
+         %{label: "Dismiss", dismiss: true}
+       ]
+     )}
+  end
+
+  def handle_event("show_action_toast", %{"type" => "retry"}, socket) do
+    {:noreply,
+     PureToast.push_toast(socket, "danger", "Save Failed", "Could not save your changes.",
+       duration: 0,
+       actions: [
+         %{label: "Retry", event: "retry_save", variant: "danger"},
+         %{label: "Dismiss", dismiss: true}
+       ]
+     )}
+  end
+
+  def handle_event("show_action_toast", %{"type" => "update"}, socket) do
+    {:noreply,
+     PureToast.push_toast(socket, "info", "Update Available", "Version 2.3.0 is ready to install.",
+       duration: 0,
+       actions: [
+         %{label: "Update Now", event: "do_update", variant: "primary"},
+         %{label: "Later", dismiss: true}
+       ]
+     )}
+  end
+
+  def handle_event("show_action_toast", %{"type" => "filled"}, socket) do
+    {:noreply,
+     PureToast.push_toast(socket, "success", "Export Ready", "Your report is ready for download.",
+       duration: 0,
+       filled: true,
+       actions: [
+         %{label: "Download", event: "download_export", variant: "success"},
+         %{label: "Dismiss", dismiss: true}
+       ]
+     )}
+  end
+
+  # Action button callbacks
+  def handle_event("undo_delete", _params, socket) do
+    {:noreply, PureToast.push_toast(socket, "success", "Restored", "Item has been restored.")}
+  end
+
+  def handle_event("retry_save", _params, socket) do
+    {:noreply, PureToast.push_toast(socket, "success", "Saved", "Changes saved successfully.")}
+  end
+
+  def handle_event("do_update", _params, socket) do
+    {:noreply, PureToast.push_toast(socket, "success", "Updating...", "Update started.", duration: 3000)}
+  end
+
+  def handle_event("download_export", _params, socket) do
+    {:noreply, PureToast.push_toast(socket, "info", "Downloading", "Your download has started.", duration: 3000)}
   end
 
   def handle_event("show_multiple", _params, socket) do
@@ -72,7 +137,7 @@ defmodule DemoWeb.Live.ToastsLive do
     <.paragraph>Temporary notification messages that auto-dismiss. Toasts are rendered client-side via JS hook — the server pushes events, no round-trips for display/dismiss.</.paragraph>
 
     <%!-- Toast containers for each position (hook-based, client-side rendering) --%>
-    <.toast_container id="toasts-top-end" position="top-end" is_hook />
+    <%!-- top-end container is already in app.html.heex layout --%>
     <.toast_container id="toasts-top-center" position="top-center" is_hook />
     <.toast_container id="toasts-top-start" position="top-start" is_hook />
     <.toast_container id="toasts-bottom-end" position="bottom-end" is_hook />
@@ -83,34 +148,34 @@ defmodule DemoWeb.Live.ToastsLive do
     <.card title_text="Toast Positions">
       <.grid>
         <.column size="100" md="1-3">
-          <.button variant="primary" is_block phx-click="add_toast" phx-value-position="top-end" phx-value-variant="success">
+          <.button variant="primary" is_block phx-click="show_toast" phx-value-position="top-end" phx-value-variant="success">
             Top End
           </.button>
         </.column>
         <.column size="100" md="1-3">
-          <.button variant="primary" is_block phx-click="add_toast" phx-value-position="top-center" phx-value-variant="info">
+          <.button variant="primary" is_block phx-click="show_toast" phx-value-position="top-center" phx-value-variant="info">
             Top Center
           </.button>
         </.column>
         <.column size="100" md="1-3">
-          <.button variant="primary" is_block phx-click="add_toast" phx-value-position="top-start" phx-value-variant="warning">
+          <.button variant="primary" is_block phx-click="show_toast" phx-value-position="top-start" phx-value-variant="warning">
             Top Start
           </.button>
         </.column>
       </.grid>
       <.grid class="mt-4">
         <.column size="100" md="1-3">
-          <.button variant="secondary" is_block phx-click="add_toast" phx-value-position="bottom-end" phx-value-variant="danger">
+          <.button variant="secondary" is_block phx-click="show_toast" phx-value-position="bottom-end" phx-value-variant="danger">
             Bottom End
           </.button>
         </.column>
         <.column size="100" md="1-3">
-          <.button variant="secondary" is_block phx-click="add_toast" phx-value-position="bottom-center" phx-value-variant="primary">
+          <.button variant="secondary" is_block phx-click="show_toast" phx-value-position="bottom-center" phx-value-variant="primary">
             Bottom Center
           </.button>
         </.column>
         <.column size="100" md="1-3">
-          <.button variant="secondary" is_block phx-click="add_toast" phx-value-position="bottom-start" phx-value-variant="success">
+          <.button variant="secondary" is_block phx-click="show_toast" phx-value-position="bottom-start" phx-value-variant="success">
             Bottom Start
           </.button>
         </.column>
@@ -120,11 +185,28 @@ defmodule DemoWeb.Live.ToastsLive do
     <%!-- Toast Variants --%>
     <.card title_text="Toast Variants">
       <.button_group>
-        <.button variant="primary" phx-click="add_toast" phx-value-variant="primary">Primary</.button>
-        <.button variant="success" phx-click="add_toast" phx-value-variant="success">Success</.button>
-        <.button variant="danger" phx-click="add_toast" phx-value-variant="danger">Danger</.button>
-        <.button variant="warning" phx-click="add_toast" phx-value-variant="warning">Warning</.button>
-        <.button variant="info" phx-click="add_toast" phx-value-variant="info">Info</.button>
+        <.button variant="primary" phx-click="show_toast" phx-value-variant="primary">Primary</.button>
+        <.button variant="success" phx-click="show_toast" phx-value-variant="success">Success</.button>
+        <.button variant="danger" phx-click="show_toast" phx-value-variant="danger">Danger</.button>
+        <.button variant="warning" phx-click="show_toast" phx-value-variant="warning">Warning</.button>
+        <.button variant="info" phx-click="show_toast" phx-value-variant="info">Info</.button>
+      </.button_group>
+    </.card>
+
+    <%!-- Toast with Progress Bar --%>
+    <.card title_text="Toast with Progress Bar">
+      <.heading level="5">Standard</.heading>
+      <.button_group>
+        <.button :for={v <- ~w(primary success danger warning info)} variant={v} phx-click="show_toast" phx-value-variant={v} phx-value-progress="true" phx-value-title={String.capitalize(v)} phx-value-message={"#{String.capitalize(v)} toast with progress bar."}>
+          {String.capitalize(v)}
+        </.button>
+      </.button_group>
+
+      <.heading level="5">Filled</.heading>
+      <.button_group>
+        <.button :for={v <- ~w(primary success danger warning info)} variant={v} phx-click="show_toast" phx-value-variant={v} phx-value-progress="true" phx-value-filled="true" phx-value-title={String.capitalize(v)} phx-value-message={"Filled #{v} toast with progress bar."}>
+          {String.capitalize(v)}
+        </.button>
       </.button_group>
     </.card>
 
@@ -132,17 +214,17 @@ defmodule DemoWeb.Live.ToastsLive do
     <.card title_text="Persistent Toasts (Manual Dismiss Only)">
       <.grid>
         <.column size="100" md="1-3">
-          <.button variant="warning" is_block phx-click="add_toast" phx-value-variant="warning" phx-value-duration="0" phx-value-title="Important Warning" phx-value-message="This requires your attention. Click close to dismiss.">
+          <.button variant="warning" is_block phx-click="show_toast" phx-value-variant="warning" phx-value-duration="0" phx-value-title="Important Warning" phx-value-message="This requires your attention. Click close to dismiss.">
             Important Warning
           </.button>
         </.column>
         <.column size="100" md="1-3">
-          <.button variant="danger" is_block phx-click="add_toast" phx-value-variant="danger" phx-value-duration="0" phx-value-title="Critical Error" phx-value-message="Critical error detected! Will remain until acknowledged.">
+          <.button variant="danger" is_block phx-click="show_toast" phx-value-variant="danger" phx-value-duration="0" phx-value-title="Critical Error" phx-value-message="Critical error detected! Will remain until acknowledged.">
             Critical Error
           </.button>
         </.column>
         <.column size="100" md="1-3">
-          <.button variant="info" is_block phx-click="add_toast" phx-value-variant="info" phx-value-duration="0" phx-value-title="Important Info" phx-value-message="Read carefully before dismissing.">
+          <.button variant="info" is_block phx-click="show_toast" phx-value-variant="info" phx-value-duration="0" phx-value-title="Important Info" phx-value-message="Read carefully before dismissing.">
             Important Info
           </.button>
         </.column>
@@ -154,15 +236,26 @@ defmodule DemoWeb.Live.ToastsLive do
 
     <%!-- Action Toasts --%>
     <.card title_text="Action Toasts">
+      <.paragraph>Toasts with action buttons push events back to the server. Toasts with actions are not click-to-dismiss.</.paragraph>
       <.grid>
         <.column size="100" md="50">
-          <.button variant="success" phx-click="add_toast" phx-value-variant="success" phx-value-title="Upload Complete" phx-value-message="File uploaded successfully!">
-            Upload Success
+          <.button variant="warning" phx-click="show_action_toast" phx-value-type="undo">
+            Undo Action
           </.button>
         </.column>
         <.column size="100" md="50">
-          <.button variant="danger" phx-click="add_toast" phx-value-variant="danger" phx-value-title="Save Failed" phx-value-message="Failed to save changes. Please try again.">
-            Save Error
+          <.button variant="danger" phx-click="show_action_toast" phx-value-type="retry">
+            Retry Action
+          </.button>
+        </.column>
+        <.column size="100" md="50">
+          <.button variant="info" phx-click="show_action_toast" phx-value-type="update">
+            Update Available
+          </.button>
+        </.column>
+        <.column size="100" md="50">
+          <.button variant="success" phx-click="show_action_toast" phx-value-type="filled">
+            Filled + Actions
           </.button>
         </.column>
       </.grid>
@@ -198,7 +291,7 @@ defmodule DemoWeb.Live.ToastsLive do
     <%!-- Filled Toast Variants --%>
     <.card title_text="Filled Toast Variants">
       <.button_group>
-        <.button :for={v <- ~w(primary success danger warning info)} variant={v} phx-click="push_toast" phx-value-variant={v} phx-value-title={String.capitalize(v)} phx-value-message={"Filled #{v} toast with full-color background."} phx-value-filled="true">
+        <.button :for={v <- ~w(primary success danger warning info)} variant={v} phx-click="show_toast" phx-value-variant={v} phx-value-title={String.capitalize(v)} phx-value-message={"Filled #{v} toast with full-color background."} phx-value-filled="true">
           {String.capitalize(v)}
         </.button>
       </.button_group>
@@ -207,7 +300,14 @@ defmodule DemoWeb.Live.ToastsLive do
     <%!-- Theme Color Toasts --%>
     <.card title_text="Theme Color Toasts">
       <.button_group>
-        <.button :for={n <- 1..9} theme_color={to_string(n)} phx-click="push_toast" phx-value-variant={"color-#{n}"} phx-value-title={"Color #{n}"} phx-value-message={"Toast with theme color slot #{n}."}>
+        <.button :for={n <- 1..9} theme_color={to_string(n)} phx-click="show_toast" phx-value-variant={"color-#{n}"} phx-value-title={"Color #{n}"} phx-value-message={"Toast with theme color slot #{n}."}>
+          Color {n}
+        </.button>
+      </.button_group>
+
+      <.heading level="5">Filled</.heading>
+      <.button_group>
+        <.button :for={n <- 1..9} theme_color={to_string(n)} phx-click="show_toast" phx-value-variant={"color-#{n}"} phx-value-title={"Color #{n}"} phx-value-message={"Filled toast with theme color slot #{n}."} phx-value-filled="true">
           Color {n}
         </.button>
       </.button_group>

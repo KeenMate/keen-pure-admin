@@ -78,9 +78,9 @@ defmodule DemoWeb.Live.FormsLive do
           <.form_group label="Search">
             <.input_group>
               <.input type="text" placeholder="Search..." />
-              <:append>
-                <.button variant="primary" size="sm">Search</.button>
-              </:append>
+              <:button>
+                <.button variant="primary" class="pa-input-group__button">Search</.button>
+              </:button>
             </.input_group>
           </.form_group>
         </.column>

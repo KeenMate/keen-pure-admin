@@ -10,9 +10,20 @@ defmodule DemoWeb.Live.ButtonsLive do
     {:noreply, assign(socket, :loading_btn, btn)}
   end
 
-  def handle_event("split_action", params, socket) do
-    action = params["action"] || "primary click"
+  def handle_event("split_action", %{"action" => action}, socket) do
     {:noreply, PureAdmin.Components.Toast.push_toast(socket, "info", "Split Button", "Action: #{action}")}
+  end
+
+  def handle_event("split_action", _params, socket) do
+    {:noreply, PureAdmin.Components.Toast.push_toast(socket, "info", "Split Button", "Primary button clicked")}
+  end
+
+  def handle_event("remove_item", %{"action" => item}, socket) do
+    {:noreply, PureAdmin.Components.Toast.push_toast(socket, "warning", "Removed", "Removed: #{item}", duration: 3000)}
+  end
+
+  def handle_event("remove_member", %{"action" => member}, socket) do
+    {:noreply, PureAdmin.Components.Toast.push_toast(socket, "danger", "Member Removed", "Removed member: #{member}", duration: 3000)}
   end
 
   def handle_info({:stop_loading, _btn}, socket) do
@@ -264,6 +275,109 @@ defmodule DemoWeb.Live.ButtonsLive do
         </.card>
       </.column>
     </.grid>
+
+    <%!-- Split Buttons --%>
+    <.card title_text="Split Buttons" subtitle_text="Primary action + dropdown toggle combined into a single control">
+      <.button_group class="gap-lg">
+        <.split_button label="Save" variant="primary" on_click="split_action">
+          <:item icon="fas fa-file" on_click="split_action" action="save-draft">Save as Draft</:item>
+          <:item icon="fas fa-door-closed" on_click="split_action" action="save-close">Save &amp; Close</:item>
+          <:item icon="fas fa-plus" on_click="split_action" action="save-new">Save &amp; New</:item>
+        </.split_button>
+
+        <.split_button label="Delete" variant="danger" on_click="split_action">
+          <:item is_danger on_click="split_action" action="delete-all">Delete All</:item>
+          <:item on_click="split_action" action="archive">Archive Instead</:item>
+        </.split_button>
+
+        <.split_button label="Export" icon="fas fa-download" variant="secondary" on_click="split_action">
+          <:item icon="fas fa-file-csv" on_click="split_action" action="export-csv">Export as CSV</:item>
+          <:item icon="fas fa-file-excel" on_click="split_action" action="export-excel">Export as Excel</:item>
+          <:item icon="fas fa-file-pdf" on_click="split_action" action="export-pdf">Export as PDF</:item>
+        </.split_button>
+      </.button_group>
+
+      <.heading level="4" class="mt-4">Sizes</.heading>
+      <.button_group class="gap-lg align-items-start">
+        <.split_button label="XS Action" variant="primary" size="xs">
+          <:item>Option A</:item>
+          <:item>Option B</:item>
+        </.split_button>
+
+        <.split_button label="SM Action" variant="primary" size="sm">
+          <:item>Option A</:item>
+          <:item>Option B</:item>
+        </.split_button>
+
+        <.split_button label="Default" variant="primary">
+          <:item>Option A</:item>
+          <:item>Option B</:item>
+        </.split_button>
+
+        <.split_button label="LG Action" variant="primary" size="lg">
+          <:item>Option A</:item>
+          <:item>Option B</:item>
+        </.split_button>
+      </.button_group>
+
+      <.heading level="4" class="mt-4">Upward Placement</.heading>
+      <.paragraph class="mb-1">Use <code>data-placement="top-end"</code> to open the menu upward. Floating UI will auto-flip if there's not enough space.</.paragraph>
+      <.button_group class="gap-lg">
+        <.split_button label="Upload" variant="primary" placement="top-end">
+          <:item>Upload File</:item>
+          <:item>Upload Folder</:item>
+          <:item>Import from URL</:item>
+        </.split_button>
+
+        <.split_button label="New" icon="fas fa-plus" variant="secondary" placement="top-end">
+          <:item>New Document</:item>
+          <:item>New Spreadsheet</:item>
+          <:item>New Presentation</:item>
+        </.split_button>
+      </.button_group>
+
+      <.heading level="4" class="mt-4">Custom Icons (no rotation)</.heading>
+      <.paragraph class="mb-1">Omit <code>pa-btn-split__chevron</code> from the icon for static icons that don't rotate on open.</.paragraph>
+      <.button_group class="gap-lg">
+        <.split_button label="Share" icon="fas fa-share" variant="primary" on_click="split_action">
+          <:item>Share via Email</:item>
+          <:item>Share via Link</:item>
+          <:item>Copy to Clipboard</:item>
+        </.split_button>
+
+        <.split_button label="Settings" icon="fas fa-cog" variant="secondary" on_click="split_action">
+          <:item>General</:item>
+          <:item>Advanced</:item>
+          <:item is_danger>Reset All</:item>
+        </.split_button>
+
+        <.split_button label="Delete" icon="fas fa-trash" variant="danger" on_click="split_action">
+          <:item is_danger>Delete Permanently</:item>
+          <:item>Move to Trash</:item>
+        </.split_button>
+      </.button_group>
+
+      <.heading level="4" class="mt-4">Items with Actions</.heading>
+      <.paragraph class="mb-1">Menu items can include inline action buttons for quick operations like delete.</.paragraph>
+      <.button_group class="gap-lg">
+        <.split_button label="Bookmarks" icon="fas fa-bookmark" variant="primary" on_click="split_action">
+          <:item icon="fas fa-home" on_click="split_action" action="Dashboard" action_icon="fas fa-trash-can" action_event="remove_item" action_value="Dashboard">Dashboard</:item>
+          <:item icon="fas fa-chart-line" on_click="split_action" action="Analytics" action_icon="fas fa-trash-can" action_event="remove_item" action_value="Analytics">Analytics</:item>
+          <:item icon="fas fa-users" on_click="split_action" action="Team Members" action_icon="fas fa-trash-can" action_event="remove_item" action_value="Team Members">Team Members</:item>
+        </.split_button>
+
+        <.split_button label="Recent" icon="fas fa-clock-rotate-left" variant="secondary" on_click="split_action">
+          <:item icon="fas fa-file" on_click="split_action" action="Report Q4.pdf" action_icon="fas fa-xmark" action_event="remove_item" action_value="Report Q4.pdf" action_variant="secondary">Report Q4.pdf</:item>
+          <:item icon="fas fa-file-code" on_click="split_action" action="schema.sql" action_icon="fas fa-xmark" action_event="remove_item" action_value="schema.sql" action_variant="secondary">schema.sql</:item>
+        </.split_button>
+
+        <.split_button label="Members" icon="fas fa-user-plus" variant="danger" on_click="split_action">
+          <:item icon="fas fa-user" on_click="split_action" action="Alice Cooper" action_icon="fas fa-trash-can" action_event="remove_member" action_value="Alice Cooper">Alice Cooper</:item>
+          <:item icon="fas fa-user" on_click="split_action" action="Bob Dylan" action_icon="fas fa-trash-can" action_event="remove_member" action_value="Bob Dylan">Bob Dylan</:item>
+          <:item icon="fas fa-user" on_click="split_action" action="Charlie Parker" action_icon="fas fa-trash-can" action_event="remove_member" action_value="Charlie Parker">Charlie Parker</:item>
+        </.split_button>
+      </.button_group>
+    </.card>
 
     <%!-- Text Truncation --%>
     <.card title_text="Text Truncation">
@@ -575,67 +689,6 @@ defmodule DemoWeb.Live.ButtonsLive do
             >
               Delete Item
             </.button>
-          </.button_group>
-        </.card>
-      </.column>
-    </.grid>
-
-    <%!-- Split Buttons --%>
-    <.grid>
-      <.column size="100" lg="1-2">
-        <.card title_text="Split Buttons">
-          <.paragraph class="mb-1">A primary action with a dropdown for secondary actions:</.paragraph>
-          <.button_group>
-            <.split_button label="Save" variant="primary" on_click="split_action">
-              <:item on_click="split_action" action="save-draft">Save as Draft</:item>
-              <:item on_click="split_action" action="save-close">Save & Close</:item>
-            </.split_button>
-
-            <.split_button label="Export" variant="primary" on_click="split_action">
-              <:item on_click="split_action" action="export-csv">Export as CSV</:item>
-              <:item on_click="split_action" action="export-pdf">Export as PDF</:item>
-              <:item is_danger on_click="split_action" action="delete-all">Delete All</:item>
-            </.split_button>
-
-            <.split_button label="Delete" variant="danger" on_click="split_action">
-              <:item is_danger on_click="split_action" action="delete-permanent">Delete Permanently</:item>
-              <:item on_click="split_action" action="move-trash">Move to Trash</:item>
-            </.split_button>
-          </.button_group>
-        </.card>
-      </.column>
-
-      <.column size="100" lg="1-2">
-        <.card title_text="Split Button Variants">
-          <.paragraph class="mb-1">Upward placement and custom icons:</.paragraph>
-          <.button_group>
-            <.split_button label="Upload" variant="primary" placement="top-end">
-              <:item>Upload File</:item>
-              <:item>Upload Folder</:item>
-            </.split_button>
-
-            <.split_button label="Share" variant="secondary">
-              <:item>Share via Email</:item>
-              <:item>Share via Link</:item>
-            </.split_button>
-          </.button_group>
-
-          <.paragraph class="mb-1 mt-2">Different sizes:</.paragraph>
-          <.button_group>
-            <.split_button label="Small" variant="primary" size="sm">
-              <:item>Option A</:item>
-              <:item>Option B</:item>
-            </.split_button>
-
-            <.split_button label="Default" variant="primary">
-              <:item>Option A</:item>
-              <:item>Option B</:item>
-            </.split_button>
-
-            <.split_button label="Large" variant="primary" size="lg">
-              <:item>Option A</:item>
-              <:item>Option B</:item>
-            </.split_button>
           </.button_group>
         </.card>
       </.column>

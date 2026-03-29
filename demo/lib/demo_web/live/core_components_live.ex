@@ -1,0 +1,151 @@
+defmodule DemoWeb.Live.CoreComponentsLive do
+  use DemoWeb, :live_view
+
+  @setup_project "mix phx.new my_app --no-tailwind"
+
+  @setup_dep ~S'{:keen_pure_admin, "~> 1.0.0-rc.1"}'
+
+  @setup_import ~S"""
+  # In your MyAppWeb module, replace:
+  #   import MyAppWeb.CoreComponents
+  # With:
+  use PureAdmin.Components
+  """
+
+  def mount(_params, _session, socket) do
+    {:ok,
+     assign(socket,
+       page_title: "CoreComponents Migration",
+       setup_project: @setup_project,
+       setup_dep: @setup_dep,
+       setup_import: @setup_import
+     )}
+  end
+
+  def render(assigns) do
+    ~H"""
+    <.paragraph>
+      PureAdmin replaces Phoenix's generated <code>CoreComponents</code> module.
+      This page shows what's replaced, what's new, and how to handle the migration.
+    </.paragraph>
+
+    <%!-- Migration overview --%>
+    <.card title_text="Migration Overview">
+      <.callout variant="info">
+        Replace <code>import MyAppWeb.CoreComponents</code> with <code>use PureAdmin.Components</code>
+        in your <code>html_helpers/0</code> function. All replaced functions keep the same name and
+        similar signatures, so most templates work without changes.
+      </.callout>
+
+      <.table_container>
+        <table class="pa-table">
+          <thead>
+            <tr>
+              <th>CoreComponents function</th>
+              <th>PureAdmin replacement</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>button/1</code></td>
+              <td><code>PureAdmin.Components.Button.button/1</code></td>
+              <td><.badge variant="success">Replaced</.badge></td>
+            </tr>
+            <tr>
+              <td><code>input/1</code></td>
+              <td><code>PureAdmin.Components.Form.input/1</code></td>
+              <td><.badge variant="success">Replaced</.badge></td>
+            </tr>
+            <tr>
+              <td><code>simple_form/1</code></td>
+              <td><code>PureAdmin.Components.Form.simple_form/1</code></td>
+              <td><.badge variant="success">Replaced</.badge></td>
+            </tr>
+            <tr>
+              <td><code>modal/1</code></td>
+              <td><code>PureAdmin.Components.Modal.modal/1</code></td>
+              <td><.badge variant="success">Replaced</.badge></td>
+            </tr>
+            <tr>
+              <td><code>table/1</code></td>
+              <td><code>PureAdmin.Components.Table.table/1</code></td>
+              <td><.badge variant="success">Replaced</.badge></td>
+            </tr>
+            <tr>
+              <td><code>list/1</code></td>
+              <td><code>PureAdmin.Components.List.list/1</code></td>
+              <td><.badge variant="success">Replaced</.badge></td>
+            </tr>
+            <tr>
+              <td><code>label/1</code></td>
+              <td><code>PureAdmin.Components.Badge.label/1</code></td>
+              <td><.badge variant="success">Replaced</.badge></td>
+            </tr>
+            <tr>
+              <td><code>flash/1</code>, <code>flash_group/1</code></td>
+              <td>
+                <code>PureAdmin.Components.Flash</code>
+                — see <a href="/phoenix/flash" class="pa-link">Flash Messages</a>
+              </td>
+              <td><.badge variant="success">Replaced</.badge></td>
+            </tr>
+            <tr>
+              <td><code>header/1</code></td>
+              <td>Page title via <code>@page_title</code> in <code>&lt;.navbar_title&gt;</code> (layout renders it, LiveView sets it)</td>
+              <td><.badge variant="info">Not needed</.badge></td>
+            </tr>
+            <tr>
+              <td><code>icon/1</code></td>
+              <td>Use Font Awesome directly: <code>&lt;i class="fa-solid fa-..."&gt;</code></td>
+              <td><.badge variant="warning">Manual</.badge></td>
+            </tr>
+            <tr>
+              <td><code>show/1</code>, <code>hide/1</code></td>
+              <td>Use <code>Phoenix.LiveView.JS.show/1</code> and <code>JS.hide/1</code> directly (thin wrappers, not needed)</td>
+              <td><.badge variant="info">Not needed</.badge></td>
+            </tr>
+            <tr>
+              <td><code>translate_error/1</code></td>
+              <td>Keep your app's implementation or copy from CoreComponents</td>
+              <td><.badge variant="warning">Manual</.badge></td>
+            </tr>
+          </tbody>
+        </table>
+      </.table_container>
+    </.card>
+
+    <%!-- Setup instructions --%>
+    <.card title_text="Setup Steps">
+      <.timeline variant="simple">
+        <.timeline_item>
+          <:title>Create project without Tailwind</:title>
+          <.code_block language="bash">{@setup_project}</.code_block>
+        </.timeline_item>
+        <.timeline_item>
+          <:title>Add dependency</:title>
+          <.code_block language="elixir">{@setup_dep}</.code_block>
+        </.timeline_item>
+        <.timeline_item>
+          <:title>Replace CoreComponents import</:title>
+          <.code_block language="elixir">{@setup_import}</.code_block>
+        </.timeline_item>
+        <.timeline_item>
+          <:title>Add translate_error/1</:title>
+          <.paragraph>
+            PureAdmin does not include <code>translate_error/1</code> since it depends on your app's
+            Gettext configuration. Copy it from the generated CoreComponents or define your own.
+          </.paragraph>
+        </.timeline_item>
+        <.timeline_item>
+          <:title>Replace icon references</:title>
+          <.paragraph>
+            CoreComponents uses Heroicons via <code>&lt;.icon name="hero-..." /&gt;</code>.
+            PureAdmin uses Font Awesome: <code>&lt;i class="fa-solid fa-..."&gt;&lt;/i&gt;</code>.
+          </.paragraph>
+        </.timeline_item>
+      </.timeline>
+    </.card>
+    """
+  end
+end
