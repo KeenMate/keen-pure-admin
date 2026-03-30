@@ -323,7 +323,7 @@ Client-side settings panel for theme mode, layout width, sidebar options, fonts,
 | `PureAdminPopover` | Popover positioning |
 | `PureAdminToast` | Toast auto-dismiss |
 | `PureAdminFlash` | Independent inline flash containers with markdown and action buttons |
-| `PureAdminCommandPalette` | Command palette keyboard navigation |
+| `PureAdminCommandPalette` | Command palette: multi-step commands (`/`), scoped search (`:`), keyboard nav |
 | `PureAdminDetailPanel` | Detail panel toggle |
 | `PureAdminSidebarResize` | Drag-to-resize sidebar |
 | `PureAdminCharCounter` | Character counter with translatable messages |

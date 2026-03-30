@@ -20,13 +20,27 @@
 - **Width ratchet** — container `min-width` tracks the widest toast shown, resets when container is empty
 - **Click-to-dismiss** — toasts without actions are click-to-dismiss (cursor: pointer). Toasts with actions require close button or action click
 
-### Components (pure-admin 2.3.1)
+### Command Palette v2
+
+- **Multi-step commands** (`/prefix`) — register commands with `steps`, each with `prompt`, `placeholder`, and optional `free_text`. Steps progress sequentially with selections displayed as locked tokens. Commands complete via `handle_info({:command_complete, cmd_id, selections})`
+- **Search contexts** (`:prefix`) — register scoped search contexts with `shortcut` and `aliases`. Typing `:p laptop` searches products for "laptop"
+- **Global search** — typing without a prefix searches across all data
+- **6 modes** — `idle`, `command_list`, `command_step`, `context_list`, `context_search`, `global_search` with full state machine transitions
+- **Step filtering** — typing in a command step filters the step options in real-time
+- **Step back** — Backspace at position 0 or Escape goes to previous step (or back to command/context list)
+- **`cp:` event protocol** — namespaced events (`cp:toggle`, `cp:input`, `cp:select`, `cp:step_back`, etc.) replacing `command_palette_` prefix
+- **`cp:reset_input` push_event** — force-clears browser input on mode transitions (LiveView doesn't patch focused inputs)
+- **Debounced search** — 150ms debounce for context and global search, instant for command/context list filtering
+- **Mode-aware keyboard** — Escape goes back in step/context modes instead of closing. Footer hints update per mode
+
+### Components (pure-admin 2.3.1 / 2.3.2)
 
 - **`split_button/1`** — chevron icon now points up (`fa-chevron-up`) for `top-*` placements, down for `bottom-*`
 - **`split_button/1` primary icon** — new `icon` attr for Font Awesome icon on the primary button (e.g. `icon="fas fa-download"`)
 - **`split_button/1` item icons** — `:item` slot now accepts `icon` attr (e.g. `icon="fas fa-file"`) rendering as `pa-btn-split__item-icon`
 - **`split_button/1` inline action buttons** — `:item` slot accepts `action_icon`, `action_event`, `action_value`, `action_variant` attrs for inline action buttons beside menu items (e.g. delete/remove). The JS hook forwards clicks via `pushEvent` since the menu is moved to `document.body`
 - **`button/1` label wrapping** — button text is wrapped in `<span class="pa-btn__label">` when an icon is present, enabling proper centering with `align="center"`
+- **`split_button/1` menu structure** — uses `pa-btn-split__menu-inner` wrapper and `pa-btn-split__item-row` BEM elements (replaces inline styles), matching pure-admin 2.3.2 two-container pattern
 - **`input_group/1`** — `:button` slot now documented to use `class="pa-input-group__button"` on the button element
 
 ### Demo

@@ -84,9 +84,71 @@ This action cannot be undone.
 
 ### PureAdminCommandPalette
 
-Command palette with keyboard navigation (arrow keys, Enter, Escape), search filtering, context switching, and pagination.
+Spotlight-style command palette with three modes:
+
+- **Commands** (`/prefix`) — multi-step action wizards with step progression
+- **Search contexts** (`:prefix`) — scoped entity search
+- **Global search** (no prefix) — search across everything
+
+Keyboard: Ctrl+K toggle, ↑↓ navigate, Enter/Tab select, Escape/Backspace-at-0 step back. Debounced search input (150ms) for search modes, instant for command/context list filtering.
 
 Used by: `<.command_palette />`
+
+**Event protocol (hook → LiveView):**
+
+| Event | Payload | When |
+|---|---|---|
+| `cp:toggle` | `{}` | Ctrl+K |
+| `cp:close` | `{}` | Escape at top level, backdrop click |
+| `cp:input` | `{query}` | Input changed |
+| `cp:navigate` | `{direction}` | Arrow up/down |
+| `cp:page` | `{direction}` | Arrow left/right (search modes) |
+| `cp:select` | `{index}` | Enter, Tab, or click |
+| `cp:step_back` | `{}` | Backspace at pos 0, Escape in step/context mode |
+
+**LiveView → hook (push_event):**
+
+| Event | Payload | Purpose |
+|---|---|---|
+| `cp:focus` | `{}` | Focus input |
+| `cp:reset_input` | `{value}` | Force-set input value on mode transition |
+
+**Registering commands:**
+
+```elixir
+commands = [
+  %{
+    id: "deploy",
+    shortcut: "/deploy",
+    aliases: ["/d"],
+    name: "Deploy to Environment",
+    description: "Deploy a branch to an environment",
+    icon: "🚀",
+    steps: [
+      %{id: "environment", prompt: " in ", placeholder: "Select environment..."},
+      %{id: "branch", prompt: " branch ", placeholder: "Type branch...", free_text: true}
+    ]
+  }
+]
+```
+
+**Registering search contexts:**
+
+```elixir
+contexts = [
+  %{id: "products", shortcut: ":products", aliases: [":p"], name: "Products", icon: "📦"}
+]
+```
+
+**Handling command completion:**
+
+```elixir
+def handle_info({:command_complete, "deploy", selections}, socket) do
+  env = Enum.find(selections, & &1.step_id == "environment")
+  # Do something with selections...
+  {:noreply, socket}
+end
+```
 
 ### PureAdminDetailPanel
 

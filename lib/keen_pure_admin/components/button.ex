@@ -266,9 +266,29 @@ defmodule PureAdmin.Components.Button do
         <i class={"fas #{@chevron} text-2xs pa-btn-split__chevron"}></i>
       </button>
       <div class="pa-btn-split__menu">
-        <%= for item <- @item do %>
-          <%= if item[:action_icon] do %>
-            <div style="display: flex; align-items: center;">
+        <div class="pa-btn-split__menu-inner">
+          <%= for item <- @item do %>
+            <%= if item[:action_icon] do %>
+              <div class="pa-btn-split__item-row">
+                <button
+                  class={"pa-btn-split__item#{if item[:is_danger], do: " pa-btn-split__item--danger", else: ""}"}
+                  type="button"
+                  data-phx-click={item[:on_click]}
+                  data-phx-value-action={item[:action]}
+                >
+                  <span :if={item[:icon]} class="pa-btn-split__item-icon"><i class={item[:icon]}></i></span>
+                  <%= render_slot(item) %>
+                </button>
+                <button
+                  class={"pa-btn pa-btn--#{item[:action_variant] || "danger"} pa-btn--xs pa-btn--icon-only"}
+                  type="button"
+                  phx-click={item[:action_event]}
+                  phx-value-action={item[:action_value] || item[:action]}
+                >
+                  <i class={item[:action_icon]}></i>
+                </button>
+              </div>
+            <% else %>
               <button
                 class={"pa-btn-split__item#{if item[:is_danger], do: " pa-btn-split__item--danger", else: ""}"}
                 type="button"
@@ -278,28 +298,9 @@ defmodule PureAdmin.Components.Button do
                 <span :if={item[:icon]} class="pa-btn-split__item-icon"><i class={item[:icon]}></i></span>
                 <%= render_slot(item) %>
               </button>
-              <button
-                class={"pa-btn pa-btn--#{item[:action_variant] || "danger"} pa-btn--xs pa-btn--icon-only"}
-                type="button"
-                style="margin-inline-end: 0.5rem;"
-                phx-click={item[:action_event]}
-                phx-value-action={item[:action_value] || item[:action]}
-              >
-                <i class={item[:action_icon]}></i>
-              </button>
-            </div>
-          <% else %>
-            <button
-              class={"pa-btn-split__item#{if item[:is_danger], do: " pa-btn-split__item--danger", else: ""}"}
-              type="button"
-              data-phx-click={item[:on_click]}
-              data-phx-value-action={item[:action]}
-            >
-              <span :if={item[:icon]} class="pa-btn-split__item-icon"><i class={item[:icon]}></i></span>
-              <%= render_slot(item) %>
-            </button>
+            <% end %>
           <% end %>
-        <% end %>
+        </div>
       </div>
     </div>
     """
