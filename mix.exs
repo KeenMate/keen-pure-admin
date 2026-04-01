@@ -14,7 +14,10 @@ defmodule PureAdmin.MixProject do
       aliases: aliases(),
       elixirc_paths: elixirc_paths(Mix.env()),
       name: "PureAdmin",
-      description: "Phoenix LiveView component library for the Pure Admin CSS framework",
+      description: "Phoenix LiveView component library for business admin applications. " <>
+        "Drop-in CoreComponents replacement with 35+ components, 14 JS hooks, " <>
+        "multi-step command palette, flash system, i18n, and theme management. " <>
+        "Built on Pure Admin — a standalone BEM CSS framework with no Tailwind or daisyUI dependency.",
       package: package(),
       docs: docs(),
       source_url: @source_url,
