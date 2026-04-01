@@ -79,6 +79,7 @@ defmodule PureAdmin.MixProject do
         "Layout & Navigation": [
           PureAdmin.Components.Layout,
           PureAdmin.Components.Navigation,
+          PureAdmin.Components.CommandPalette,
           PureAdmin.Components.Profile,
           PureAdmin.Components.SettingsPanel,
           PureAdmin.Components.Grid
@@ -89,6 +90,7 @@ defmodule PureAdmin.MixProject do
           PureAdmin.Components.Alert,
           PureAdmin.Components.Callout,
           PureAdmin.Components.Card,
+          PureAdmin.Components.Flash,
           PureAdmin.Components.Modal,
           PureAdmin.Components.Popconfirm,
           PureAdmin.Components.Toast,
@@ -119,7 +121,9 @@ defmodule PureAdmin.MixProject do
           PureAdmin.Components,
           PureAdmin.Helpers,
           PureAdmin.Config,
-          PureAdmin.Types
+          PureAdmin.Types,
+          PureAdmin.Translations,
+          PureAdmin.PageContext
         ]
       ]
     ]
