@@ -224,6 +224,50 @@ IntersectionObserver-based infinite scroll. Fires a LiveView event when a sentin
 </div>
 ```
 
+## Page Context
+
+Server-rendered JSON available to JS synchronously via a hidden input. Avoids API fetches on page load.
+
+```javascript
+import { getPageContext, getContextValue } from "keen_pure_admin"
+
+const ctx = getPageContext()                    // full context
+const manifests = getContextValue("themeManifests")  // single key
+```
+
+The settings panel reads `themeManifests` from the context automatically. Apps register providers:
+
+```elixir
+config :keen_pure_admin,
+  page_context_providers: [&MyApp.PageContext.theme_manifests/1]
+```
+
+Render in root layout: `<.page_context />`
+
+## Logging
+
+Categorized, color-coded, silent by default. Enable at runtime:
+
+```javascript
+// Browser console
+PureAdmin.logging.enableLogging()          // all → debug
+PureAdmin.logging.setCategoryLevel('PA:SETTINGS', 'debug')  // one category
+PureAdmin.logging.getCategories()          // list all
+
+// KeenMate convention
+window.components['keen-pure-admin'].logging.enableLogging()
+```
+
+Categories: `PA:SETTINGS`, `PA:CMD_PALETTE` (more added as hooks are instrumented).
+
+Use in custom hooks:
+
+```javascript
+import { createLogger } from "keen_pure_admin"
+const log = createLogger('MY_HOOK')
+log.debug('mounted')
+```
+
 ## Modal Dialogs (non-hook)
 
 Programmatic dialogs are initialized separately:

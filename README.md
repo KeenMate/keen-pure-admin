@@ -432,6 +432,45 @@ end
 
 Keys follow the `pureAdmin.*` convention (e.g., `pureAdmin.buttons.cancel`, `pureAdmin.pagination.nextPage`, `pureAdmin.commandPalette.searching`). See `PureAdmin.Translations.defaults()` for the full list.
 
+## Page Context
+
+Server-rendered JSON in a hidden input, available to JS synchronously — no API fetch needed. CSP-safe.
+
+```heex
+<%!-- In your root layout --%>
+<.page_context />
+```
+
+Register providers via config:
+
+```elixir
+config :keen_pure_admin,
+  page_context_providers: [
+    &MyApp.PageContext.theme_manifests/1,
+    &MyApp.PageContext.user_context/1
+  ]
+```
+
+Each provider receives assigns and returns a map merged into the context. The settings panel reads `themeManifests` from the context automatically (falls back to API if missing). See `PureAdmin.PageContext` for details.
+
+## Logging
+
+All JS hooks use a categorized logger — silent by default, zero overhead in production.
+
+```javascript
+// Enable in browser console
+PureAdmin.logging.enableLogging()
+
+// Or per-category
+PureAdmin.logging.setCategoryLevel('PA:SETTINGS', 'debug')
+
+// List categories
+PureAdmin.logging.getCategories()
+// => ["PA:SETTINGS", "PA:CMD_PALETTE", ...]
+```
+
+Also available via `window.components['keen-pure-admin'].logging` (KeenMate convention).
+
 ## Requirements
 
 - Elixir ~> 1.15
