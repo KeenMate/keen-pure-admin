@@ -56,7 +56,7 @@ DOCKER_PORT = 4000
 
 podman-build: ## Build Docker image
 	@echo "Building Docker image: $(DOCKER_IMAGE_NAME):$(DOCKER_TAG)"
-	podman build -f demo/Dockerfile -t $(DOCKER_IMAGE_NAME):$(DOCKER_TAG) .
+	podman build -t $(DOCKER_IMAGE_NAME):$(DOCKER_TAG) .
 	@echo "Docker image built successfully!"
 
 podman-run: ## Run Docker container

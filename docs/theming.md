@@ -73,7 +73,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends curl unzip && r
 
 > **Tip:** Run the theme download step *before* `mix assets.deploy` so that `phx.digest` fingerprints the theme files along with the rest of your static assets.
 
-See `demo/Dockerfile` for a complete working example.
+See the `Dockerfile` in the repo root for a complete working example.
 
 ## Customizing Themes via SCSS
 

@@ -1,12 +1,11 @@
-# Dockerfile for the KPureAdmin demo app
+# Dockerfile for the PureAdmin demo app
 # Deployed at elixir.demo.pureadmin.io
 #
-# Build from the repo root:
-#
-#   podman build -f demo/Dockerfile -t keen-pure-admin-demo .
-#   podman run -p 4000:4000 \
+# Build:
+#   docker build -t keen-pure-admin-demo .
+#   docker run -p 4000:4000 \
 #     -e SECRET_KEY_BASE=$(mix phx.gen.secret) \
-#     -e PHX_HOST=elixir.demo.pureadmin.io \
+#     -e PHX_HOST=localhost \
 #     keen-pure-admin-demo
 
 # ==============================================================================

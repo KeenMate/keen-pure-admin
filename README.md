@@ -396,7 +396,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends curl unzip && r
   && rm -f /tmp/themes.zip
 ```
 
-Pass a comma-separated list of theme names to the `themes` query parameter. The API returns a single zip with all requested themes. See `demo/Dockerfile` for a complete example.
+Pass a comma-separated list of theme names to the `themes` query parameter. The API returns a single zip with all requested themes. See the `Dockerfile` in the repo root for a complete example.
 
 #### Theme cache invalidation
 
@@ -512,7 +512,7 @@ make podman-clean     # Remove container and image
 Or manually:
 
 ```bash
-podman build -f demo/Dockerfile -t keen-pure-admin-demo .
+podman build -t keen-pure-admin-demo .
 podman run -p 4000:4000 \
   -e SECRET_KEY_BASE=$(mix phx.gen.secret) \
   -e PHX_HOST=localhost \
