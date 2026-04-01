@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## v1.0.0-rc.2 — 2026-04-01
 
 ### Flash Messages
 
