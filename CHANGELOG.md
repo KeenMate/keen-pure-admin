@@ -32,6 +32,29 @@
 - **`cp:reset_input` push_event** — force-clears browser input on mode transitions (LiveView doesn't patch focused inputs)
 - **Debounced search** — 150ms debounce for context and global search, instant for command/context list filtering
 - **Mode-aware keyboard** — Escape goes back in step/context modes instead of closing. Footer hints update per mode
+- **Two display styles** — `display="inline"` (default, Svelte-style: full sentence in input with command badge) and `display="tokens"` (original: colored token spans above a clean input). Switchable at runtime
+
+### Command Palette (pure-admin 2.3.3 / 2.3.4)
+
+
+- **`pa-command-palette__input-wrapper`** — new wrapper around input + context label for correct positioning
+- **`pa-command-palette__token-prompt`** — step prompt text between token badges (replaces `__token--prompt`)
+- **Standard `pa-badge`** — item badges now use `pa-badge` instead of custom `pa-command-palette__item-badge`
+- **Token badges** — step tokens in tokens mode use `pa-badge pa-badge--primary` for command name, plain `pa-badge` for values
+- **Tokens `&:empty` hiding** — tokens div hides automatically when empty via CSS
+- **Home screen** — idle state shows categorized list of commands (with Alt+key hotkey badges) and search contexts, all clickable
+- **Hotkeys** — `Alt+D` Deploy, `Alt+A` Assign, `Alt+G` Go to Page, `Alt+T` Switch Theme. Work globally and inside the palette
+- **Global search includes commands/contexts** — typing "deploy" finds the Deploy command alongside data results. Selecting a command/context enters that mode
+- **Form codes** — `/go` page options have numeric codes (e.g., `24` for Alerts). `filter_options` matches on label, description, and exact code
+- **`pa-command-palette__home`** — home screen container with `__home-section` separators and `__home-heading` labels
+- **`pa-command-palette__shortcut`** — flex container for multi-key hotkey badge groups
+
+### Translations (i18n)
+
+- **`PureAdmin.Translations`** — new module with runtime translation callback system. Ships with ~60 English defaults under `pureAdmin.*` flat keys. Apps override via config: `config :keen_pure_admin, translate: &MyApp.translate/2`
+- **`t(key, params)`** — main translation function with `%{param}` interpolation. Falls back to English when callback returns nil or isn't configured
+- **`interpolate(string, params)`** — exported helper for app callbacks
+- **All components updated** — hardcoded English strings replaced with `t()` calls across command palette, pager, popconfirm, modal, alert, toast, flash, settings panel (~60 keys)
 
 ### Components (pure-admin 2.3.1 / 2.3.2)
 
@@ -64,6 +87,8 @@
 - **Creating custom themes** — new section in theming docs referencing the CLI's `init`, `build`, `pack`, `publish` workflow
 - **Theme customization via SCSS** — variable overrides, custom fonts, baseline correction, complete example
 - **`make help`** — all Makefile targets now have `## description` comments
+
+Compatible with `@keenmate/pure-admin-core` v2.3.5.
 
 ## v1.0.0-rc.1
 

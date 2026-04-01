@@ -5,6 +5,7 @@ defmodule PureAdmin.Components.Pager do
   use Phoenix.Component
 
   import PureAdmin.Helpers
+  import PureAdmin.Translations, only: [t: 1, t: 2]
   import Phoenix.HTML, only: [raw: 1]
 
   @doc """
@@ -46,8 +47,8 @@ defmodule PureAdmin.Components.Pager do
           <%= render_slot(@controls) %>
         <% else %>
           <div class="pa-pager__controls">
-            <button :if={@on_first} class="pa-btn pa-btn--sm pa-btn--secondary" title="First Page" disabled={@page <= 1} phx-click={@on_first}><%= raw(@icon_first) %></button>
-            <button class="pa-btn pa-btn--sm pa-btn--secondary" title="Previous Page" disabled={@page <= 1} phx-click={@on_previous}><%= raw(@icon_previous) %></button>
+            <button :if={@on_first} class="pa-btn pa-btn--sm pa-btn--secondary" title={t("pureAdmin.pagination.firstPage")} disabled={@page <= 1} phx-click={@on_first}><%= raw(@icon_first) %></button>
+            <button class="pa-btn pa-btn--sm pa-btn--secondary" title={t("pureAdmin.pagination.prevPage")} disabled={@page <= 1} phx-click={@on_previous}><%= raw(@icon_previous) %></button>
           </div>
 
           <%= if @info != [] do %>
@@ -63,14 +64,14 @@ defmodule PureAdmin.Components.Pager do
                 phx-change={@on_page_change}
                 name="page"
               />
-              <span class="pa-pager__text">/ <%= @total_pages %> pages</span>
+              <span class="pa-pager__text"><%= t("pureAdmin.pagination.pages", %{total: @total_pages}) %></span>
             </div>
             <span :if={@info_text} class="pa-pager__text"><%= @info_text %></span>
           <% end %>
 
           <div class="pa-pager__controls">
-            <button class="pa-btn pa-btn--sm pa-btn--secondary" title="Next Page" disabled={@page >= @total_pages} phx-click={@on_next}><%= raw(@icon_next) %></button>
-            <button :if={@on_last} class="pa-btn pa-btn--sm pa-btn--secondary" title="Last Page" disabled={@page >= @total_pages} phx-click={@on_last}><%= raw(@icon_last) %></button>
+            <button class="pa-btn pa-btn--sm pa-btn--secondary" title={t("pureAdmin.pagination.nextPage")} disabled={@page >= @total_pages} phx-click={@on_next}><%= raw(@icon_next) %></button>
+            <button :if={@on_last} class="pa-btn pa-btn--sm pa-btn--secondary" title={t("pureAdmin.pagination.lastPage")} disabled={@page >= @total_pages} phx-click={@on_last}><%= raw(@icon_last) %></button>
           </div>
         <% end %>
       </div>
@@ -100,7 +101,7 @@ defmodule PureAdmin.Components.Pager do
       <button class={build_classes("pa-load-more__button", [{"pa-load-more__button--loading", @is_loading}])} {@rest}>
         <span :if={@is_loading} class="pa-load-more__spinner"></span>
         <span class="pa-load-more__text">
-          <%= if @inner_block != [], do: render_slot(@inner_block), else: "Load More" %>
+          <%= if @inner_block != [], do: render_slot(@inner_block), else: t("pureAdmin.pagination.loadMore") %>
         </span>
         <span :if={@count} class="pa-load-more__count">(<%= @count %>)</span>
       </button>

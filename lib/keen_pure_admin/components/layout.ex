@@ -66,7 +66,7 @@ defmodule PureAdmin.Components.Layout do
   def navbar_burger(assigns) do
     ~H"""
     <button
-      class={build_classes("pa-header__burger burger-menu", [], @class)}
+      class={build_classes("pa-header__burger burger-menu active", [], @class)}
       phx-click={toggle_sidebar()}
       aria-label="Toggle sidebar"
       {@rest}
@@ -670,19 +670,32 @@ defmodule PureAdmin.Components.Layout do
   end
 
   @doc """
-  Renders an inline script to prevent flash of unstyled content (FOUC).
+  Renders a hidden input containing the page context as JSON.
 
-  Place inside `<body>` before `{@inner_content}` in your root layout.
-  Reads settings from localStorage and applies classes immediately,
-  before the page renders.
+  JS hooks read this synchronously via `getPageContext()` instead of
+  fetching from APIs. CSP-safe (no inline scripts with data).
 
   ## Examples
 
-      <body>
-        <.fouc_prevention_script />
-        {@inner_content}
-      </body>
+      <.page_context />
+
+      <.page_context extra={%{"user" => %{"id" => 1}}} />
   """
+  attr(:extra, :map, default: %{}, doc: "Additional context to merge (from app assigns)")
+  attr(:rest, :global)
+
+  def page_context(assigns) do
+    context =
+      PureAdmin.PageContext.build(assigns)
+      |> Map.merge(assigns.extra)
+
+    assigns = assign(assigns, :context_json, Jason.encode!(context))
+
+    ~H"""
+    <input type="hidden" id="pa-page-context" value={@context_json} {@rest} />
+    """
+  end
+
   def fouc_prevention_script(assigns) do
     ~H"""
     <script>
@@ -699,7 +712,9 @@ defmodule PureAdmin.Components.Layout do
         var cw=localStorage.getItem('container-width');
         if(cw&&cw!=='fluid')b.classList.add('pa-container-'+cw);
         if(localStorage.getItem('sidebar-mode')==='sticky')b.classList.add('pa-layout--sticky');
-        if(localStorage.getItem('sidebar-hidden')==='true')b.classList.add('sidebar-hidden');
+        if(localStorage.getItem('sidebar-hidden')==='true'){b.classList.add('sidebar-hidden');var bm=document.querySelector('.burger-menu');if(bm)bm.classList.remove('active');}
+        var cv=localStorage.getItem('color-variant');
+        if(cv)b.classList.add('pa-color-'+cv);
         if(localStorage.getItem('compact-mode')==='true')b.classList.add('compact-mode');
         if(localStorage.getItem('rtl-mode')==='true')h.setAttribute('dir','rtl');
         var ss=localStorage.getItem('pa-sidebar-submenus');

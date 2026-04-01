@@ -150,6 +150,18 @@ def handle_info({:command_complete, "deploy", selections}, socket) do
 end
 ```
 
+**Display styles:**
+
+Two visual modes for command step progression:
+
+- `display="inline"` (default) — Svelte-style. Input shows the full accumulated sentence (e.g., `/assign iPad Air to`). A command badge appears on the right. The locked prefix can't be deleted.
+- `display="tokens"` — Token-style. Previous selections render as colored spans above a clean input. Each step starts with an empty input.
+
+```heex
+<.command_palette display="inline" ... />
+<.command_palette display="tokens" ... />
+```
+
 ### PureAdminDetailPanel
 
 Detail panel toggle for inline split-view and overlay modes.

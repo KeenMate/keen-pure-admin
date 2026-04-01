@@ -64,6 +64,7 @@ defmodule DemoWeb.Live.CommandPaletteLive do
       id: "deploy",
       shortcut: "/deploy",
       aliases: ["/d"],
+      hotkey: "Alt+D",
       name: "Deploy to Environment",
       description: "Deploy a branch to an environment",
       icon: "🚀",
@@ -76,6 +77,7 @@ defmodule DemoWeb.Live.CommandPaletteLive do
       id: "assign",
       shortcut: "/assign",
       aliases: ["/a"],
+      hotkey: "Alt+A",
       name: "Assign to User",
       description: "Assign an item to a team member",
       icon: "👤",
@@ -88,6 +90,7 @@ defmodule DemoWeb.Live.CommandPaletteLive do
       id: "go",
       shortcut: "/go",
       aliases: ["/g", "/nav"],
+      hotkey: "Alt+G",
       name: "Go to Page",
       description: "Navigate to a page",
       icon: "🧭",
@@ -99,6 +102,7 @@ defmodule DemoWeb.Live.CommandPaletteLive do
       id: "theme",
       shortcut: "/theme",
       aliases: ["/t"],
+      hotkey: "Alt+T",
       name: "Switch Theme",
       description: "Change the visual theme",
       icon: "🎨",
@@ -138,7 +142,9 @@ defmodule DemoWeb.Live.CommandPaletteLive do
        cp_current_context: nil,
        cp_page: 1,
        cp_total_pages: 1,
-       cp_total_results: 0
+       cp_total_results: 0,
+       cp_display: "inline",
+       cp_input_text: ""
      )}
   end
 
@@ -160,6 +166,12 @@ defmodule DemoWeb.Live.CommandPaletteLive do
               <:icon><i class="fa-solid fa-magnifying-glass"></i></:icon>
               Open Command Palette (Ctrl+K)
             </.button>
+          </div>
+
+          <div class="mb-3" style="display: flex; gap: 8px; align-items: center;">
+            <span>Display style:</span>
+            <.button size="sm" variant={if @cp_display == "inline", do: "primary", else: "secondary"} phx-click="set_display" phx-value-display="inline">Inline</.button>
+            <.button size="sm" variant={if @cp_display == "tokens", do: "primary", else: "secondary"} phx-click="set_display" phx-value-display="tokens">Tokens</.button>
           </div>
 
           <.heading level={4} class="mb-2">Modes</.heading>
@@ -237,7 +249,9 @@ defmodule DemoWeb.Live.CommandPaletteLive do
       id="cmd-palette"
       is_open={@cp_open}
       mode={@cp_mode}
+      display={@cp_display}
       query={@cp_query}
+      input_text={@cp_input_text}
       results={@cp_results}
       commands={@cp_commands}
       contexts={@cp_contexts}
@@ -321,6 +335,55 @@ defmodule DemoWeb.Live.CommandPaletteLive do
 
   def handle_event("cp:step_back", _params, socket) do
     {:noreply, step_back(socket)}
+  end
+
+  def handle_event("cp:home_select", %{"type" => "command", "shortcut" => shortcut}, socket) do
+    command = find_command(socket.assigns.cp_commands, shortcut)
+
+    if command do
+      socket = if !socket.assigns.cp_open, do: open_palette(socket), else: socket
+      {:noreply, enter_command(socket, command)}
+    else
+      {:noreply, socket}
+    end
+  end
+
+  def handle_event("cp:home_select", %{"type" => "context", "shortcut" => shortcut}, socket) do
+    context = find_context(socket.assigns.cp_contexts, shortcut)
+
+    if context do
+      socket = if !socket.assigns.cp_open, do: open_palette(socket), else: socket
+      {:noreply, enter_context_search(socket, context, "")}
+    else
+      {:noreply, socket}
+    end
+  end
+
+  def handle_event("cp:hotkey", %{"key" => key}, socket) do
+    command =
+      Enum.find(socket.assigns.cp_commands, fn cmd ->
+        case cmd[:hotkey] do
+          nil -> false
+          hotkey ->
+            parts = String.split(String.downcase(hotkey), "+")
+            List.last(parts) == key
+        end
+      end)
+
+    if command do
+      socket =
+        socket
+        |> (fn s -> if !s.assigns.cp_open, do: open_palette(s), else: s end).()
+        |> enter_command(command)
+
+      {:noreply, socket}
+    else
+      {:noreply, socket}
+    end
+  end
+
+  def handle_event("set_display", %{"display" => display}, socket) do
+    {:noreply, assign(socket, cp_display: display)}
   end
 
   def handle_event("open_with_query", %{"query" => query}, socket) do
@@ -461,7 +524,11 @@ defmodule DemoWeb.Live.CommandPaletteLive do
       step = hd(steps)
       options = get_step_options(command.id, step.id, "", [])
 
-      assign(socket,
+      # Build inline text: "/assign " (command shortcut + space)
+      inline_text = command.shortcut <> (step[:prompt] || " ")
+
+      socket
+      |> assign(
         cp_mode: "command_step",
         cp_query: "",
         cp_current_command: command,
@@ -471,9 +538,10 @@ defmodule DemoWeb.Live.CommandPaletteLive do
         cp_selections: [],
         cp_results: options,
         cp_active_index: if(options != [], do: 0, else: -1),
-        cp_preview: nil
+        cp_preview: nil,
+        cp_input_text: inline_text
       )
-      |> push_event("cp:reset_input", %{value: ""})
+      |> push_reset_input(inline_text)
     end
   end
 
@@ -481,11 +549,27 @@ defmodule DemoWeb.Live.CommandPaletteLive do
     command = socket.assigns.cp_current_command
     step = socket.assigns.cp_current_step
     selections = socket.assigns.cp_selections
+    display = socket.assigns.cp_display
 
-    options = get_step_options(command.id, step.id, query, selections)
+    # In inline mode, query is the full text — extract just the step portion
+    search_query =
+      if display == "inline" do
+        prefix = build_inline_text(command, selections, step)
+        if String.starts_with?(query, prefix) do
+          String.slice(query, String.length(prefix)..-1//1)
+        else
+          query
+        end
+      else
+        query
+      end
 
-    assign(socket,
-      cp_query: query,
+    options = get_step_options(command.id, step.id, search_query, selections)
+
+    socket
+    |> assign(
+      cp_query: search_query,
+      cp_input_text: query,
       cp_results: options,
       cp_active_index: if(options != [], do: 0, else: -1)
     )
@@ -518,16 +602,21 @@ defmodule DemoWeb.Live.CommandPaletteLive do
       next_step = Enum.at(steps, next_index)
       options = get_step_options(command.id, next_step.id, "", new_selections)
 
-      assign(socket,
+      # Build inline text: "/assign iPad Air to "
+      inline_text = build_inline_text(command, new_selections, next_step)
+
+      socket
+      |> assign(
         cp_step_index: next_index,
         cp_current_step: next_step,
         cp_selections: new_selections,
         cp_query: "",
         cp_results: options,
         cp_active_index: if(options != [], do: 0, else: -1),
-        cp_preview: build_preview(command, new_selections)
+        cp_preview: build_preview(command, new_selections),
+        cp_input_text: inline_text
       )
-      |> push_event("cp:reset_input", %{value: ""})
+      |> push_reset_input(inline_text)
     end
   end
 
@@ -540,7 +629,8 @@ defmodule DemoWeb.Live.CommandPaletteLive do
 
         if step_index == 0 do
           # Back to command list
-          assign(socket,
+          socket
+          |> assign(
             cp_mode: "command_list",
             cp_query: "/",
             cp_results: Enum.map(socket.assigns.cp_commands, &Map.put(&1, :shortcut, &1.shortcut)),
@@ -549,9 +639,10 @@ defmodule DemoWeb.Live.CommandPaletteLive do
             cp_current_step: nil,
             cp_step_index: 0,
             cp_selections: [],
-            cp_preview: nil
+            cp_preview: nil,
+            cp_input_text: "/"
           )
-          |> push_event("cp:reset_input", %{value: "/"})
+          |> push_reset_input("/")
         else
           # Back to previous step
           command = socket.assigns.cp_current_command
@@ -561,16 +652,20 @@ defmodule DemoWeb.Live.CommandPaletteLive do
           prev_selections = Enum.take(socket.assigns.cp_selections, prev_index)
           options = get_step_options(command.id, prev_step.id, "", prev_selections)
 
-          assign(socket,
+          inline_text = build_inline_text(command, prev_selections, prev_step)
+
+          socket
+          |> assign(
             cp_step_index: prev_index,
             cp_current_step: prev_step,
             cp_selections: prev_selections,
             cp_query: "",
             cp_results: options,
             cp_active_index: if(options != [], do: 0, else: -1),
-            cp_preview: build_preview(command, prev_selections)
+            cp_preview: build_preview(command, prev_selections),
+            cp_input_text: inline_text
           )
-          |> push_event("cp:reset_input", %{value: ""})
+          |> push_reset_input(inline_text)
         end
 
       "context_search" ->
@@ -656,9 +751,61 @@ defmodule DemoWeb.Live.CommandPaletteLive do
   # -- Global search --
 
   defp do_global_search(socket, query) do
+    q = String.downcase(String.trim(query))
+
+    # Include matching commands
+    cmd_results =
+      socket.assigns.cp_commands
+      |> Enum.filter(fn cmd ->
+        String.contains?(String.downcase(cmd.name), q) or
+          String.contains?(String.downcase(cmd.shortcut), q) or
+          Enum.any?(cmd[:aliases] || [], &String.contains?(String.downcase(&1), q))
+      end)
+      |> Enum.map(fn cmd ->
+        %{id: "cmd-#{cmd.id}", title: cmd.name, subtitle: cmd.description, icon: cmd.icon,
+          badge: cmd.shortcut, _type: "command", _shortcut: cmd.shortcut}
+      end)
+
+    # Include matching contexts
+    ctx_results =
+      socket.assigns.cp_contexts
+      |> Enum.filter(fn ctx ->
+        String.contains?(String.downcase(ctx.name), q) or
+          String.contains?(String.downcase(ctx.shortcut), q) or
+          Enum.any?(ctx[:aliases] || [], &String.contains?(String.downcase(&1), q))
+      end)
+      |> Enum.map(fn ctx ->
+        %{id: "ctx-#{ctx.id}", title: ctx.name, subtitle: ctx.description, icon: ctx.icon,
+          badge: ctx.shortcut, _type: "context", _shortcut: ctx.shortcut}
+      end)
+
+    # Data results
     all_data = @products ++ @orders ++ @users ++ @invoices
-    do_search(socket, all_data, query)
-    |> assign(cp_mode: "global_search", cp_query: query)
+    data_results =
+      if q == "" do
+        all_data
+      else
+        Enum.filter(all_data, fn item ->
+          String.contains?(String.downcase(item[:title] || ""), q) or
+            String.contains?(String.downcase(item[:subtitle] || item[:meta] || ""), q) or
+            String.contains?(String.downcase(item[:badge] || ""), q)
+        end)
+      end
+
+    combined = cmd_results ++ ctx_results ++ data_results
+    total = length(combined)
+    total_pages = max(1, ceil(total / @page_size))
+    results = Enum.take(combined, @page_size)
+
+    assign(socket,
+      cp_mode: "global_search",
+      cp_query: query,
+      cp_results: results,
+      cp_page: 1,
+      cp_total_pages: total_pages,
+      cp_total_results: total,
+      cp_active_index: if(results != [], do: 0, else: -1)
+    )
   end
 
   # -- Selection handling --
@@ -701,10 +848,21 @@ defmodule DemoWeb.Live.CommandPaletteLive do
            |> PureAdmin.Components.Toast.push_toast("info", "Selected", "#{item[:title]}", duration: 3000)}
 
         "global_search" ->
-          {:noreply,
-           socket
-           |> close_palette()
-           |> PureAdmin.Components.Toast.push_toast("info", "Selected", "#{item[:title]}", duration: 3000)}
+          cond do
+            item[:_type] == "command" ->
+              command = find_command(socket.assigns.cp_commands, item[:_shortcut])
+              if command, do: {:noreply, enter_command(socket, command)}, else: {:noreply, socket}
+
+            item[:_type] == "context" ->
+              context = find_context(socket.assigns.cp_contexts, item[:_shortcut])
+              if context, do: {:noreply, enter_context_search(socket, context, "")}, else: {:noreply, socket}
+
+            true ->
+              {:noreply,
+               socket
+               |> close_palette()
+               |> PureAdmin.Components.Toast.push_toast("info", "Selected", "#{item[:title]}", duration: 3000)}
+          end
 
         _ ->
           {:noreply, socket}
@@ -853,10 +1011,21 @@ defmodule DemoWeb.Live.CommandPaletteLive do
 
   defp get_step_options("go", "page", query, _selections) do
     [
-      %{id: "dashboard", label: "Dashboard", icon: "📊", value: "/"},
-      %{id: "products", label: "Products", icon: "📦", value: "/products"},
-      %{id: "orders", label: "Orders", icon: "📋", value: "/orders"},
-      %{id: "settings", label: "Settings", icon: "⚙️", value: "/settings"}
+      %{id: "dashboard", label: "Dashboard", code: "01", icon: "📊", value: "/"},
+      %{id: "forms", label: "Forms", code: "10", icon: "📝", value: "/forms"},
+      %{id: "buttons", label: "Buttons", code: "20", icon: "🔘", value: "/components/buttons"},
+      %{id: "inputs", label: "Inputs", code: "21", icon: "✏️", value: "/components/inputs"},
+      %{id: "cards", label: "Cards", code: "22", icon: "🃏", value: "/components/cards"},
+      %{id: "tables", label: "Tables", code: "23", icon: "📊", value: "/tables/standard"},
+      %{id: "alerts", label: "Alerts", code: "24", icon: "⚠️", value: "/components/alerts"},
+      %{id: "toasts", label: "Toasts", code: "25", icon: "🔔", value: "/components/toasts"},
+      %{id: "modals", label: "Modals", code: "26", icon: "🔳", value: "/components/modals"},
+      %{id: "tabs", label: "Tabs", code: "27", icon: "📑", value: "/components/tabs"},
+      %{id: "badges", label: "Badges", code: "28", icon: "🏷️", value: "/components/badges"},
+      %{id: "tooltips", label: "Tooltips", code: "29", icon: "💬", value: "/components/tooltips"},
+      %{id: "command-palette", label: "Command Palette", code: "30", icon: "🔍", value: "/components/command-palette"},
+      %{id: "colors", label: "Colors", code: "12", icon: "🌈", value: "/design/colors"},
+      %{id: "theme-vars", label: "Theme Variables", code: "11", icon: "🎨", value: "/design/theme-variables"}
     ]
     |> filter_options(query)
   end
@@ -882,7 +1051,8 @@ defmodule DemoWeb.Live.CommandPaletteLive do
     else
       Enum.filter(options, fn opt ->
         String.contains?(String.downcase(opt[:label] || ""), q) or
-          String.contains?(String.downcase(opt[:description] || ""), q)
+          String.contains?(String.downcase(opt[:description] || ""), q) or
+          (opt[:code] || "") == q
       end)
     end
   end
@@ -896,6 +1066,28 @@ defmodule DemoWeb.Live.CommandPaletteLive do
         |> Enum.join(" → ")
 
       "#{command.name}: #{parts}"
+    end
+  end
+
+  # Build the full inline text for the input: "/assign iPad Air to "
+  defp build_inline_text(command, selections, current_step) do
+    base = command.shortcut
+
+    text =
+      Enum.reduce(selections, base, fn sel, acc ->
+        acc <> (sel[:prompt] || " ") <> sel[:label]
+      end)
+
+    # Add current step's prompt
+    text <> (current_step[:prompt] || " ")
+  end
+
+  # Push reset_input with the right value based on display mode
+  defp push_reset_input(socket, inline_value) do
+    if socket.assigns.cp_display == "inline" do
+      push_event(socket, "cp:reset_input", %{value: inline_value})
+    else
+      push_event(socket, "cp:reset_input", %{value: ""})
     end
   end
 end

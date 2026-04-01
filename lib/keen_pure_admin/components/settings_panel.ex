@@ -16,6 +16,7 @@ defmodule PureAdmin.Components.SettingsPanel do
   use Phoenix.Component
 
   import PureAdmin.Helpers
+  import PureAdmin.Translations, only: [t: 1]
 
   @doc """
   Renders the floating settings panel.
@@ -38,24 +39,24 @@ defmodule PureAdmin.Components.SettingsPanel do
       data-default-theme={@default_theme}
       {@rest}
     >
-      <button class="pa-settings-panel__toggle" type="button" aria-label="Settings">
+      <button class="pa-settings-panel__toggle" type="button" aria-label={t("pureAdmin.a11y.settings")}>
         ⚙
       </button>
 
       <div class="pa-settings-panel__content">
-        <h3 class="pa-settings-panel__title">Settings</h3>
+        <h3 class="pa-settings-panel__title"><%= t("pureAdmin.settings.title") %></h3>
 
         <%!-- Theme (populated dynamically from manifests) --%>
         <div class="pa-settings-panel__section">
-          <label class="pa-settings-panel__label" for={"#{@id}-theme"}>Theme</label>
+          <label class="pa-settings-panel__label" for={"#{@id}-theme"}><%= t("pureAdmin.settings.theme") %></label>
           <select id={"#{@id}-theme"} class="pa-settings-panel__select" data-setting="theme">
-            <option value="">Loading...</option>
+            <option value=""><%= t("pureAdmin.settings.loading") %></option>
           </select>
         </div>
 
         <%!-- Color Variant (shown/hidden dynamically based on manifest) --%>
         <div class="pa-settings-panel__section" data-section="color-variant" style="display: none;">
-          <label class="pa-settings-panel__label" for={"#{@id}-color-variant"}>Color Variant</label>
+          <label class="pa-settings-panel__label" for={"#{@id}-color-variant"}><%= t("pureAdmin.settings.colorVariant") %></label>
           <select
             id={"#{@id}-color-variant"}
             class="pa-settings-panel__select"
@@ -66,7 +67,7 @@ defmodule PureAdmin.Components.SettingsPanel do
 
         <%!-- Theme Mode (shown/hidden dynamically based on manifest) --%>
         <div class="pa-settings-panel__section" data-section="theme-mode" style="display: none;">
-          <label class="pa-settings-panel__label" for={"#{@id}-theme-mode"}>Mode</label>
+          <label class="pa-settings-panel__label" for={"#{@id}-theme-mode"}><%= t("pureAdmin.settings.mode") %></label>
           <select
             id={"#{@id}-theme-mode"}
             class="pa-settings-panel__select"
@@ -77,117 +78,117 @@ defmodule PureAdmin.Components.SettingsPanel do
 
         <%!-- Container Width --%>
         <div class="pa-settings-panel__section">
-          <label class="pa-settings-panel__label" for={"#{@id}-container-width"}>Layout Width</label>
+          <label class="pa-settings-panel__label" for={"#{@id}-container-width"}><%= t("pureAdmin.settings.layoutWidth") %></label>
           <select
             id={"#{@id}-container-width"}
             class="pa-settings-panel__select"
             data-setting="container-width"
           >
-            <option value="fluid">Fluid (Full Width)</option>
-            <option value="sm">Small (768px)</option>
-            <option value="md">Medium (1024px)</option>
-            <option value="lg">Large (1280px)</option>
-            <option value="xl">Extra Large (1600px)</option>
-            <option value="2xl">2X Large (1920px)</option>
+            <option value="fluid"><%= t("pureAdmin.settings.fluid") %></option>
+            <option value="sm"><%= t("pureAdmin.settings.small") %></option>
+            <option value="md"><%= t("pureAdmin.settings.medium") %></option>
+            <option value="lg"><%= t("pureAdmin.settings.large") %></option>
+            <option value="xl"><%= t("pureAdmin.settings.extraLarge") %></option>
+            <option value="2xl"><%= t("pureAdmin.settings.xxLarge") %></option>
           </select>
         </div>
 
         <%!-- Sidebar Mode --%>
         <div class="pa-settings-panel__section">
-          <label class="pa-settings-panel__label" for={"#{@id}-sidebar-mode"}>Sidebar Mode</label>
+          <label class="pa-settings-panel__label" for={"#{@id}-sidebar-mode"}><%= t("pureAdmin.settings.sidebarMode") %></label>
           <select
             id={"#{@id}-sidebar-mode"}
             class="pa-settings-panel__select"
             data-setting="sidebar-mode"
           >
-            <option value="">Scrolls with Content</option>
-            <option value="sticky">Fixed Position</option>
+            <option value=""><%= t("pureAdmin.settings.scrollsWithContent") %></option>
+            <option value="sticky"><%= t("pureAdmin.settings.fixedPosition") %></option>
           </select>
         </div>
 
         <%!-- Sidebar Behavior --%>
         <div class="pa-settings-panel__section">
           <label class="pa-settings-panel__label" for={"#{@id}-sidebar-behavior"}>
-            Sidebar Behavior
+            <%= t("pureAdmin.settings.sidebarBehavior") %>
           </label>
           <select
             id={"#{@id}-sidebar-behavior"}
             class="pa-settings-panel__select"
             data-setting="sidebar-behavior"
           >
-            <option value="hide">Hide Completely</option>
-            <option value="icon-collapse">Show Icons Only</option>
+            <option value="hide"><%= t("pureAdmin.settings.hideCompletely") %></option>
+            <option value="icon-collapse"><%= t("pureAdmin.settings.showIconsOnly") %></option>
           </select>
         </div>
 
         <%!-- Sidebar Options --%>
         <div class="pa-settings-panel__section">
-          <span class="pa-settings-panel__label">Sidebar</span>
+          <span class="pa-settings-panel__label"><%= t("pureAdmin.settings.sidebar") %></span>
           <div class="pa-settings-panel__checkbox-group">
             <label class="pa-settings-panel__checkbox">
               <input type="checkbox" data-setting="sidebar-hidden" />
-              <span>Collapsed</span>
+              <span><%= t("pureAdmin.settings.collapsed") %></span>
             </label>
             <label class="pa-settings-panel__checkbox">
               <input type="checkbox" data-setting="sidebar-resizable" />
-              <span>Resizable</span>
+              <span><%= t("pureAdmin.settings.resizable") %></span>
             </label>
           </div>
         </div>
 
         <%!-- Display Options --%>
         <div class="pa-settings-panel__section">
-          <span class="pa-settings-panel__label">Display</span>
+          <span class="pa-settings-panel__label"><%= t("pureAdmin.settings.display") %></span>
           <div class="pa-settings-panel__checkbox-group">
             <label class="pa-settings-panel__checkbox">
               <input type="checkbox" data-setting="compact-mode" />
-              <span>Compact Mode</span>
+              <span><%= t("pureAdmin.settings.compactMode") %></span>
             </label>
             <label class="pa-settings-panel__checkbox">
               <input type="checkbox" data-setting="rtl-mode" />
-              <span>RTL Mode</span>
+              <span><%= t("pureAdmin.settings.rtlMode") %></span>
             </label>
           </div>
         </div>
 
         <%!-- Profile Panel --%>
         <div class="pa-settings-panel__section">
-          <span class="pa-settings-panel__label">Profile Panel</span>
+          <span class="pa-settings-panel__label"><%= t("pureAdmin.settings.profilePanel") %></span>
           <div class="pa-settings-panel__checkbox-group">
             <label class="pa-settings-panel__checkbox">
               <input type="checkbox" data-setting="profile-no-avatar" />
-              <span>Hide Avatar</span>
+              <span><%= t("pureAdmin.settings.hideAvatar") %></span>
             </label>
             <label class="pa-settings-panel__checkbox">
               <input type="checkbox" data-setting="profile-icon-only-tabs" />
-              <span>Icon-Only Tabs</span>
+              <span><%= t("pureAdmin.settings.iconOnlyTabs") %></span>
             </label>
           </div>
         </div>
 
         <%!-- Font Size --%>
         <div class="pa-settings-panel__section">
-          <label class="pa-settings-panel__label" for={"#{@id}-font-size"}>Font Size</label>
+          <label class="pa-settings-panel__label" for={"#{@id}-font-size"}><%= t("pureAdmin.settings.fontSize") %></label>
           <select id={"#{@id}-font-size"} class="pa-settings-panel__select" data-setting="font-size">
-            <option value="small">Small (14px)</option>
-            <option value="default">Default (16px)</option>
-            <option value="large">Large (18px)</option>
-            <option value="xlarge">Extra Large (20px)</option>
+            <option value="small"><%= t("pureAdmin.settings.fontSizeSmall") %></option>
+            <option value="default"><%= t("pureAdmin.settings.fontSizeDefault") %></option>
+            <option value="large"><%= t("pureAdmin.settings.fontSizeLarge") %></option>
+            <option value="xlarge"><%= t("pureAdmin.settings.fontSizeXLarge") %></option>
           </select>
           <small class="pa-settings-panel__hint">
-            Body text size. All elements scale proportionally.
+            <%= t("pureAdmin.settings.fontSizeHint") %>
           </small>
         </div>
 
         <%!-- Font Family --%>
         <div class="pa-settings-panel__section">
-          <label class="pa-settings-panel__label" for={"#{@id}-font-family"}>Font Family</label>
+          <label class="pa-settings-panel__label" for={"#{@id}-font-family"}><%= t("pureAdmin.settings.fontFamily") %></label>
           <select
             id={"#{@id}-font-family"}
             class="pa-settings-panel__select"
             data-setting="font-family"
           >
-            <option value="default">Theme Default</option>
+            <option value="default"><%= t("pureAdmin.settings.themeDefault") %></option>
             <option value="serif">Serif</option>
             <option value="mono">Monospace</option>
             <option value="cuprum">Cuprum</option>
@@ -205,7 +206,7 @@ defmodule PureAdmin.Components.SettingsPanel do
         <%!-- Reset Button --%>
         <div class="pa-settings-panel__section">
           <button class="pa-btn pa-btn--secondary pa-btn--block" type="button" data-reset>
-            Reset to Defaults
+            <%= t("pureAdmin.settings.resetToDefaults") %>
           </button>
         </div>
       </div>

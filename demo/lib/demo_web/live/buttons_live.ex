@@ -744,6 +744,12 @@ defmodule DemoWeb.Live.ButtonsLive do
         <li><code>pa-btn--outline-info</code> - Outline info</li>
       </.basic_list>
 
+      <.heading level={4} class="mt-4">Theme Color Variants</.heading>
+      <.basic_list spacing="compact">
+        <li><code>pa-btn--color-{1-9}</code> - Theme color slot buttons</li>
+        <li><code>pa-btn--outline-color-{1-9}</code> - Outline theme color slot buttons</li>
+      </.basic_list>
+
       <.heading level={4} class="mt-4">Button Sizes</.heading>
       <.basic_list spacing="compact">
         <li><code>pa-btn--xs</code> - Extra small button</li>
@@ -771,6 +777,7 @@ defmodule DemoWeb.Live.ButtonsLive do
       <.heading level={4} class="mt-4">Button Elements</.heading>
       <.basic_list spacing="compact">
         <li><code>pa-btn__icon</code> - Icon container with fixed width</li>
+        <li><code>pa-btn__label</code> - Text label wrapper (enables centering with icons)</li>
         <li><code>pa-btn__spinner</code> - Loading spinner element</li>
       </.basic_list>
 
@@ -786,6 +793,21 @@ defmodule DemoWeb.Live.ButtonsLive do
         <li><code>pa-btn-group--center</code> - Center-align buttons</li>
         <li><code>pa-btn-group--end</code> - End-align buttons</li>
         <li><code>pa-btn-group--stretch</code> - Full width buttons</li>
+      </.basic_list>
+
+      <.heading level={4} class="mt-4">Split Buttons</.heading>
+      <.basic_list spacing="compact">
+        <li><code>pa-btn-split</code> - Container for split button</li>
+        <li><code>pa-btn-split__toggle</code> - Toggle/chevron button</li>
+        <li><code>pa-btn-split__chevron</code> - Chevron icon (rotates on open)</li>
+        <li><code>pa-btn-split__menu</code> - Dropdown menu panel</li>
+        <li><code>pa-btn-split__menu-inner</code> - Inner wrapper (flex layout)</li>
+        <li><code>pa-btn-split__menu--open</code> - Show dropdown menu</li>
+        <li><code>pa-btn-split__item</code> - Menu item button</li>
+        <li><code>pa-btn-split__item--danger</code> - Destructive action styling</li>
+        <li><code>pa-btn-split__item-icon</code> - Menu item icon container</li>
+        <li><code>pa-btn-split__item-row</code> - Row with item + inline action button</li>
+        <li><code>data-placement="top-end"</code> - Open menu upward</li>
       </.basic_list>
 
       <.heading level={4} class="mt-4">Responsive Button Groups</.heading>

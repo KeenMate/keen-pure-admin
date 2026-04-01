@@ -9,6 +9,7 @@ defmodule PureAdmin.Components.Popconfirm do
   use Phoenix.Component
 
   import PureAdmin.Helpers
+  import PureAdmin.Translations, only: [t: 1]
 
   @doc """
   Renders a popconfirm with a trigger button and confirmation dialog.
@@ -41,8 +42,8 @@ defmodule PureAdmin.Components.Popconfirm do
   attr(:icon_variant, :string, default: nil, values: [nil, "danger", "warning", "info"],
     doc: "Icon style for the message")
   attr(:is_compact, :boolean, default: false, doc: "Compact variant for table actions")
-  attr(:confirm_text, :string, default: "Confirm", doc: "Confirm button text")
-  attr(:cancel_text, :string, default: "Cancel", doc: "Cancel button text")
+  attr(:confirm_text, :string, default: nil, doc: "Confirm button text (default: translated)")
+  attr(:cancel_text, :string, default: nil, doc: "Cancel button text (default: translated)")
   attr(:confirm_variant, :string, default: "danger",
     values: ["primary", "secondary", "success", "warning", "danger", "info"],
     doc: "Confirm button color variant")
@@ -53,6 +54,10 @@ defmodule PureAdmin.Components.Popconfirm do
   slot(:inner_block, required: true, doc: "Trigger content (usually a button)")
 
   def popconfirm(assigns) do
+    assigns =
+      assigns
+      |> assign(:confirm_text, assigns.confirm_text || t("pureAdmin.popconfirm.confirm"))
+      |> assign(:cancel_text, assigns.cancel_text || t("pureAdmin.popconfirm.cancel"))
     ~H"""
     <div
       class="pa-popconfirm-wrapper"

@@ -44,6 +44,12 @@ initModalDialogs()
 // connect if there are any LiveViews on the page
 liveSocket.connect()
 
+// Signal page loader after first LiveView render (not just connect)
+window.addEventListener("phx:page-loading-stop", function _firstRender() {
+  if (window.__pageLoaderReady) window.__pageLoaderReady()
+  window.removeEventListener("phx:page-loading-stop", _firstRender)
+}, { once: true })
+
 // expose liveSocket on window for web console debug logs and latency simulation:
 // >> liveSocket.enableDebug()
 // >> liveSocket.enableLatencySim(1000)  // enabled for duration of browser session

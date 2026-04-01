@@ -408,11 +408,35 @@ To force-clear the cache:
 make themes-clear
 ```
 
+## Translations (i18n)
+
+All user-facing strings in components are translatable via a runtime callback. Without configuration, English defaults are used.
+
+```elixir
+# config/config.exs
+config :keen_pure_admin,
+  translate: &MyApp.Translations.translate/2
+```
+
+The callback receives a flat key and a params map:
+
+```elixir
+defmodule MyApp.Translations do
+  def translate(key, params) do
+    # Load from DB, Gettext, ETS — whatever fits your app
+    translation = MyApp.Repo.get_translation(key, current_locale())
+    PureAdmin.Translations.interpolate(translation, params)
+  end
+end
+```
+
+Keys follow the `pureAdmin.*` convention (e.g., `pureAdmin.buttons.cancel`, `pureAdmin.pagination.nextPage`, `pureAdmin.commandPalette.searching`). See `PureAdmin.Translations.defaults()` for the full list.
+
 ## Requirements
 
 - Elixir ~> 1.15
 - Phoenix LiveView ~> 1.0
-- `@keenmate/pure-admin-core` CSS (v2.2.0+)
+- `@keenmate/pure-admin-core` CSS (v2.3.5+)
 
 ## Development
 

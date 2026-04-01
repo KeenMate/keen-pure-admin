@@ -18,8 +18,148 @@
     <script src="https://cdn.jsdelivr.net/npm/@floating-ui/dom@1.6.13"></script>
     <script defer phx-track-static type="text/javascript" src={~p"/assets/js/app.js"}>
     </script>
+    <%!-- Critical CSS: Page loader (inline to prevent FOUC) --%>
+    <style>
+      .page-loader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--page-loader-bg, rgba(26, 26, 26, 0.95));
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 99999;
+        transition: opacity 0.15s ease, visibility 0.15s ease;
+      }
+      .page-loader.loaded {
+        opacity: 0;
+        visibility: hidden;
+      }
+      .page-loader__spinner {
+        width: 50px;
+        height: 50px;
+        border: 4px solid var(--page-loader-spinner-border, #333);
+        border-top-color: var(--page-loader-spinner-accent, #0066cc);
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+      }
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+    </style>
   </head>
   <body>
+    <%!-- Page Loader: Shows while fonts/CSS/LiveView load --%>
+    <div class="page-loader" id="pageLoader">
+      <div class="page-loader__spinner"></div>
+    </div>
+    <script>
+      (function() {
+        var t0 = performance.now();
+        var _debug = (localStorage.getItem('pa-debug') === 'true');
+        var log = function(msg) { if (_debug) console.debug('%c[PA:LOADER] ' + msg + ' @ ' + Math.round(performance.now() - t0) + 'ms', 'color: #0ea5e9; font-weight: bold;'); };
+        var loader = document.getElementById('pageLoader');
+        if (!loader) { window.__pageLoaderReady = function(){}; return; }
+        var fontsReady = false;
+        var appReady = false;
+        var cssReady = false;
+        var hidden = false;
+
+        log('init');
+
+        var MIN_DISPLAY_MS = 400; // Don't flash the loader — show it properly or not at all
+
+        function hideLoader() {
+          if (!fontsReady || !appReady || !cssReady || hidden) return;
+          hidden = true;
+          var elapsed = performance.now() - t0;
+          var delay = Math.max(0, MIN_DISPLAY_MS - elapsed);
+          log('ALL READY — hiding in ' + Math.round(delay) + 'ms (elapsed=' + Math.round(elapsed) + 'ms)');
+          setTimeout(function() {
+            requestAnimationFrame(function() {
+              loader.classList.add('loaded');
+              setTimeout(function() { loader.remove(); log('loader removed from DOM'); }, 150);
+            });
+          }, delay);
+        }
+
+        // Wait for fonts
+        if (document.fonts && document.fonts.ready) {
+          Promise.race([
+            document.fonts.ready,
+            new Promise(function(resolve) { setTimeout(resolve, 2000); })
+          ]).then(function() {
+            fontsReady = true;
+            log('fonts ready');
+            hideLoader();
+          });
+        } else {
+          window.addEventListener('load', function() {
+            fontsReady = true;
+            log('fonts ready (load event fallback)');
+            hideLoader();
+          });
+        }
+
+        // Wait for theme CSS to actually load
+        var themeLink = document.getElementById('pa-theme-css');
+        if (themeLink) {
+          if (themeLink.sheet) {
+            cssReady = true;
+            log('theme CSS already loaded');
+          } else {
+            themeLink.addEventListener('load', function() {
+              cssReady = true;
+              log('theme CSS loaded: ' + themeLink.href);
+              hideLoader();
+            });
+            themeLink.addEventListener('error', function() {
+              cssReady = true;
+              log('theme CSS failed to load, continuing');
+              hideLoader();
+            });
+            // Fallback if link load event doesn't fire
+            setTimeout(function() {
+              if (!cssReady) {
+                cssReady = true;
+                log('theme CSS timeout, continuing');
+                hideLoader();
+              }
+            }, 2000);
+          }
+        } else {
+          cssReady = true;
+          log('no theme CSS link found');
+        }
+
+        // Wait for LiveView connection — fired by app.js after liveSocket.connect()
+        window.__pageLoaderReady = function() {
+          appReady = true;
+          log('LiveView connected');
+          hideLoader();
+        };
+
+        // Log key page lifecycle events
+        document.addEventListener('DOMContentLoaded', function() { log('DOMContentLoaded'); });
+        window.addEventListener('load', function() { log('window.load'); });
+
+        // Safety timeout — never block longer than 4s
+        setTimeout(function() {
+          if (!hidden) {
+            log('SAFETY TIMEOUT — forcing hide (fonts=' + fontsReady + ', app=' + appReady + ', css=' + cssReady + ')');
+            fontsReady = true;
+            appReady = true;
+            cssReady = true;
+            hideLoader();
+          }
+        }, 4000);
+      })();
+    </script>
+    <.page_context />
     <.fouc_prevention_script />
     <script>
       // Apply theme from ?theme= query param or localStorage before paint

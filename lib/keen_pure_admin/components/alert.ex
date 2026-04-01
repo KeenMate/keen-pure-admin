@@ -6,6 +6,7 @@ defmodule PureAdmin.Components.Alert do
 
   alias Phoenix.LiveView.JS
   import PureAdmin.Helpers
+  import PureAdmin.Translations, only: [t: 1]
 
   @doc """
   Renders an alert with Pure Admin BEM classes.
@@ -85,7 +86,7 @@ defmodule PureAdmin.Components.Alert do
         :if={@is_dismissible}
         class="pa-alert__close"
         phx-click={dismiss_alert(@id)}
-        aria-label="Close"
+        aria-label={t("pureAdmin.a11y.close")}
       >
         <span aria-hidden="true">&times;</span>
       </button>

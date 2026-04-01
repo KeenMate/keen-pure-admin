@@ -39,6 +39,7 @@ defmodule PureAdmin.Components.Flash do
 
   alias Phoenix.LiveView.JS
   import PureAdmin.Helpers
+  import PureAdmin.Translations, only: [t: 1]
 
   @flash_variant_map %{
     info: "info",
@@ -103,7 +104,7 @@ defmodule PureAdmin.Components.Flash do
         :if={@is_dismissible}
         class="pa-alert__close"
         phx-click={@dismiss_cmd}
-        aria-label="Close"
+        aria-label={t("pureAdmin.a11y.close")}
       >
         <span aria-hidden="true">&times;</span>
       </button>

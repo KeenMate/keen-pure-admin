@@ -20,6 +20,7 @@ defmodule PureAdmin.Components.Toast do
   use Phoenix.Component
 
   import PureAdmin.Helpers
+  import PureAdmin.Translations, only: [t: 1]
 
   @doc """
   Pushes a toast notification to the client via `push_event`.
@@ -115,7 +116,7 @@ defmodule PureAdmin.Components.Toast do
         class="pa-toast__close"
         phx-click={@on_close}
         phx-value-id={@id}
-        aria-label="Close"
+        aria-label={t("pureAdmin.a11y.close")}
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
       </button>

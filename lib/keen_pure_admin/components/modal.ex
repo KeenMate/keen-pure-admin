@@ -9,6 +9,7 @@ defmodule PureAdmin.Components.Modal do
 
   alias Phoenix.LiveView.JS
   import PureAdmin.Helpers
+  import PureAdmin.Translations, only: [t: 1]
 
   @doc """
   Renders a modal dialog.
@@ -81,7 +82,7 @@ defmodule PureAdmin.Components.Modal do
             :if={@should_show_close && !@is_static}
             class="pa-btn pa-btn--primary pa-btn--icon-only pa-btn--sm"
             phx-click={JS.exec(@on_cancel, "phx-remove", to: "##{@id}")}
-            aria-label="Close"
+            aria-label={t("pureAdmin.a11y.close")}
           >
             &#10005;
           </button>
