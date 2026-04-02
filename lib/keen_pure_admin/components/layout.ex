@@ -66,7 +66,7 @@ defmodule PureAdmin.Components.Layout do
   def navbar_burger(assigns) do
     ~H"""
     <button
-      class={build_classes("pa-header__burger burger-menu active", [], @class)}
+      class={build_classes("pa-header__burger burger-menu", [], @class)}
       phx-click={toggle_sidebar()}
       aria-label="Toggle sidebar"
       {@rest}
@@ -480,6 +480,7 @@ defmodule PureAdmin.Components.Layout do
     <aside
       id={@id}
       class={sidebar_classes(assigns)}
+      phx-hook="PureAdminSidebar"
       {@rest}
     >
       <nav class="pa-sidebar__nav">
@@ -712,7 +713,8 @@ defmodule PureAdmin.Components.Layout do
         var cw=localStorage.getItem('container-width');
         if(cw&&cw!=='fluid')b.classList.add('pa-container-'+cw);
         if(localStorage.getItem('sidebar-mode')==='sticky')b.classList.add('pa-layout--sticky');
-        if(localStorage.getItem('sidebar-hidden')==='true'){b.classList.add('sidebar-hidden');var bm=document.querySelector('.burger-menu');if(bm)bm.classList.remove('active');}
+        var isMobile=window.innerWidth<=768;
+        if(!isMobile){if(localStorage.getItem('sidebar-hidden')==='true'){b.classList.add('sidebar-hidden')}else{var bm=document.querySelector('.burger-menu');if(bm)bm.classList.add('active')}}
         var cv=localStorage.getItem('color-variant');
         if(cv)b.classList.add('pa-color-'+cv);
         if(localStorage.getItem('compact-mode')==='true')b.classList.add('compact-mode');
@@ -731,8 +733,7 @@ defmodule PureAdmin.Components.Layout do
   @spec toggle_sidebar() :: JS.t()
   def toggle_sidebar do
     %JS{}
-    |> JS.toggle_class("sidebar-hidden", to: "body")
-    |> JS.toggle_class("active", to: ".burger-menu")
+    |> JS.dispatch("pa:toggle_sidebar", to: "#sidebar")
   end
 
   @doc "JS command to toggle a submenu open/closed."
