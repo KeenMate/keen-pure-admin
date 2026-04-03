@@ -15,6 +15,7 @@ defmodule DemoWeb.Router do
       pipe_through :browser
 
       live "/", Live.DashboardLive, :index
+      live "/getting-started", Live.GettingStartedLive, :index
       live "/forms", Live.FormsLive, :index
 
       # Components
