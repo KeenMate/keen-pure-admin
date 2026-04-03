@@ -3,7 +3,7 @@ defmodule DemoWeb.Live.CoreComponentsLive do
 
   @setup_project "mix phx.new my_app --no-tailwind"
 
-  @setup_dep ~S'{:keen_pure_admin, "~> 1.0.0-rc.1"}'
+  @setup_dep ~S'{:keen_pure_admin, "~> 1.0.0-rc.2"}'
 
   @setup_import ~S"""
   # In your MyAppWeb module, replace:

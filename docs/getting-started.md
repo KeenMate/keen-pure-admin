@@ -19,7 +19,7 @@ Add `keen_pure_admin` to your `mix.exs`:
 ```elixir
 def deps do
   [
-    {:keen_pure_admin, "~> 1.0.0-rc.1"}
+    {:keen_pure_admin, "~> 1.0.0-rc.2"}
   ]
 end
 ```

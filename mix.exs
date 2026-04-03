@@ -1,7 +1,7 @@
 defmodule PureAdmin.MixProject do
   use Mix.Project
 
-  @version "1.0.0-rc.1"
+  @version "1.0.0-rc.2"
   @source_url "https://github.com/KeenMate/keen-pure-admin"
 
   def project do
@@ -49,7 +49,11 @@ defmodule PureAdmin.MixProject do
     [
       name: "keen_pure_admin",
       licenses: ["MIT"],
-      links: %{"GitHub" => @source_url},
+      links: %{
+        "GitHub" => @source_url,
+        "Pure Admin" => "https://pureadmin.io",
+        "Live Demo" => "https://elixir.demo.pureadmin.io"
+      },
       files: ~w(lib docs .formatter.exs mix.exs README.md LICENSE CHANGELOG.md)
     ]
   end

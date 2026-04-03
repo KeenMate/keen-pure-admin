@@ -1,5 +1,13 @@
 # Changelog
 
+## v1.0.0-rc.2 — 2026-04-03
+
+### Bug Fixes
+
+- **Sidebar** — fix mobile toggle not working: `toggle_sidebar()` was hardcoded to dispatch to `#sidebar`, now accepts configurable target ID via `navbar_burger` `target` attr
+- **Logger** — `enableLogging()` now persists across page reloads via localStorage
+- **Sidebar** — optimize resize handler to only act on breakpoint crossings
+
 ## v1.0.0-rc.1 — 2026-04-01
 
 ### Flash Messages
@@ -90,7 +98,7 @@
 
 Compatible with `@keenmate/pure-admin-core` v2.3.5.
 
-## v1.0.0-rc.1
+## v1.0.0-rc.1 (initial)
 
 First release candidate. Consolidates all v0.x development into a stable API.
 

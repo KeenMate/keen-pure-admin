@@ -31,7 +31,7 @@ Add `keen_pure_admin` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:keen_pure_admin, "~> 1.0.0-rc.1"}
+    {:keen_pure_admin, "~> 1.0.0-rc.2"}
   ]
 end
 ```
@@ -41,7 +41,7 @@ end
 ```elixir
 def deps do
   [
-    {:keen_pure_admin, github: "KeenMate/keen-pure-admin", tag: "v1.0.0-rc.1"}
+    {:keen_pure_admin, github: "KeenMate/keen-pure-admin", tag: "v1.0.0-rc.2"}
   ]
 end
 ```
