@@ -60,6 +60,7 @@ defmodule PureAdmin.Components.Layout do
   @doc """
   Renders the burger menu button for sidebar toggle.
   """
+  attr(:target, :string, default: "sidebar", doc: "ID of the sidebar element to toggle")
   attr(:class, :string, default: nil)
   attr(:rest, :global)
 
@@ -67,7 +68,7 @@ defmodule PureAdmin.Components.Layout do
     ~H"""
     <button
       class={build_classes("pa-header__burger burger-menu", [], @class)}
-      phx-click={toggle_sidebar()}
+      phx-click={toggle_sidebar(@target)}
       aria-label="Toggle sidebar"
       {@rest}
     >
@@ -730,10 +731,10 @@ defmodule PureAdmin.Components.Layout do
   end
 
   @doc "JS command to toggle the sidebar visibility."
-  @spec toggle_sidebar() :: JS.t()
-  def toggle_sidebar do
+  @spec toggle_sidebar(String.t()) :: JS.t()
+  def toggle_sidebar(id \\ "sidebar") do
     %JS{}
-    |> JS.dispatch("pa:toggle_sidebar", to: "#sidebar")
+    |> JS.dispatch("pa:toggle_sidebar", to: "##{id}")
   end
 
   @doc "JS command to toggle a submenu open/closed."
