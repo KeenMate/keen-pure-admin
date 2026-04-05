@@ -39,8 +39,12 @@ config :logger, :default_formatter,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
-# PureAdmin page context providers
+# PureAdmin configuration
 config :keen_pure_admin,
+  app_name: "Pure Admin",
+  app_version: "1.0.0-rc.2",
+  copyright: "© 2026 KeenMate",
+  font_class: "pa-font-responsive",
   page_context_providers: [
     &DemoWeb.PageContext.theme_manifests/1
   ]

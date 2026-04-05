@@ -2,9 +2,7 @@
   <.navbar>
     <:start>
       <.navbar_burger />
-      <.navbar_brand>
-        <h1>Pure Admin</h1>
-      </.navbar_brand>
+      <.navbar_brand />
       <.navbar_nav>
         <.navbar_nav_item href="/">Dashboard</.navbar_nav_item>
         <.navbar_nav_item href="/components/buttons" has_dropdown>
@@ -169,14 +167,7 @@
         {@inner_content}
       </.main>
 
-      <.footer>
-        <:start>
-          <span>Pure Admin LiveView Demo &copy; 2026 KeenMate</span>
-        </:start>
-        <:end_>
-          <span>v1.0.0-rc.2</span>
-        </:end_>
-      </.footer>
+      <.footer />
     </.layout_content>
   </.layout_inner>
 </.layout>

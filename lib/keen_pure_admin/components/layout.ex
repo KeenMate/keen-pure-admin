@@ -7,6 +7,7 @@ defmodule PureAdmin.Components.Layout do
   use Phoenix.Component
 
   alias Phoenix.LiveView.JS
+  alias PureAdmin.Config
   import PureAdmin.Helpers
 
   @doc """
@@ -88,17 +89,26 @@ defmodule PureAdmin.Components.Layout do
 
       <.navbar_brand logo="/images/logo.svg">My App</.navbar_brand>
   """
-  attr(:logo, :string, default: nil, doc: "Logo image URL")
+  attr(:logo, :string, default: nil, doc: "Logo image URL (falls back to config :app_logo)")
   attr(:logo_alt, :string, default: "", doc: "Logo alt text")
   attr(:class, :string, default: nil)
   attr(:rest, :global)
-  slot(:inner_block)
+  slot(:inner_block, doc: "Brand content (falls back to config :app_name)")
 
   def navbar_brand(assigns) do
+    assigns =
+      assigns
+      |> assign_new(:_logo, fn -> assigns.logo || Config.app_logo() end)
+      |> assign_new(:_name, fn -> Config.app_name() end)
+
     ~H"""
     <div class={build_classes("pa-header__brand", [], @class)} {@rest}>
-      <img :if={@logo} src={@logo} alt={@logo_alt} class="pa-header__logo" />
-      <%= render_slot(@inner_block) %>
+      <img :if={@_logo} src={@_logo} alt={@logo_alt} class="pa-header__logo" />
+      <%= if @inner_block != [] do %>
+        <%= render_slot(@inner_block) %>
+      <% else %>
+        <h1>{@_name}</h1>
+      <% end %>
     </div>
     """
   end
@@ -601,8 +611,16 @@ defmodule PureAdmin.Components.Layout do
   @doc """
   Renders the footer with three-section layout.
 
+  When no slots are provided, auto-populates from config:
+  - `:start` falls back to `config :copyright`
+  - `:end_` falls back to `config :app_version`
+
   ## Examples
 
+      <%!-- Minimal: reads from config --%>
+      <.footer />
+
+      <%!-- Explicit content --%>
       <.footer>
         <:start>&copy; 2026 My App</:start>
         <:end_>v1.0.0</:end_>
@@ -610,28 +628,45 @@ defmodule PureAdmin.Components.Layout do
   """
   attr(:class, :string, default: nil)
   attr(:rest, :global)
-  slot(:start, doc: "Left section")
+  slot(:start, doc: "Left section (falls back to config :copyright)")
   slot(:center, doc: "Center section")
-  slot(:end_, doc: "Right section")
+  slot(:end_, doc: "Right section (falls back to config :app_version)")
 
   def footer(assigns) do
+    assigns =
+      assigns
+      |> assign_new(:_copyright, fn -> Config.copyright() end)
+      |> assign_new(:_version, fn -> Config.app_version() end)
+
     ~H"""
     <footer class={build_classes("pa-layout__footer", [], @class)} {@rest}>
-      <div :if={@start != []} class="pa-footer__start">
-        <%= for start <- @start do %>
-          <%= render_slot(start) %>
-        <% end %>
-      </div>
+      <%= if @start != [] do %>
+        <div class="pa-footer__start">
+          <%= for start <- @start do %>
+            <%= render_slot(start) %>
+          <% end %>
+        </div>
+      <% else %>
+        <div :if={@_copyright} class="pa-footer__start">
+          <span>{@_copyright}</span>
+        </div>
+      <% end %>
       <div :if={@center != []} class="pa-footer__center">
         <%= for center <- @center do %>
           <%= render_slot(center) %>
         <% end %>
       </div>
-      <div :if={@end_ != []} class="pa-footer__end">
-        <%= for end_ <- @end_ do %>
-          <%= render_slot(end_) %>
-        <% end %>
-      </div>
+      <%= if @end_ != [] do %>
+        <div class="pa-footer__end">
+          <%= for end_ <- @end_ do %>
+            <%= render_slot(end_) %>
+          <% end %>
+        </div>
+      <% else %>
+        <div :if={@_version} class="pa-footer__end">
+          <span>v{@_version}</span>
+        </div>
+      <% end %>
     </footer>
     """
   end

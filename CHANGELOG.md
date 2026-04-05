@@ -2,6 +2,14 @@
 
 ## v1.0.0-rc.2 — 2026-04-03
 
+### Added
+
+- **`PureAdmin.Config`** — application-level configuration system. Set `:app_name`, `:app_logo`, `:app_version`, `:copyright`, `:font_class` in `config.exs` and components read from it automatically
+- **`navbar_brand/1`** — falls back to config `:app_name` and `:app_logo` when no inner content provided
+- **`footer/1`** — falls back to config `:copyright` (start slot) and `:app_version` (end slot) when no slots provided
+- **`Config.root_html_attrs/0`** — returns `%{class: font_class}` for the `<html>` element, supports `pa-font-responsive` and granular `pa-font-base-{9-12}` / `pa-font-mobile-{9-12}` classes from pure-admin-core v2.3.6
+- **Getting Started page** — new demo page with installation, setup timeline, responsive font sizing, available themes, and component overview (mirrors Svelte demo structure)
+
 ### Bug Fixes
 
 - **Sidebar** — fix mobile toggle not working: `toggle_sidebar()` was hardcoded to dispatch to `#sidebar`, now accepts configurable target ID via `navbar_burger` `target` attr

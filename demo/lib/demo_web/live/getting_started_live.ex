@@ -4,6 +4,12 @@ defmodule DemoWeb.Live.GettingStartedLive do
   @dep_hex ~S'{:keen_pure_admin, "~> 1.0.0-rc.2"}'
   @dep_github ~S'{:keen_pure_admin, github: "KeenMate/keen-pure-admin", tag: "v1.0.0-rc.2"}'
 
+  @font_custom_breakpoint ~S"""
+  @media (max-width: 640px) {
+    html { font-size: 12px; }
+  }
+  """
+
   @setup_layout ~S"""
   <.navbar>
     <:start>
@@ -45,6 +51,7 @@ defmodule DemoWeb.Live.GettingStartedLive do
     {:ok,
      assign(socket,
        page_title: "Getting Started",
+       font_custom_breakpoint: @font_custom_breakpoint,
        dep_hex: @dep_hex,
        dep_github: @dep_github,
        setup_layout: @setup_layout,
@@ -183,6 +190,68 @@ defmodule DemoWeb.Live.GettingStartedLive do
           <.code_block language="html">{@setup_usage}</.code_block>
         </.timeline_item>
       </.timeline>
+    </.card>
+
+    <%!-- Responsive Font Sizing --%>
+    <.card title_text="Responsive Font Sizing">
+      <.paragraph>
+        Pure Admin uses a <strong>10px rem base</strong> — the <code>html</code> font-size is 10px, so all rem values
+        scale proportionally. Changing the html font-size scales the entire UI: text, spacing, components.
+      </.paragraph>
+
+      <h4>Shorthand (recommended)</h4>
+      <.paragraph>One class for the common case — default on desktop, larger on mobile:</.paragraph>
+      <.code_block language="html">&lt;html class="pa-font-responsive"&gt;
+&lt;!-- Desktop: 10px base (16px body text) --&gt;
+&lt;!-- Mobile (&lt;=768px): 12px base (~19px body text) --&gt;</.code_block>
+
+      <h4 class="mt-4">Granular Control</h4>
+      <.paragraph>Pick exact sizes for desktop and mobile independently:</.paragraph>
+      <.code_block language="html">&lt;html class="pa-font-base-10 pa-font-mobile-12"&gt;</.code_block>
+
+      <.table_container>
+        <table class="pa-table pa-table--striped pa-table--compact mt-4">
+          <thead>
+            <tr>
+              <th>Class</th>
+              <th>html font-size</th>
+              <th>Body text result</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>pa-font-base-9</code> / <code>pa-font-mobile-9</code></td>
+              <td>9px</td>
+              <td>~14px</td>
+            </tr>
+            <tr>
+              <td><code>pa-font-base-10</code> / <code>pa-font-mobile-10</code></td>
+              <td>10px</td>
+              <td>16px (default)</td>
+            </tr>
+            <tr>
+              <td><code>pa-font-base-11</code> / <code>pa-font-mobile-11</code></td>
+              <td>11px</td>
+              <td>~18px</td>
+            </tr>
+            <tr>
+              <td><code>pa-font-base-12</code> / <code>pa-font-mobile-12</code></td>
+              <td>12px</td>
+              <td>~19px</td>
+            </tr>
+          </tbody>
+        </table>
+      </.table_container>
+
+      <.callout variant="info" class="mt-4">
+        <strong>No FOUC.</strong> These are CSS classes set directly in your HTML markup — styles apply before
+        first paint, unlike the JS-based settings panel approach.
+      </.callout>
+
+      <.callout variant="warning" class="mt-2">
+        <strong>Custom breakpoint?</strong> If you need a different mobile breakpoint, use a plain media query instead:
+        <.code_block language="css">{@font_custom_breakpoint}</.code_block>
+      </.callout>
     </.card>
 
     <%!-- Available Themes --%>
