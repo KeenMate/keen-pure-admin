@@ -44,15 +44,14 @@ COPY demo/assets /build/demo/assets
 # Compile
 RUN mix compile
 
-# Download theme bundles from pureadmin.io (optional, skipped on DNS failure)
-# Extracts full theme directories (CSS + fonts + assets) so relative paths work
-ARG THEMES_URL=https://pureadmin.io/api/bundle?themes=audi,dark,express,corporate,minimal
-RUN apt-get update && apt-get install -y --no-install-recommends curl unzip && rm -rf /var/lib/apt/lists/* \
-  && mkdir -p priv/static/themes \
-  && (curl -fsSL -o /tmp/themes.zip "${THEMES_URL}" \
-  && unzip -o /tmp/themes.zip -d priv/static/themes \
-  && rm -f /tmp/themes.zip \
-  || echo "WARNING: Theme download failed, continuing without themes")
+# Copy app CSS to priv/static (esbuild only bundles JS; theme CSS includes the core)
+RUN mkdir -p priv/static/assets/css \
+  && cp assets/css/app.css priv/static/assets/css/
+
+# Download themes via PureAdmin CLI
+RUN apt-get update && apt-get install -y --no-install-recommends nodejs npm && rm -rf /var/lib/apt/lists/* \
+  && npx @keenmate/pureadmin themes audi dark express corporate minimal \
+       --dir priv/static/themes
 
 # Build and digest assets (esbuild + phx.digest)
 RUN mix assets.deploy
