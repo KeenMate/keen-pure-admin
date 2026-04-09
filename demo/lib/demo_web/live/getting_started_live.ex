@@ -1,8 +1,8 @@
 defmodule DemoWeb.Live.GettingStartedLive do
   use DemoWeb, :live_view
 
-  @dep_hex ~S'{:keen_pure_admin, "~> 1.0.0-rc.2"}'
-  @dep_github ~S'{:keen_pure_admin, github: "KeenMate/keen-pure-admin", tag: "v1.0.0-rc.2"}'
+  @dep_hex ~S'{:keen_pure_admin, "~> 1.0"}'
+  @dep_github ~S'{:keen_pure_admin, github: "KeenMate/keen-pure-admin", tag: "v1.0.0"}'
 
   @font_custom_breakpoint ~S"""
   @media (max-width: 640px) {

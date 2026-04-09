@@ -8,7 +8,7 @@ Phoenix LiveView component library wrapping the [Pure Admin](https://github.com/
 
 Drop-in replacement for Phoenix `CoreComponents` -- provides `button/1`, `badge/1`, `card/1`, `modal/1`, `table/1`, `input/1`, and 35+ more components with full BEM class support.
 
-**Main site:** [pureadmin.io](https://pureadmin.io) -- themes, documentation, and component showcase
+**Main site:** [pureadmin.io](https://pureadmin.io) — themes, documentation, and component showcase
 
 **Live demo:** [elixir.demo.pureadmin.io](https://elixir.demo.pureadmin.io)
 
@@ -31,7 +31,7 @@ Add `keen_pure_admin` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:keen_pure_admin, "~> 1.0.0-rc.2"}
+    {:keen_pure_admin, "~> 1.0"}
   ]
 end
 ```
@@ -41,7 +41,7 @@ end
 ```elixir
 def deps do
   [
-    {:keen_pure_admin, github: "KeenMate/keen-pure-admin", tag: "v1.0.0-rc.2"}
+    {:keen_pure_admin, github: "KeenMate/keen-pure-admin", tag: "v1.0.0"}
   ]
 end
 ```
@@ -64,13 +64,13 @@ mix deps.get
 
 ## Setup
 
-### 1. Import components
+### 1. Replace CoreComponents import
 
-Replace your `CoreComponents` import with `PureAdmin.Components`:
+In your `MyAppWeb` module (e.g. `lib/my_app_web.ex`), find the `html_helpers` function and replace:
 
-```elixir
-# In your app's html_helpers or MyAppWeb module
-use PureAdmin.Components
+```diff
+- import MyAppWeb.CoreComponents
++ use PureAdmin.Components
 ```
 
 This replaces `button/1`, `input/1`, `simple_form/1`, `modal/1`, `table/1`, `list/1`, `label/1`, `flash/1`, and `flash_group/1`. A few CoreComponents functions are not replaced:
@@ -80,41 +80,124 @@ This replaces `button/1`, `input/1`, `simple_form/1`, `modal/1`, `table/1`, `lis
 - **`translate_error/1`** — keep your app's Gettext-based implementation or copy it from the generated CoreComponents
 - **`show/1`**, **`hide/1`** — use `Phoenix.LiveView.JS.show/1` and `JS.hide/1` directly
 
-### 2. Include Pure Admin CSS
+### 2. Replace the generated layouts
 
-This library generates HTML with BEM classes matching [`@keenmate/pure-admin-core`](https://www.npmjs.com/package/@keenmate/pure-admin-core). You need to include the Pure Admin CSS in your project.
+Phoenix generates a `layouts.ex` with inline `app/1` and `flash_group/1` functions that conflict with PureAdmin. Replace it:
 
-Install the CSS framework via npm:
+```elixir
+# lib/my_app_web/components/layouts.ex
+defmodule MyAppWeb.Layouts do
+  use MyAppWeb, :html
+  embed_templates "layouts/*"
+end
+```
+
+Then create `lib/my_app_web/components/layouts/app.html.heex` with a PureAdmin layout:
+
+```heex
+<.layout>
+  <.navbar>
+    <:start>
+      <.navbar_burger />
+      <.navbar_brand />
+    </:start>
+    <:center>
+      <.navbar_title>
+        <h2>{assigns[:page_title] || "Home"}</h2>
+      </.navbar_title>
+    </:center>
+  </.navbar>
+
+  <.layout_inner>
+    <.sidebar>
+      <.sidebar_item label="Home" icon="fa-solid fa-house" href="/" />
+    </.sidebar>
+
+    <.layout_content>
+      <.main>
+        <.flash_group flash={@flash} />
+        {@inner_content}
+      </.main>
+      <.footer />
+    </.layout_content>
+  </.layout_inner>
+</.layout>
+```
+
+Add the app layout to your router's browser pipeline (Phoenix 1.8 doesn't set this by default — the generated code used an inline `app/1` function instead):
+
+```elixir
+# lib/my_app_web/router.ex
+pipeline :browser do
+  # ... existing plugs ...
+  plug :put_root_layout, html: {MyAppWeb.Layouts, :root}
+  plug :put_layout, html: {MyAppWeb.Layouts, :app}       # <-- add this line
+  # ...
+end
+```
+
+Also clean up these generated files that use Tailwind classes or CoreComponents functions:
+
+- **Delete** `lib/my_app_web/components/core_components.ex` — no longer needed
+- **Delete** `priv/static/assets/default.css` — Phoenix default styles that conflict with Pure Admin
+- **Replace** `lib/my_app_web/controllers/page_html/home.html.heex` — the generated page uses Tailwind classes and `Layouts.flash_group` which no longer exists
+
+### 3. Configure your app (optional)
+
+```elixir
+# config/config.exs
+config :keen_pure_admin,
+  app_name: "My App",
+  app_version: "1.0.0",
+  copyright: "© 2026 My Company",
+  font_class: "pa-font-responsive"
+```
+
+The `navbar_brand` and `footer` components read from this config automatically. Add the font class to `<html>` in your root layout:
+
+```heex
+<html lang="en" {PureAdmin.Config.root_html_attrs()}>
+```
+
+### 4. Install a theme
+
+Theme CSS files include the core framework — you only need a theme. Download one using the PureAdmin CLI:
 
 ```bash
-cd assets
-npm install @keenmate/pure-admin-core
+npx @keenmate/pureadmin themes add audi --dir priv/static/themes
 ```
 
-Then import it in your CSS:
+Add `themes` to your static paths so Phoenix serves the files:
 
-```css
-@import "@keenmate/pure-admin-core";
+```elixir
+# lib/my_app_web.ex
+def static_paths, do: ~w(assets fonts images themes favicon.ico robots.txt)
 ```
 
-Or use a CDN in your `root.html.heex`:
+Then link the theme in your `root.html.heex`:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@keenmate/pure-admin-core/dist/pure-admin.min.css" />
+<link rel="stylesheet" href="/themes/audi/css/audi.css" />
 ```
 
-### 3. Register JS hooks
+Browse all available themes at [pureadmin.io](https://pureadmin.io).
+
+> Remove the Phoenix-generated `default.css` link — it contains default Phoenix styles that conflict with Pure Admin.
+
+### 5. Register JS hooks
+
+Add `PureAdminHooks` to your LiveSocket in `assets/js/app.js`:
 
 ```javascript
-// assets/js/app.js
 import { PureAdminHooks } from "keen_pure_admin"
 
-let liveSocket = new LiveSocket("/live", Socket, {
-  hooks: { ...PureAdminHooks }
+// Merge with any existing hooks (e.g. colocatedHooks)
+const liveSocket = new LiveSocket("/live", Socket, {
+  hooks: { ...colocatedHooks, ...PureAdminHooks }
 })
 ```
 
-### 4. Add Floating UI (required for tooltips, popovers, split buttons)
+### 6. Add Floating UI (required for tooltips, popovers, split buttons)
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/@floating-ui/core@1.6.9"></script>
@@ -128,13 +211,13 @@ cd assets
 npm install @floating-ui/dom
 ```
 
-### 5. Add Font Awesome (icons)
+### 7. Add Font Awesome (icons)
 
 ```html
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 ```
 
-### 6. Add FOUC prevention (optional)
+### 8. Add FOUC prevention (optional)
 
 In your root layout, add the script before `{@inner_content}` to prevent flash of unstyled content when using the settings panel or sidebar submenus:
 
@@ -145,7 +228,7 @@ In your root layout, add the script before `{@inner_content}` to prevent flash o
 </body>
 ```
 
-### 7. Add global toast service (optional)
+### 9. Add global toast service (optional)
 
 Add a toast container to your app layout for app-wide toast notifications:
 
@@ -377,7 +460,7 @@ Install the [`@keenmate/pureadmin`](https://www.npmjs.com/package/@keenmate/pure
 
 ```bash
 npm install -g @keenmate/pureadmin
-pureadmin themes audi dark express    # download and extract
+pureadmin themes add audi dark express    # download and extract
 pureadmin update                      # re-download only changed themes
 ```
 

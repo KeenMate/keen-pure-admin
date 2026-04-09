@@ -42,7 +42,7 @@ config :phoenix, :json_library, Jason
 # PureAdmin configuration
 config :keen_pure_admin,
   app_name: "Pure Admin",
-  app_version: "1.0.0-rc.2",
+  app_version: "1.0.0",
   copyright: "© 2026 KeenMate",
   font_class: "pa-font-responsive",
   page_context_providers: [

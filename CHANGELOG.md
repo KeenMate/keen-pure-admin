@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.0.0 — 2026-04-06
+
+Stable release. Includes all changes from rc.1 and rc.2.
+
 ## v1.0.0-rc.2 — 2026-04-03
 
 ### Added
@@ -7,14 +11,20 @@
 - **`PureAdmin.Config`** — application-level configuration system. Set `:app_name`, `:app_logo`, `:app_version`, `:copyright`, `:font_class` in `config.exs` and components read from it automatically
 - **`navbar_brand/1`** — falls back to config `:app_name` and `:app_logo` when no inner content provided
 - **`footer/1`** — falls back to config `:copyright` (start slot) and `:app_version` (end slot) when no slots provided
-- **`Config.root_html_attrs/0`** — returns `%{class: font_class}` for the `<html>` element, supports `pa-font-responsive` and granular `pa-font-base-{9-12}` / `pa-font-mobile-{9-12}` classes from pure-admin-core v2.3.6
+- **`PureAdmin.Config.root_html_attrs/0`** — returns `%{class: font_class}` for the `<html>` element, supports `pa-font-responsive` and granular `pa-font-base-{9-12}` / `pa-font-mobile-{9-12}` classes from pure-admin-core v2.3.6
 - **Getting Started page** — new demo page with installation, setup timeline, responsive font sizing, available themes, and component overview (mirrors Svelte demo structure)
+
+### Changed
+
+- **Root layout** — removed separate `pure-admin.css` link; theme CSS already includes the core framework
+- **Dockerfile** — switched theme download from broken `curl` + zip API to `npx @keenmate/pureadmin themes --dir` CLI, added CSS copy step for `app.css`
 
 ### Bug Fixes
 
 - **Sidebar** — fix mobile toggle not working: `toggle_sidebar()` was hardcoded to dispatch to `#sidebar`, now accepts configurable target ID via `navbar_burger` `target` attr
 - **Logger** — `enableLogging()` now persists across page reloads via localStorage
 - **Sidebar** — optimize resize handler to only act on breakpoint crossings
+- **Docker build** — fix 404 for CSS assets (`pure-admin.css`, `audi.css`) — app CSS was never copied to `priv/static` and theme bundle API returned empty zip
 
 ## v1.0.0-rc.1 — 2026-04-01
 

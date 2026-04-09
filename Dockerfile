@@ -50,7 +50,7 @@ RUN mkdir -p priv/static/assets/css \
 
 # Download themes via PureAdmin CLI
 RUN apt-get update && apt-get install -y --no-install-recommends nodejs npm && rm -rf /var/lib/apt/lists/* \
-  && npx @keenmate/pureadmin themes audi dark express corporate minimal \
+  && npx @keenmate/pureadmin themes add audi dark express corporate minimal \
        --dir priv/static/themes
 
 # Build and digest assets (esbuild + phx.digest)

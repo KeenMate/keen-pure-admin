@@ -1,0 +1,9 @@
+{
+  "name": "keen_pure_admin",
+  "version": "1.0.0",
+  "description": "Phoenix LiveView hooks for Pure Admin components.",
+  "license": "MIT",
+  "type": "module",
+  "module": "./lib/assets/js/keen_pure_admin.js",
+  "main": "./lib/assets/js/keen_pure_admin.js"
+}

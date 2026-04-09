@@ -46,7 +46,7 @@ Install the CLI globally and manage themes in your project:
 npm install -g @keenmate/pureadmin
 
 # Add themes to your project
-pureadmin themes audi dark express
+pureadmin themes add audi dark express
 
 # Check for updates and re-download changed themes
 pureadmin update
