@@ -1,8 +1,41 @@
 # Changelog
 
-## v1.0.0 — 2026-04-06
+## v1.0.0 — 2026-04-11
 
-Stable release. Includes all changes from rc.1 and rc.2.
+First stable release. Phoenix LiveView component library wrapping Pure Admin CSS framework into 35+ function components, 14 JS hooks, and 3 LiveComponents.
+
+### Highlights
+
+- **Drop-in CoreComponents replacement** — `use PureAdmin.Components` replaces the Phoenix-generated `CoreComponents` module
+- **`PureAdmin.Config`** — centralized app configuration (`:app_name`, `:app_logo`, `:app_version`, `:copyright`, `:font_class`). Components like `navbar_brand/1` and `footer/1` read from it automatically
+- **`package.json`** — enables `import "keen_pure_admin"` in esbuild for hex dependents
+- **`pureadmin create` template** — scaffold a full Phoenix LiveView app with PureAdmin layout via the [PureAdmin CLI](https://www.npmjs.com/package/@keenmate/pureadmin)
+
+### What's included
+
+- 35+ function components: layout, navbar, sidebar, buttons, badges, cards, tables, modals, forms, tabs, tooltips, toasts, flash, pagers, loaders, timeline, code, stats, and more
+- 14 JS hooks: sidebar toggle/resize/submenu persistence, settings panel, profile panel, command palette, toast/flash, tooltip/popover (Floating UI), split button, char counter, checkbox, infinite scroll
+- 3 LiveComponents: CommandPalette, ToastLive, DialogService
+- Full BEM class support with `build_classes/3` helper
+- i18n via runtime translation callback (~60 keys)
+- Page context system (server → JS, CSP-safe)
+- Persistent logging (`PureAdmin.logging.enableLogging()` survives page reloads)
+
+### Installation
+
+```elixir
+{:keen_pure_admin, "~> 1.0"}
+```
+
+See the [README](README.md) for full setup guide or use the PureAdmin CLI:
+
+```bash
+npx @keenmate/pureadmin create my-app --template phoenix-liveview
+```
+
+Compatible with `@keenmate/pure-admin-core` v2.3.6 and Phoenix LiveView ~> 1.0.
+
+---
 
 ## v1.0.0-rc.2 — 2026-04-03
 

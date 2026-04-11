@@ -558,7 +558,7 @@ Also available via `window.components['keen-pure-admin'].logging` (KeenMate conv
 
 - Elixir ~> 1.15
 - Phoenix LiveView ~> 1.0
-- `@keenmate/pure-admin-core` CSS (v2.3.5+)
+- `@keenmate/pure-admin-core` CSS (v2.3.6+)
 
 ## Development
 
