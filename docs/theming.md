@@ -22,7 +22,6 @@ Theme zips are self-contained — the compiled CSS in `dist/` references fonts v
 Each theme zip contains:
 
 ```
-themes.json                          # manifest listing all bundled themes
 audi/
 ├── theme.json                       # metadata: colors, variants, modes, fonts, checksums
 ├── dist/
@@ -223,12 +222,14 @@ Mode is managed client-side via the settings panel. The `fouc_prevention_script`
 
 ```heex
 <body>
-  <.fouc_prevention_script />
+  <.fouc_prevention_script default_mode="auto" />
   {@inner_content}
 </body>
 ```
 
-CSS classes applied to `<body>`: `pa-mode-light` or `pa-mode-dark`.
+`default_mode` controls the first-visit mode (before any user selection is stored). Accepts `"light"`, `"dark"`, or `"auto"` (follows OS `prefers-color-scheme`). Defaults to `"light"`.
+
+CSS classes applied to `<body>`: `pa-mode-light` or `pa-mode-dark` (`auto` resolves to one of these at runtime).
 
 ## Theme CSS Variables
 

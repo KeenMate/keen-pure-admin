@@ -442,7 +442,6 @@ Download theme zips from [pureadmin.io](https://pureadmin.io) and extract them i
 
 ```
 priv/static/themes/
-├── themes.json
 ├── audi/
 │   ├── theme.json
 │   ├── dist/audi.css

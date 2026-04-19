@@ -24,7 +24,7 @@ defmodule PureAdmin.Components.Layout do
           <div class="pa-header__title"><h2>Dashboard</h2></div>
         </:center>
         <:end_>
-          <button class="pa-header__profile-btn">Profile</button>
+          <.navbar_profile_btn name="John Doe" phx-click={toggle_profile_panel()} />
         </:end_>
       </.navbar>
   """
@@ -733,12 +733,30 @@ defmodule PureAdmin.Components.Layout do
     """
   end
 
+  @doc """
+  Inline script that reads persisted UI preferences from localStorage and
+  applies the corresponding classes before the page paints, preventing a
+  flash of unstyled content.
+
+  `default_mode` is the mode used on first visit, when localStorage has no
+  `theme-mode` entry yet. Must be `"light"`, `"dark"`, or `"auto"`. `"auto"`
+  resolves to light/dark via `prefers-color-scheme` at runtime.
+
+  ## Examples
+
+      <.fouc_prevention_script />
+      <.fouc_prevention_script default_mode="auto" />
+  """
+  attr(:default_mode, :string, default: "light", values: ~w(light dark auto))
+
   def fouc_prevention_script(assigns) do
     ~H"""
-    <script>
+    <script data-default-mode={@default_mode}>
       (function(){
         var b=document.body,h=document.documentElement;
-        var m=localStorage.getItem('theme-mode');
+        var s=document.currentScript;
+        var dm=(s&&s.getAttribute('data-default-mode'))||'light';
+        var m=localStorage.getItem('theme-mode')||dm;
         if(m==='dark')b.classList.add('pa-mode-dark');
         else if(m==='auto'&&window.matchMedia('(prefers-color-scheme:dark)').matches)b.classList.add('pa-mode-dark');
         else b.classList.add('pa-mode-light');
