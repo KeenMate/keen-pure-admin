@@ -76,3 +76,7 @@ config :phoenix_live_view,
   debug_attributes: true,
   # Enable helpful, but potentially expensive runtime checks
   enable_expensive_runtime_checks: true
+
+# Windows can't create symlinks without admin rights; we don't use
+# colocated JS hooks in this demo, so silence the startup warning.
+config :phoenix_live_view, :colocated_js, disable_symlink_warning: true

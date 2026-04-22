@@ -11,9 +11,7 @@ defmodule Demo.Application do
       DemoWeb.Telemetry,
       {DNSCluster, query: Application.get_env(:demo, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: Demo.PubSub},
-      # Start a worker by calling: Demo.Worker.start_link(arg)
-      # {Demo.Worker, arg},
-      # Start to serve requests, typically the last entry
+      Demo.FormCache.Sweeper,
       DemoWeb.Endpoint
     ]
 

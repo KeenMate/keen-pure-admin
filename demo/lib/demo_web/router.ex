@@ -8,6 +8,7 @@ defmodule DemoWeb.Router do
     plug :put_root_layout, html: {DemoWeb.Layouts, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug DemoWeb.SessionPlug
   end
 
   live_session :default, on_mount: [{DemoWeb.Nav, :default}], layout: {DemoWeb.Layouts, :app} do
@@ -66,6 +67,7 @@ defmodule DemoWeb.Router do
       # Phoenix / LiveView
       live "/phoenix/core-components", Live.CoreComponentsLive, :index
       live "/phoenix/flash", Live.FlashLive, :index
+      live "/phoenix/form-demo", Live.FormDemoLive, :index
 
       # Virtual Scroll
       live "/virtual-scroll/demo", Live.VirtualScrollLive, :index

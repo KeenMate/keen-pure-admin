@@ -100,6 +100,7 @@
       <.sidebar_submenu id="phoenix" label="Phoenix / LiveView" icon="fa-solid fa-fire" is_open={String.starts_with?(@current_path, "/phoenix")}>
         <.sidebar_item label="CoreComponents Migration" href="/phoenix/core-components" is_active={@current_path == "/phoenix/core-components"} />
         <.sidebar_item label="Flash Messages" href="/phoenix/flash" is_active={@current_path == "/phoenix/flash"} />
+        <.sidebar_item label="Form Demo" href="/phoenix/form-demo" is_active={@current_path == "/phoenix/form-demo"} />
       </.sidebar_submenu>
 
       <.sidebar_submenu id="components" label="Components" icon="fa-solid fa-puzzle-piece" is_open={String.starts_with?(@current_path, "/components")}>

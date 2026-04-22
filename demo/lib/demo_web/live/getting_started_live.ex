@@ -10,6 +10,12 @@ defmodule DemoWeb.Live.GettingStartedLive do
   }
   """
 
+  @font_responsive_html ~S"""
+  <html class="pa-font-responsive">
+  <!-- Desktop: 10px base (16px body text) -->
+  <!-- Mobile (<=768px): 12px base (~19px body text) -->
+  """
+
   @setup_layout ~S"""
   <.navbar>
     <:start>
@@ -52,6 +58,7 @@ defmodule DemoWeb.Live.GettingStartedLive do
      assign(socket,
        page_title: "Getting Started",
        font_custom_breakpoint: @font_custom_breakpoint,
+       font_responsive_html: @font_responsive_html,
        dep_hex: @dep_hex,
        dep_github: @dep_github,
        setup_layout: @setup_layout,
@@ -201,9 +208,7 @@ defmodule DemoWeb.Live.GettingStartedLive do
 
       <h4>Shorthand (recommended)</h4>
       <.paragraph>One class for the common case — default on desktop, larger on mobile:</.paragraph>
-      <.code_block language="html">&lt;html class="pa-font-responsive"&gt;
-&lt;!-- Desktop: 10px base (16px body text) --&gt;
-&lt;!-- Mobile (&lt;=768px): 12px base (~19px body text) --&gt;</.code_block>
+      <.code_block language="html">{@font_responsive_html}</.code_block>
 
       <h4 class="mt-4">Granular Control</h4>
       <.paragraph>Pick exact sizes for desktop and mobile independently:</.paragraph>
