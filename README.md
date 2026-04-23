@@ -12,6 +12,15 @@ Drop-in replacement for Phoenix `CoreComponents` -- provides `button/1`, `badge/
 
 **Live demo:** [elixir.demo.pureadmin.io](https://elixir.demo.pureadmin.io)
 
+## What's new in v1.1.0
+
+- **`field={@form[:x]}` on form components** — `input/1`, `textarea/1`, `select/1`, `checkbox/1`, `radio/1`, and `form_group/1` now accept a Phoenix `Phoenix.HTML.FormField` and derive `name`, `id`, `value` (or `checked`), and error state automatically. `input/textarea/select` also auto-render the error `form_help` below themselves — no per-field boilerplate.
+- **`PureAdmin.Components.Form.translate_error/1`** — ships a default `%{key}`-interpolating formatter; override with `config :keen_pure_admin, :error_formatter, {MyAppWeb.CoreComponents, :translate_error}` for Gettext-aware apps.
+- **`PureAdmin.DateTime`** — date/time/relative formatting helper with `format/2` (short/long date, short/long date-time, time, relative, or raw strftime) and `relative/2` (`now`, `5 minutes ago`, `in 2 hours`, etc.). Month names, weekday names, and relative phrases all flow through `PureAdmin.Translations.t/2` with 47 new keys under `pureAdmin.datetime.*`.
+- **Flash — `replace: true` + `clear_flash/2`** — `push_flash(..., replace: true)` wipes any prior alerts in the container so status messages don't stack; `clear_flash/2` empties it without pushing.
+
+See the full [CHANGELOG](CHANGELOG.md) for details.
+
 ## Prerequisites
 
 Create a new Phoenix project **without Tailwind** — Pure Admin provides its own CSS framework:
@@ -41,7 +50,7 @@ end
 ```elixir
 def deps do
   [
-    {:keen_pure_admin, github: "KeenMate/keen-pure-admin", tag: "v1.0.0"}
+    {:keen_pure_admin, github: "KeenMate/keen-pure-admin", tag: "v1.1.0"}
   ]
 end
 ```
@@ -77,7 +86,7 @@ This replaces `button/1`, `input/1`, `simple_form/1`, `modal/1`, `table/1`, `lis
 
 - **`header/1`** — use `@page_title` in `<.navbar_title>` (the layout renders it, each LiveView sets it)
 - **`icon/1`** — use Font Awesome directly: `<i class="fa-solid fa-user"></i>`
-- **`translate_error/1`** — keep your app's Gettext-based implementation or copy it from the generated CoreComponents
+- **`translate_error/1`** — `PureAdmin.Components.Form.translate_error/1` ships a plain `%{key}`-interpolating default. For Gettext, set `config :keen_pure_admin, :error_formatter, {MyAppWeb.CoreComponents, :translate_error}` (MFA tuple or 1-arity function) and errors flow through your existing pipeline.
 - **`show/1`**, **`hide/1`** — use `Phoenix.LiveView.JS.show/1` and `JS.hide/1` directly
 
 ### 2. Replace the generated layouts
@@ -380,7 +389,7 @@ Client-side settings panel for theme mode, layout width, sidebar options, fonts,
 | `table/1`, `table_card/1`, `table_container/1` | Data tables with sorting, card wrappers, responsive grid |
 | `comparison_table/1`, `comparison_row/1`, `comparison_value/1` | Two/three-column data comparison with change/conflict highlighting |
 | `tabs/1` | Tab navigation with panels |
-| `input/1`, `form_group/1`, `input_wrapper/1` | Form inputs with labels, errors, clear button |
+| `input/1`, `textarea/1`, `select/1`, `checkbox/1`, `radio/1`, `form_group/1`, `input_wrapper/1` | Form inputs with labels, errors, clear button. Accept `field={@form[:x]}` for one-line Phoenix form binding (derives name/id/value/checked + auto-renders errors) |
 | `filter_card/1` | Expandable filter card with advanced filters |
 | `grid/1`, `column/1` | Flexbox grid with percentage/fraction columns |
 | `section/1` | Content section with optional `title_text` heading |
@@ -393,7 +402,7 @@ Client-side settings panel for theme mode, layout width, sidebar options, fonts,
 | `code/1`, `code_block/1` | Inline code and code blocks |
 | `tooltip/1`, `popover/1` | Tooltips and popovers with Floating UI positioning |
 | `toast/1`, `toast_container/1`, `push_toast/5` | Toast notifications with client-side rendering via JS hook |
-| `flash/1`, `flash_group/1`, `flash_container/1`, `push_flash/5` | Flash messages — standard `@flash` compat + independent containers with markdown body and action buttons |
+| `flash/1`, `flash_group/1`, `flash_container/1`, `push_flash/5`, `clear_flash/2` | Flash messages — standard `@flash` compat + independent containers with markdown, action buttons, and `replace: true` to wipe prior alerts in the container |
 | `pager/1`, `load_more/1` | Pagination with page input, first/last buttons |
 
 ### JS Hooks
