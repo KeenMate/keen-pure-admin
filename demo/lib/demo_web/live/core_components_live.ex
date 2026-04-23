@@ -54,7 +54,12 @@ defmodule DemoWeb.Live.CoreComponentsLive do
             </tr>
             <tr>
               <td><code>input/1</code></td>
-              <td><code>PureAdmin.Components.Form.input/1</code></td>
+              <td>
+                <code>PureAdmin.Components.Form.input/1</code>
+                — accepts <code>field={@form[:x]}</code> the same way CoreComponents does; auto-renders
+                error help. Same treatment on <code>textarea/1</code>, <code>select/1</code>,
+                <code>checkbox/1</code>, <code>radio/1</code>, and <code>form_group/1</code>.
+              </td>
               <td><.badge variant="success">Replaced</.badge></td>
             </tr>
             <tr>
@@ -107,8 +112,13 @@ defmodule DemoWeb.Live.CoreComponentsLive do
             </tr>
             <tr>
               <td><code>translate_error/1</code></td>
-              <td>Keep your app's implementation or copy from CoreComponents</td>
-              <td><.badge variant="warning">Manual</.badge></td>
+              <td>
+                <code>PureAdmin.Components.Form.translate_error/1</code> ships a plain
+                <code>{"%{key}"}</code>-interpolating default. For Gettext, point
+                <code>config :keen_pure_admin, :error_formatter</code> at your app's
+                <code>translate_error/1</code> (see <code>form.ex</code> moduledoc).
+              </td>
+              <td><.badge variant="success">Replaced</.badge></td>
             </tr>
           </tbody>
         </table>

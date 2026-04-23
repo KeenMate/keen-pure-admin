@@ -192,7 +192,8 @@ defmodule PureAdmin.Components.Flash do
       message: message,
       title: Keyword.get(opts, :title),
       duration: Keyword.get(opts, :duration, 0),
-      dismissible: Keyword.get(opts, :dismissible, true)
+      dismissible: Keyword.get(opts, :dismissible, true),
+      replace: Keyword.get(opts, :replace, false)
     }
 
     payload =
@@ -202,6 +203,23 @@ defmodule PureAdmin.Components.Flash do
       end
 
     Phoenix.LiveView.push_event(socket, "pa:flash", payload)
+  end
+
+  @doc """
+  Removes every flash currently rendered in `container_id`.
+
+  Useful when a form result should replace (rather than stack on top of) a
+  prior status — e.g. clear an old "Validation failed" banner before pushing
+  a new "Saved" one.
+
+      push_flash(socket, "my-form", "success", "Saved!", replace: true)
+
+  …is the one-call equivalent. Use `clear_flash/2` when you want to clear
+  without immediately pushing a new message.
+  """
+  @spec clear_flash(Phoenix.LiveView.Socket.t(), String.t()) :: Phoenix.LiveView.Socket.t()
+  def clear_flash(socket, container_id) do
+    Phoenix.LiveView.push_event(socket, "pa:flash-clear", %{container: container_id})
   end
 
   @doc """

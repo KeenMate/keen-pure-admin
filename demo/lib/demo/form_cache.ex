@@ -65,6 +65,31 @@ defmodule Demo.FormCache do
     updated
   end
 
+  @doc "Replaces a submission in-place, preserving list position."
+  @spec update(String.t(), integer(), map()) :: [map()]
+  def update(session_id, id, attrs) when is_binary(session_id) and is_integer(id) and is_map(attrs) do
+    current =
+      case fetch(session_id) do
+        {entries, _} -> entries
+        nil -> []
+      end
+
+    updated =
+      Enum.map(current, fn
+        %{id: ^id} = existing -> Map.merge(existing, Map.put(attrs, :id, id))
+        entry -> entry
+      end)
+
+    :ets.insert(table(), {session_id, updated, now_ms()})
+    updated
+  end
+
+  @doc "Fetches a single submission by id, or `nil` if missing."
+  @spec get(String.t(), integer()) :: map() | nil
+  def get(session_id, id) when is_binary(session_id) and is_integer(id) do
+    Enum.find(list(session_id), &(&1.id == id))
+  end
+
   @doc "Clears all submissions for the given session."
   @spec clear(String.t()) :: :ok
   def clear(session_id) when is_binary(session_id) do

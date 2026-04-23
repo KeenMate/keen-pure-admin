@@ -1,0 +1,260 @@
+defmodule PureAdmin.Components.FormTest do
+  use PureAdmin.ComponentCase, async: false
+
+  import Phoenix.Component, only: [to_form: 2, sigil_H: 2]
+  import PureAdmin.Components.Form
+
+  alias PureAdmin.Components.Form
+
+  # Renders a HEEx template so attr defaults, assign_new, and the `:field`
+  # pattern-matched head all behave as they do in real templates.
+  defp render(template_fun, assigns) do
+    Phoenix.LiveViewTest.render_component(template_fun, assigns)
+  end
+
+  describe "input/1 with :field" do
+    test "derives name, id, value from the form field" do
+      form = to_form(%{"email" => "jane@example.com"}, as: :user)
+
+      html =
+        render(
+          fn assigns -> ~H'<.input field={@form[:email]} type="email" />' end,
+          %{form: form}
+        )
+
+      assert html =~ ~s(name="user[email]")
+      assert html =~ ~s(id="user_email")
+      assert html =~ ~s(value="jane@example.com")
+      assert html =~ ~s(type="email")
+    end
+
+    test "explicit name/id/value override field" do
+      form = to_form(%{"email" => "jane@example.com"}, as: :user)
+
+      html =
+        render(
+          fn assigns ->
+            ~H'<.input field={@form[:email]} name="custom_name" id="custom_id" value="custom" />'
+          end,
+          %{form: form}
+        )
+
+      assert html =~ ~s(name="custom_name")
+      assert html =~ ~s(id="custom_id")
+      assert html =~ ~s(value="custom")
+    end
+
+    test "renders error class and help text when field has errors" do
+      errors = [email: {"is invalid", []}]
+      form = to_form(%{"email" => "bad"}, as: :user, errors: errors, action: :validate)
+
+      html =
+        render(
+          fn assigns -> ~H'<.input field={@form[:email]} />' end,
+          %{form: form}
+        )
+
+      assert_class(html, "pa-input--error")
+      assert_class(html, "pa-form-help--error")
+      assert html =~ "is invalid"
+    end
+
+    test "show_errors=false suppresses inline help but keeps error class" do
+      errors = [email: {"is invalid", []}]
+      form = to_form(%{"email" => "bad"}, as: :user, errors: errors, action: :validate)
+
+      html =
+        render(
+          fn assigns -> ~H'<.input field={@form[:email]} show_errors={false} />' end,
+          %{form: form}
+        )
+
+      assert_class(html, "pa-input--error")
+      refute html =~ "is invalid"
+    end
+
+    test "explicit validation beats field-derived error state" do
+      errors = [email: {"is invalid", []}]
+      form = to_form(%{"email" => "bad"}, as: :user, errors: errors, action: :validate)
+
+      html =
+        render(
+          fn assigns -> ~H'<.input field={@form[:email]} validation="success" />' end,
+          %{form: form}
+        )
+
+      assert_class(html, "pa-input--success")
+      refute_class(html, "pa-input--error")
+    end
+  end
+
+  describe "textarea/1 with :field" do
+    test "derives name/id/value" do
+      form = to_form(%{"bio" => "Hello"}, as: :user)
+
+      html =
+        render(
+          fn assigns -> ~H'<.textarea field={@form[:bio]} />' end,
+          %{form: form}
+        )
+
+      assert html =~ ~s(name="user[bio]")
+      assert html =~ ~s(id="user_bio")
+      assert html =~ ">Hello</textarea>"
+    end
+
+    test "renders errors" do
+      errors = [bio: {"is too short", []}]
+      form = to_form(%{"bio" => ""}, as: :user, errors: errors, action: :validate)
+
+      html =
+        render(
+          fn assigns -> ~H'<.textarea field={@form[:bio]} />' end,
+          %{form: form}
+        )
+
+      assert_class(html, "pa-textarea--error")
+      assert html =~ "is too short"
+    end
+  end
+
+  describe "select/1 with :field" do
+    test "derives name/id and selects the matching option" do
+      form = to_form(%{"role" => "admin"}, as: :user)
+
+      html =
+        render(
+          fn assigns ->
+            ~H'<.select field={@form[:role]} options={["user", "admin"]} />'
+          end,
+          %{form: form}
+        )
+
+      assert html =~ ~s(name="user[role]")
+      assert html =~ ~s(selected) and html =~ ~s(value="admin")
+    end
+  end
+
+  describe "checkbox/1 with :field" do
+    test "derives checked from a truthy field value" do
+      form = to_form(%{"agree" => "true"}, as: :user)
+
+      html =
+        render(
+          fn assigns -> ~H'<.checkbox field={@form[:agree]} label="I agree" />' end,
+          %{form: form}
+        )
+
+      assert html =~ ~s(name="user[agree]")
+      assert html =~ "checked"
+    end
+
+    test "no checked attr when field value is falsy" do
+      form = to_form(%{"agree" => "false"}, as: :user)
+
+      html =
+        render(
+          fn assigns -> ~H'<.checkbox field={@form[:agree]} label="I agree" />' end,
+          %{form: form}
+        )
+
+      refute html =~ ~s( checked)
+    end
+  end
+
+  describe "radio/1 with :field" do
+    test "checked when value matches field value" do
+      form = to_form(%{"plan" => "pro"}, as: :user)
+
+      html =
+        render(
+          fn assigns ->
+            ~H"""
+            <.radio field={@form[:plan]} value="pro" label="Pro" />
+            <.radio field={@form[:plan]} value="basic" label="Basic" />
+            """
+          end,
+          %{form: form}
+        )
+
+      inputs = Regex.scan(~r/<input[^>]*>/, html) |> List.flatten()
+      assert length(inputs) == 2
+      [pro_input, basic_input] = inputs
+      assert pro_input =~ "checked"
+      refute basic_input =~ "checked"
+    end
+  end
+
+  describe "form_group/1 with :field" do
+    test "auto-sets validation=error when field has errors" do
+      errors = [email: {"is required", []}]
+      form = to_form(%{"email" => ""}, as: :user, errors: errors, action: :validate)
+
+      html =
+        render(
+          fn assigns ->
+            ~H"""
+            <.form_group field={@form[:email]}>
+              <span>slot</span>
+            </.form_group>
+            """
+          end,
+          %{form: form}
+        )
+
+      assert_class(html, "pa-form-group--error")
+    end
+
+    test "explicit validation wins over field errors" do
+      errors = [email: {"is required", []}]
+      form = to_form(%{"email" => ""}, as: :user, errors: errors, action: :validate)
+
+      html =
+        render(
+          fn assigns ->
+            ~H"""
+            <.form_group field={@form[:email]} validation="warning">
+              <span>slot</span>
+            </.form_group>
+            """
+          end,
+          %{form: form}
+        )
+
+      assert_class(html, "pa-form-group--warning")
+      refute_class(html, "pa-form-group--error")
+    end
+  end
+
+  describe "translate_error/1" do
+    test "default: interpolates %{key} placeholders" do
+      assert Form.translate_error({"must be at least %{count} chars", [count: 8]}) ==
+               "must be at least 8 chars"
+    end
+
+    test "respects app-configured formatter (MFA)" do
+      Application.put_env(:keen_pure_admin, :error_formatter, {__MODULE__, :shout_error})
+
+      try do
+        assert Form.translate_error({"nope", []}) == "NOPE!"
+      after
+        Application.delete_env(:keen_pure_admin, :error_formatter)
+      end
+    end
+
+    test "respects app-configured formatter (1-arity function)" do
+      Application.put_env(:keen_pure_admin, :error_formatter, fn {msg, _} ->
+        String.upcase(msg)
+      end)
+
+      try do
+        assert Form.translate_error({"nope", []}) == "NOPE"
+      after
+        Application.delete_env(:keen_pure_admin, :error_formatter)
+      end
+    end
+  end
+
+  # Used by the configured-formatter test above
+  def shout_error({msg, _opts}), do: String.upcase(msg) <> "!"
+end

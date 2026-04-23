@@ -41,6 +41,78 @@ window.addEventListener("phx:page-loading-stop", _info => topbar.hide())
 // Initialize PureAdmin programmatic dialogs (confirm/alert/prompt)
 initModalDialogs()
 
+console.log("[app.js] build:", new Date().toISOString(), "— reset-form listener attached")
+
+// Server -> client: sync a form's inputs to the server's last render.
+//
+// LiveView intentionally preserves user-typed values across submits so that
+// validation errors don't wipe input — which is why `form.reset()` alone
+// isn't enough (it reverts to the stale `defaultValue` attribute, not the
+// value the server just rendered). Trigger an explicit sync with:
+//
+//   push_event(socket, "reset-form", %{id: "my-form-id"})
+//
+// Each input's property is set directly from the server-rendered attribute,
+// bypassing LiveView's input preservation so the clear actually lands.
+window.addEventListener("phx:reset-form", ({detail}) => {
+  console.group("[reset-form] event received", detail)
+  const form = detail && detail.id && document.getElementById(detail.id)
+  if (!form) {
+    console.warn("[reset-form] no element with id:", detail && detail.id)
+    console.groupEnd()
+    return
+  }
+  console.log("[reset-form] form element:", form, "tag:", form.tagName)
+
+  form.querySelectorAll("input, textarea").forEach(el => {
+    const type = (el.type || "").toLowerCase()
+    if (["submit", "reset", "button"].includes(type)) {
+      console.log("[reset-form] skip button/submit:", el.name || "(unnamed)", type)
+      return
+    }
+    const attrValue = el.getAttribute("value")
+    const beforeProp = el.value
+    if (type === "checkbox" || type === "radio") {
+      const hasChecked = el.hasAttribute("checked")
+      console.log(
+        "[reset-form]", el.tagName.toLowerCase(), `(${type})`,
+        "name=", el.name,
+        "attr[checked]=", hasChecked,
+        "before:", el.checked
+      )
+      el.checked = hasChecked
+      console.log("[reset-form] -> after:", el.checked)
+    } else {
+      console.log(
+        "[reset-form]", el.tagName.toLowerCase(), `(${type})`,
+        "name=", el.name,
+        "attr[value]=", JSON.stringify(attrValue),
+        "before prop:", JSON.stringify(beforeProp)
+      )
+      el.value = attrValue || ""
+      console.log("[reset-form] -> after prop:", JSON.stringify(el.value))
+    }
+  })
+
+  form.querySelectorAll("select").forEach(sel => {
+    const selected = sel.querySelector("option[selected]")
+    const before = sel.value
+    if (selected) {
+      sel.value = selected.value
+    } else {
+      sel.selectedIndex = 0
+    }
+    console.log(
+      "[reset-form] select",
+      "name=", sel.name,
+      "selected-attr-option=", selected && selected.value,
+      "before:", JSON.stringify(before),
+      "after:", JSON.stringify(sel.value)
+    )
+  })
+  console.groupEnd()
+})
+
 // connect if there are any LiveViews on the page
 liveSocket.connect()
 

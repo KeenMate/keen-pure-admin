@@ -1,5 +1,24 @@
 # Changelog
 
+## v1.1.0 — 2026-04-23
+
+### Added
+
+- **`:field` attr on form components** — `input/1`, `textarea/1`, `select/1`, `checkbox/1`, `radio/1`, and `form_group/1` now accept `field={@form[:x]}` for one-line Phoenix form binding. Derives `name`, `id`, `value` (or `checked`), and error state from the `Phoenix.HTML.FormField` struct; explicit attrs still win. `used_input?/1` is respected so unsubmitted fields don't show stale errors.
+- **Auto-rendered field errors** — when `field=` is set and the field has errors, `input`/`textarea`/`select` automatically render a `form_help` below themselves in the error variant. Opt out with `show_errors={false}`. `form_group` flips to `validation="error"` in the same condition.
+- **`PureAdmin.Components.Form.translate_error/1`** — default `%{key}`-interpolating error formatter, overridable via `config :keen_pure_admin, :error_formatter` (MFA tuple or 1-arity function) for Gettext-aware apps.
+- **`PureAdmin.DateTime`** — new top-level helper with `format/2` (styles: `:short_date`, `:long_date`, `:full_date`, `:time`, `:long_time`, `:short_date_time`, `:long_date_time`, `:relative`, or any raw strftime pattern) and `relative/2` (buckets time diffs into `now` / seconds / minutes / hours / yesterday / days / weeks / months / years, past and future; accepts `now:` for deterministic tests). Accepts `Date`, `NaiveDateTime`, and `DateTime`. Month names, weekday names, and relative phrases all flow through `PureAdmin.Translations.t/2`.
+- **Translation keys** — 47 new keys under `pureAdmin.datetime.*` (connectors, relative phrases past/future, 12 month names, 7 weekday names).
+- **`push_flash/5` gained `replace: true`** — wipes any existing alerts in the container before rendering the new one, so status messages don't stack.
+- **`PureAdmin.Components.Flash.clear_flash/2`** — dedicated "clear without pushing" helper.
+- **`PureAdminFlash` hook** — honors both the `replace` payload flag and a new `pa:flash-clear` event.
+
+### Fixed
+
+- Getting Started page — resolved an outdented-heredoc compiler warning by moving a code block into a module attribute.
+
+---
+
 ## v1.0.0 — 2026-04-11
 
 First stable release. Phoenix LiveView component library wrapping Pure Admin CSS framework into 35+ function components, 14 JS hooks, and 3 LiveComponents.

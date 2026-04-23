@@ -124,7 +124,61 @@ defmodule PureAdmin.Translations do
 
     # Accessibility
     "pureAdmin.a11y.close" => "Close",
-    "pureAdmin.a11y.settings" => "Settings"
+    "pureAdmin.a11y.settings" => "Settings",
+
+    # Date & time — used by PureAdmin.DateTime
+    "pureAdmin.datetime.at" => "at",
+    "pureAdmin.datetime.now" => "now",
+    "pureAdmin.datetime.in" => "in %{duration}",
+    "pureAdmin.datetime.yesterday" => "yesterday",
+    "pureAdmin.datetime.yesterdayAgo" => "yesterday",
+    "pureAdmin.datetime.seconds" => "%{count}s",
+    "pureAdmin.datetime.secondsAgo" => "%{count}s ago",
+    "pureAdmin.datetime.minute" => "a minute",
+    "pureAdmin.datetime.minuteAgo" => "a minute ago",
+    "pureAdmin.datetime.minutes" => "%{count} minutes",
+    "pureAdmin.datetime.minutesAgo" => "%{count} minutes ago",
+    "pureAdmin.datetime.hour" => "an hour",
+    "pureAdmin.datetime.hourAgo" => "an hour ago",
+    "pureAdmin.datetime.hours" => "%{count} hours",
+    "pureAdmin.datetime.hoursAgo" => "%{count} hours ago",
+    "pureAdmin.datetime.days" => "%{count} days",
+    "pureAdmin.datetime.daysAgo" => "%{count} days ago",
+    "pureAdmin.datetime.week" => "a week",
+    "pureAdmin.datetime.weekAgo" => "a week ago",
+    "pureAdmin.datetime.weeks" => "%{count} weeks",
+    "pureAdmin.datetime.weeksAgo" => "%{count} weeks ago",
+    "pureAdmin.datetime.month" => "a month",
+    "pureAdmin.datetime.monthAgo" => "a month ago",
+    "pureAdmin.datetime.months" => "%{count} months",
+    "pureAdmin.datetime.monthsAgo" => "%{count} months ago",
+    "pureAdmin.datetime.year" => "a year",
+    "pureAdmin.datetime.yearAgo" => "a year ago",
+    "pureAdmin.datetime.years" => "%{count} years",
+    "pureAdmin.datetime.yearsAgo" => "%{count} years ago",
+
+    # Month names
+    "pureAdmin.datetime.months.january" => "January",
+    "pureAdmin.datetime.months.february" => "February",
+    "pureAdmin.datetime.months.march" => "March",
+    "pureAdmin.datetime.months.april" => "April",
+    "pureAdmin.datetime.months.may" => "May",
+    "pureAdmin.datetime.months.june" => "June",
+    "pureAdmin.datetime.months.july" => "July",
+    "pureAdmin.datetime.months.august" => "August",
+    "pureAdmin.datetime.months.september" => "September",
+    "pureAdmin.datetime.months.october" => "October",
+    "pureAdmin.datetime.months.november" => "November",
+    "pureAdmin.datetime.months.december" => "December",
+
+    # Weekday names
+    "pureAdmin.datetime.weekdays.monday" => "Monday",
+    "pureAdmin.datetime.weekdays.tuesday" => "Tuesday",
+    "pureAdmin.datetime.weekdays.wednesday" => "Wednesday",
+    "pureAdmin.datetime.weekdays.thursday" => "Thursday",
+    "pureAdmin.datetime.weekdays.friday" => "Friday",
+    "pureAdmin.datetime.weekdays.saturday" => "Saturday",
+    "pureAdmin.datetime.weekdays.sunday" => "Sunday"
   }
 
   @doc """

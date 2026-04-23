@@ -10,20 +10,67 @@ defmodule PureAdmin.Components.Form do
 
   import PureAdmin.Helpers
 
+  # ─── Phoenix.HTML.FormField integration ───
+
+  @doc """
+  Translates a Phoenix `{msg, opts}` error tuple into a plain string.
+
+  Apps with Gettext-based error translation should configure their own formatter:
+
+      config :keen_pure_admin,
+        error_formatter: {MyAppWeb.CoreComponents, :translate_error}
+
+  The formatter receives the raw `{msg, opts}` tuple and must return a string.
+  The built-in default performs the same `%{key}` interpolation used by
+  Ecto.Changeset's default error messages.
+  """
+  @spec translate_error({String.t(), keyword()}) :: String.t()
+  def translate_error({msg, opts}) do
+    case Application.get_env(:keen_pure_admin, :error_formatter) do
+      {mod, fun} -> apply(mod, fun, [{msg, opts}])
+      fun when is_function(fun, 1) -> fun.({msg, opts})
+      _ -> default_translate_error({msg, opts})
+    end
+  end
+
+  defp default_translate_error({msg, opts}) do
+    Enum.reduce(opts, msg, fn {key, value}, acc ->
+      String.replace(acc, "%{#{key}}", fn _ -> to_string(value) end)
+    end)
+  end
+
+  # Pulls errors off a field, respecting `used_input?/1` so unsubmitted
+  # fields don't show stale errors on initial render.
+  defp field_errors(%Phoenix.HTML.FormField{} = field) do
+    if Phoenix.Component.used_input?(field), do: field.errors, else: []
+  end
+
   # ─── Low-level components ───
 
   @doc """
   Renders a text input with Pure Admin BEM classes.
 
+  Accepts either manual `name`/`value` attrs or a Phoenix `:field` for automatic
+  binding. When `field` is given, `name`, `id`, and `value` are derived from it
+  (explicit attrs win), and field errors automatically flip the input into the
+  error state plus render a `form_help` below it (opt out with `show_errors={false}`).
+
   ## Examples
 
       <.input type="text" name="username" placeholder="Enter username" />
       <.input type="email" size="lg" validation="error" />
+      <.input field={@form[:email]} type="email" />
   """
+  attr(:field, Phoenix.HTML.FormField, default: nil,
+    doc: "A Phoenix form field, e.g. `@form[:email]`. When set, derives name/id/value and errors.")
   attr(:type, :string, default: "text")
   attr(:name, :string, default: nil)
   attr(:id, :string, default: nil)
   attr(:value, :any, default: nil)
+  attr(:errors, :list, default: nil,
+    doc: "Raw `{msg, opts}` tuples or strings. Defaults to field errors when `:field` is set.")
+  attr(:show_errors, :boolean, default: true,
+    doc: "Render field errors as a form_help below the input. No effect without `:field`.")
   attr(:size, :string, default: nil, values: [nil, "xs", "sm", "lg", "xl"])
   attr(:validation, :string, default: nil, values: [nil, "success", "warning", "error"])
   attr(:is_error, :boolean, default: false, doc: "Shorthand for validation=\"error\"")
@@ -35,7 +82,24 @@ defmodule PureAdmin.Components.Form do
   attr(:rest, :global, include: ~w(placeholder disabled readonly required autocomplete autofocus
     min max step pattern maxlength minlength form phx-change phx-blur phx-focus phx-debounce))
 
+  def input(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
+    errors = assigns.errors || field_errors(field)
+
+    assigns
+    |> assign(
+      field: nil,
+      errors: errors,
+      id: assigns.id || field.id,
+      name: assigns.name || field.name,
+      value: if(is_nil(assigns.value), do: field.value, else: assigns.value),
+      validation: assigns.validation || if(errors != [], do: "error")
+    )
+    |> input()
+  end
+
   def input(assigns) do
+    assigns = assign_new(assigns, :errors, fn -> nil end)
+
     ~H"""
     <input
       type={@type}
@@ -45,7 +109,25 @@ defmodule PureAdmin.Components.Form do
       class={input_classes(assigns)}
       {@rest}
     />
+    <.form_help :if={@show_errors and has_errors?(@errors)} variant="error">
+      {error_messages(@errors)}
+    </.form_help>
     """
+  end
+
+  # -- error helpers shared by input/textarea/select --
+
+  defp has_errors?(nil), do: false
+  defp has_errors?([]), do: false
+  defp has_errors?(_), do: true
+
+  defp error_messages(errors) do
+    errors
+    |> Enum.map(fn
+      {_msg, _opts} = tuple -> translate_error(tuple)
+      str when is_binary(str) -> str
+    end)
+    |> Enum.join(". ")
   end
 
   defp input_classes(assigns) do
@@ -70,13 +152,20 @@ defmodule PureAdmin.Components.Form do
   @doc """
   Renders a textarea with Pure Admin BEM classes.
 
+  Accepts a Phoenix `:field` for automatic binding, same as `input/1`.
+
   ## Examples
 
       <.textarea name="message" rows={4} placeholder="Enter message" />
+      <.textarea field={@form[:bio]} rows={4} />
   """
+  attr(:field, Phoenix.HTML.FormField, default: nil,
+    doc: "A Phoenix form field, e.g. `@form[:bio]`. When set, derives name/id/value and errors.")
   attr(:name, :string, default: nil)
   attr(:id, :string, default: nil)
   attr(:value, :any, default: nil)
+  attr(:errors, :list, default: nil)
+  attr(:show_errors, :boolean, default: true)
   attr(:size, :string, default: nil, values: [nil, "xs", "sm", "lg", "xl"])
   attr(:validation, :string, default: nil, values: [nil, "success", "warning", "error"])
   attr(:color, :string, default: nil,
@@ -85,7 +174,24 @@ defmodule PureAdmin.Components.Form do
   attr(:rest, :global, include: ~w(placeholder disabled readonly required rows cols
     form phx-change phx-blur phx-debounce))
 
+  def textarea(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
+    errors = assigns.errors || field_errors(field)
+
+    assigns
+    |> assign(
+      field: nil,
+      errors: errors,
+      id: assigns.id || field.id,
+      name: assigns.name || field.name,
+      value: if(is_nil(assigns.value), do: field.value, else: assigns.value),
+      validation: assigns.validation || if(errors != [], do: "error")
+    )
+    |> textarea()
+  end
+
   def textarea(assigns) do
+    assigns = assign_new(assigns, :errors, fn -> nil end)
+
     ~H"""
     <textarea
       name={@name}
@@ -93,6 +199,9 @@ defmodule PureAdmin.Components.Form do
       class={textarea_classes(assigns)}
       {@rest}
     ><%= @value %></textarea>
+    <.form_help :if={@show_errors and has_errors?(@errors)} variant="error">
+      {error_messages(@errors)}
+    </.form_help>
     """
   end
 
@@ -111,13 +220,20 @@ defmodule PureAdmin.Components.Form do
   @doc """
   Renders a select dropdown with Pure Admin BEM classes.
 
+  Accepts a Phoenix `:field` for automatic binding, same as `input/1`.
+
   ## Examples
 
       <.select name="country" options={[{"US", "United States"}, {"UK", "United Kingdom"}]} />
+      <.select field={@form[:department]} options={["Engineering", "Sales"]} />
   """
+  attr(:field, Phoenix.HTML.FormField, default: nil,
+    doc: "A Phoenix form field, e.g. `@form[:role]`. When set, derives name/id/value and errors.")
   attr(:name, :string, default: nil)
   attr(:id, :string, default: nil)
   attr(:value, :any, default: nil)
+  attr(:errors, :list, default: nil)
+  attr(:show_errors, :boolean, default: true)
   attr(:options, :list, default: [], doc: "List of {value, label} tuples or strings")
   attr(:prompt, :string, default: nil, doc: "Placeholder option")
   attr(:size, :string, default: nil, values: [nil, "xs", "sm", "lg", "xl"])
@@ -127,12 +243,32 @@ defmodule PureAdmin.Components.Form do
   attr(:class, :string, default: nil)
   attr(:rest, :global, include: ~w(disabled required multiple form phx-change phx-blur phx-debounce))
 
+  def select(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
+    errors = assigns.errors || field_errors(field)
+
+    assigns
+    |> assign(
+      field: nil,
+      errors: errors,
+      id: assigns.id || field.id,
+      name: assigns.name || field.name,
+      value: if(is_nil(assigns.value), do: field.value, else: assigns.value),
+      validation: assigns.validation || if(errors != [], do: "error")
+    )
+    |> select()
+  end
+
   def select(assigns) do
+    assigns = assign_new(assigns, :errors, fn -> nil end)
+
     ~H"""
     <select name={@name} id={@id} class={select_classes(assigns)} {@rest}>
       <option :if={@prompt} value=""><%= @prompt %></option>
       <%= Phoenix.HTML.Form.options_for_select(@options, @value) %>
     </select>
+    <.form_help :if={@show_errors and has_errors?(@errors)} variant="error">
+      {error_messages(@errors)}
+    </.form_help>
     """
   end
 
@@ -151,11 +287,20 @@ defmodule PureAdmin.Components.Form do
   @doc """
   Renders a custom tri-state checkbox with Pure Admin BEM classes.
 
+  Accepts a Phoenix `:field` for automatic binding. When `field` is given,
+  `name`, `id`, and `checked` are derived (checked when the field value is
+  truthy — specifically `true`, `"true"`, or `"on"`). Errors are available via
+  the field struct but not rendered inline — place them on the enclosing
+  `form_group` or `form_help` instead.
+
   ## Examples
 
       <.checkbox name="agree" label="I agree to the terms" />
       <.checkbox name="option" label="Option A" checked size="lg" />
+      <.checkbox field={@form[:agree]} label="I agree to the terms" />
   """
+  attr(:field, Phoenix.HTML.FormField, default: nil,
+    doc: "A Phoenix form field, e.g. `@form[:agree]`. When set, derives name/id/checked.")
   attr(:name, :string, default: nil)
   attr(:id, :string, default: nil)
   attr(:value, :string, default: "true")
@@ -167,6 +312,17 @@ defmodule PureAdmin.Components.Form do
   attr(:class, :string, default: nil)
   attr(:rest, :global, include: ~w(disabled required form phx-change phx-click phx-debounce))
   slot(:label_content, doc: "Rich HTML label content (alternative to label attr)")
+
+  def checkbox(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
+    assigns
+    |> assign(
+      field: nil,
+      id: assigns.id || field.id,
+      name: assigns.name || field.name,
+      checked: assigns.checked || checked_from_value(field.value, assigns.value)
+    )
+    |> checkbox()
+  end
 
   def checkbox(assigns) do
     # Generate a stable hook id when indeterminate is used
@@ -188,6 +344,16 @@ defmodule PureAdmin.Components.Form do
     """
   end
 
+  # Checkbox checked state from a form value. Matches Phoenix/Ecto conventions:
+  # booleans, "true"/"on" strings, and exact `value` matches all count as checked.
+  defp checked_from_value(true, _), do: true
+  defp checked_from_value(false, _), do: false
+  defp checked_from_value(nil, _), do: false
+  defp checked_from_value("true", _), do: true
+  defp checked_from_value("on", _), do: true
+  defp checked_from_value(str, value) when is_binary(str), do: str == value
+  defp checked_from_value(_, _), do: false
+
   defp checkbox_classes(assigns) do
     build_classes(
       "pa-checkbox",
@@ -203,10 +369,18 @@ defmodule PureAdmin.Components.Form do
   @doc """
   Renders a radio button with Pure Admin BEM classes.
 
+  Accepts a Phoenix `:field` for automatic binding. `checked` is derived from
+  `to_string(field.value) == value`. Render a set of radios over the same
+  `@form[:role]` field by giving each a distinct `value`.
+
   ## Examples
 
       <.radio name="plan" value="basic" label="Basic Plan" />
+      <.radio field={@form[:plan]} value="basic" label="Basic Plan" />
+      <.radio field={@form[:plan]} value="pro" label="Pro Plan" />
   """
+  attr(:field, Phoenix.HTML.FormField, default: nil,
+    doc: "A Phoenix form field, e.g. `@form[:plan]`. When set, derives name/checked.")
   attr(:name, :string, default: nil)
   attr(:id, :string, default: nil)
   attr(:value, :string, required: true)
@@ -214,6 +388,16 @@ defmodule PureAdmin.Components.Form do
   attr(:label, :string, default: nil)
   attr(:class, :string, default: nil)
   attr(:rest, :global, include: ~w(disabled required form phx-change phx-click phx-debounce))
+
+  def radio(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
+    assigns
+    |> assign(
+      field: nil,
+      name: assigns.name || field.name,
+      checked: assigns.checked || to_string(field.value) == assigns.value
+    )
+    |> radio()
+  end
 
   def radio(assigns) do
     ~H"""
@@ -242,6 +426,8 @@ defmodule PureAdmin.Components.Form do
         <.form_help variant="error">Name is required</.form_help>
       </.form_group>
   """
+  attr(:field, Phoenix.HTML.FormField, default: nil,
+    doc: "A Phoenix form field. When set, `validation` auto-switches to `\"error\"` if the field has errors.")
   attr(:label, :string, default: nil, doc: "Shorthand for a simple text label")
   attr(:validation, :string, default: nil, values: [nil, "success", "warning", "error"])
   attr(:is_required, :boolean, default: false)
@@ -249,6 +435,15 @@ defmodule PureAdmin.Components.Form do
   attr(:class, :string, default: nil)
   attr(:rest, :global)
   slot(:inner_block, required: true)
+
+  def form_group(%{field: %Phoenix.HTML.FormField{} = field, validation: nil} = assigns) do
+    assigns
+    |> assign(
+      field: nil,
+      validation: if(field_errors(field) != [], do: "error")
+    )
+    |> form_group()
+  end
 
   def form_group(assigns) do
     ~H"""
