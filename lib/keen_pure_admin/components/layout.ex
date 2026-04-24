@@ -168,7 +168,7 @@ defmodule PureAdmin.Components.Layout do
   def navbar_nav_item(assigns) do
     ~H"""
     <li class={navbar_nav_item_classes(assigns)}>
-      <a href={@href} class={if @has_dropdown, do: "pa-header__nav-link"} {@rest}>
+      <a href={safe_url(@href)} class={if @has_dropdown, do: "pa-header__nav-link"} {@rest}>
         <%= render_slot(@inner_block) %>
       </a>
       <%= for dropdown <- @dropdown do %>
@@ -533,7 +533,7 @@ defmodule PureAdmin.Components.Layout do
     ~H"""
     <li class="pa-sidebar__item">
       <a
-        href={@href}
+        href={safe_url(@href)}
         class={build_classes("pa-sidebar__link", [{"pa-sidebar__link--active", @is_active}], @class)}
         {@rest}
       >

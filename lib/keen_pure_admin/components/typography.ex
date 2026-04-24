@@ -66,7 +66,7 @@ defmodule PureAdmin.Components.Typography do
   def pa_link(assigns) do
     ~H"""
     <a
-      href={@href}
+      href={safe_url(@href)}
       class={build_classes("pa-link", [{"pa-link--#{@variant}", @variant != nil}], @class)}
       {@rest}
     >

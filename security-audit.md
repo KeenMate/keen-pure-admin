@@ -19,12 +19,12 @@
 | 4 | Medium ✅ *fixed* | `Components.DataDisplay.desc_table`| `label_width` concatenated into `style=` |
 | 5 | Medium ✅ *fixed* | `flash.js` / `toast.js`            | `JSON.stringify(action)` in `data-action` with weak attr escaping |
 | 6 | Medium ✅ *fixed* | `assets/js/hooks/profile_panel.js` | `dataset.href` → `window.location.href` without scheme check |
-| 7 | Low     | `Components.Typography.pa_link`, `Button.button`, `Layout.*` nav items | `href={@href}` accepts `javascript:` URLs |
-| 8 | Low     | `assets/js/page-context.js`        | `JSON.parse` of hidden input, no schema validation |
-| 9 | Low     | `assets/js/hooks/settings_panel.js`, `sidebar_resize.js` | `localStorage` → CSS class / `style.width` without validation |
+| 7 | Low ✅ *fixed* | `Components.Typography.pa_link`, `Button.button`, `Layout.*` nav items | `href={@href}` accepts `javascript:` URLs |
+| 8 | Low ✅ *fixed* | `assets/js/page-context.js`        | `JSON.parse` of hidden input, no schema validation |
+| 9 | Low ✅ *fixed* | `assets/js/hooks/settings_panel.js`, `sidebar_resize.js` | `localStorage` → CSS class / `style.width` without validation |
 | 10 | Low ✅ *fixed*    | `Components.Popconfirm`            | Inline `<script>` block duplicated per instance; CSP-hostile |
 | 11 | Info ✅ *fixed*   | Library-wide                       | Inline `onclick=` handlers prevent strict CSP without `'unsafe-inline'` |
-| 12 | Info   | `assets/js/modal_dialogs.js`       | `custom()` dialog: caller-provided render function trusted |
+| 12 | Info ✅ *documented* | `assets/js/modal_dialogs.js`       | `custom()` dialog: caller-provided render function trusted |
 
 Two High, four Medium, four Low, two Info. No remote-code-execution sinks. Every High/Medium finding requires either a malicious developer input or an already-compromised server payload — none are reachable from unauthenticated users of a correctly-wired consumer app. Still, each is a defense-in-depth improvement worth scheduling.
 
@@ -201,7 +201,7 @@ On retrieval (`JSON.parse(btn.dataset.action)`) the browser decodes entities bef
 
 ---
 
-### 7. LOW — `href={@href}` across link/button/nav components
+### 7. LOW ✅ *fixed in Unreleased* — `href={@href}` across link/button/nav components
 
 **Locations:**
 - `components/typography.ex:69` (`pa_link/1`)
@@ -215,7 +215,7 @@ On retrieval (`JSON.parse(btn.dataset.action)`) the browser decodes entities bef
 
 ---
 
-### 8. LOW — `page-context.js` parses server JSON without schema validation
+### 8. LOW ✅ *fixed in Unreleased* — `page-context.js` parses server JSON without schema validation
 
 **Location:** `lib/assets/js/page-context.js:25`
 
@@ -227,7 +227,7 @@ On retrieval (`JSON.parse(btn.dataset.action)`) the browser decodes entities bef
 
 ---
 
-### 9. LOW — localStorage values used in CSS class / `style.width`
+### 9. LOW ✅ *fixed in Unreleased* — localStorage values used in CSS class / `style.width`
 
 **Locations:**
 - `lib/assets/js/hooks/settings_panel.js:237` — localStorage `color-variant` concatenated into class name template.
@@ -266,7 +266,7 @@ On retrieval (`JSON.parse(btn.dataset.action)`) the browser decodes entities bef
 
 ---
 
-### 12. INFO — `modal_dialogs.js custom()` trusts caller render function
+### 12. INFO ✅ *documented in Unreleased* — `modal_dialogs.js custom()` trusts caller render function
 
 **Location:** `lib/assets/js/modal_dialogs.js:320-366`
 

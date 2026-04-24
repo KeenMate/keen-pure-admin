@@ -137,7 +137,7 @@ defmodule PureAdmin.Components.Profile do
   def profile_nav_item(assigns) do
     ~H"""
     <li>
-      <a href={@href} class={build_classes("pa-profile-panel__nav-item", [], @class)} {@rest}>
+      <a href={safe_url(@href)} class={build_classes("pa-profile-panel__nav-item", [], @class)} {@rest}>
         <span :if={@icon} class="pa-profile-panel__nav-icon"><i class={@icon}></i></span>
         <%= render_slot(@inner_block) %>
       </a>

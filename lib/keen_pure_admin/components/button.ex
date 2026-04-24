@@ -61,7 +61,7 @@ defmodule PureAdmin.Components.Button do
     ~H"""
     <%= if @href do %>
       <a
-        href={@href}
+        href={safe_url(@href)}
         target={@target}
         class={@btn_classes}
         data-ripple={@is_ripple || nil}
