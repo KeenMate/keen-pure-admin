@@ -110,7 +110,7 @@ defmodule PureAdmin.Components.Tooltip do
       <% end %>
       <div class="pa-popover__content" data-placement={@placement}>
         <div class="pa-popover__header">
-          <span class="pa-popover__title"><%= @title_text %></span>
+          <h4><%= @title_text %></h4>
           <button class="pa-popover__close" data-pa-popover-close aria-label="Close">×</button>
         </div>
         <div class="pa-popover__body">

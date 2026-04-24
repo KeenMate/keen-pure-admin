@@ -17,7 +17,8 @@ defmodule PureAdmin.Components.Loader do
       <.spinner />
       <.spinner size="lg" variant="primary" />
   """
-  attr(:size, :string, default: nil, values: [nil, "xs", "sm", "md", "lg", "xl", "2xl"])
+  attr(:size, :string, default: nil, values: [nil, "xs"],
+    doc: "Spinner size — the core framework currently only ships `--xs`. Larger sizes use the default.")
   attr(:variant, :string, default: nil,
     values: [nil, "primary", "secondary", "success", "danger", "warning", "info"],
     doc: "Spinner color variant")

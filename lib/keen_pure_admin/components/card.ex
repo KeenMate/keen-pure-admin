@@ -146,9 +146,10 @@ defmodule PureAdmin.Components.Card do
           <span class="pa-card__meta"><%= render_slot(meta) %></span>
         <% end %>
 
-        <%!-- Tools --%>
+        <%!-- Tools (slot kept as `:tools` for API stability; CSS class is
+             `pa-card__actions` per pure-admin-core snippet). --%>
         <%= for tools <- @tools do %>
-          <div class="pa-card__tools"><%= render_slot(tools) %></div>
+          <div class="pa-card__actions"><%= render_slot(tools) %></div>
         <% end %>
 
       </div>

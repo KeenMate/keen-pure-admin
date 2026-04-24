@@ -12,9 +12,9 @@ Drop-in replacement for Phoenix `CoreComponents` -- provides `button/1`, `badge/
 
 **Live demo:** [elixir.demo.pureadmin.io](https://elixir.demo.pureadmin.io)
 
-## What's new in v1.2.0
+## What's new in v1.3.0
 
-Security-focused release. A full audit ([`security-audit.md`](security-audit.md)) identified 12 findings — all are closed. Highlights:
+Security + correctness release. A full security audit ([`security-audit.md`](security-audit.md)) identified 12 findings — all are closed — and a framework-snippet drift audit ([`component-audit.md`](component-audit.md)) has reviewed every component against the current `pure-admin-core` snippets and fixed the drift. Highlights:
 
 - **Strict-CSP support** — every inline `onclick=` and inline `<script>` block has been removed from component templates. Component behaviour lives in a single delegated-events module exposed via the new **`initPureAdminEvents()`** export; call it once in `app.js` alongside `initModalDialogs()`. Apps can now ship with `script-src 'self'` out of the box. The only remaining inline `<script>` is the optional `<.fouc_prevention_script />`, which needs a per-request nonce in strict-CSP setups.
 - **`PureAdmin.Helpers.safe_url/2`** — new deny-list URL validator (blocks only `javascript:` / `data:` / `vbscript:` / `file:`; passes http/https, `mailto:`, `tel:`, `sms:`, custom app schemes like `slack://`, and relative paths). Applied automatically to `href={@href}` in `pa_link/1`, `button/1`, `navbar_nav_item/1`, `sidebar_item/1`, `profile_nav_item/1`.
@@ -61,7 +61,7 @@ end
 ```elixir
 def deps do
   [
-    {:keen_pure_admin, github: "KeenMate/keen-pure-admin", tag: "v1.2.0"}
+    {:keen_pure_admin, github: "KeenMate/keen-pure-admin", tag: "v1.3.0"}
   ]
 end
 ```

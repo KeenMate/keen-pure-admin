@@ -666,8 +666,7 @@ defmodule DemoWeb.Live.CardsLive do
         <li><code>pa-card__title</code> - Title container with icon support</li>
         <li><code>pa-card__title-icon</code> - Icon before title</li>
         <li><code>pa-card__title-text</code> - Title text (auto-truncates)</li>
-        <li><code>pa-card__tools</code> - Tool buttons container (right side)</li>
-        <li><code>pa-card__actions</code> - Actions container, fixed width</li>
+        <li><code>pa-card__actions</code> - Button/control container (right side, gap + align-center); emitted from the <code>:tools</code> slot</li>
         <li><code>pa-btn-group</code> - Button group in header, fixed width</li>
       </.basic_list>
 

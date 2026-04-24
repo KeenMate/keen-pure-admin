@@ -69,6 +69,7 @@ defmodule PureAdmin.Components.Popconfirm do
     <div
       id={@id}
       class={build_classes("pa-popconfirm", [
+        {"pa-popconfirm--#{@placement}", true},
         {"pa-popconfirm--compact", @is_compact}
       ], @class)}
       data-placement={@placement}

@@ -49,17 +49,17 @@ defmodule PureAdmin.Components.Callout do
         </span>
         <div class="pa-callout__content">
           <%= if @title != [] do %>
-            <div :for={title <- @title} class="pa-callout__heading"><%= render_slot(title) %></div>
+            <h4 :for={title <- @title} class="pa-callout__heading"><%= render_slot(title) %></h4>
           <% else %>
-            <div :if={@heading_text} class="pa-callout__heading"><%= @heading_text %></div>
+            <h4 :if={@heading_text} class="pa-callout__heading"><%= @heading_text %></h4>
           <% end %>
           <%= render_slot(@inner_block) %>
         </div>
       <% else %>
         <%= if @title != [] do %>
-          <div :for={title <- @title} class="pa-callout__heading"><%= render_slot(title) %></div>
+          <h4 :for={title <- @title} class="pa-callout__heading"><%= render_slot(title) %></h4>
         <% else %>
-          <div :if={@heading_text} class="pa-callout__heading"><%= @heading_text %></div>
+          <h4 :if={@heading_text} class="pa-callout__heading"><%= @heading_text %></h4>
         <% end %>
         <div class="pa-callout__content">
           <%= render_slot(@inner_block) %>

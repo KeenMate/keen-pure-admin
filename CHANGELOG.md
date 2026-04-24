@@ -1,6 +1,22 @@
 # Changelog
 
-## v1.2.0 — 2026-04-24
+## v1.3.0 — unreleased
+
+### Component audit
+
+Cross-checked every library component against the current `@keenmate/pure-admin-core` HTML snippets and recorded per-component audit status in the new `component-audit.md` at repo root. 23 snippets reviewed against anchor pure-admin commit `e4f1cd6`. Drift fixes:
+
+- **`Popconfirm`** — server render now emits the initial `pa-popconfirm--{bottom|top|start|end}` class (previously only `data-placement` was set, so CSS rules keyed on the class rendered inconsistently before Floating UI ran). The client-side position helper in `events/popconfirm.js` now strips the logical `start|end` class pair on flip (was looking for physical `left|right` that never appeared) and maps Floating UI's physical `result.placement` back to our logical class via a `physicalToLogical()` helper — RTL collision-flipped popconfirms now render correctly.
+- **`Popover`** — title in `.pa-popover__header` now renders as `<h4>` (was `<span class="pa-popover__title">`) to match the snippet's semantic heading pattern and inherit the framework's heading-reset rules.
+- **`Callout`** — `.pa-callout__heading` now renders as `<h4>` (was `<div>`) to match the snippet; picks up the shared heading margin reset instead of needing override rules.
+- **`Card`** — the `:tools` slot now emits `<div class="pa-card__actions">` (was `pa-card__tools`, which has no CSS backing). Slot name kept for API stability.
+- **`Loader` / `spinner`** — `size` attr narrowed from `[nil, "xs", "sm", "md", "lg", "xl", "2xl"]` to `[nil, "xs"]`. The other sizes produced invalid class names (`pa-spinner--lg`, etc.) that don't exist in the SCSS framework — they all rendered at the default 16 px, which is confusing. Demo page updated to show only default + `--xs`. **Breaking for apps passing those size values** — drop the attr to fall back to default.
+- **`component-audit.md` (new)** at the repo root tracks every component's audit status, which snippet it was verified against, and the pure-admin commit hash at time of verification. Re-audits flip the row back to ⏳ when upstream ships a newer snippet.
+
+Components with acknowledged gaps deferred to a later release (tracked in `component-audit.md`):
+- **`Code`** — still a Phase-2 stub (class naming / copy button / syntax tokens not yet modeled).
+- **`Profile`** — favourites subsystem (`__favorite-item`, `__favorite-icon`, `__favorite-label`, `__favorite-remove`, `__favorites-add`) not yet exposed as components; apps hand-roll the markup today.
+- **`Timeline`** — alternating-layout `__date`/`__time` logic is muddled and `pa-timeline--single-column` isn't exposed.
 
 ### Security
 

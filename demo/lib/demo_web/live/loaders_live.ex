@@ -11,30 +11,19 @@ defmodule DemoWeb.Live.LoadersLive do
 
     <%!-- Spinner Sizes --%>
     <.card title_text="Spinner Sizes" class="mb-6">
+      <.callout variant="info" class="mb-4">
+        Pure Admin currently only ships two spinner sizes: the default and <code>--xs</code>.
+        Other size modifiers (<code>--sm/--md/--lg/--xl/--2xl</code>) are not implemented in the
+        SCSS framework, so the component's <code>size</code> attr accepts only <code>"xs"</code>.
+      </.callout>
       <.grid>
-        <.column size="100" md="1-4" class="text-center mb-4">
+        <.column size="100" md="1-2" class="text-center mb-4">
+          <.spinner />
+          <.paragraph class="mt-2 text-secondary">Default<br />1.6rem</.paragraph>
+        </.column>
+        <.column size="100" md="1-2" class="text-center mb-4">
           <.spinner size="xs" />
           <.paragraph class="mt-2 text-secondary">.pa-spinner--xs<br />0.75rem</.paragraph>
-        </.column>
-        <.column size="100" md="1-4" class="text-center mb-4">
-          <.spinner size="sm" />
-          <.paragraph class="mt-2 text-secondary">.pa-spinner--sm<br />1rem</.paragraph>
-        </.column>
-        <.column size="100" md="1-4" class="text-center mb-4">
-          <.spinner size="md" />
-          <.paragraph class="mt-2 text-secondary">.pa-spinner--md<br />1.5rem</.paragraph>
-        </.column>
-        <.column size="100" md="1-4" class="text-center mb-4">
-          <.spinner size="lg" />
-          <.paragraph class="mt-2 text-secondary">.pa-spinner--lg<br />2rem</.paragraph>
-        </.column>
-        <.column size="100" md="1-4" class="text-center mb-4">
-          <.spinner size="xl" />
-          <.paragraph class="mt-2 text-secondary">.pa-spinner--xl<br />3rem</.paragraph>
-        </.column>
-        <.column size="100" md="1-4" class="text-center mb-4">
-          <.spinner size="2xl" />
-          <.paragraph class="mt-2 text-secondary">.pa-spinner--2xl<br />4rem</.paragraph>
         </.column>
       </.grid>
     </.card>
@@ -43,27 +32,27 @@ defmodule DemoWeb.Live.LoadersLive do
     <.card title_text="Spinner Colors" class="mb-6">
       <.grid>
         <.column size="100" md="1-4" class="text-center mb-4">
-          <.spinner size="lg" variant="primary" />
+          <.spinner variant="primary" />
           <.paragraph class="mt-2 text-secondary">.pa-spinner--primary</.paragraph>
         </.column>
         <.column size="100" md="1-4" class="text-center mb-4">
-          <.spinner size="lg" variant="secondary" />
+          <.spinner variant="secondary" />
           <.paragraph class="mt-2 text-secondary">.pa-spinner--secondary</.paragraph>
         </.column>
         <.column size="100" md="1-4" class="text-center mb-4">
-          <.spinner size="lg" variant="success" />
+          <.spinner variant="success" />
           <.paragraph class="mt-2 text-secondary">.pa-spinner--success</.paragraph>
         </.column>
         <.column size="100" md="1-4" class="text-center mb-4">
-          <.spinner size="lg" variant="danger" />
+          <.spinner variant="danger" />
           <.paragraph class="mt-2 text-secondary">.pa-spinner--danger</.paragraph>
         </.column>
         <.column size="100" md="1-4" class="text-center mb-4">
-          <.spinner size="lg" variant="warning" />
+          <.spinner variant="warning" />
           <.paragraph class="mt-2 text-secondary">.pa-spinner--warning</.paragraph>
         </.column>
         <.column size="100" md="1-4" class="text-center mb-4">
-          <.spinner size="lg" variant="info" />
+          <.spinner variant="info" />
           <.paragraph class="mt-2 text-secondary">.pa-spinner--info</.paragraph>
         </.column>
       </.grid>
@@ -76,11 +65,11 @@ defmodule DemoWeb.Live.LoadersLive do
         Loading inline content...
       </.paragraph>
       <.paragraph class="mb-4">
-        <.spinner size="sm" variant="success" class="d-inline-block mr-2" />
+        <.spinner variant="success" class="d-inline-block mr-2" />
         Processing your request...
       </.paragraph>
       <.paragraph>
-        <.spinner size="sm" variant="info" class="d-inline-block mr-2" />
+        <.spinner variant="info" class="d-inline-block mr-2" />
         Fetching data from server...
       </.paragraph>
     </.card>
@@ -89,7 +78,7 @@ defmodule DemoWeb.Live.LoadersLive do
     <.card title_text="Centered Loaders" class="mb-6">
       <div class="h-20x position-relative border border-dashed rounded">
         <.loader_overlay>
-          <.spinner size="xl" variant="primary" />
+          <.spinner variant="primary" />
         </.loader_overlay>
       </div>
     </.card>
@@ -99,13 +88,13 @@ defmodule DemoWeb.Live.LoadersLive do
       <.grid>
         <.column size="100" md="1-2" class="mb-4">
           <.loader_center class="h-15x border border-dashed rounded">
-            <.spinner size="lg" variant="primary" />
+            <.spinner variant="primary" />
             <.paragraph class="mt-4 text-secondary">Loading data...</.paragraph>
           </.loader_center>
         </.column>
         <.column size="100" md="1-2" class="mb-4">
           <.loader_center class="h-15x border border-dashed rounded">
-            <.spinner size="lg" variant="success" />
+            <.spinner variant="success" />
             <.paragraph class="mt-4 text-secondary">Processing...</.paragraph>
           </.loader_center>
         </.column>
@@ -120,7 +109,7 @@ defmodule DemoWeb.Live.LoadersLive do
             <:header><.heading level={4}>Loading Card</.heading></:header>
             <div class="h-15x position-relative">
               <.loader_overlay>
-                <.spinner size="lg" variant="primary" />
+                <.spinner variant="primary" />
               </.loader_overlay>
             </div>
           </.card>
@@ -129,7 +118,7 @@ defmodule DemoWeb.Live.LoadersLive do
           <.card>
             <:header><.heading level={4}>Loading with Text</.heading></:header>
             <.loader_center class="h-15x">
-              <.spinner size="lg" variant="info" />
+              <.spinner variant="info" />
               <.paragraph class="mt-4 text-secondary">Fetching data...</.paragraph>
             </.loader_center>
           </.card>
@@ -173,7 +162,7 @@ defmodule DemoWeb.Live.LoadersLive do
           <.paragraph class="mt-2"><code>.pa-loader-wave</code></.paragraph>
         </.column>
         <.column size="100" md="1-3" class="text-center mb-4">
-          <.spinner size="xl" class="text-secondary" />
+          <.spinner class="text-secondary" />
           <.paragraph class="mt-2 text-secondary"><strong>Spinner</strong></.paragraph>
           <.paragraph class="mt-2"><code>.pa-spinner</code></.paragraph>
         </.column>
