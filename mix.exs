@@ -1,7 +1,7 @@
 defmodule PureAdmin.MixProject do
   use Mix.Project
 
-  @version "1.1.0"
+  @version "1.2.0"
   @source_url "https://github.com/KeenMate/keen-pure-admin"
 
   def project do
@@ -54,7 +54,7 @@ defmodule PureAdmin.MixProject do
         "Pure Admin" => "https://pureadmin.io",
         "Live Demo" => "https://elixir.demo.pureadmin.io"
       },
-      files: ~w(lib docs .formatter.exs mix.exs package.json README.md LICENSE CHANGELOG.md)
+      files: ~w(lib docs .formatter.exs mix.exs package.json README.md LICENSE CHANGELOG.md security-audit.md)
     ]
   end
 
@@ -69,6 +69,7 @@ defmodule PureAdmin.MixProject do
         "docs/js-hooks.md",
         "docs/theming.md",
         "CHANGELOG.md",
+        "security-audit.md",
         "LICENSE"
       ],
       groups_for_extras: [

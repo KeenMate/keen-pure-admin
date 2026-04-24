@@ -12,14 +12,25 @@ Drop-in replacement for Phoenix `CoreComponents` -- provides `button/1`, `badge/
 
 **Live demo:** [elixir.demo.pureadmin.io](https://elixir.demo.pureadmin.io)
 
+## What's new in v1.2.0
+
+Security-focused release. A full audit ([`security-audit.md`](security-audit.md)) identified 12 findings — all are closed. Highlights:
+
+- **Strict-CSP support** — every inline `onclick=` and inline `<script>` block has been removed from component templates. Component behaviour lives in a single delegated-events module exposed via the new **`initPureAdminEvents()`** export; call it once in `app.js` alongside `initModalDialogs()`. Apps can now ship with `script-src 'self'` out of the box. The only remaining inline `<script>` is the optional `<.fouc_prevention_script />`, which needs a per-request nonce in strict-CSP setups.
+- **`PureAdmin.Helpers.safe_url/2`** — new deny-list URL validator (blocks only `javascript:` / `data:` / `vbscript:` / `file:`; passes http/https, `mailto:`, `tel:`, `sms:`, custom app schemes like `slack://`, and relative paths). Applied automatically to `href={@href}` in `pa_link/1`, `button/1`, `navbar_nav_item/1`, `sidebar_item/1`, `profile_nav_item/1`.
+- **Flash markdown link URL validation** — `[text](javascript:alert(1))` in a `push_flash` message body now renders as `href="#"` instead of executing.
+- **Pager icon attrs no longer use `Phoenix.HTML.raw/1`.** Defaults moved from HTML entities to Unicode chevrons (`«‹›»`); markup icons (Font Awesome, SVG) go through the new `:first_icon` / `:previous_icon` / `:next_icon` / `:last_icon` slots. **Breaking for apps that passed HTML in the string attrs** — migrate those to the slots.
+- **Flash / Toast actions** no longer round-trip `JSON.stringify(action)` through `data-action`; each button is built as a DOM element with the action captured via closure — no attribute-escape attack surface.
+- Plus: `desc_table label_width` CSS-length validation, `profile_panel.js` URL scheme check, hardened `page-context.js` parse, localStorage allowlist checks, `modal_dialogs.custom()` JSDoc warning.
+
+See [`security-audit.md`](security-audit.md) for per-finding detail and the full [CHANGELOG](CHANGELOG.md) for a complete list.
+
 ## What's new in v1.1.0
 
 - **`field={@form[:x]}` on form components** — `input/1`, `textarea/1`, `select/1`, `checkbox/1`, `radio/1`, and `form_group/1` now accept a Phoenix `Phoenix.HTML.FormField` and derive `name`, `id`, `value` (or `checked`), and error state automatically. `input/textarea/select` also auto-render the error `form_help` below themselves — no per-field boilerplate.
 - **`PureAdmin.Components.Form.translate_error/1`** — ships a default `%{key}`-interpolating formatter; override with `config :keen_pure_admin, :error_formatter, {MyAppWeb.CoreComponents, :translate_error}` for Gettext-aware apps.
 - **`PureAdmin.DateTime`** — date/time/relative formatting helper with `format/2` (short/long date, short/long date-time, time, relative, or raw strftime) and `relative/2` (`now`, `5 minutes ago`, `in 2 hours`, etc.). Month names, weekday names, and relative phrases all flow through `PureAdmin.Translations.t/2` with 47 new keys under `pureAdmin.datetime.*`.
 - **Flash — `replace: true` + `clear_flash/2`** — `push_flash(..., replace: true)` wipes any prior alerts in the container so status messages don't stack; `clear_flash/2` empties it without pushing.
-
-See the full [CHANGELOG](CHANGELOG.md) for details.
 
 ## Prerequisites
 
@@ -50,7 +61,7 @@ end
 ```elixir
 def deps do
   [
-    {:keen_pure_admin, github: "KeenMate/keen-pure-admin", tag: "v1.1.0"}
+    {:keen_pure_admin, github: "KeenMate/keen-pure-admin", tag: "v1.2.0"}
   ]
 end
 ```

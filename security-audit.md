@@ -32,7 +32,7 @@ Two High, four Medium, four Low, two Info. No remote-code-execution sinks. Every
 
 ## Detailed findings
 
-### 1. HIGH ✅ *fixed in Unreleased* — `raw/1` on pager icon attrs
+### 1. HIGH ✅ *fixed in v1.2.0* — `raw/1` on pager icon attrs
 
 **Location:** `lib/keen_pure_admin/components/pager.ex:50-74`
 
@@ -63,7 +63,7 @@ attr(:icon_last, :string, default: "&#187;", ...)
 
 ---
 
-### 2. HIGH ✅ *fixed in Unreleased* — Markdown link URL not re-escaped in `flash.js`
+### 2. HIGH ✅ *fixed in v1.2.0* — Markdown link URL not re-escaped in `flash.js`
 
 **Location:** `lib/assets/js/hooks/flash.js:195-202` (`_renderInline`)
 
@@ -100,7 +100,7 @@ _safeUrl(url) {
 
 ---
 
-### 3. MEDIUM ✅ *fixed in Unreleased (by #10/#11 refactor)* — `@id` interpolated into inline `onclick=` in popconfirm
+### 3. MEDIUM ✅ *fixed in v1.2.0 (by #10/#11 refactor)* — `@id` interpolated into inline `onclick=` in popconfirm
 
 **Location:** `lib/keen_pure_admin/components/popconfirm.ex:65, 88, 96`
 
@@ -128,7 +128,7 @@ onclick={"window.__paPopconfirmClose('#{@id}'); return false;"}
 
 ---
 
-### 4. MEDIUM ✅ *fixed in Unreleased* — `label_width` concatenated into `style=` in `desc_table`
+### 4. MEDIUM ✅ *fixed in v1.2.0* — `label_width` concatenated into `style=` in `desc_table`
 
 **Location:** `lib/keen_pure_admin/components/data_display.ex:183-205`
 
@@ -161,7 +161,7 @@ HEEx auto-escapes `"` inside the attribute, so the attacker can't close the `sty
 
 ---
 
-### 5. MEDIUM ✅ *fixed in Unreleased* — `JSON.stringify(action)` stored in `data-action` with weak escaping
+### 5. MEDIUM ✅ *fixed in v1.2.0* — `JSON.stringify(action)` stored in `data-action` with weak escaping
 
 **Location:** `lib/assets/js/hooks/flash.js:86`, `lib/assets/js/hooks/toast.js:66`
 
@@ -189,7 +189,7 @@ On retrieval (`JSON.parse(btn.dataset.action)`) the browser decodes entities bef
 
 ---
 
-### 6. MEDIUM ✅ *fixed in Unreleased* — `profile_panel.js` navigates to unvalidated `dataset.href`
+### 6. MEDIUM ✅ *fixed in v1.2.0* — `profile_panel.js` navigates to unvalidated `dataset.href`
 
 **Location:** `lib/assets/js/hooks/profile_panel.js:64`
 
@@ -201,7 +201,7 @@ On retrieval (`JSON.parse(btn.dataset.action)`) the browser decodes entities bef
 
 ---
 
-### 7. LOW ✅ *fixed in Unreleased* — `href={@href}` across link/button/nav components
+### 7. LOW ✅ *fixed in v1.2.0* — `href={@href}` across link/button/nav components
 
 **Locations:**
 - `components/typography.ex:69` (`pa_link/1`)
@@ -215,7 +215,7 @@ On retrieval (`JSON.parse(btn.dataset.action)`) the browser decodes entities bef
 
 ---
 
-### 8. LOW ✅ *fixed in Unreleased* — `page-context.js` parses server JSON without schema validation
+### 8. LOW ✅ *fixed in v1.2.0* — `page-context.js` parses server JSON without schema validation
 
 **Location:** `lib/assets/js/page-context.js:25`
 
@@ -227,7 +227,7 @@ On retrieval (`JSON.parse(btn.dataset.action)`) the browser decodes entities bef
 
 ---
 
-### 9. LOW ✅ *fixed in Unreleased* — localStorage values used in CSS class / `style.width`
+### 9. LOW ✅ *fixed in v1.2.0* — localStorage values used in CSS class / `style.width`
 
 **Locations:**
 - `lib/assets/js/hooks/settings_panel.js:237` — localStorage `color-variant` concatenated into class name template.
@@ -241,7 +241,7 @@ On retrieval (`JSON.parse(btn.dataset.action)`) the browser decodes entities bef
 
 ---
 
-### 10. LOW ✅ *fixed in Unreleased* — Inline `<script>` block rendered per popconfirm instance
+### 10. LOW ✅ *fixed in v1.2.0* — Inline `<script>` block rendered per popconfirm instance
 
 **Location:** `lib/keen_pure_admin/components/popconfirm.ex:103-` (the `<script :if={!assigns[:__popconfirm_script_loaded]}>` block)
 
@@ -251,7 +251,7 @@ On retrieval (`JSON.parse(btn.dataset.action)`) the browser decodes entities bef
 
 ---
 
-### 11. INFO ✅ *fixed in Unreleased* — Inline `onclick=` handlers block strict CSP
+### 11. INFO ✅ *fixed in v1.2.0* — Inline `onclick=` handlers block strict CSP
 
 **Locations:**
 - `components/badge.ex:275, 282` — expand/collapse handlers
@@ -266,7 +266,7 @@ On retrieval (`JSON.parse(btn.dataset.action)`) the browser decodes entities bef
 
 ---
 
-### 12. INFO ✅ *documented in Unreleased* — `modal_dialogs.js custom()` trusts caller render function
+### 12. INFO ✅ *documented in v1.2.0* — `modal_dialogs.js custom()` trusts caller render function
 
 **Location:** `lib/assets/js/modal_dialogs.js:320-366`
 
