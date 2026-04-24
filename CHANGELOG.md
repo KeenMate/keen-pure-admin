@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+### Demo
+
+- Swap the *Stored Submissions* card for `<.table_card is_scrollable>` on the `/phoenix/form-demo` page so narrow viewports scroll the table horizontally inside the card instead of clipping the rightmost columns.
+
+---
+
 ## v1.1.0 — 2026-04-23
 
 ### Added

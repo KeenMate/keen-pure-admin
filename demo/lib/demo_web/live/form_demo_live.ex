@@ -395,8 +395,8 @@ defmodule DemoWeb.Live.FormDemoLive do
       </.simple_form>
     </.card>
 
-    <.card title_text="Stored Submissions" is_header_underlined>
-      <:tools>
+    <.table_card title_text="Stored Submissions" is_scrollable>
+      <:actions>
         <.badge variant="secondary">{length(@entries)} total</.badge>
         <.popconfirm
           :if={@entries != []}
@@ -411,13 +411,13 @@ defmodule DemoWeb.Live.FormDemoLive do
             <i class="fa-solid fa-trash"></i> Clear All
           </.button>
         </.popconfirm>
-      </:tools>
+      </:actions>
 
       <.callout :if={@entries == []} variant="info">
         No submissions yet. Fill in the form above and click <strong>Save Entry</strong>.
       </.callout>
 
-      <.table :if={@entries != []} rows={@entries} is_striped is_hover is_responsive>
+      <.table :if={@entries != []} rows={@entries} is_striped is_hover>
         <:col :let={e} label="Name">{full_name(e)}</:col>
         <:col :let={e} label="Email">
           <a href={"mailto:" <> e.email} class="pa-link">{e.email}</a>
@@ -460,7 +460,7 @@ defmodule DemoWeb.Live.FormDemoLive do
           </.button>
         </:action>
       </.table>
-    </.card>
+    </.table_card>
 
     <.card title_text="How it works">
       <.heading level={4}>Form binding</.heading>
