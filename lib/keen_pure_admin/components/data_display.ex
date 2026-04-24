@@ -42,13 +42,13 @@ defmodule PureAdmin.Components.DataDisplay do
       <span class="pa-field__label"><%= @label %></span>
       <%= if @is_copy_click do %>
         <span class={build_classes("pa-field__value", [{"pa-field__value--#{@value_variant}", @value_variant != nil}])}
-              onclick="window.__paCopyClickValue(this)"
+              data-pa-copy-on-click
               data-copy-value={@copy_value}><%= render_slot(@inner_block) %></span>
       <% else %>
         <span class={build_classes("pa-field__value", [{"pa-field__value--#{@value_variant}", @value_variant != nil}])}>
           <%= if @is_copy_btn || @is_copy_hover do %>
             <span data-copy-value={@copy_value}><%= render_slot(@inner_block) %></span>
-            <button class="pa-field__copy" onclick="window.__paCopyValue(this)" title="Copy to clipboard">
+            <button type="button" class="pa-field__copy" data-pa-copy title="Copy to clipboard">
               <i class="fas fa-copy"></i>
             </button>
           <% else %>

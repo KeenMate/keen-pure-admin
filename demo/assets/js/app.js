@@ -23,7 +23,7 @@ import "phoenix_html"
 import {Socket} from "phoenix"
 import {LiveSocket} from "phoenix_live_view"
 import {hooks as colocatedHooks} from "phoenix-colocated/demo"
-import {PureAdminHooks, initModalDialogs} from "../../../lib/assets/js/keen_pure_admin"
+import {PureAdminHooks, initModalDialogs, initPureAdminEvents} from "../../../lib/assets/js/keen_pure_admin"
 import topbar from "../vendor/topbar"
 
 const csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
@@ -40,6 +40,12 @@ window.addEventListener("phx:page-loading-stop", _info => topbar.hide())
 
 // Initialize PureAdmin programmatic dialogs (confirm/alert/prompt)
 initModalDialogs()
+
+// Wire PureAdmin delegated click handlers (popover, popconfirm, badge-group
+// expand/collapse, tabs scroll, copy-to-clipboard). Replaces the inline
+// onclick handlers previously embedded in component templates, so apps can
+// run with strict CSP (`script-src 'self'`) — no `'unsafe-inline'` needed.
+initPureAdminEvents()
 
 console.log("[app.js] build:", new Date().toISOString(), "— reset-form listener attached")
 

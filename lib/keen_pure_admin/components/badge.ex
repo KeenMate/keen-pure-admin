@@ -268,18 +268,19 @@ defmodule PureAdmin.Components.Badge do
       >
         <%= @collapse_text %>
       </span>
-      <%!-- Client-side mode: CSS hides overflow, JS toggles expanded class --%>
+      <%!-- Client-side mode: CSS hides overflow, the delegated event wired via
+           `initPureAdminEvents()` toggles the expanded class on click. --%>
       <span
         :if={@show_more && @use_js}
         class="pa-badge pa-badge--secondary cursor-pointer pa-badge-group__toggle-more"
-        onclick="this.parentElement.classList.add('pa-badge-group--expanded');return false;"
+        data-pa-badge-group-expand
       >
         <%= @more_label %>
       </span>
       <span
         :if={@show_more && @use_js}
         class="pa-badge pa-badge--secondary cursor-pointer pa-badge-group__toggle-collapse"
-        onclick="this.parentElement.classList.remove('pa-badge-group--expanded');return false;"
+        data-pa-badge-group-collapse
       >
         <%= @collapse_text %>
       </span>

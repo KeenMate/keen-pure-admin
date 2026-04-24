@@ -329,39 +329,7 @@ defmodule DemoWeb.Live.DataDisplayLive do
       </.grid>
     </.card>
 
-    <script>
-    window.__paCopyValue = function(btn) {
-        const field = btn.closest('.pa-field');
-        const valueEl = field.querySelector('[data-copy-value]');
-        const text = valueEl.getAttribute('data-copy-value') || valueEl.textContent.trim();
-
-        navigator.clipboard.writeText(text).then(() => {
-            // Visual feedback
-            const originalIcon = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-check"></i>';
-            btn.style.color = 'var(--pa-color-4, #28a745)';
-
-            setTimeout(() => {
-                btn.innerHTML = originalIcon;
-                btn.style.color = '';
-            }, 1500);
-        });
-    }
-
-    window.__paCopyClickValue = function(el) {
-        const text = el.getAttribute('data-copy-value') || el.textContent.trim();
-        const field = el.closest('.pa-field');
-
-        navigator.clipboard.writeText(text).then(() => {
-            // Visual feedback
-            field.classList.add('pa-field--copied');
-
-            setTimeout(() => {
-                field.classList.remove('pa-field--copied');
-            }, 1500);
-        });
-    }
-    </script>
+    <%!-- Copy behaviour is wired via `initPureAdminEvents()` in app.js — no inline JS required. --%>
 
     <%!-- ============================================================
          Row 8: Invoice Layout (100%)

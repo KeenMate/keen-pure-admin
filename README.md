@@ -195,16 +195,28 @@ Browse all available themes at [pureadmin.io](https://pureadmin.io).
 
 ### 5. Register JS hooks
 
-Add `PureAdminHooks` to your LiveSocket in `assets/js/app.js`:
+Add `PureAdminHooks` to your LiveSocket in `assets/js/app.js` and call
+`initPureAdminEvents()` once to wire the delegated click handlers (popover,
+popconfirm, copy-to-clipboard, tabs scroll, badge-group expand/collapse):
 
 ```javascript
-import { PureAdminHooks } from "keen_pure_admin"
+import { PureAdminHooks, initPureAdminEvents } from "keen_pure_admin"
 
 // Merge with any existing hooks (e.g. colocatedHooks)
 const liveSocket = new LiveSocket("/live", Socket, {
   hooks: { ...colocatedHooks, ...PureAdminHooks }
 })
+
+// Wire delegated click handlers. Idempotent; safe to call once at startup.
+initPureAdminEvents()
 ```
+
+All component behaviour is delivered through `PureAdminHooks` and
+`initPureAdminEvents` — no inline `onclick=` handlers in the rendered markup,
+so apps can ship with strict CSP (`script-src 'self'`) without
+`'unsafe-inline'`. The one exception is the optional FOUC-prevention script
+(`<.fouc_prevention_script />`), which must run inline in `<head>` before CSS
+loads; for CSP-strict apps, attach a per-request nonce.
 
 ### 6. Add Floating UI (required for tooltips, popovers, split buttons)
 

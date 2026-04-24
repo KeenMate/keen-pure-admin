@@ -489,7 +489,7 @@ defmodule DemoWeb.Live.DataDisplay2Live do
               <span class="pa-banded__label">IP Address</span>
               <span class="pa-banded__value">
                 <span data-copy-value>10.0.12.45</span>
-                <button class="pa-banded__copy" onclick="window.__paCopyValue(this)" title="Copy to clipboard">
+                <button class="pa-banded__copy" data-pa-copy title="Copy to clipboard">
                   <i class="fas fa-copy"></i>
                 </button>
               </span>
@@ -498,7 +498,7 @@ defmodule DemoWeb.Live.DataDisplay2Live do
               <span class="pa-banded__label">Hash</span>
               <span class="pa-banded__value">
                 <span data-copy-value>sha256:e3b0c44298fc1c</span>
-                <button class="pa-banded__copy" onclick="window.__paCopyValue(this)" title="Copy to clipboard">
+                <button class="pa-banded__copy" data-pa-copy title="Copy to clipboard">
                   <i class="fas fa-copy"></i>
                 </button>
               </span>
@@ -511,11 +511,11 @@ defmodule DemoWeb.Live.DataDisplay2Live do
           <div class="pa-banded">
             <div class="pa-banded__row pa-banded__row--copy-click">
               <span class="pa-banded__label">Server</span>
-              <span class="pa-banded__value" onclick="window.__paCopyClickValue(this)" data-copy-value="prod-api-01">prod-api-01</span>
+              <span class="pa-banded__value" data-pa-copy-on-click data-copy-value="prod-api-01">prod-api-01</span>
             </div>
             <div class="pa-banded__row pa-banded__row--copy-click">
               <span class="pa-banded__label">OS</span>
-              <span class="pa-banded__value" onclick="window.__paCopyClickValue(this)" data-copy-value="Ubuntu 22.04 LTS">Ubuntu 22.04 LTS</span>
+              <span class="pa-banded__value" data-pa-copy-on-click data-copy-value="Ubuntu 22.04 LTS">Ubuntu 22.04 LTS</span>
             </div>
           </div>
         </.column>
@@ -527,7 +527,7 @@ defmodule DemoWeb.Live.DataDisplay2Live do
               <span class="pa-banded__label">IBAN</span>
               <span class="pa-banded__value">
                 <span data-copy-value>CZ65 0800 0000 1920 0014 5399</span>
-                <button class="pa-banded__copy" onclick="window.__paCopyValue(this)" title="Copy to clipboard">
+                <button class="pa-banded__copy" data-pa-copy title="Copy to clipboard">
                   <i class="fas fa-copy"></i>
                 </button>
               </span>
@@ -536,7 +536,7 @@ defmodule DemoWeb.Live.DataDisplay2Live do
               <span class="pa-banded__label">BIC/SWIFT</span>
               <span class="pa-banded__value">
                 <span data-copy-value>GIBACZPX</span>
-                <button class="pa-banded__copy" onclick="window.__paCopyValue(this)" title="Copy to clipboard">
+                <button class="pa-banded__copy" data-pa-copy title="Copy to clipboard">
                   <i class="fas fa-copy"></i>
                 </button>
               </span>
@@ -555,7 +555,7 @@ defmodule DemoWeb.Live.DataDisplay2Live do
               <span class="pa-prop-card__label">Order ID</span>
               <span class="pa-prop-card__value">
                 <span data-copy-value>#ORD-2026-00847</span>
-                <button class="pa-prop-card__copy" onclick="window.__paCopyValue(this)" title="Copy to clipboard">
+                <button class="pa-prop-card__copy" data-pa-copy title="Copy to clipboard">
                   <i class="fas fa-copy"></i>
                 </button>
               </span>
@@ -568,7 +568,7 @@ defmodule DemoWeb.Live.DataDisplay2Live do
               <span class="pa-prop-card__label">Payment</span>
               <span class="pa-prop-card__value">
                 <span data-copy-value>Visa *4242</span>
-                <button class="pa-prop-card__copy" onclick="window.__paCopyValue(this)" title="Copy to clipboard">
+                <button class="pa-prop-card__copy" data-pa-copy title="Copy to clipboard">
                   <i class="fas fa-copy"></i>
                 </button>
               </span>
@@ -587,28 +587,28 @@ defmodule DemoWeb.Live.DataDisplay2Live do
               <span class="pa-desc-table__label">Reg. No.</span>
               <span class="pa-desc-table__value pa-desc-table__value--copy-btn">
                 <span data-copy-value>CZ48207497</span>
-                <button class="pa-desc-table__copy" onclick="window.__paCopyValue(this)" title="Copy to clipboard">
+                <button class="pa-desc-table__copy" data-pa-copy title="Copy to clipboard">
                   <i class="fas fa-copy"></i>
                 </button>
               </span>
               <span class="pa-desc-table__label">VAT ID</span>
               <span class="pa-desc-table__value pa-desc-table__value--copy-btn">
                 <span data-copy-value>CZ48207497</span>
-                <button class="pa-desc-table__copy" onclick="window.__paCopyValue(this)" title="Copy to clipboard">
+                <button class="pa-desc-table__copy" data-pa-copy title="Copy to clipboard">
                   <i class="fas fa-copy"></i>
                 </button>
               </span>
               <span class="pa-desc-table__label">Email</span>
               <span class="pa-desc-table__value pa-desc-table__value--copy-btn">
                 <span data-copy-value>jan.novak@novakpartners.cz</span>
-                <button class="pa-desc-table__copy" onclick="window.__paCopyValue(this)" title="Copy to clipboard">
+                <button class="pa-desc-table__copy" data-pa-copy title="Copy to clipboard">
                   <i class="fas fa-copy"></i>
                 </button>
               </span>
               <span class="pa-desc-table__label">Phone</span>
               <span class="pa-desc-table__value pa-desc-table__value--copy-btn">
                 <span data-copy-value>+420 234 111 222</span>
-                <button class="pa-desc-table__copy" onclick="window.__paCopyValue(this)" title="Copy to clipboard">
+                <button class="pa-desc-table__copy" data-pa-copy title="Copy to clipboard">
                   <i class="fas fa-copy"></i>
                 </button>
               </span>
@@ -624,20 +624,20 @@ defmodule DemoWeb.Live.DataDisplay2Live do
           <div class="pa-accent-grid__label">Order ID</div>
           <div class="pa-accent-grid__value">
             <span data-copy-value>#ORD-2026-00847</span>
-            <button class="pa-accent-grid__copy" onclick="window.__paCopyValue(this)" title="Copy to clipboard">
+            <button class="pa-accent-grid__copy" data-pa-copy title="Copy to clipboard">
               <i class="fas fa-copy"></i>
             </button>
           </div>
         </div>
         <div class="pa-accent-grid__item pa-accent-grid__item--success pa-accent-grid__item--copy-click">
           <div class="pa-accent-grid__label">Status</div>
-          <div class="pa-accent-grid__value" onclick="window.__paCopyClickValue(this)" data-copy-value="Delivered">Delivered</div>
+          <div class="pa-accent-grid__value" data-pa-copy-on-click data-copy-value="Delivered">Delivered</div>
         </div>
         <div class="pa-accent-grid__item pa-accent-grid__item--info pa-accent-grid__item--copy-hover">
           <div class="pa-accent-grid__label">Payment</div>
           <div class="pa-accent-grid__value">
             <span data-copy-value>Visa *4242</span>
-            <button class="pa-accent-grid__copy" onclick="window.__paCopyValue(this)" title="Copy to clipboard">
+            <button class="pa-accent-grid__copy" data-pa-copy title="Copy to clipboard">
               <i class="fas fa-copy"></i>
             </button>
           </div>
@@ -646,7 +646,7 @@ defmodule DemoWeb.Live.DataDisplay2Live do
           <div class="pa-accent-grid__label">Customer</div>
           <div class="pa-accent-grid__value">
             <span data-copy-value>Elena Petrova</span>
-            <button class="pa-accent-grid__copy" onclick="window.__paCopyValue(this)" title="Copy to clipboard">
+            <button class="pa-accent-grid__copy" data-pa-copy title="Copy to clipboard">
               <i class="fas fa-copy"></i>
             </button>
           </div>
@@ -655,55 +655,19 @@ defmodule DemoWeb.Live.DataDisplay2Live do
           <div class="pa-accent-grid__label">Renewal</div>
           <div class="pa-accent-grid__value">
             <span data-copy-value>1 Jan 2027</span>
-            <button class="pa-accent-grid__copy" onclick="window.__paCopyValue(this)" title="Copy to clipboard">
+            <button class="pa-accent-grid__copy" data-pa-copy title="Copy to clipboard">
               <i class="fas fa-copy"></i>
             </button>
           </div>
         </div>
         <div class="pa-accent-grid__item pa-accent-grid__item--copy-click">
           <div class="pa-accent-grid__label">Total</div>
-          <div class="pa-accent-grid__value" onclick="window.__paCopyClickValue(this)" data-copy-value="$1,249.00">$1,249.00</div>
+          <div class="pa-accent-grid__value" data-pa-copy-on-click data-copy-value="$1,249.00">$1,249.00</div>
         </div>
       </div>
     </.card>
 
-    <script>
-    window.__paCopyValue = function(btn) {
-        const valueEl = btn.parentElement.querySelector('[data-copy-value]');
-        const text = valueEl.getAttribute('data-copy-value') || valueEl.textContent.trim();
-
-        navigator.clipboard.writeText(text).then(() => {
-            const originalIcon = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-check"></i>';
-            btn.style.color = 'var(--pa-color-4, #28a745)';
-
-            setTimeout(() => {
-                btn.innerHTML = originalIcon;
-                btn.style.color = '';
-            }, 1500);
-        });
-    }
-
-    window.__paCopyClickValue = function(el) {
-        const text = el.getAttribute('data-copy-value') || el.textContent.trim();
-        const item = el.closest('.pa-banded__row, .pa-accent-grid__item, .pa-field');
-
-        navigator.clipboard.writeText(text).then(() => {
-            if (item) {
-                const copiedClass = item.classList.contains('pa-banded__row')
-                    ? 'pa-banded__row--copied'
-                    : item.classList.contains('pa-field')
-                    ? 'pa-field--copied'
-                    : 'pa-accent-grid__item--copied';
-                item.classList.add(copiedClass);
-
-                setTimeout(() => {
-                    item.classList.remove(copiedClass);
-                }, 1500);
-            }
-        });
-    }
-    </script>
+    <%!-- Copy behaviour is wired via `initPureAdminEvents()` in app.js — no inline JS required. --%>
 
     <%!-- ============================================================
          REAL-WORLD: Full Invoice using multiple patterns

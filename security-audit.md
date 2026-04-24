@@ -22,8 +22,8 @@
 | 7 | Low     | `Components.Typography.pa_link`, `Button.button`, `Layout.*` nav items | `href={@href}` accepts `javascript:` URLs |
 | 8 | Low     | `assets/js/page-context.js`        | `JSON.parse` of hidden input, no schema validation |
 | 9 | Low     | `assets/js/hooks/settings_panel.js`, `sidebar_resize.js` | `localStorage` → CSS class / `style.width` without validation |
-| 10 | Low    | `Components.Popconfirm`            | Inline `<script>` block duplicated per instance; CSP-hostile |
-| 11 | Info   | Library-wide                       | Inline `onclick=` handlers prevent strict CSP without `'unsafe-inline'` |
+| 10 | Low ✅ *fixed*    | `Components.Popconfirm`            | Inline `<script>` block duplicated per instance; CSP-hostile |
+| 11 | Info ✅ *fixed*   | Library-wide                       | Inline `onclick=` handlers prevent strict CSP without `'unsafe-inline'` |
 | 12 | Info   | `assets/js/modal_dialogs.js`       | `custom()` dialog: caller-provided render function trusted |
 
 Two High, four Medium, four Low, two Info. No remote-code-execution sinks. Every High/Medium finding requires either a malicious developer input or an already-compromised server payload — none are reachable from unauthenticated users of a correctly-wired consumer app. Still, each is a defense-in-depth improvement worth scheduling.
@@ -241,7 +241,7 @@ On retrieval (`JSON.parse(btn.dataset.action)`) the browser decodes entities bef
 
 ---
 
-### 10. LOW — Inline `<script>` block rendered per popconfirm instance
+### 10. LOW ✅ *fixed in Unreleased* — Inline `<script>` block rendered per popconfirm instance
 
 **Location:** `lib/keen_pure_admin/components/popconfirm.ex:103-` (the `<script :if={!assigns[:__popconfirm_script_loaded]}>` block)
 
@@ -251,7 +251,7 @@ On retrieval (`JSON.parse(btn.dataset.action)`) the browser decodes entities bef
 
 ---
 
-### 11. INFO — Inline `onclick=` handlers block strict CSP
+### 11. INFO ✅ *fixed in Unreleased* — Inline `onclick=` handlers block strict CSP
 
 **Locations:**
 - `components/badge.ex:275, 282` — expand/collapse handlers

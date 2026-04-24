@@ -40,13 +40,13 @@ defmodule PureAdmin.Components.Navigation do
     ~H"""
     <div id={@id} class={tabs_classes(assigns)} data-tabs-scroll={if @overflow == "scrollable", do: ""} {@rest}>
       <%= if @overflow == "scrollable" do %>
-        <button class="pa-tabs__scroll-btn pa-tabs__scroll-btn--start" onclick="this.nextElementSibling.scrollBy({left: -200, behavior: 'smooth'})">
+        <button type="button" class="pa-tabs__scroll-btn pa-tabs__scroll-btn--start" data-pa-tab-scroll="start" aria-label="Scroll tabs left">
           <i class="fa-solid fa-chevron-left"></i>
         </button>
         <div class="pa-tabs__scroll-container">
           <%= render_slot(@inner_block) %>
         </div>
-        <button class="pa-tabs__scroll-btn pa-tabs__scroll-btn--end" onclick="this.previousElementSibling.scrollBy({left: 200, behavior: 'smooth'})">
+        <button type="button" class="pa-tabs__scroll-btn pa-tabs__scroll-btn--end" data-pa-tab-scroll="end" aria-label="Scroll tabs right">
           <i class="fa-solid fa-chevron-right"></i>
         </button>
       <% else %>
