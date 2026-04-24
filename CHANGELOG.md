@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+### Security
+
+- **`Pager` — dropped `Phoenix.HTML.raw/1` on the `icon_*` attrs (audit finding #1, High).** The four navigation icon attrs (`icon_first`, `icon_previous`, `icon_next`, `icon_last`) are now rendered HTML-escaped and default to Unicode chevrons (`«‹›»`) rather than HTML entity strings. Callers that need markup (e.g. Font Awesome, inline SVG) use the new `:first_icon`/`:previous_icon`/`:next_icon`/`:last_icon` slots. **Breaking for apps passing HTML in the string attrs**; migrate those to the slots.
+- **`PureAdminFlash` hook — validate URL scheme in markdown links (audit finding #2, High).** Markdown links of the form `[text](url)` previously let any URL — including `javascript:alert(1)` — flow into `href=`. URLs starting with `javascript:`, `data:`, or `vbscript:` (case- and whitespace-insensitive) are now replaced with `#`. Other schemes (http/https/mailto/tel) and relative paths pass through unchanged.
+
 ### Demo
 
 - Swap the *Stored Submissions* card for `<.table_card is_scrollable>` on the `/phoenix/form-demo` page so narrow viewports scroll the table horizontally inside the card instead of clipping the rightmost columns.

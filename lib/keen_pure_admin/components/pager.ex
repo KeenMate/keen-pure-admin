@@ -6,18 +6,28 @@ defmodule PureAdmin.Components.Pager do
 
   import PureAdmin.Helpers
   import PureAdmin.Translations, only: [t: 1, t: 2]
-  import Phoenix.HTML, only: [raw: 1]
 
   @doc """
   Renders a pagination control.
 
-  ## Examples
+  ## Icons
+
+  The four navigation icons default to Unicode chevrons (`«‹›»`). Override them
+  with either a plain string (rendered as escaped text) or a slot (for arbitrary
+  markup like a Font Awesome icon or inline SVG).
+
+  ### Examples
 
       <.pager page={@page} total_pages={@total_pages} on_previous="prev_page" on_next="next_page" />
 
       <.pager page={3} total_pages={10} on_previous="prev" on_next="next" on_first="first" on_last="last" />
 
       <.pager page={1} total_pages={10} align="end" info_text="Showing 1-25 of 250" />
+
+      <.pager page={@page} total_pages={@total}>
+        <:previous_icon><i class="fa-solid fa-angle-left"></i></:previous_icon>
+        <:next_icon><i class="fa-solid fa-angle-right"></i></:next_icon>
+      </.pager>
   """
   attr(:page, :integer, default: 1)
   attr(:total_pages, :integer, default: 1)
@@ -30,14 +40,22 @@ defmodule PureAdmin.Components.Pager do
   attr(:on_first, :string, default: nil, doc: "Event for first button (nil = hidden)")
   attr(:on_last, :string, default: nil, doc: "Event for last button (nil = hidden)")
   attr(:on_page_change, :string, default: nil, doc: "Event for page input change")
-  attr(:icon_first, :string, default: "&#171;", doc: "First page button icon")
-  attr(:icon_previous, :string, default: "&#8249;", doc: "Previous page button icon")
-  attr(:icon_next, :string, default: "&#8250;", doc: "Next page button icon")
-  attr(:icon_last, :string, default: "&#187;", doc: "Last page button icon")
+  attr(:icon_first, :string, default: "«",
+    doc: "First page button icon (plain text; rendered HTML-escaped). For markup, use the `first_icon` slot.")
+  attr(:icon_previous, :string, default: "‹",
+    doc: "Previous page button icon (plain text; rendered HTML-escaped). For markup, use the `previous_icon` slot.")
+  attr(:icon_next, :string, default: "›",
+    doc: "Next page button icon (plain text; rendered HTML-escaped). For markup, use the `next_icon` slot.")
+  attr(:icon_last, :string, default: "»",
+    doc: "Last page button icon (plain text; rendered HTML-escaped). For markup, use the `last_icon` slot.")
   attr(:class, :string, default: nil)
   attr(:rest, :global)
   slot(:controls, doc: "Custom controls (overrides default buttons)")
   slot(:info, doc: "Custom info content (overrides default info)")
+  slot(:first_icon, doc: "Custom first-page icon markup (overrides `icon_first` attr)")
+  slot(:previous_icon, doc: "Custom previous-page icon markup (overrides `icon_previous` attr)")
+  slot(:next_icon, doc: "Custom next-page icon markup (overrides `icon_next` attr)")
+  slot(:last_icon, doc: "Custom last-page icon markup (overrides `icon_last` attr)")
 
   def pager(assigns) do
     ~H"""
@@ -47,8 +65,12 @@ defmodule PureAdmin.Components.Pager do
           <%= render_slot(@controls) %>
         <% else %>
           <div class="pa-pager__controls">
-            <button :if={@on_first} class="pa-btn pa-btn--sm pa-btn--secondary" title={t("pureAdmin.pagination.firstPage")} disabled={@page <= 1} phx-click={@on_first}><%= raw(@icon_first) %></button>
-            <button class="pa-btn pa-btn--sm pa-btn--secondary" title={t("pureAdmin.pagination.prevPage")} disabled={@page <= 1} phx-click={@on_previous}><%= raw(@icon_previous) %></button>
+            <button :if={@on_first} class="pa-btn pa-btn--sm pa-btn--secondary" title={t("pureAdmin.pagination.firstPage")} disabled={@page <= 1} phx-click={@on_first}>
+              <%= if @first_icon != [], do: render_slot(@first_icon), else: @icon_first %>
+            </button>
+            <button class="pa-btn pa-btn--sm pa-btn--secondary" title={t("pureAdmin.pagination.prevPage")} disabled={@page <= 1} phx-click={@on_previous}>
+              <%= if @previous_icon != [], do: render_slot(@previous_icon), else: @icon_previous %>
+            </button>
           </div>
 
           <%= if @info != [] do %>
@@ -70,8 +92,12 @@ defmodule PureAdmin.Components.Pager do
           <% end %>
 
           <div class="pa-pager__controls">
-            <button class="pa-btn pa-btn--sm pa-btn--secondary" title={t("pureAdmin.pagination.nextPage")} disabled={@page >= @total_pages} phx-click={@on_next}><%= raw(@icon_next) %></button>
-            <button :if={@on_last} class="pa-btn pa-btn--sm pa-btn--secondary" title={t("pureAdmin.pagination.lastPage")} disabled={@page >= @total_pages} phx-click={@on_last}><%= raw(@icon_last) %></button>
+            <button class="pa-btn pa-btn--sm pa-btn--secondary" title={t("pureAdmin.pagination.nextPage")} disabled={@page >= @total_pages} phx-click={@on_next}>
+              <%= if @next_icon != [], do: render_slot(@next_icon), else: @icon_next %>
+            </button>
+            <button :if={@on_last} class="pa-btn pa-btn--sm pa-btn--secondary" title={t("pureAdmin.pagination.lastPage")} disabled={@page >= @total_pages} phx-click={@on_last}>
+              <%= if @last_icon != [], do: render_slot(@last_icon), else: @icon_last %>
+            </button>
           </div>
         <% end %>
       </div>
