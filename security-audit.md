@@ -15,10 +15,10 @@
 |---|----------|------|-------|
 | 1 | High ✅ *fixed*    | `Components.Pager`                 | `raw/1` on `:icon_*` string attrs |
 | 2 | High ✅ *fixed*    | `assets/js/hooks/flash.js`         | Markdown link URL (`$2`) not re-escaped inside `href=` |
-| 3 | Medium  | `Components.Popconfirm`            | `@id` interpolated into inline `onclick=` |
-| 4 | Medium  | `Components.DataDisplay.desc_table`| `label_width` concatenated into `style=` |
-| 5 | Medium  | `flash.js` / `toast.js`            | `JSON.stringify(action)` in `data-action` with weak attr escaping |
-| 6 | Medium  | `assets/js/hooks/profile_panel.js` | `dataset.href` → `window.location.href` without scheme check |
+| 3 | Medium ✅ *fixed*  | `Components.Popconfirm`            | `@id` interpolated into inline `onclick=` |
+| 4 | Medium ✅ *fixed* | `Components.DataDisplay.desc_table`| `label_width` concatenated into `style=` |
+| 5 | Medium ✅ *fixed* | `flash.js` / `toast.js`            | `JSON.stringify(action)` in `data-action` with weak attr escaping |
+| 6 | Medium ✅ *fixed* | `assets/js/hooks/profile_panel.js` | `dataset.href` → `window.location.href` without scheme check |
 | 7 | Low     | `Components.Typography.pa_link`, `Button.button`, `Layout.*` nav items | `href={@href}` accepts `javascript:` URLs |
 | 8 | Low     | `assets/js/page-context.js`        | `JSON.parse` of hidden input, no schema validation |
 | 9 | Low     | `assets/js/hooks/settings_panel.js`, `sidebar_resize.js` | `localStorage` → CSS class / `style.width` without validation |
@@ -100,7 +100,7 @@ _safeUrl(url) {
 
 ---
 
-### 3. MEDIUM — `@id` interpolated into inline `onclick=` in popconfirm
+### 3. MEDIUM ✅ *fixed in Unreleased (by #10/#11 refactor)* — `@id` interpolated into inline `onclick=` in popconfirm
 
 **Location:** `lib/keen_pure_admin/components/popconfirm.ex:65, 88, 96`
 
@@ -128,7 +128,7 @@ onclick={"window.__paPopconfirmClose('#{@id}'); return false;"}
 
 ---
 
-### 4. MEDIUM — `label_width` concatenated into `style=` in `desc_table`
+### 4. MEDIUM ✅ *fixed in Unreleased* — `label_width` concatenated into `style=` in `desc_table`
 
 **Location:** `lib/keen_pure_admin/components/data_display.ex:183-205`
 
@@ -161,7 +161,7 @@ HEEx auto-escapes `"` inside the attribute, so the attacker can't close the `sty
 
 ---
 
-### 5. MEDIUM — `JSON.stringify(action)` stored in `data-action` with weak escaping
+### 5. MEDIUM ✅ *fixed in Unreleased* — `JSON.stringify(action)` stored in `data-action` with weak escaping
 
 **Location:** `lib/assets/js/hooks/flash.js:86`, `lib/assets/js/hooks/toast.js:66`
 
@@ -189,7 +189,7 @@ On retrieval (`JSON.parse(btn.dataset.action)`) the browser decodes entities bef
 
 ---
 
-### 6. MEDIUM — `profile_panel.js` navigates to unvalidated `dataset.href`
+### 6. MEDIUM ✅ *fixed in Unreleased* — `profile_panel.js` navigates to unvalidated `dataset.href`
 
 **Location:** `lib/assets/js/hooks/profile_panel.js:64`
 

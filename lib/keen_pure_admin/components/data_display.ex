@@ -180,13 +180,25 @@ defmodule PureAdmin.Components.DataDisplay do
   attr(:is_label_center, :boolean, default: false, doc: "Center-align labels")
   attr(:is_value_end, :boolean, default: false, doc: "Right-align values")
   attr(:is_value_center, :boolean, default: false, doc: "Center-align values")
-  attr(:label_width, :string, default: nil, doc: "Custom label width CSS value")
+  attr(:label_width, :string, default: nil,
+    doc: "Custom label width as a single CSS length (e.g. `\"30%\"`, `\"12rem\"`, `\"180px\"`). Invalid input is ignored.")
   attr(:class, :string, default: nil)
   attr(:rest, :global)
   slot(:inner_block, required: true)
 
+  # Matches a single CSS length token: optional minus, digits, optional
+  # decimal, and one of the common length units. Anything with `;`, parens,
+  # whitespace after the unit, or any other CSS syntax is rejected — so the
+  # value can be safely interpolated into a `style=` attribute.
+  @css_length_regex ~r/^-?\d+(?:\.\d+)?(?:%|px|rem|em|vw|vh|ch|ex|cm|mm|in|pt|pc)$/
+
   def desc_table(assigns) do
-    style = if assigns.label_width, do: "--label-width: #{assigns.label_width}", else: nil
+    style =
+      case assigns.label_width do
+        nil -> nil
+        value -> if Regex.match?(@css_length_regex, value), do: "--label-width: #{value}", else: nil
+      end
+
     assigns = assign(assigns, :computed_style, style)
 
     ~H"""
