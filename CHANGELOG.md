@@ -1,6 +1,6 @@
 # Changelog
 
-## v1.3.0 — unreleased
+## v1.3.0 — 2026-04-25
 
 ### Pure-admin v2.5.0 sync
 
