@@ -62,5 +62,53 @@ defmodule PureAdmin.Components.AlertTest do
       assert_class(html, "pa-alert__close")
       assert html =~ ~s(id="my-alert")
     end
+
+    test "drops pa-alert__content wrapper when no icon is supplied" do
+      html =
+        render_component(&Alert.alert/1, %{
+          variant: "danger",
+          heading_text: "Validation failed",
+          inner_block: [%{__slot__: :inner_block, inner_block: fn _, _ -> "Fix the errors below." end}]
+        })
+
+      refute html =~ "pa-alert__content"
+      assert html =~ ~s(<h4 class="pa-alert__heading">Validation failed</h4>)
+    end
+
+    test "wraps content in pa-alert__content when an icon is supplied" do
+      html =
+        render_component(&Alert.alert/1, %{
+          variant: "info",
+          heading_text: "Heads up",
+          icon: [%{__slot__: :icon, inner_block: fn _, _ -> "i" end}],
+          inner_block: [%{__slot__: :inner_block, inner_block: fn _, _ -> "Body." end}]
+        })
+
+      assert html =~ ~s(<div class="pa-alert__content">)
+      assert html =~ "pa-alert__icon"
+    end
+
+    test "heading_size=lg adds pa-alert__heading--lg modifier" do
+      html =
+        render_component(&Alert.alert/1, %{
+          variant: "info",
+          heading_text: "Big news",
+          heading_size: "lg",
+          inner_block: [%{__slot__: :inner_block, inner_block: fn _, _ -> "Body." end}]
+        })
+
+      assert html =~ ~s(class="pa-alert__heading pa-alert__heading--lg")
+    end
+
+    test "is_multiline adds pa-alert--multiline modifier" do
+      html =
+        render_component(&Alert.alert/1, %{
+          variant: "info",
+          is_multiline: true,
+          inner_block: [%{__slot__: :inner_block, inner_block: fn _, _ -> "Body." end}]
+        })
+
+      assert_class(html, "pa-alert--multiline")
+    end
   end
 end

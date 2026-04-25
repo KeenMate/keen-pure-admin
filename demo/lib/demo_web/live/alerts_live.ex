@@ -77,7 +77,7 @@ defmodule DemoWeb.Live.AlertsLive do
     <.card title_text="Alerts with Additional Content">
       <.grid>
         <.column size="100" md="1-2">
-          <.alert variant="success">
+          <.alert variant="success" heading_size="lg">
             <:heading>Success!</:heading>
             <.paragraph>
               Aww yeah, you successfully read this important alert message. This example text is
@@ -92,7 +92,7 @@ defmodule DemoWeb.Live.AlertsLive do
         </.column>
 
         <.column size="100" md="1-2">
-          <.alert variant="info">
+          <.alert variant="info" heading_size="lg">
             <:heading>System Update</:heading>
             <.paragraph>A new version of the application is available. This update includes:</.paragraph>
             <.basic_list class="pa-alert__list">
@@ -107,6 +107,69 @@ defmodule DemoWeb.Live.AlertsLive do
           </.alert>
         </.column>
       </.grid>
+    </.card>
+
+    <%!-- Header style: compact vs punchy --%>
+    <.card title_text="Header style: compact vs. punchy">
+      <.paragraph>
+        <code>pa-alert__heading</code> defaults to the body font-size and semibold weight (compact look — good for status banners). Pass <code>heading_size="lg"</code> to bump it to the louder, deliberate-read presentation for blocking errors and system updates.
+      </.paragraph>
+      <.grid>
+        <.column size="100" md="1-2">
+          <.alert variant="danger">
+            <:heading>Validation failed</:heading>
+            <.paragraph class="mb-0">Please fix the errors below.</.paragraph>
+          </.alert>
+          <.alert variant="success" class="mt-3">
+            <:heading>Saved</:heading>
+            <.paragraph class="mb-0">Your changes have been stored.</.paragraph>
+          </.alert>
+        </.column>
+        <.column size="100" md="1-2">
+          <.alert variant="danger" heading_size="lg">
+            <:heading>Validation failed</:heading>
+            <.paragraph class="mb-0">Please fix the errors below.</.paragraph>
+          </.alert>
+          <.alert variant="success" heading_size="lg" class="mt-3">
+            <:heading>Saved</:heading>
+            <.paragraph class="mb-0">Your changes have been stored.</.paragraph>
+          </.alert>
+        </.column>
+      </.grid>
+    </.card>
+
+    <%!-- Sizes --%>
+    <.card title_text="Sizes">
+      <.paragraph>
+        Three sizes — <code>size="sm"</code>, default, and <code>size="lg"</code> — with clean 0.25rem padding increments and font-size steps from <code>1.2rem</code> to <code>1.6rem</code>.
+      </.paragraph>
+      <.alert size="sm" variant="success">
+        <:icon>✓</:icon>
+        Small alert — saved
+      </.alert>
+      <.alert variant="info">
+        <:icon>ⓘ</:icon>
+        Default size alert with standard padding
+      </.alert>
+      <.alert size="lg" variant="warning">
+        <:icon>!</:icon>
+        <div class="pa-alert__content">
+          <strong>Large Alert!</strong> Increased font size and padding for prominence.
+        </div>
+      </.alert>
+    </.card>
+
+    <%!-- Multiline icon + content --%>
+    <.card title_text="Icon with multi-line content (is_multiline)">
+      <.paragraph>
+        Default alignment centres the icon against single-line content. Add <code>is_multiline</code> when an icon sits next to multi-line content (heading + body + actions inside <code>pa-alert__content</code>) so the icon stays at the top with the heading instead of centring against the whole stack.
+      </.paragraph>
+      <.alert variant="info" heading_text="Heads up" heading_size="lg" is_multiline>
+        <:icon>ⓘ</:icon>
+        <.paragraph class="mb-0">
+          Long body text spans multiple lines. Without <code>is_multiline</code> the icon would float in the vertical middle of the content stack instead of top-aligning with the heading.
+        </.paragraph>
+      </.alert>
     </.card>
 
     <%!-- Outline Alerts --%>
@@ -142,8 +205,8 @@ defmodule DemoWeb.Live.AlertsLive do
       </.alert>
     </.card>
 
-    <%!-- Compact Alerts in Grid --%>
-    <.card title_text="Compact Alerts in Grid">
+    <%!-- Status strip layout --%>
+    <.card title_text="Status strip layout">
       <.grid>
         <.column size="100" md="1-3">
           <.alert size="sm" variant="success">

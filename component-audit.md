@@ -34,9 +34,9 @@ matches the current snippet*, and if so, against which framework commit.
 - 🆕 new — snippet doesn't exist yet; component was built against SCSS directly
 - ⚠️ disputed — we believe our implementation is correct and the snippet is wrong; see Notes
 
-**Current framework HEAD** (for reference when recording new audits): `cf75736`
+**Current framework HEAD** (for reference when recording new audits): `1f9d818`
 (check `git -C ../pure-admin rev-parse --short HEAD` for the live value).
-Last re-audit pass: 2026-04-25 — picked up 11 newly-audited snippets that had been pending or missing on 2026-04-24.
+Last re-audit pass: 2026-04-25 — pure-admin v2.5.0 alert rework absorbed (heading unification, multiline modifier, structural-children layout). Previous re-audit pass earlier the same day picked up 11 snippets newly audited or added on 2026-04-24/25.
 
 ---
 
@@ -44,7 +44,7 @@ Last re-audit pass: 2026-04-25 — picked up 11 newly-audited snippets that had 
 
 | Component module | Snippet | Status | Verified on | pure-admin commit | Notes |
 |---|---|---|---|---|---|
-| `PureAdmin.Components.Alert` | `alerts.html` | ✅ | 2026-04-24 | `512ef3c` | Minor: dismiss button uses HTML entity `&times;` vs snippet's literal `×` — cosmetically identical. `phx-click` dismiss handler is intentional LiveView divergence from snippet's inline `onclick`. |
+| `PureAdmin.Components.Alert` | `alerts.html` | ✅ | 2026-04-25 | `2ef8034` | Re-audited for v2.5.0. Drops the `pa-alert__content` wrapper when no `:icon` slot is supplied so structural children (`__heading`, `__list`, `__actions`, `<p>`, `<hr>`) land as direct flex children of `.pa-alert` and pick up the new `flex-basis: 100%` SCSS rules. New `heading_size` attr (`nil` \| `"lg"`) toggles the `pa-alert__heading--lg` modifier — the v2.5.0 unification puts the compact heading on the default and makes the punchy/deliberate-read look opt-in. New `is_multiline` attr emits `pa-alert--multiline` to switch back to `align-items: flex-start` for the icon + multi-line `__content` case. Dismiss button still uses HTML entity `&times;` (cosmetically identical to the snippet's literal `×`); `phx-click` dismiss handler is intentional LiveView divergence from snippet's inline `onclick`. Previously ✅ at `512ef3c` on 2026-04-24. |
 | `PureAdmin.Components.Badge` (badge, label, composite_badge, badge_group) | `badges.html` | ✅ | 2026-04-24 | `517f6bf` | Clean. |
 | `PureAdmin.Components.Button` (button, button_group, split_button) | `buttons.html` | ✅ | 2026-04-24 | `43a9a42` | Clean. |
 | `PureAdmin.Components.Callout` | `callouts.html` | ✅ | 2026-04-24 | `6ea28e8` | Fixed: `pa-callout__heading` wrapper element flipped from `<div>` to `<h4>` to match snippet's semantic heading pattern. |
@@ -110,7 +110,7 @@ are audited against our own conventions and integration tests only.
 
 ## Components whose snippet audit is pending upstream
 
-_None — upstream's audit pass is complete as of `cf75736` (2026-04-25)._
+_None — upstream's audit pass is complete as of `1f9d818` (2026-04-25, v2.5.0)._
 
 ---
 

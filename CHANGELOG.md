@@ -2,6 +2,18 @@
 
 ## v1.3.0 — unreleased
 
+### Pure-admin v2.5.0 sync
+
+Re-anchored the alert component to pure-admin v2.5.0 (`1f9d818`). The framework rewrote the alert layout: structural children stack via `flex-basis: 100%` instead of inheriting the alert's flex row, the heading defaults to a compact look with the punchy treatment becoming opt-in, and the icon-vs-content alignment was inverted to centre by default.
+
+- **`Alert` — drops the `pa-alert__content` wrapper when no `:icon` slot is supplied (Breaking).** The framework's flex-wrap rules give structural children (`__heading`, `__list`, `__actions`, top-level `<p>`/`<hr>`) `flex-basis: 100%` so each lands on its own row inside `.pa-alert` directly. Wrapping them in `__content` "for consistency" moved them out of the `> p` / `> hr` selector reach, which broke the new layout. The wrapper is still emitted whenever an `:icon` slot is present (icon + non-icon content has to be the two flex children of the alert). **Migration:** apps that styled descendants via `.pa-alert__content >` selectors should switch to `.pa-alert >` selectors when the alert has no icon.
+- **`Alert` — new `heading_size` attr (`nil` \| `"lg"`).** v2.5.0 unified `pa-alert__heading` to default to the body font-size + semibold weight. `heading_size="lg"` adds the `pa-alert__heading--lg` modifier for the louder, deliberate-read presentation (blocking errors, system updates, quota warnings). Existing alerts that used `<:heading>` or `heading_text` will render visually smaller than before — pass `heading_size="lg"` to preserve the previous appearance.
+- **`Alert` — new `is_multiline` attr.** Adds `pa-alert--multiline` to opt back to `align-items: flex-start`. Use when an icon sits next to multi-line `__content` (heading + body + actions) so the icon stays at the top with the heading instead of centring against the whole stack. Default centred alignment is correct for icon + single-line content.
+- **`alert__actions`, sizes, and padding scale** — no markup change required on our side; rendering automatically picks up the new toast-style separator above `__actions`, the real `--sm` / `--lg` size scale, and the centred default alignment as soon as the consumer upgrades `@keenmate/pure-admin-core` to ^2.5.0.
+- **`component-audit.md`** — alert row re-stamped to `2ef8034` (2026-04-25, v2.5.0). Other components unchanged since v2.5.0 only touched `_alerts.scss` and supporting variables.
+
+Demo `/components/alerts` page gained a "Header style: compact vs. punchy" card (same Validation failed / Saved messages rendered both ways), an explicit "Sizes" stack (sm / default / lg), and an "Icon with multi-line content" example showing `is_multiline`. The old "Compact Alerts in Grid" card was renamed to "Status strip layout" since it's a real-world layout pattern, not a sizes demo.
+
 ### Component audit
 
 Cross-checked every library component against the current `@keenmate/pure-admin-core` HTML snippets and recorded per-component audit status in the new `component-audit.md` at repo root. **30 snippets** reviewed across two passes (anchor pure-admin commit `cf75736`):
