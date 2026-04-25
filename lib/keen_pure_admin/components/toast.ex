@@ -71,13 +71,23 @@ defmodule PureAdmin.Components.Toast do
       <.toast variant="danger" title_text="Error" message_text="Save failed." on_close="dismiss_toast" />
   """
   attr(:id, :string, default: nil)
-  attr(:variant, :string, default: "info",
-    values: ["primary", "success", "danger", "warning", "info"])
-  attr(:theme_color, :string, default: nil,
+
+  attr(:variant, :string,
+    default: "info",
+    values: ["primary", "success", "danger", "warning", "info"]
+  )
+
+  attr(:theme_color, :string,
+    default: nil,
     values: [nil, "1", "2", "3", "4", "5", "6", "7", "8", "9"],
-    doc: "Theme color slot 1-9 (overrides variant)")
-  attr(:is_filled, :boolean, default: false,
-    doc: "Filled style with full-color background and contrast text")
+    doc: "Theme color slot 1-9 (overrides variant)"
+  )
+
+  attr(:is_filled, :boolean,
+    default: false,
+    doc: "Filled style with full-color background and contrast text"
+  )
+
   attr(:title_text, :string, default: nil, doc: "Toast title")
   attr(:message_text, :string, default: nil, doc: "Toast message")
   attr(:is_visible, :boolean, default: true, doc: "Show/hide the toast")
@@ -138,10 +148,17 @@ defmodule PureAdmin.Components.Toast do
       </.toast_container>
   """
   attr(:id, :string, default: nil, doc: "Required when using phx-hook")
-  attr(:position, :string, default: "top-end",
-    values: ["top-end", "top-center", "top-start", "bottom-end", "bottom-center", "bottom-start"])
-  attr(:is_hook, :boolean, default: false,
-    doc: "Use PureAdminToast JS hook for client-side toast management via push_event")
+
+  attr(:position, :string,
+    default: "top-end",
+    values: ["top-end", "top-center", "top-start", "bottom-end", "bottom-center", "bottom-start"]
+  )
+
+  attr(:is_hook, :boolean,
+    default: false,
+    doc: "Use PureAdminToast JS hook for client-side toast management via push_event"
+  )
+
   attr(:class, :string, default: nil)
   attr(:rest, :global)
   slot(:inner_block)
@@ -164,10 +181,13 @@ defmodule PureAdmin.Components.Toast do
     cond do
       assigns.theme_color != nil and assigns.is_filled ->
         "pa-toast--filled-color-#{assigns.theme_color}"
+
       assigns.theme_color != nil ->
         "pa-toast--color-#{assigns.theme_color}"
+
       assigns.is_filled ->
         "pa-toast--filled-#{assigns.variant}"
+
       true ->
         "pa-toast--#{assigns.variant}"
     end

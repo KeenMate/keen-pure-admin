@@ -23,12 +23,14 @@ defmodule PureAdmin.Components.Timeline do
         ...
       </.timeline>
   """
-  attr(:variant, :string, default: nil, values: [nil, "simple", "alternating", "feed"],
-    doc: "Timeline variant")
-  attr(:align, :string, default: nil, values: [nil, "start", "end"],
-    doc: "Alignment for alternating variant")
-  attr(:is_keep_layout, :boolean, default: false,
-    doc: "Prevent mobile collapse for alternating variant")
+  attr(:variant, :string, default: nil, values: [nil, "simple", "alternating", "feed"], doc: "Timeline variant")
+  attr(:align, :string, default: nil, values: [nil, "start", "end"], doc: "Alignment for alternating variant")
+
+  attr(:is_keep_layout, :boolean,
+    default: false,
+    doc: "Prevent mobile collapse for alternating variant"
+  )
+
   attr(:class, :string, default: nil)
   attr(:rest, :global)
   slot(:inner_block, required: true)
@@ -67,8 +69,11 @@ defmodule PureAdmin.Components.Timeline do
         Something happened.
       </.timeline_item>
   """
-  attr(:variant, :string, default: nil,
-    values: [nil, "primary", "secondary", "success", "danger", "warning", "info"])
+  attr(:variant, :string,
+    default: nil,
+    values: [nil, "primary", "secondary", "success", "danger", "warning", "info"]
+  )
+
   attr(:is_filled, :boolean, default: false, doc: "Filled marker instead of outline")
   attr(:is_date_header, :boolean, default: false, doc: "Date header item (for feed timeline)")
   attr(:time_text, :string, default: nil, doc: "Time/date text")

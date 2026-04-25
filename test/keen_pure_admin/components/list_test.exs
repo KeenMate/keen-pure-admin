@@ -5,32 +5,53 @@ defmodule PureAdmin.Components.ListTest do
 
   describe "basic_list/1" do
     test "renders default list" do
-      html = render_component(&List.basic_list/1, %{
-        spacing: nil, is_bordered: false, is_striped: false, is_inline: false,
-        is_unstyled: false, has_icon: false, icon_variant: nil, class: nil,
-        inner_block: [%{__slot__: :inner_block, inner_block: fn _, _ -> "<li>Item</li>" end}]
-      })
+      html =
+        render_component(&List.basic_list/1, %{
+          spacing: nil,
+          is_bordered: false,
+          is_striped: false,
+          is_inline: false,
+          is_unstyled: false,
+          has_icon: false,
+          icon_variant: nil,
+          class: nil,
+          inner_block: [%{__slot__: :inner_block, inner_block: fn _, _ -> "<li>Item</li>" end}]
+        })
 
       assert html =~ "<ul"
       assert_class(html, "pa-list-basic")
     end
 
     test "renders compact spacing" do
-      html = render_component(&List.basic_list/1, %{
-        spacing: "compact", is_bordered: false, is_striped: false, is_inline: false,
-        is_unstyled: false, has_icon: false, icon_variant: nil, class: nil,
-        inner_block: [%{__slot__: :inner_block, inner_block: fn _, _ -> "<li>Item</li>" end}]
-      })
+      html =
+        render_component(&List.basic_list/1, %{
+          spacing: "compact",
+          is_bordered: false,
+          is_striped: false,
+          is_inline: false,
+          is_unstyled: false,
+          has_icon: false,
+          icon_variant: nil,
+          class: nil,
+          inner_block: [%{__slot__: :inner_block, inner_block: fn _, _ -> "<li>Item</li>" end}]
+        })
 
       assert_class(html, "pa-list-basic--compact")
     end
 
     test "renders bordered and striped" do
-      html = render_component(&List.basic_list/1, %{
-        spacing: nil, is_bordered: true, is_striped: true, is_inline: false,
-        is_unstyled: false, has_icon: false, icon_variant: nil, class: nil,
-        inner_block: [%{__slot__: :inner_block, inner_block: fn _, _ -> "<li>Item</li>" end}]
-      })
+      html =
+        render_component(&List.basic_list/1, %{
+          spacing: nil,
+          is_bordered: true,
+          is_striped: true,
+          is_inline: false,
+          is_unstyled: false,
+          has_icon: false,
+          icon_variant: nil,
+          class: nil,
+          inner_block: [%{__slot__: :inner_block, inner_block: fn _, _ -> "<li>Item</li>" end}]
+        })
 
       assert_class(html, "pa-list-basic--bordered")
       assert_class(html, "pa-list-basic--striped")
@@ -39,11 +60,16 @@ defmodule PureAdmin.Components.ListTest do
 
   describe "list_item/1" do
     test "renders with title_text and meta_text" do
-      html = render_component(&List.list_item/1, %{
-        title_text: "API Services", subtitle_text: nil, meta_text: "Operational",
-        class: nil, avatar: [], meta: [],
-        inner_block: []
-      })
+      html =
+        render_component(&List.list_item/1, %{
+          title_text: "API Services",
+          subtitle_text: nil,
+          meta_text: "Operational",
+          class: nil,
+          avatar: [],
+          meta: [],
+          inner_block: []
+        })
 
       assert_class(html, "pa-list__item")
       assert html =~ "pa-list__title"
@@ -53,11 +79,16 @@ defmodule PureAdmin.Components.ListTest do
     end
 
     test "renders custom inner_block content" do
-      html = render_component(&List.list_item/1, %{
-        title_text: nil, subtitle_text: nil, meta_text: nil,
-        class: nil, avatar: [], meta: [],
-        inner_block: [%{__slot__: :inner_block, inner_block: fn _, _ -> "Custom content" end}]
-      })
+      html =
+        render_component(&List.list_item/1, %{
+          title_text: nil,
+          subtitle_text: nil,
+          meta_text: nil,
+          class: nil,
+          avatar: [],
+          meta: [],
+          inner_block: [%{__slot__: :inner_block, inner_block: fn _, _ -> "Custom content" end}]
+        })
 
       assert html =~ "Custom content"
     end

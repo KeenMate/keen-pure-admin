@@ -16,16 +16,28 @@ defmodule PureAdmin.Components.Badge do
       <.badge variant="success">Active</.badge>
       <.badge variant="warning" size="sm" is_pill>Pending</.badge>
   """
-  attr(:variant, :string, default: "primary",
+  attr(:variant, :string,
+    default: "primary",
     values: ["primary", "secondary", "success", "warning", "danger", "info", "light", "dark"],
-    doc: "Color variant")
+    doc: "Color variant"
+  )
+
   attr(:size, :string, default: nil, values: [nil, "xs", "sm", "lg", "xl"])
-  attr(:max_width, :string, default: nil, doc: "Max width in rem units (e.g. '5', '10', '15') - adds maxwr-N text-truncate")
+
+  attr(:max_width, :string,
+    default: nil,
+    doc: "Max width in rem units (e.g. '5', '10', '15') - adds maxwr-N text-truncate"
+  )
+
   attr(:is_pill, :boolean, default: false, doc: "Rounded pill shape")
   attr(:is_ellipsis_start, :boolean, default: false, doc: "Truncate from the left side")
-  attr(:theme_color, :string, default: nil,
+
+  attr(:theme_color, :string,
+    default: nil,
     values: [nil, "1", "2", "3", "4", "5", "6", "7", "8", "9"],
-    doc: "Theme color 1-9")
+    doc: "Theme color 1-9"
+  )
+
   attr(:class, :string, default: nil)
   attr(:rest, :global)
   slot(:icon, doc: "Icon content inside pa-badge__icon")
@@ -65,9 +77,12 @@ defmodule PureAdmin.Components.Badge do
 
       <.label variant="success">Active</.label>
   """
-  attr(:variant, :string, default: nil,
+  attr(:variant, :string,
+    default: nil,
     values: [nil, "primary", "secondary", "success", "warning", "danger", "info", "light", "dark"],
-    doc: "Color variant")
+    doc: "Color variant"
+  )
+
   attr(:size, :string, default: nil, values: [nil, "xs", "sm", "lg", "xl"])
   attr(:is_outline, :boolean, default: false, doc: "Outline style")
   attr(:class, :string, default: nil)
@@ -110,15 +125,24 @@ defmodule PureAdmin.Components.Badge do
       <.composite_badge variant="primary" label_variant="secondary" button_variant="danger"
         label="Project" button_text="×" is_interactive />
   """
-  attr(:variant, :string, default: "primary",
+  attr(:variant, :string,
+    default: "primary",
     values: ["primary", "secondary", "success", "warning", "danger", "info", "light", "dark"],
-    doc: "Base color variant (icon section)")
-  attr(:label_variant, :string, default: nil,
+    doc: "Base color variant (icon section)"
+  )
+
+  attr(:label_variant, :string,
+    default: nil,
     values: [nil, "primary", "secondary", "success", "warning", "danger", "info", "light", "dark"],
-    doc: "Label section color (overrides variant)")
-  attr(:button_variant, :string, default: nil,
+    doc: "Label section color (overrides variant)"
+  )
+
+  attr(:button_variant, :string,
+    default: nil,
     values: [nil, "primary", "secondary", "success", "warning", "danger", "info", "light", "dark"],
-    doc: "Button section color (overrides variant)")
+    doc: "Button section color (overrides variant)"
+  )
+
   attr(:icon, :string, default: nil, doc: "Icon text or emoji")
   attr(:label, :string, required: true, doc: "Label text")
   attr(:count, :string, default: nil, doc: "Count/button text (legacy alias for button_text)")
@@ -207,9 +231,19 @@ defmodule PureAdmin.Components.Badge do
   attr(:limit, :integer, default: nil, doc: "Max visible badges before showing 'N more' (nil = no limit)")
   attr(:total, :integer, default: nil, doc: "Total badge count (for 'N more' calculation when server hasn't sent all)")
   attr(:is_expanded, :boolean, default: false, doc: "Current expand state (server-side mode)")
-  attr(:on_toggle, :string, default: nil, doc: "LiveView event name for expand/collapse (server-side mode). When nil, uses client-side JS.")
+
+  attr(:on_toggle, :string,
+    default: nil,
+    doc: "LiveView event name for expand/collapse (server-side mode). When nil, uses client-side JS."
+  )
+
   attr(:is_show_all, :boolean, default: false, doc: "Show all badges (CSS class, no limit logic)")
-  attr(:more_text, :string, default: "» {count} more", doc: "Text for 'show more' badge. {count} is replaced with hidden count.")
+
+  attr(:more_text, :string,
+    default: "» {count} more",
+    doc: "Text for 'show more' badge. {count} is replaced with hidden count."
+  )
+
   attr(:collapse_text, :string, default: "« Collapse", doc: "Text for 'collapse' badge")
   attr(:class, :string, default: nil)
   attr(:rest, :global)

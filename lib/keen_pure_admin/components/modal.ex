@@ -35,10 +35,19 @@ defmodule PureAdmin.Components.Modal do
       <.button phx-click={show_modal("confirm-modal")}>Open Modal</.button>
   """
   attr(:id, :string, required: true)
-  attr(:variant, :string, default: nil, values: [nil, "primary", "success", "warning", "danger", "info"],
-    doc: "Full modal theming")
-  attr(:header_variant, :string, default: nil, values: [nil, "primary", "success", "warning", "danger", "info"],
-    doc: "Header-only theming")
+
+  attr(:variant, :string,
+    default: nil,
+    values: [nil, "primary", "success", "warning", "danger", "info"],
+    doc: "Full modal theming"
+  )
+
+  attr(:header_variant, :string,
+    default: nil,
+    values: [nil, "primary", "success", "warning", "danger", "info"],
+    doc: "Header-only theming"
+  )
+
   attr(:size, :string, default: nil, values: [nil, "sm", "md", "lg", "xl", "xxl", "fw"])
   attr(:is_static, :boolean, default: false, doc: "Prevent closing via ESC/backdrop")
   attr(:is_top, :boolean, default: false, doc: "Position near top of viewport")
@@ -141,15 +150,20 @@ defmodule PureAdmin.Components.Modal do
 
   defp header_classes(assigns) do
     variant = assigns.header_variant || assigns.variant
+
     build_classes("pa-modal__header", [
       {"pa-modal__header--#{variant}", variant != nil}
     ])
   end
 
   defp body_classes(assigns) do
-    build_classes("pa-modal__body", [
-      {"pa-modal__body--scrollable", assigns.is_scrollable}
-    ], assigns.body_class)
+    build_classes(
+      "pa-modal__body",
+      [
+        {"pa-modal__body--scrollable", assigns.is_scrollable}
+      ],
+      assigns.body_class
+    )
   end
 
   defp footer_classes(assigns) do

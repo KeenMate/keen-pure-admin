@@ -34,12 +34,34 @@ defmodule PureAdmin.Components.Card do
         <p>Ghost card with no background, border, or shadow.</p>
       </.card>
   """
-  attr(:variant, :string, default: nil,
-    values: [nil, "primary", "success", "warning", "danger", "info", "stat",
-             "color-1", "color-2", "color-3", "color-4", "color-5",
-             "color-6", "color-7", "color-8", "color-9"])
-  attr(:live_state, :string, default: nil, values: [nil, "up", "down", "neutral"],
-    doc: "Persistent tinted background reflecting latest change")
+  attr(:variant, :string,
+    default: nil,
+    values: [
+      nil,
+      "primary",
+      "success",
+      "warning",
+      "danger",
+      "info",
+      "stat",
+      "color-1",
+      "color-2",
+      "color-3",
+      "color-4",
+      "color-5",
+      "color-6",
+      "color-7",
+      "color-8",
+      "color-9"
+    ]
+  )
+
+  attr(:live_state, :string,
+    default: nil,
+    values: [nil, "up", "down", "neutral"],
+    doc: "Persistent tinted background reflecting latest change"
+  )
+
   attr(:is_ghost, :boolean, default: false, doc: "Ghost mode with no bg, border, shadow")
   attr(:is_bordered, :boolean, default: false, doc: "Bordered card with colored left border")
   attr(:has_padding, :boolean, default: true, doc: "Body padding toggle")
@@ -47,9 +69,13 @@ defmodule PureAdmin.Components.Card do
   attr(:description_text, :string, default: nil, doc: "Inline description text, truncates with ellipsis")
   attr(:subtitle_text, :string, default: nil, doc: "Secondary/subtitle text")
   attr(:is_header_underlined, :boolean, default: false, doc: "Accent border under heading")
-  attr(:header_underline_color, :string, default: nil,
+
+  attr(:header_underline_color, :string,
+    default: nil,
     values: [nil, "success", "warning", "danger", "info"],
-    doc: "Underline color variant")
+    doc: "Underline color variant"
+  )
+
   attr(:has_inline_tabs, :boolean, default: false, doc: "Pill-style buttons in header")
   attr(:header_wrap, :boolean, default: false, doc: "Allow header description to wrap")
   attr(:header_class, :string, default: nil, doc: "Additional CSS classes for header element")

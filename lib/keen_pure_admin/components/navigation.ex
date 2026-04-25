@@ -25,10 +25,18 @@ defmodule PureAdmin.Components.Navigation do
       </.tabs_content>
   """
   attr(:id, :string, default: nil)
-  attr(:style, :string, default: nil, values: [nil, "pills", "boxed", "border-top", "vertical"],
-    doc: "Tab style variant")
-  attr(:is_border_top, :boolean, default: false,
-    doc: "Border on top instead of bottom (shorthand for style='border-top')")
+
+  attr(:style, :string,
+    default: nil,
+    values: [nil, "pills", "boxed", "border-top", "vertical"],
+    doc: "Tab style variant"
+  )
+
+  attr(:is_border_top, :boolean,
+    default: false,
+    doc: "Border on top instead of bottom (shorthand for style='border-top')"
+  )
+
   attr(:size, :string, default: nil, values: [nil, "sm", "lg"])
   attr(:align, :string, default: nil, values: [nil, "centered", "full"])
   attr(:overflow, :string, default: nil, values: [nil, "nowrap", "scrollable", "collapse"])
@@ -86,12 +94,19 @@ defmodule PureAdmin.Components.Navigation do
   attr(:target, :string, required: true, doc: "ID of the target tab panel")
   attr(:tabs_id, :string, default: nil, doc: "ID of the parent tabs container (for JS switching)")
   attr(:is_active, :boolean, default: false)
-  attr(:width, :string, default: nil,
+
+  attr(:width, :string,
+    default: nil,
     values: [nil, "1x", "2x", "3x", "4x", "5x", "6x", "7x", "8x", "9x", "10x"],
-    doc: "Fixed width")
-  attr(:height, :string, default: nil,
+    doc: "Fixed width"
+  )
+
+  attr(:height, :string,
+    default: nil,
     values: [nil, "1x", "2x", "3x", "4x", "5x", "6x", "7x", "8x", "9x", "10x"],
-    doc: "Fixed height")
+    doc: "Fixed height"
+  )
+
   attr(:class, :string, default: nil)
   attr(:rest, :global, include: ~w(disabled))
   slot(:icon, doc: "Icon content (rendered before text)")

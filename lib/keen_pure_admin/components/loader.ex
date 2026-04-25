@@ -17,11 +17,18 @@ defmodule PureAdmin.Components.Loader do
       <.spinner />
       <.spinner size="lg" variant="primary" />
   """
-  attr(:size, :string, default: nil, values: [nil, "xs"],
-    doc: "Spinner size — the core framework currently only ships `--xs`. Larger sizes use the default.")
-  attr(:variant, :string, default: nil,
+  attr(:size, :string,
+    default: nil,
+    values: [nil, "xs"],
+    doc: "Spinner size — the core framework currently only ships `--xs`. Larger sizes use the default."
+  )
+
+  attr(:variant, :string,
+    default: nil,
     values: [nil, "primary", "secondary", "success", "danger", "warning", "info"],
-    doc: "Spinner color variant")
+    doc: "Spinner color variant"
+  )
+
   attr(:class, :string, default: nil)
   attr(:rest, :global)
 
@@ -53,12 +60,15 @@ defmodule PureAdmin.Components.Loader do
       <.loader type="bars" color="primary" />
       <.loader type="pulse" size="lg" />
   """
-  attr(:type, :string, default: "dots", values: ["dots", "bars", "pulse", "ring", "wave"],
-    doc: "Loader animation type")
+  attr(:type, :string, default: "dots", values: ["dots", "bars", "pulse", "ring", "wave"], doc: "Loader animation type")
   attr(:size, :string, default: nil, values: [nil, "lg"], doc: "Loader size")
-  attr(:color, :string, default: nil,
+
+  attr(:color, :string,
+    default: nil,
     values: [nil, "primary", "secondary", "success", "danger", "warning", "info"],
-    doc: "Loader color")
+    doc: "Loader color"
+  )
+
   attr(:class, :string, default: nil)
   attr(:rest, :global)
 

@@ -25,12 +25,19 @@ defmodule PureAdmin.Components.Callout do
         This is a compact callout with an icon.
       </.callout>
   """
-  attr(:variant, :string, default: "info",
-    values: ["primary", "secondary", "info", "success", "warning", "danger"])
+  attr(:variant, :string,
+    default: "info",
+    values: ["primary", "secondary", "info", "success", "warning", "danger"]
+  )
+
   attr(:size, :string, default: nil, values: [nil, "sm", "lg"], doc: "Callout size")
-  attr(:theme_color, :string, default: nil,
+
+  attr(:theme_color, :string,
+    default: nil,
     values: [nil, "1", "2", "3", "4", "5", "6", "7", "8", "9"],
-    doc: "Theme color slot 1-9 (overrides variant)")
+    doc: "Theme color slot 1-9 (overrides variant)"
+  )
+
   attr(:heading_text, :string, default: nil, doc: "Callout heading text (shorthand for :title slot)")
   attr(:class, :string, default: nil)
   attr(:rest, :global)

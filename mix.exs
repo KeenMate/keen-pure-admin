@@ -14,9 +14,10 @@ defmodule PureAdmin.MixProject do
       aliases: aliases(),
       elixirc_paths: elixirc_paths(Mix.env()),
       name: "PureAdmin",
-      description: "Phoenix LiveView components for business admin apps. " <>
-        "35+ components, 14 hooks, command palette, flash, i18n, themes. " <>
-        "Built on pureadmin.io — standalone BEM CSS, no Tailwind needed.",
+      description:
+        "Phoenix LiveView components for business admin apps. " <>
+          "35+ components, 14 hooks, command palette, flash, i18n, themes. " <>
+          "Built on pureadmin.io — standalone BEM CSS, no Tailwind needed.",
       package: package(),
       docs: docs(),
       source_url: @source_url,
@@ -54,7 +55,8 @@ defmodule PureAdmin.MixProject do
         "Pure Admin" => "https://pureadmin.io",
         "Live Demo" => "https://elixir.demo.pureadmin.io"
       },
-      files: ~w(lib docs .formatter.exs mix.exs package.json README.md LICENSE CHANGELOG.md security-audit.md component-audit.md)
+      files:
+        ~w(lib docs .formatter.exs mix.exs package.json README.md LICENSE CHANGELOG.md security-audit.md component-audit.md)
     ]
   end
 

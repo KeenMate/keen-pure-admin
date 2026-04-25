@@ -33,13 +33,20 @@ defmodule PureAdmin.Components.Button do
         <:icon><i class="fa-solid fa-floppy-disk"></i></:icon>
       </.button>
   """
-  attr(:variant, :string, default: "primary",
+  attr(:variant, :string,
+    default: "primary",
     values: ["primary", "secondary", "success", "warning", "danger", "info", "light", "dark", "ghost"],
-    doc: "Color variant")
+    doc: "Color variant"
+  )
+
   attr(:size, :string, default: nil, values: [nil, "xs", "sm", "lg", "xl"], doc: "Button size")
-  attr(:theme_color, :string, default: nil,
+
+  attr(:theme_color, :string,
+    default: nil,
     values: [nil, "1", "2", "3", "4", "5", "6", "7", "8", "9"],
-    doc: "Theme color slot 1-9 (overrides variant)")
+    doc: "Theme color slot 1-9 (overrides variant)"
+  )
+
   attr(:is_outline, :boolean, default: false, doc: "Outline style")
   attr(:is_block, :boolean, default: false, doc: "Full-width block button")
   attr(:is_loading, :boolean, default: false, doc: "Loading state with spinner")
@@ -94,10 +101,13 @@ defmodule PureAdmin.Components.Button do
       cond do
         assigns.theme_color != nil and assigns.is_outline ->
           "pa-btn--outline-color-#{assigns.theme_color}"
+
         assigns.theme_color != nil ->
           "pa-btn--color-#{assigns.theme_color}"
+
         assigns.is_outline ->
           "pa-btn--outline-#{assigns.variant}"
+
         true ->
           "pa-btn--#{assigns.variant}"
       end
@@ -137,10 +147,23 @@ defmodule PureAdmin.Components.Button do
   attr(:is_vertical, :boolean, default: false, doc: "Vertical orientation")
   attr(:align, :string, default: nil, values: [nil, "center", "end", "stretch"], doc: "Vertical alignment")
   attr(:is_nowrap, :boolean, default: false, doc: "Prevent wrapping")
-  attr(:responsive, :string, default: nil,
-    values: [nil, "sm-vertical", "sm-horizontal", "md-vertical", "md-horizontal",
-             "lg-vertical", "lg-horizontal", "xl-vertical", "xl-horizontal"],
-    doc: "Responsive direction change at breakpoint (e.g. 'md-vertical' becomes vertical at 768px+)")
+
+  attr(:responsive, :string,
+    default: nil,
+    values: [
+      nil,
+      "sm-vertical",
+      "sm-horizontal",
+      "md-vertical",
+      "md-horizontal",
+      "lg-vertical",
+      "lg-horizontal",
+      "xl-vertical",
+      "xl-horizontal"
+    ],
+    doc: "Responsive direction change at breakpoint (e.g. 'md-vertical' becomes vertical at 768px+)"
+  )
+
   attr(:class, :string, default: nil, doc: "Additional CSS classes")
   attr(:rest, :global)
   slot(:inner_block, required: true)
@@ -216,8 +239,12 @@ defmodule PureAdmin.Components.Button do
   """
   attr(:label, :string, required: true, doc: "Primary button label")
   attr(:icon, :string, default: nil, doc: "Font Awesome icon class for the primary button (e.g. \"fas fa-download\")")
-  attr(:variant, :string, default: "primary",
-    values: ~w(primary secondary success warning danger info light dark))
+
+  attr(:variant, :string,
+    default: "primary",
+    values: ~w(primary secondary success warning danger info light dark)
+  )
+
   attr(:size, :string, default: nil, values: [nil, "xs", "sm", "lg", "xl"])
   attr(:placement, :string, default: "bottom-end", doc: "Menu placement (Floating UI)")
   attr(:on_click, :string, default: nil, doc: "phx-click event for the primary button")

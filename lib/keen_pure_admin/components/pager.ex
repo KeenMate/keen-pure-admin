@@ -40,14 +40,27 @@ defmodule PureAdmin.Components.Pager do
   attr(:on_first, :string, default: nil, doc: "Event for first button (nil = hidden)")
   attr(:on_last, :string, default: nil, doc: "Event for last button (nil = hidden)")
   attr(:on_page_change, :string, default: nil, doc: "Event for page input change")
-  attr(:icon_first, :string, default: "«",
-    doc: "First page button icon (plain text; rendered HTML-escaped). For markup, use the `first_icon` slot.")
-  attr(:icon_previous, :string, default: "‹",
-    doc: "Previous page button icon (plain text; rendered HTML-escaped). For markup, use the `previous_icon` slot.")
-  attr(:icon_next, :string, default: "›",
-    doc: "Next page button icon (plain text; rendered HTML-escaped). For markup, use the `next_icon` slot.")
-  attr(:icon_last, :string, default: "»",
-    doc: "Last page button icon (plain text; rendered HTML-escaped). For markup, use the `last_icon` slot.")
+
+  attr(:icon_first, :string,
+    default: "«",
+    doc: "First page button icon (plain text; rendered HTML-escaped). For markup, use the `first_icon` slot."
+  )
+
+  attr(:icon_previous, :string,
+    default: "‹",
+    doc: "Previous page button icon (plain text; rendered HTML-escaped). For markup, use the `previous_icon` slot."
+  )
+
+  attr(:icon_next, :string,
+    default: "›",
+    doc: "Next page button icon (plain text; rendered HTML-escaped). For markup, use the `next_icon` slot."
+  )
+
+  attr(:icon_last, :string,
+    default: "»",
+    doc: "Last page button icon (plain text; rendered HTML-escaped). For markup, use the `last_icon` slot."
+  )
+
   attr(:class, :string, default: nil)
   attr(:rest, :global)
   slot(:controls, doc: "Custom controls (overrides default buttons)")

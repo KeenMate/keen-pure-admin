@@ -23,7 +23,12 @@ defmodule PureAdmin.Components.CheckboxList do
   attr(:value, :string, default: "true")
   attr(:checked, :boolean, default: false)
   attr(:disabled, :boolean, default: false)
-  attr(:is_indeterminate, :boolean, default: false, doc: "Indeterminate/partial state (requires PureAdminCheckbox hook)")
+
+  attr(:is_indeterminate, :boolean,
+    default: false,
+    doc: "Indeterminate/partial state (requires PureAdminCheckbox hook)"
+  )
+
   attr(:is_x_mark, :boolean, default: false, doc: "X mark instead of checkmark")
   attr(:size, :string, default: nil, values: [nil, "xs", "sm", "lg", "xl"])
   attr(:class, :string, default: nil)

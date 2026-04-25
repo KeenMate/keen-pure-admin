@@ -99,6 +99,7 @@ defmodule PureAdmin.Components.Table do
 
   defp col_header_class(col) do
     classes = [col[:col_class], align_class(col[:align])]
+
     case Enum.reject(classes, &is_nil/1) do
       [] -> nil
       parts -> Enum.join(parts, " ")
@@ -107,6 +108,7 @@ defmodule PureAdmin.Components.Table do
 
   defp col_cell_class(col) do
     classes = [col[:class], align_class(col[:align])]
+
     case Enum.reject(classes, &is_nil/1) do
       [] -> nil
       parts -> Enum.join(parts, " ")
@@ -222,12 +224,19 @@ defmodule PureAdmin.Components.Table do
       </.table_card>
   """
   attr(:title_text, :string, default: nil, doc: "Card title")
-  attr(:variant, :string, default: nil,
+
+  attr(:variant, :string,
+    default: nil,
     values: [nil, "primary", "success", "warning", "danger"],
-    doc: "Semantic color variant for header accent")
-  attr(:color, :string, default: nil,
+    doc: "Semantic color variant for header accent"
+  )
+
+  attr(:color, :string,
+    default: nil,
     values: [nil, "1", "2", "3", "4", "5", "6", "7", "8", "9"],
-    doc: "Theme color 1-9")
+    doc: "Theme color 1-9"
+  )
+
   attr(:is_scrollable, :boolean, default: false, doc: "Horizontal scrolling for wide tables")
   attr(:is_plain, :boolean, default: false, doc: "Remove card styling (border, shadow, background)")
   attr(:class, :string, default: nil)

@@ -32,8 +32,13 @@ defmodule PureAdmin.Components.List do
   attr(:is_bordered, :boolean, default: false, doc: "Add borders between items")
   attr(:is_striped, :boolean, default: false, doc: "Zebra striping on even rows")
   attr(:has_icon, :boolean, default: false, doc: "Show icons (checkmarks by default)")
-  attr(:icon_variant, :string, default: "success", values: ["success", "danger", "info", "warning"],
-    doc: "Icon variant (when has_icon is true)")
+
+  attr(:icon_variant, :string,
+    default: "success",
+    values: ["success", "danger", "info", "warning"],
+    doc: "Icon variant (when has_icon is true)"
+  )
+
   attr(:class, :string, default: nil)
   attr(:rest, :global)
   slot(:inner_block, required: true)
@@ -162,7 +167,8 @@ defmodule PureAdmin.Components.List do
   slot(:inner_block, doc: "Custom content (overrides title/subtitle/meta)")
 
   def list_item(assigns) do
-    has_structured = assigns.title_text != nil || assigns.subtitle_text != nil || assigns.meta_text != nil || assigns.meta != []
+    has_structured =
+      assigns.title_text != nil || assigns.subtitle_text != nil || assigns.meta_text != nil || assigns.meta != []
 
     assigns = assign(assigns, :has_structured, has_structured)
 

@@ -31,20 +31,30 @@ defmodule PureAdmin.Components.Stat do
         <:icon><i class="fa-solid fa-check-circle"></i></:icon>
       </.stat>
   """
-  attr(:variant, :string, default: nil, values: [nil, "hero", "hero-compact", "square"],
-    doc: "Stat display variant")
-  attr(:color, :string, default: nil,
+  attr(:variant, :string, default: nil, values: [nil, "hero", "hero-compact", "square"], doc: "Stat display variant")
+
+  attr(:color, :string,
+    default: nil,
     values: [nil, "primary", "secondary", "success", "info", "warning", "danger"],
-    doc: "Color for square variant")
-  attr(:icon_variant, :string, default: "primary",
+    doc: "Color for square variant"
+  )
+
+  attr(:icon_variant, :string,
+    default: "primary",
     values: ["primary", "secondary", "success", "info", "warning", "danger"],
-    doc: "Icon color variant")
+    doc: "Icon color variant"
+  )
+
   attr(:number, :string, default: nil, doc: "Value to display")
   attr(:label_text, :string, default: nil, doc: "Label text")
   attr(:change_text, :string, default: nil, doc: "Change text (e.g. '+12.5%') for hero variant")
-  attr(:change_direction, :string, default: nil,
+
+  attr(:change_direction, :string,
+    default: nil,
     values: [nil, "positive", "negative", "neutral"],
-    doc: "Change direction (determines color)")
+    doc: "Change direction (determines color)"
+  )
+
   attr(:symbol_text, :string, default: nil, doc: "Symbol text for square variant")
   # Legacy aliases
   attr(:value, :string, default: nil, doc: "Legacy alias for number")
@@ -120,12 +130,13 @@ defmodule PureAdmin.Components.Stat do
   end
 
   defp stat_classes(assigns) do
-    variant_class = case assigns.variant do
-      "hero" -> "pa-stat--hero"
-      "hero-compact" -> "pa-stat--hero pa-stat--hero--compact"
-      "square" -> "pa-stat--square"
-      _ -> nil
-    end
+    variant_class =
+      case assigns.variant do
+        "hero" -> "pa-stat--hero"
+        "hero-compact" -> "pa-stat--hero pa-stat--hero--compact"
+        "square" -> "pa-stat--square"
+        _ -> nil
+      end
 
     build_classes(
       "pa-stat",

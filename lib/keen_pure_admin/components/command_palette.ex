@@ -35,12 +35,17 @@ defmodule PureAdmin.Components.CommandPalette do
   attr(:query, :string, default: "")
 
   # Display style
-  attr(:display, :string, default: "inline", values: ~w(inline tokens),
-    doc: "Step display style: inline (sentence in input) or tokens (spans above input)")
+  attr(:display, :string,
+    default: "inline",
+    values: ~w(inline tokens),
+    doc: "Step display style: inline (sentence in input) or tokens (spans above input)"
+  )
 
   # Mode
-  attr(:mode, :string, default: "idle",
-    values: ~w(idle command_list command_step context_list context_search global_search))
+  attr(:mode, :string,
+    default: "idle",
+    values: ~w(idle command_list command_step context_list context_search global_search)
+  )
 
   # Registrations
   attr(:commands, :list, default: [], doc: "List of command maps")
@@ -283,8 +288,10 @@ defmodule PureAdmin.Components.CommandPalette do
       assigns.display == "inline" and assigns.mode == "command_step" ->
         # In inline mode, no separate placeholder — the accumulated text IS the context
         ""
+
       assigns.mode == "command_step" and assigns.current_step ->
         assigns.current_step[:placeholder] || t("pureAdmin.commandPalette.filterPlaceholder")
+
       true ->
         assigns.placeholder
     end

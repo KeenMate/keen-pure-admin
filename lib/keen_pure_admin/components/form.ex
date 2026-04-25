@@ -61,23 +61,37 @@ defmodule PureAdmin.Components.Form do
       <.input type="email" size="lg" validation="error" />
       <.input field={@form[:email]} type="email" />
   """
-  attr(:field, Phoenix.HTML.FormField, default: nil,
-    doc: "A Phoenix form field, e.g. `@form[:email]`. When set, derives name/id/value and errors.")
+  attr(:field, Phoenix.HTML.FormField,
+    default: nil,
+    doc: "A Phoenix form field, e.g. `@form[:email]`. When set, derives name/id/value and errors."
+  )
+
   attr(:type, :string, default: "text")
   attr(:name, :string, default: nil)
   attr(:id, :string, default: nil)
   attr(:value, :any, default: nil)
-  attr(:errors, :list, default: nil,
-    doc: "Raw `{msg, opts}` tuples or strings. Defaults to field errors when `:field` is set.")
-  attr(:show_errors, :boolean, default: true,
-    doc: "Render field errors as a form_help below the input. No effect without `:field`.")
+
+  attr(:errors, :list,
+    default: nil,
+    doc: "Raw `{msg, opts}` tuples or strings. Defaults to field errors when `:field` is set."
+  )
+
+  attr(:show_errors, :boolean,
+    default: true,
+    doc: "Render field errors as a form_help below the input. No effect without `:field`."
+  )
+
   attr(:size, :string, default: nil, values: [nil, "xs", "sm", "lg", "xl"])
   attr(:validation, :string, default: nil, values: [nil, "success", "warning", "error"])
   attr(:is_error, :boolean, default: false, doc: "Shorthand for validation=\"error\"")
   attr(:is_success, :boolean, default: false, doc: "Shorthand for validation=\"success\"")
-  attr(:color, :string, default: nil,
+
+  attr(:color, :string,
+    default: nil,
     values: [nil, "1", "2", "3", "4", "5", "6", "7", "8", "9"],
-    doc: "Theme color (1-9)")
+    doc: "Theme color (1-9)"
+  )
+
   attr(:class, :string, default: nil)
   attr(:rest, :global, include: ~w(placeholder disabled readonly required autocomplete autofocus
     min max step pattern maxlength minlength form phx-change phx-blur phx-focus phx-debounce))
@@ -159,8 +173,11 @@ defmodule PureAdmin.Components.Form do
       <.textarea name="message" rows={4} placeholder="Enter message" />
       <.textarea field={@form[:bio]} rows={4} />
   """
-  attr(:field, Phoenix.HTML.FormField, default: nil,
-    doc: "A Phoenix form field, e.g. `@form[:bio]`. When set, derives name/id/value and errors.")
+  attr(:field, Phoenix.HTML.FormField,
+    default: nil,
+    doc: "A Phoenix form field, e.g. `@form[:bio]`. When set, derives name/id/value and errors."
+  )
+
   attr(:name, :string, default: nil)
   attr(:id, :string, default: nil)
   attr(:value, :any, default: nil)
@@ -168,8 +185,12 @@ defmodule PureAdmin.Components.Form do
   attr(:show_errors, :boolean, default: true)
   attr(:size, :string, default: nil, values: [nil, "xs", "sm", "lg", "xl"])
   attr(:validation, :string, default: nil, values: [nil, "success", "warning", "error"])
-  attr(:color, :string, default: nil,
-    values: [nil, "1", "2", "3", "4", "5", "6", "7", "8", "9"])
+
+  attr(:color, :string,
+    default: nil,
+    values: [nil, "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+  )
+
   attr(:class, :string, default: nil)
   attr(:rest, :global, include: ~w(placeholder disabled readonly required rows cols
     form phx-change phx-blur phx-debounce))
@@ -227,8 +248,11 @@ defmodule PureAdmin.Components.Form do
       <.select name="country" options={[{"US", "United States"}, {"UK", "United Kingdom"}]} />
       <.select field={@form[:department]} options={["Engineering", "Sales"]} />
   """
-  attr(:field, Phoenix.HTML.FormField, default: nil,
-    doc: "A Phoenix form field, e.g. `@form[:role]`. When set, derives name/id/value and errors.")
+  attr(:field, Phoenix.HTML.FormField,
+    default: nil,
+    doc: "A Phoenix form field, e.g. `@form[:role]`. When set, derives name/id/value and errors."
+  )
+
   attr(:name, :string, default: nil)
   attr(:id, :string, default: nil)
   attr(:value, :any, default: nil)
@@ -238,8 +262,12 @@ defmodule PureAdmin.Components.Form do
   attr(:prompt, :string, default: nil, doc: "Placeholder option")
   attr(:size, :string, default: nil, values: [nil, "xs", "sm", "lg", "xl"])
   attr(:validation, :string, default: nil, values: [nil, "success", "warning", "error"])
-  attr(:color, :string, default: nil,
-    values: [nil, "1", "2", "3", "4", "5", "6", "7", "8", "9"])
+
+  attr(:color, :string,
+    default: nil,
+    values: [nil, "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+  )
+
   attr(:class, :string, default: nil)
   attr(:rest, :global, include: ~w(disabled required multiple form phx-change phx-blur phx-debounce))
 
@@ -299,13 +327,21 @@ defmodule PureAdmin.Components.Form do
       <.checkbox name="option" label="Option A" checked size="lg" />
       <.checkbox field={@form[:agree]} label="I agree to the terms" />
   """
-  attr(:field, Phoenix.HTML.FormField, default: nil,
-    doc: "A Phoenix form field, e.g. `@form[:agree]`. When set, derives name/id/checked.")
+  attr(:field, Phoenix.HTML.FormField,
+    default: nil,
+    doc: "A Phoenix form field, e.g. `@form[:agree]`. When set, derives name/id/checked."
+  )
+
   attr(:name, :string, default: nil)
   attr(:id, :string, default: nil)
   attr(:value, :string, default: "true")
   attr(:checked, :boolean, default: false)
-  attr(:is_indeterminate, :boolean, default: false, doc: "Indeterminate/partial state (requires PureAdminCheckbox hook)")
+
+  attr(:is_indeterminate, :boolean,
+    default: false,
+    doc: "Indeterminate/partial state (requires PureAdminCheckbox hook)"
+  )
+
   attr(:is_x_mark, :boolean, default: false, doc: "X mark instead of checkmark")
   attr(:label, :string, default: nil, doc: "Plain text label")
   attr(:size, :string, default: nil, values: [nil, "xs", "sm", "lg", "xl"])
@@ -379,8 +415,11 @@ defmodule PureAdmin.Components.Form do
       <.radio field={@form[:plan]} value="basic" label="Basic Plan" />
       <.radio field={@form[:plan]} value="pro" label="Pro Plan" />
   """
-  attr(:field, Phoenix.HTML.FormField, default: nil,
-    doc: "A Phoenix form field, e.g. `@form[:plan]`. When set, derives name/checked.")
+  attr(:field, Phoenix.HTML.FormField,
+    default: nil,
+    doc: "A Phoenix form field, e.g. `@form[:plan]`. When set, derives name/checked."
+  )
+
   attr(:name, :string, default: nil)
   attr(:id, :string, default: nil)
   attr(:value, :string, required: true)
@@ -426,8 +465,11 @@ defmodule PureAdmin.Components.Form do
         <.form_help variant="error">Name is required</.form_help>
       </.form_group>
   """
-  attr(:field, Phoenix.HTML.FormField, default: nil,
-    doc: "A Phoenix form field. When set, `validation` auto-switches to `\"error\"` if the field has errors.")
+  attr(:field, Phoenix.HTML.FormField,
+    default: nil,
+    doc: "A Phoenix form field. When set, `validation` auto-switches to `\"error\"` if the field has errors."
+  )
+
   attr(:label, :string, default: nil, doc: "Shorthand for a simple text label")
   attr(:validation, :string, default: nil, values: [nil, "success", "warning", "error"])
   attr(:is_required, :boolean, default: false)
@@ -487,9 +529,13 @@ defmodule PureAdmin.Components.Form do
   Renders help/hint text below inputs.
   """
   attr(:variant, :string, default: nil, values: [nil, "success", "warning", "error"])
-  attr(:color, :string, default: nil,
+
+  attr(:color, :string,
+    default: nil,
     values: [nil, "1", "2", "3", "4", "5", "6", "7", "8", "9"],
-    doc: "Theme color (1-9)")
+    doc: "Theme color (1-9)"
+  )
+
   attr(:class, :string, default: nil)
   attr(:rest, :global)
   slot(:inner_block, required: true)

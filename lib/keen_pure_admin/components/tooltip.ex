@@ -29,10 +29,18 @@ defmodule PureAdmin.Components.Tooltip do
       </.tooltip>
   """
   attr(:text, :string, required: true, doc: "Tooltip text")
-  attr(:position, :string, default: nil, values: [nil, "top", "end", "bottom", "start"],
-    doc: "Tooltip position: top (default), end (right in LTR), bottom, start (left in LTR)")
-  attr(:variant, :string, default: nil,
-    doc: "Color variant (primary, success, warning, danger, color-1 through color-9)")
+
+  attr(:position, :string,
+    default: nil,
+    values: [nil, "top", "end", "bottom", "start"],
+    doc: "Tooltip position: top (default), end (right in LTR), bottom, start (left in LTR)"
+  )
+
+  attr(:variant, :string,
+    default: nil,
+    doc: "Color variant (primary, success, warning, danger, color-1 through color-9)"
+  )
+
   attr(:multiline, :boolean, default: false, doc: "Multiline tooltip (wider, left-aligned)")
   attr(:is_help, :boolean, default: false, doc: "Help cursor (question mark)")
   attr(:is_inline, :boolean, default: false, doc: "Inline text style with dotted underline")

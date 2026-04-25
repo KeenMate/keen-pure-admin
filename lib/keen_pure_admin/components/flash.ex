@@ -64,15 +64,15 @@ defmodule PureAdmin.Components.Flash do
       <.flash kind={:error} title="Oops!" flash={@flash} />
       <.flash kind={:info}>Custom inline message</.flash>
   """
-  attr :id, :string, default: nil, doc: "the optional id of flash container"
-  attr :flash, :map, default: %{}, doc: "the map of flash messages to display"
-  attr :title, :string, default: nil, doc: "optional title above the flash message"
-  attr :kind, :atom, values: [:info, :error, :warning, :success], doc: "used for styling and flash lookup"
-  attr :is_dismissible, :boolean, default: true, doc: "show close button"
-  attr :class, :string, default: nil
-  attr :rest, :global
+  attr(:id, :string, default: nil, doc: "the optional id of flash container")
+  attr(:flash, :map, default: %{}, doc: "the map of flash messages to display")
+  attr(:title, :string, default: nil, doc: "optional title above the flash message")
+  attr(:kind, :atom, values: [:info, :error, :warning, :success], doc: "used for styling and flash lookup")
+  attr(:is_dismissible, :boolean, default: true, doc: "show close button")
+  attr(:class, :string, default: nil)
+  attr(:rest, :global)
 
-  slot :inner_block, doc: "the optional inner block that renders the flash message"
+  slot(:inner_block, doc: "the optional inner block that renders the flash message")
 
   def flash(assigns) do
     assigns =
@@ -123,9 +123,9 @@ defmodule PureAdmin.Components.Flash do
 
       <.flash_group flash={@flash} kinds={[:info, :error, :warning, :success]} />
   """
-  attr :flash, :map, required: true, doc: "the map of flash messages"
-  attr :id, :string, default: "flash-group", doc: "the optional id of flash container"
-  attr :kinds, :list, default: [:info, :error], doc: "which flash kinds to render"
+  attr(:flash, :map, required: true, doc: "the map of flash messages")
+  attr(:id, :string, default: "flash-group", doc: "the optional id of flash container")
+  attr(:kinds, :list, default: [:info, :error], doc: "which flash kinds to render")
 
   def flash_group(assigns) do
     ~H"""
@@ -235,9 +235,9 @@ defmodule PureAdmin.Components.Flash do
       <.flash_container id="contact-form" />
       <.flash_container id="profile-card" class="my-custom-class" />
   """
-  attr :id, :string, required: true, doc: "unique ID, also used as the target for push_flash"
-  attr :class, :string, default: nil
-  attr :rest, :global
+  attr(:id, :string, required: true, doc: "unique ID, also used as the target for push_flash")
+  attr(:class, :string, default: nil)
+  attr(:rest, :global)
 
   def flash_container(assigns) do
     ~H"""

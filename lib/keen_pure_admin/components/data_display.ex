@@ -24,8 +24,13 @@ defmodule PureAdmin.Components.DataDisplay do
   attr(:is_copy_btn, :boolean, default: false, doc: "Always-visible copy button")
   attr(:is_copy_click, :boolean, default: false, doc: "Click value to copy")
   attr(:is_copy_hover, :boolean, default: false, doc: "Copy icon on hover only")
-  attr(:value_variant, :string, default: nil, values: [nil, "success", "warning", "danger", "info"],
-    doc: "Color variant for the value (used in chips layout)")
+
+  attr(:value_variant, :string,
+    default: nil,
+    values: [nil, "success", "warning", "danger", "info"],
+    doc: "Color variant for the value (used in chips layout)"
+  )
+
   attr(:copy_value, :string, default: nil, doc: "Value to copy to clipboard")
   attr(:class, :string, default: nil)
   attr(:rest, :global)
@@ -93,9 +98,13 @@ defmodule PureAdmin.Components.DataDisplay do
   attr(:is_linear, :boolean, default: false, doc: "Linear minimal layout")
   attr(:is_chips, :boolean, default: false, doc: "Chip/tag layout")
   attr(:is_no_border, :boolean, default: false, doc: "Remove border")
-  attr(:color, :string, default: nil,
+
+  attr(:color, :string,
+    default: nil,
     values: [nil, "1", "2", "3", "4", "5", "6", "7", "8", "9"],
-    doc: "Color variant 1-9")
+    doc: "Color variant 1-9"
+  )
+
   attr(:class, :string, default: nil)
   attr(:rest, :global)
   slot(:inner_block, required: true)
@@ -109,22 +118,26 @@ defmodule PureAdmin.Components.DataDisplay do
   end
 
   defp fields_classes(assigns) do
-    build_classes("pa-fields", [
-      {"pa-fields--cols-#{assigns.cols}", assigns.cols != nil},
-      {"pa-fields--horizontal", assigns.is_horizontal},
-      {"pa-fields--table", assigns.is_table},
-      {"pa-fields--bordered", assigns.is_bordered},
-      {"pa-fields--striped", assigns.is_striped},
-      {"pa-fields--compact", assigns.is_compact},
-      {"pa-fields--inline", assigns.is_inline},
-      {"pa-fields--row", assigns.is_row},
-      {"pa-fields--relaxed", assigns.is_relaxed},
-      {"pa-fields--filled", assigns.is_filled},
-      {"pa-fields--linear", assigns.is_linear},
-      {"pa-fields--chips", assigns.is_chips},
-      {"pa-fields--no-border", assigns.is_no_border},
-      {"pa-fields--color-#{assigns.color}", assigns.color != nil}
-    ], assigns.class)
+    build_classes(
+      "pa-fields",
+      [
+        {"pa-fields--cols-#{assigns.cols}", assigns.cols != nil},
+        {"pa-fields--horizontal", assigns.is_horizontal},
+        {"pa-fields--table", assigns.is_table},
+        {"pa-fields--bordered", assigns.is_bordered},
+        {"pa-fields--striped", assigns.is_striped},
+        {"pa-fields--compact", assigns.is_compact},
+        {"pa-fields--inline", assigns.is_inline},
+        {"pa-fields--row", assigns.is_row},
+        {"pa-fields--relaxed", assigns.is_relaxed},
+        {"pa-fields--filled", assigns.is_filled},
+        {"pa-fields--linear", assigns.is_linear},
+        {"pa-fields--chips", assigns.is_chips},
+        {"pa-fields--no-border", assigns.is_no_border},
+        {"pa-fields--color-#{assigns.color}", assigns.color != nil}
+      ],
+      assigns.class
+    )
   end
 
   # -- field_group/1 --
@@ -180,8 +193,13 @@ defmodule PureAdmin.Components.DataDisplay do
   attr(:is_label_center, :boolean, default: false, doc: "Center-align labels")
   attr(:is_value_end, :boolean, default: false, doc: "Right-align values")
   attr(:is_value_center, :boolean, default: false, doc: "Center-align values")
-  attr(:label_width, :string, default: nil,
-    doc: "Custom label width as a single CSS length (e.g. `\"30%\"`, `\"12rem\"`, `\"180px\"`). Invalid input is ignored.")
+
+  attr(:label_width, :string,
+    default: nil,
+    doc:
+      "Custom label width as a single CSS length (e.g. `\"30%\"`, `\"12rem\"`, `\"180px\"`). Invalid input is ignored."
+  )
+
   attr(:class, :string, default: nil)
   attr(:rest, :global)
   slot(:inner_block, required: true)
@@ -423,11 +441,19 @@ defmodule PureAdmin.Components.DataDisplay do
   @doc "Renders a single accent grid item."
   attr(:label, :string, required: true)
   attr(:value, :string, required: true)
-  attr(:color, :string, default: nil,
+
+  attr(:color, :string,
+    default: nil,
     values: [nil, "1", "2", "3", "4", "5", "6", "7", "8", "9"],
-    doc: "Accent color 1-9")
-  attr(:variant, :string, default: nil, values: [nil, "primary", "success", "warning", "danger", "info"],
-    doc: "Semantic color variant")
+    doc: "Accent color 1-9"
+  )
+
+  attr(:variant, :string,
+    default: nil,
+    values: [nil, "primary", "success", "warning", "danger", "info"],
+    doc: "Semantic color variant"
+  )
+
   attr(:class, :string, default: nil)
 
   def accent_grid_item(assigns) do

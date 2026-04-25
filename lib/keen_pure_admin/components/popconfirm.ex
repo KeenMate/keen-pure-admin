@@ -39,14 +39,23 @@ defmodule PureAdmin.Components.Popconfirm do
   attr(:id, :string, required: true)
   attr(:message, :string, required: true, doc: "Confirmation message text")
   attr(:placement, :string, default: "bottom", values: ["top", "bottom", "start", "end"])
-  attr(:icon_variant, :string, default: nil, values: [nil, "danger", "warning", "info"],
-    doc: "Icon style for the message")
+
+  attr(:icon_variant, :string,
+    default: nil,
+    values: [nil, "danger", "warning", "info"],
+    doc: "Icon style for the message"
+  )
+
   attr(:is_compact, :boolean, default: false, doc: "Compact variant for table actions")
   attr(:confirm_text, :string, default: nil, doc: "Confirm button text (default: translated)")
   attr(:cancel_text, :string, default: nil, doc: "Cancel button text (default: translated)")
-  attr(:confirm_variant, :string, default: "danger",
+
+  attr(:confirm_variant, :string,
+    default: "danger",
     values: ["primary", "secondary", "success", "warning", "danger", "info"],
-    doc: "Confirm button color variant")
+    doc: "Confirm button color variant"
+  )
+
   attr(:confirm_event, :string, default: nil, doc: "LiveView event to push on confirm")
   attr(:confirm_value, :map, default: %{}, doc: "Value to send with confirm event")
   attr(:class, :string, default: nil)
@@ -58,6 +67,7 @@ defmodule PureAdmin.Components.Popconfirm do
       assigns
       |> assign(:confirm_text, assigns.confirm_text || t("pureAdmin.popconfirm.confirm"))
       |> assign(:cancel_text, assigns.cancel_text || t("pureAdmin.popconfirm.cancel"))
+
     ~H"""
     <div
       class="pa-popconfirm-wrapper"
