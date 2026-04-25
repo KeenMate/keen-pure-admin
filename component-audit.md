@@ -34,8 +34,9 @@ matches the current snippet*, and if so, against which framework commit.
 - 🆕 new — snippet doesn't exist yet; component was built against SCSS directly
 - ⚠️ disputed — we believe our implementation is correct and the snippet is wrong; see Notes
 
-**Current framework HEAD** (for reference when recording new audits): `e4f1cd6`
+**Current framework HEAD** (for reference when recording new audits): `cf75736`
 (check `git -C ../pure-admin rev-parse --short HEAD` for the live value).
+Last re-audit pass: 2026-04-25 — picked up 11 newly-audited snippets that had been pending or missing on 2026-04-24.
 
 ---
 
@@ -66,6 +67,13 @@ matches the current snippet*, and if so, against which framework commit.
 | `PureAdmin.Components.Toast` | `toasts.html` | ✅ | 2026-04-24 | `4056fa9` | Clean. Close button renders an inline SVG `×` glyph instead of the snippet's literal `✕` — intentional divergence for sharper rendering on high-DPI. |
 | `PureAdmin.Components.Tooltip` (tooltip, popover) | `tooltips.html` | ✅ | 2026-04-24 | `b2d196b` | Fixed: popover header title now `<h4>` (was `<span class="pa-popover__title">`). Tooltip's `pa-tooltip--floating` default is intentional — paired with the global `[data-tooltip]` delegator in `hooks/tooltip.js` that creates portal tooltips on body; `is_inline=true` opts out for inline dotted-underline CSS tooltips. |
 | `PureAdmin.Components.Typography` (heading, paragraph, divider, pa_link) | `typography.html` | ✅ | 2026-04-24 | `12f1281` | Clean. |
+| `PureAdmin.Components.Modal` | `modals.html` | ✅ | 2026-04-25 | `795856e` | Fixed: header close button now `pa-btn--secondary` for default modal and `pa-btn--light` for themed modals (was always `pa-btn--primary`); class is `pa-btn pa-btn--sm pa-btn--icon-only pa-btn--{secondary,light}` per snippet. |
+| `lib/assets/js/modal_dialogs.js` (programmatic `PureAdmin.confirm/alert/prompt`) | `modal-dialogs.html` | ✅ | 2026-04-25 | `e5eba00` | Clean — DOM produced matches `_modals.scss`; all options align (variant/size/position/closeOnBackdrop, scrollbar gutter, focus management). |
+| `PureAdmin.Components.DataDisplay` (field, fields, field_group, desc_table, prop_card, banded, accent_grid, dot_leaders) | `data-display.html` | ✅ | 2026-04-25 | `39cc6bd` | Clean. `accent_grid__item` has both `color="1..9"` (numeric) and `variant="primary|success|…"` — numeric is a Phoenix extension beyond the snippet, kept as-is. |
+| `PureAdmin.Components.Layout.notifications/1` + `notification_item/1` | `notifications.html` | ✅ | 2026-04-25 | `0d7bb15` | Clean. |
+| `PureAdmin.Components.Stat` (default + hero + hero-compact + square) | `statistics.html` | ✅ | 2026-04-25 | `5de0ce8` | Clean. |
+| `PureAdmin.Components.FilterCard` | `filter-card.html` | ✅ | 2026-04-25 | `b65ec2b` | Clean. |
+| `lib/assets/js/hooks/detail_panel.js` (resize hook only) | `detail-panel.html` | ✅ | 2026-04-25 | `c1dc6ff` | Fixed: handle selector now `.pa-detail-panel-resize` (was `.pa-detail-panel__handle`); width written to `--pa-local-detail-panel-width` on `<html>` (was inline `style.width` on the panel); body gets `pa-detail-panel-resizing` during drag, handle gets `pa-detail-panel-resize--active`; RTL drag direction inverted; min-width clamped to 200 px. Open/close state-management for the three display modes (inline split-view / card overlay / fixed overlay) is the consumer's responsibility — no Elixir wrapper for the panel container yet (gap noted below). |
 
 ---
 
@@ -78,11 +86,14 @@ a snippet.
 
 | Component module | SCSS source | Notes |
 |---|---|---|
-| `PureAdmin.Components.DataDisplay` (field, desc_table, banded, accent_grid, prop_card) | `_data-display.scss` | Framework says "Public — snippet worth adding" |
 | `PureAdmin.Components.DataViz` (progress, stacked_bar, data_bar, etc.) | `_data-viz.scss` | Framework says "D3-driven — snippet would be thin; defer" |
-| `PureAdmin.Components.FilterCard` | `_filter-card.scss` | Framework says "Public — snippet worth adding" |
-| `PureAdmin.Components.Stat` | `_statistics.scss` | Framework says "Public — snippet worth adding" |
 | `PureAdmin.Components.SettingsPanel` | `_settings-panel.scss` | Framework says "Demo-internal; no snippet needed" |
+
+### Library gaps (snippet exists, no Elixir wrapper)
+
+| Component | Snippet | Notes |
+|---|---|---|
+| `pa-detail-view` / `pa-detail-panel` (container, three display modes) | `detail-panel.html` | We ship the resize JS hook (`PureAdminDetailPanel`) but no Elixir wrapper for the inline split-view, card overlay, or fixed/mobile overlay container markup. Apps render the markup by hand and just attach the hook. Worth componentising in a later release. |
 
 ---
 
@@ -99,13 +110,7 @@ are audited against our own conventions and integration tests only.
 
 ## Components whose snippet audit is pending upstream
 
-These components correspond to snippets the framework team hasn't yet
-re-audited. Auditing from our side is lower priority until upstream has a
-known-good reference.
-
-| Component module | Snippet | Upstream status |
-|---|---|---|
-| `PureAdmin.Components.Modal` | `modals.html` | ⏳ pending upstream |
+_None — upstream's audit pass is complete as of `cf75736` (2026-04-25)._
 
 ---
 

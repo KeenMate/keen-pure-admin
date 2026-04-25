@@ -80,7 +80,7 @@ defmodule PureAdmin.Components.Modal do
           <% end %>
           <button
             :if={@should_show_close && !@is_static}
-            class="pa-btn pa-btn--primary pa-btn--icon-only pa-btn--sm"
+            class={close_button_classes(assigns)}
             phx-click={JS.exec(@on_cancel, "phx-remove", to: "##{@id}")}
             aria-label={t("pureAdmin.a11y.close")}
           >
@@ -154,5 +154,13 @@ defmodule PureAdmin.Components.Modal do
 
   defp footer_classes(assigns) do
     build_classes("pa-modal__footer", [], assigns.footer_class)
+  end
+
+  # Header close button: themed modals get pa-btn--light to read against
+  # the coloured header strip; default modal uses pa-btn--secondary.
+  defp close_button_classes(assigns) do
+    variant = assigns.header_variant || assigns.variant
+    color = if variant != nil, do: "light", else: "secondary"
+    "pa-btn pa-btn--sm pa-btn--icon-only pa-btn--#{color}"
   end
 end

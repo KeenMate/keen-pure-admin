@@ -4,13 +4,20 @@
 
 ### Component audit
 
-Cross-checked every library component against the current `@keenmate/pure-admin-core` HTML snippets and recorded per-component audit status in the new `component-audit.md` at repo root. 23 snippets reviewed against anchor pure-admin commit `e4f1cd6`. Drift fixes:
+Cross-checked every library component against the current `@keenmate/pure-admin-core` HTML snippets and recorded per-component audit status in the new `component-audit.md` at repo root. **30 snippets** reviewed across two passes (anchor pure-admin commit `cf75736`):
+
+- First pass (2026-04-24, anchor `e4f1cd6`): 23 snippets that were upstream-audited at the time.
+- Second pass (2026-04-25, anchor `cf75736`): 7 newly-audited snippets that closed upstream's pending list and snippet gaps — `modals.html`, `modal-dialogs.html`, `data-display.html`, `notifications.html`, `statistics.html`, `filter-card.html`, `detail-panel.html`. None of the previously-audited snippets changed.
+
+Drift fixes:
 
 - **`Popconfirm`** — server render now emits the initial `pa-popconfirm--{bottom|top|start|end}` class (previously only `data-placement` was set, so CSS rules keyed on the class rendered inconsistently before Floating UI ran). The client-side position helper in `events/popconfirm.js` now strips the logical `start|end` class pair on flip (was looking for physical `left|right` that never appeared) and maps Floating UI's physical `result.placement` back to our logical class via a `physicalToLogical()` helper — RTL collision-flipped popconfirms now render correctly.
 - **`Popover`** — title in `.pa-popover__header` now renders as `<h4>` (was `<span class="pa-popover__title">`) to match the snippet's semantic heading pattern and inherit the framework's heading-reset rules.
 - **`Callout`** — `.pa-callout__heading` now renders as `<h4>` (was `<div>`) to match the snippet; picks up the shared heading margin reset instead of needing override rules.
 - **`Card`** — the `:tools` slot now emits `<div class="pa-card__actions">` (was `pa-card__tools`, which has no CSS backing). Slot name kept for API stability.
 - **`Loader` / `spinner`** — `size` attr narrowed from `[nil, "xs", "sm", "md", "lg", "xl", "2xl"]` to `[nil, "xs"]`. The other sizes produced invalid class names (`pa-spinner--lg`, etc.) that don't exist in the SCSS framework — they all rendered at the default 16 px, which is confusing. Demo page updated to show only default + `--xs`. **Breaking for apps passing those size values** — drop the attr to fall back to default.
+- **`Modal`** — header close button class flipped from `pa-btn pa-btn--primary pa-btn--icon-only pa-btn--sm` to `pa-btn pa-btn--sm pa-btn--icon-only pa-btn--secondary` for the default modal and `… pa-btn--light` for themed modals (`variant`/`header_variant` set), matching the snippet's "secondary on neutral header / light on coloured header strip" pattern.
+- **`PureAdminDetailPanel` JS hook** — full rewrite to match the contract documented in `detail-panel.html`. Drag handle selector changed from `.pa-detail-panel__handle` (which never matched real markup) to `.pa-detail-panel-resize`; new width is written to `--pa-local-detail-panel-width` on `<html>` (was inline `style.width` on the panel, which only worked when the panel had no width-via-CSS-variable rule — i.e. never on real pure-admin markup); body picks up `pa-detail-panel-resizing` during drag to suppress text selection; handle picks up `pa-detail-panel-resize--active`; drag direction inverts in RTL; min-width clamped to 200 px. **Breaking for apps wiring the old hook** — they relied on a selector that didn't match the snippet anyway; switch the handle markup to `<div class="pa-detail-panel-resize">` and the panel will resize correctly.
 - **`component-audit.md` (new)** at the repo root tracks every component's audit status, which snippet it was verified against, and the pure-admin commit hash at time of verification. Re-audits flip the row back to ⏳ when upstream ships a newer snippet.
 
 Components with acknowledged gaps deferred to a later release (tracked in `component-audit.md`):
