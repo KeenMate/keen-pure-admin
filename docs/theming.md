@@ -39,35 +39,56 @@ Place extracted themes under `priv/static/themes/` so Phoenix can serve them:
 
 ### Option A: Pure Admin CLI (recommended)
 
-Install the CLI globally and manage themes in your project:
+Pure Admin uses a three-file config modeled on `package.json` / `package-lock.json`:
 
-```bash
-npm install -g @keenmate/pureadmin
+| File | Role | Tracked? |
+|---|---|---|
+| `pureadmin.json` | declarations only — which themes the project uses | yes (hand-edited) |
+| `pureadmin.lock.json` | resolved versions, content shas, fetch timestamps | yes (tool-managed) |
+| `.pureadmin.json` | per-developer overrides (local paths, dev API keys) | no (gitignored) |
 
-# Add themes to your project
-pureadmin themes add audi dark express
+Create `pureadmin.json` at your project root with the themes you ship:
 
-# Check for updates and re-download changed themes
-pureadmin update
+```json
+{
+  "themesDir": "priv/static/themes",
+  "themes": {
+    "audi": {},
+    "dark": {},
+    "express": {}
+  }
+}
 ```
 
-The CLI tracks theme versions and `content_sha` checksums in a `pure-admin.json` config file. Only changed themes are re-downloaded. Themes are extracted to `priv/static/themes/` by default.
+Then resolve and download with the CLI:
+
+```bash
+# Local dev: install + write/refresh the lockfile
+npx @keenmate/pureadmin themes install
+
+# Bump every theme to the latest registry version (writes the lock)
+npx @keenmate/pureadmin themes update
+
+# CI / Docker: strict reproduce from the lockfile, fail on drift, never write
+npx @keenmate/pureadmin themes ci
+```
+
+`themes install` is the everyday "make this project work" verb — fresh clones run it once. `themes ci` is the strict CI verb that reproduces the lockfile exactly. Add `priv/static/themes/` and `.pureadmin.json` to `.gitignore`.
+
+The CLI auto-detects your `@keenmate/pure-admin-core` version (probes `package.json` and `assets/package.json`) and resolves theme versions compatible with it.
 
 ### Option B: Manual download
 
-Download theme zips from [pureadmin.io](https://pureadmin.io) and extract them into `priv/static/themes/`.
+Download theme zips from [pureadmin.io](https://pureadmin.io) and extract them into `priv/static/themes/`. Each zip extracts to `<id>/css/<id>.css` plus assets and a `theme.json` manifest.
 
 ### Option C: Download in CI/CD (Dockerfile)
 
-Fetch themes automatically during your Docker build using the bundle API. Pass a comma-separated list of theme names to the `themes` query parameter — the API returns a single zip with all requested themes:
+Run `themes ci` during your Docker build. Copy the two config files first so the CLI knows what to fetch, then run the install:
 
 ```dockerfile
-ARG THEMES_URL=https://pureadmin.io/api/bundle?themes=audi,dark,express,corporate,minimal
-RUN apt-get update && apt-get install -y --no-install-recommends curl unzip && rm -rf /var/lib/apt/lists/* \
-  && mkdir -p priv/static/themes \
-  && curl -fsSL -o /tmp/themes.zip "${THEMES_URL}" \
-  && unzip -o /tmp/themes.zip -d priv/static/themes \
-  && rm -f /tmp/themes.zip
+COPY pureadmin.json pureadmin.lock.json ./
+RUN apt-get update && apt-get install -y --no-install-recommends nodejs npm && rm -rf /var/lib/apt/lists/* \
+  && npx @keenmate/pureadmin themes ci
 ```
 
 > **Tip:** Run the theme download step *before* `mix assets.deploy` so that `phx.digest` fingerprints the theme files along with the rest of your static assets.

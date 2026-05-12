@@ -10,8 +10,8 @@ defmodule DemoWeb.ThemePlug do
   - GET /api/themes/manifests — returns all available theme manifests as JSON
   - GET /api/themes/:name/manifest — returns a single theme's manifest
 
-  Directory structure per theme:
-    themes/{name}/dist/{name}.css   — main stylesheet
+  Directory structure per theme (matches `pureadmin themes install` extraction):
+    themes/{name}/css/{name}.css    — main stylesheet
     themes/{name}/assets/fonts/...  — bundled fonts
     themes/{name}/theme.json        — manifest
 

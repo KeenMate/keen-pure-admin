@@ -1,0 +1,10 @@
+{
+  "themesDir": "priv/static/themes",
+  "themes": {
+    "audi": {},
+    "corporate": {},
+    "dark": {},
+    "express": {},
+    "minimal": {}
+  }
+}

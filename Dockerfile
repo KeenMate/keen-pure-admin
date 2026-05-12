@@ -48,10 +48,18 @@ RUN mix compile
 RUN mkdir -p priv/static/assets/css \
   && cp assets/css/app.css priv/static/assets/css/
 
-# Download themes via PureAdmin CLI
+# Bundle the starter themes via PureAdmin CLI.
+# `pureadmin.json` (declarations) + `pureadmin.lock.json` (resolutions) are read
+# by `themes ci` to reproduce exactly what's checked in. `.pureadmin.json`
+# (per-developer overrides) is gitignored and intentionally NOT copied —
+# `themes ci` would ignore it anyway.
+# Themes resolve to `priv/static/themes/<id>/` per `themesDir` in pureadmin.json.
+# Themes NOT bundled here (cobalt2, gruvbox, etc.) still work at runtime: the
+# DemoWeb.ThemePlug downloads any unknown theme on demand from pureadmin.io and
+# caches it in /tmp/pure-admin-themes/, so `?theme=<missing>` still resolves.
+COPY demo/pureadmin.json demo/pureadmin.lock.json ./
 RUN apt-get update && apt-get install -y --no-install-recommends nodejs npm && rm -rf /var/lib/apt/lists/* \
-  && npx @keenmate/pureadmin themes add audi dark express corporate minimal \
-       --dir priv/static/themes
+  && npx @keenmate/pureadmin themes ci
 
 # Build and digest assets (esbuild + phx.digest)
 RUN mix assets.deploy

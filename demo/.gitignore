@@ -31,6 +31,12 @@ demo-*.tar
 # Ignore digested assets cache.
 /priv/static/cache_manifest.json
 
+# Downloaded themes (managed by `npx @keenmate/pureadmin themes install` — see pureadmin.json / pureadmin.lock.json)
+/priv/static/themes/
+
+# Per-developer pureadmin overrides (path overrides, dev API keys, etc.)
+.pureadmin.json
+
 # In case you use Node.js/npm, you want to ignore these.
 npm-debug.log
 /assets/node_modules/

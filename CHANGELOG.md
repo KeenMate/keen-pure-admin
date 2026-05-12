@@ -1,5 +1,28 @@
 # Changelog
 
+## Unreleased
+
+### Pure-admin v2.6.0 + v2.7.0 sync (in progress)
+
+Bringing the library forward from its v2.5.0 anchor (`1f9d818`) to current pure-admin HEAD `12b9d23` (v2.7.0). Two upstream releases are absorbed across this work: v2.6.0 (KPI showcase suite + token consolidation + Tailwind role palette) and v2.7.0 (`pa-modal--banded` + `pa-gauge` rebuild + CSS-variable consolidation sweep + link tokens). Full task list lives in [`pure-admin-2.7-sync.md`](pure-admin-2.7-sync.md) at the repo root.
+
+**Landed so far:**
+
+- **New `PureAdmin.Components.Kpi` module** — shared substrate for the v2.6.0 KPI showcase suite. Three function components:
+    - **`kpi_tile/1`** — base tile (id · label · value · prev row · chart slot · detail slot). Sentiment variants on value and delta cover the new 5-step scale (`very_positive` / `positive` / `neutral` / `negative` / `very_negative`); sparkline direction modifier accepts the same set. Status pill is a slot whose `variant` attr accepts `warn` / `good` / `neutral` plus any user-defined string (emits `kpi-tile__status--{variant}` for custom CSS). `is_standalone` boolean modifier for tiles outside a `.kpi-terminal__grid`.
+    - **`kpi_tile_detail/1`** — Bloomberg-style popover scaffold for the tile's `:detail` slot. `title_text` / `:title` slot + `:row` slots with `label` / `value` and optional `sentiment` (`positive` / `negative` / `neutral`) mapping to the framework's `.pos` / `.neg` classes.
+    - **`kpi_sparkline/1`** — opt-in convenience for the simple SVG polyline + trailing-dot pattern. Users who already have a chart library (D3, ApexCharts, Vega-Lite, Contex, custom inline SVG, hook-mounted div) plug it into the `:chart` slot instead — the framework picks no chart library.
+- **Two new JS hooks** in `lib/assets/js/hooks/`:
+    - **`PureAdminKpiTile`** — cursor-anchored hover detail popover via Floating UI's `computePosition` + virtual reference element. Moves the `.kpi-tile__detail` element to `<body>` on mount (escapes ancestor `overflow: hidden`), updates on `mousemove`, restores original parent on `destroyed`. Auto-emitted by `kpi_tile/1` only when both `:detail` slot has content AND `id` is set — tiles without popovers don't require an id.
+    - **`PureAdminKpiSparkDot`** — converts an SVG `<circle>` to a CSS-pixel-sized `<span>` so the sparkline's trailing dot stays circular under non-uniform scaling (`preserveAspectRatio="none"`). Idempotent on `updated()`.
+- **Two design principles** locked in by the substrate API, applied to every KPI component still to come:
+    1. **Chart rendering is pluggable.** `:chart` slot accepts any markup; framework does not pick a renderer.
+    2. **All labels are user-controlled.** Every textual element (id, label, value, unit, prev / delta strings, status pill content, detail title and rows) is an attr or slot — no English strings hardcoded in the component module.
+
+**Still pending in this sync:** the seven showcase wrappers (Terminal grid, Sparkline list, Comparison gauges, Hero + supporting, Bento, Numeric strip, Editorial minimal); `pa-stat--square` rework; `pa-modal--banded` modifier; `pa-gauge` rebuild; smaller component updates (stat icon `--danger`, sentiment scale on hero deltas, sidebar submenu token, btn-split, timeline, info chip, live-data cards); link tokens and the v2.6.0 / v2.7.0 token-documentation pass. README anchor + `component-audit.md` updates come at the end.
+
+---
+
 ## v1.3.0 — 2026-04-25
 
 ### Pure-admin v2.5.0 sync

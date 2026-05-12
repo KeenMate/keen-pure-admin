@@ -129,11 +129,24 @@ The `navbar_brand` and `footer` components read from this config automatically. 
 
 ### 4. Install a theme and update the root layout
 
-Download a theme using the PureAdmin CLI:
+Declare the themes your app ships with in a `pureadmin.json` at your project root:
+
+```json
+{
+  "themesDir": "priv/static/themes",
+  "themes": {
+    "audi": {}
+  }
+}
+```
+
+Then resolve and download them with the PureAdmin CLI:
 
 ```bash
-npx @keenmate/pureadmin themes add audi --dir priv/static/themes
+npx @keenmate/pureadmin themes install
 ```
+
+This generates `pureadmin.lock.json` (commit it — same convention as `package-lock.json`) and extracts each theme to `priv/static/themes/<id>/`. CI / Docker builds should run `npx @keenmate/pureadmin themes ci` instead, which reproduces the lockfile exactly and fails fast if the two files drift. Add `priv/static/themes/` to `.gitignore` — themes are downloaded artifacts.
 
 Add `themes` to your static paths so Phoenix serves the files:
 

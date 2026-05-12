@@ -30,6 +30,7 @@ defmodule PureAdmin.Components do
       import PureAdmin.Components.DataViz
       import PureAdmin.Components.Form
       import PureAdmin.Components.Grid
+      import PureAdmin.Components.Kpi
       import PureAdmin.Components.Layout
       import PureAdmin.Components.List
       import PureAdmin.Components.Loader

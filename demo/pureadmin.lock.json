@@ -1,0 +1,35 @@
+{
+  "_format": 1,
+  "themes": {
+    "audi": {
+      "version": "2.3.4",
+      "content_sha": "sha256:a54cdfa7403b253aa80dde19cbf1eb7a73fa80d4eb9b97b872ac64958648a14e",
+      "fetched_at": "2026-05-02T19:55:02.298Z",
+      "source": "remote"
+    },
+    "corporate": {
+      "version": "2.3.4",
+      "content_sha": "sha256:f7a99d55f455dde87b0e2bd9fa100c7648412ee29dbc3cc464c37ec863e1438a",
+      "fetched_at": "2026-05-02T19:55:02.548Z",
+      "source": "remote"
+    },
+    "dark": {
+      "version": "2.3.4",
+      "content_sha": "sha256:5b4bcfc1dd958e2ab504585f60196501a03f1fb57b36c8ae94948756575721dc",
+      "fetched_at": "2026-05-02T19:55:02.674Z",
+      "source": "remote"
+    },
+    "express": {
+      "version": "2.3.4",
+      "content_sha": "sha256:01cf3132a51f89d9b6bad4d0a966cbb058e79b45fd34e12a5dc17b7185ebd1f6",
+      "fetched_at": "2026-05-02T19:55:02.851Z",
+      "source": "remote"
+    },
+    "minimal": {
+      "version": "2.3.4",
+      "content_sha": "sha256:c4d0fa091ecba349065832cd4c37bb1d00d61afdafc08deb02120d713bd908b2",
+      "fetched_at": "2026-05-02T19:55:03.003Z",
+      "source": "remote"
+    }
+  }
+}
