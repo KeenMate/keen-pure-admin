@@ -14,7 +14,12 @@
 FROM elixir:1.18-slim AS builder
 
 RUN apt-get update \
-  && apt-get install -y --no-install-recommends build-essential git ca-certificates \
+  && apt-get install -y --no-install-recommends \
+       build-essential \
+       git \
+       ca-certificates \
+       nodejs \
+       npm \
   && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /build
@@ -36,7 +41,24 @@ WORKDIR /build/demo
 RUN mix deps.get --only $MIX_ENV
 RUN mix deps.compile
 
-# Copy application source (paths relative to build context, destinations absolute)
+# Bundle all declared themes via PureAdmin CLI. Done BEFORE source copy so a
+# source-only change doesn't bust the ~75MB themes layer.
+#
+# `pureadmin.json` (declarations, 15 themes) + `pureadmin.lock.json`
+# (resolutions) are read by `themes ci` to reproduce exactly what's checked
+# in — strict mode: fails fast on lock drift, ignores `.pureadmin.json`
+# (per-developer disk overrides; gitignored and excluded from the build
+# context via `.dockerignore`).
+# Themes resolve to `priv/static/themes/<id>/` per `themesDir` in pureadmin.json.
+# Any theme NOT in pureadmin.json can still be loaded at runtime via
+# DemoWeb.ThemePlug's on-demand fetch from pureadmin.io (cached at
+# /tmp/pure-admin-themes/).
+COPY demo/pureadmin.json demo/pureadmin.lock.json ./
+RUN npx --yes @keenmate/pureadmin themes ci
+
+# Copy application source (paths relative to build context, destinations
+# absolute). `priv/static/themes/` is .dockerignored — the only source of
+# themes inside the image is the `themes ci` layer above.
 COPY demo/lib /build/demo/lib
 COPY demo/priv /build/demo/priv
 COPY demo/assets /build/demo/assets
@@ -47,19 +69,6 @@ RUN mix compile
 # Copy app CSS to priv/static (esbuild only bundles JS; theme CSS includes the core)
 RUN mkdir -p priv/static/assets/css \
   && cp assets/css/app.css priv/static/assets/css/
-
-# Bundle the starter themes via PureAdmin CLI.
-# `pureadmin.json` (declarations) + `pureadmin.lock.json` (resolutions) are read
-# by `themes ci` to reproduce exactly what's checked in. `.pureadmin.json`
-# (per-developer overrides) is gitignored and intentionally NOT copied —
-# `themes ci` would ignore it anyway.
-# Themes resolve to `priv/static/themes/<id>/` per `themesDir` in pureadmin.json.
-# Themes NOT bundled here (cobalt2, gruvbox, etc.) still work at runtime: the
-# DemoWeb.ThemePlug downloads any unknown theme on demand from pureadmin.io and
-# caches it in /tmp/pure-admin-themes/, so `?theme=<missing>` still resolves.
-COPY demo/pureadmin.json demo/pureadmin.lock.json ./
-RUN apt-get update && apt-get install -y --no-install-recommends nodejs npm && rm -rf /var/lib/apt/lists/* \
-  && npx @keenmate/pureadmin themes ci
 
 # Build and digest assets (esbuild + phx.digest)
 RUN mix assets.deploy

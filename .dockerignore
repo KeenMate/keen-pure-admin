@@ -4,6 +4,15 @@ deps/
 demo/_build/
 demo/deps/
 
+# Themes — installed inside the image by `themes ci` from pureadmin.json
+# + pureadmin.lock.json. Keeps dev-installed (per-developer .pureadmin.json
+# disk overrides) and CI-installed (strict lockfile reproduction) from
+# overlapping, and avoids shipping ~75MB of theme files into the build context.
+demo/priv/static/themes/
+
+# Per-developer pureadmin overrides — never want these in CI builds.
+demo/.pureadmin.json
+
 # Node
 node_modules/
 demo/assets/node_modules/
