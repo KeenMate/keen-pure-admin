@@ -176,16 +176,27 @@ defmodule PureAdmin.Components.DataViz do
   @doc """
   Renders a semi-circle dashboard gauge.
 
+  Tracks `_data-viz.scss` v2.7.0+: the gauge was rebuilt as a true ring with
+  a transparent centre. The label now sits in a sibling row below the
+  gauge (`__min · __label · __max`) — the `__inner` holds only the value.
+
+  Set `:size` (CSS length) to scale the entire gauge via `--pa-gauge-size`
+  (default upstream `12rem`). Text inside the donut doesn't auto-scale —
+  if you go much smaller / larger, override `font-size` on `.pa-gauge__value`
+  in your own stylesheet.
+
   ## Examples
 
       <.gauge value={72} label="CPU" />
       <.gauge value={45} label="Memory" variant="success" min="0" max="32 GB" />
+      <.gauge value={88} label="Throughput" size="16rem" variant="info" />
   """
   attr(:value, :integer, required: true, doc: "0-100")
   attr(:value_text, :string, default: nil, doc: "Custom value display text")
   attr(:label, :string, default: nil)
   attr(:variant, :string, default: nil, values: [nil, "primary", "success", "warning", "danger", "info"])
-  attr(:is_zones, :boolean, default: false, doc: "Zone-colored gauge")
+  attr(:is_zones, :boolean, default: false, doc: "Zone-coloured gauge (multi-zone fill)")
+  attr(:size, :string, default: nil, doc: "CSS length for `--pa-gauge-size` (default upstream `12rem`)")
   attr(:min, :string, default: "0")
   attr(:max, :string, default: "100")
   attr(:class, :string, default: nil)
@@ -200,17 +211,20 @@ defmodule PureAdmin.Components.DataViz do
       <div class={build_classes("pa-gauge", [
         {"pa-gauge--#{@variant}", @variant != nil},
         {"pa-gauge--zones", @is_zones}
-      ], @class)} style={"--value: #{@value}"} {@rest}>
+      ], @class)} style={gauge_style(@value, @size)} {@rest}>
         <div class="pa-gauge__inner">
           <span class="pa-gauge__value"><%= @display_value %></span>
-          <span :if={@label} class="pa-gauge__label"><%= @label %></span>
         </div>
         <span class="pa-gauge__min"><%= @min %></span>
+        <span :if={@label} class="pa-gauge__label"><%= @label %></span>
         <span class="pa-gauge__max"><%= @max %></span>
       </div>
     </div>
     """
   end
+
+  defp gauge_style(value, nil), do: "--value: #{value}"
+  defp gauge_style(value, size), do: "--value: #{value}; --pa-gauge-size: #{size};"
 
   # -- data_bar/1 --
 

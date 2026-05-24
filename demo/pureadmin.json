@@ -2,9 +2,19 @@
   "themesDir": "priv/static/themes",
   "themes": {
     "audi": {},
+    "ayu": {},
+    "cafeindustrial": {},
+    "cobalt2": {},
     "corporate": {},
     "dark": {},
+    "darkmatter": {},
+    "dracula": {},
     "express": {},
-    "minimal": {}
+    "gruvbox": {},
+    "minimal": {},
+    "nato": {},
+    "night-owl": {},
+    "one-dark": {},
+    "tokyo-night": {}
   }
 }

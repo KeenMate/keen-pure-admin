@@ -72,6 +72,16 @@ defmodule DemoWeb.Router do
       # Virtual Scroll
       live "/virtual-scroll/demo", Live.VirtualScrollLive, :index
 
+      # KPI
+      live "/kpi/dashboard", Live.KpiDashboardLive, :index
+      live "/kpi/terminal-grid", Live.KpiTerminalGridLive, :index
+      live "/kpi/sparkline-list", Live.KpiSparklineListLive, :index
+      live "/kpi/comparison-gauges", Live.KpiComparisonGaugesLive, :index
+      live "/kpi/hero-supporting", Live.KpiHeroSupportingLive, :index
+      live "/kpi/bento", Live.KpiBentoLive, :index
+      live "/kpi/numeric-strip", Live.KpiNumericStripLive, :index
+      live "/kpi/editorial-minimal", Live.KpiEditorialMinimalLive, :index
+
       # Timeline
       live "/timeline/simple", Live.TimelineSimpleLive, :index
       live "/timeline/block", Live.TimelineBlockLive, :index

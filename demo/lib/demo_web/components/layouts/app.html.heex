@@ -150,6 +150,17 @@
         <.sidebar_item label="Comparison" href="/tables/comparison" is_active={@current_path == "/tables/comparison"} />
       </.sidebar_submenu>
 
+      <.sidebar_submenu id="kpi" label="KPI" icon="fa-solid fa-chart-line" is_open={String.starts_with?(@current_path, "/kpi")}>
+        <.sidebar_item label="Combined dashboard" href="/kpi/dashboard" is_active={@current_path == "/kpi/dashboard"} />
+        <.sidebar_item label="Terminal grid" href="/kpi/terminal-grid" is_active={@current_path == "/kpi/terminal-grid"} />
+        <.sidebar_item label="Sparkline list" href="/kpi/sparkline-list" is_active={@current_path == "/kpi/sparkline-list"} />
+        <.sidebar_item label="Comparison gauges" href="/kpi/comparison-gauges" is_active={@current_path == "/kpi/comparison-gauges"} />
+        <.sidebar_item label="Hero + supporting" href="/kpi/hero-supporting" is_active={@current_path == "/kpi/hero-supporting"} />
+        <.sidebar_item label="Bento" href="/kpi/bento" is_active={@current_path == "/kpi/bento"} />
+        <.sidebar_item label="Numeric strip" href="/kpi/numeric-strip" is_active={@current_path == "/kpi/numeric-strip"} />
+        <.sidebar_item label="Editorial minimal" href="/kpi/editorial-minimal" is_active={@current_path == "/kpi/editorial-minimal"} />
+      </.sidebar_submenu>
+
       <.sidebar_submenu id="timeline" label="Timeline" icon="fa-solid fa-clock-rotate-left" is_open={String.starts_with?(@current_path, "/timeline")}>
         <.sidebar_item label="Simple" href="/timeline/simple" is_active={@current_path == "/timeline/simple"} />
         <.sidebar_item label="Block" href="/timeline/block" is_active={@current_path == "/timeline/block"} />

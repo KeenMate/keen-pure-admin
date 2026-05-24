@@ -1,9 +1,9 @@
-.PHONY: help setup dev build publish publish-dry deps test format quality docs docs-serve clean themes-clear podman-build podman-run podman-stop podman-restart podman-logs podman-clean podman-deploy podman-push
+.PHONY: help setup dev build publish publish-dry deps test format quality docs docs-serve clean themes-install themes-clear podman-build podman-run podman-stop podman-restart podman-logs podman-clean podman-deploy podman-push
 
 help: ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-20s\033[0m %s\n", $$1, $$2}'
 
-setup: deps ## Install deps and compile library + demo
+setup: deps themes-install ## Install deps, snapshot themes, and compile library + demo
 	mix compile
 	cd demo && mix compile
 
@@ -11,7 +11,18 @@ deps: ## Install dependencies for library and demo
 	mix deps.get
 	cd demo && mix deps.get
 
-dev: ## Start demo app with iex
+# Snapshot themes into demo/priv/static/themes/ from configured sources
+# (remote API via demo/pureadmin.json + lock OR local sibling paths via
+# demo/.pureadmin.json). Skips silently if neither config exists — handy on
+# fresh clones before configs are written.
+themes-install: ## Snapshot themes into demo/priv/static/themes/
+	@if [ -f demo/pureadmin.json ] || [ -f demo/.pureadmin.json ]; then \
+		cd demo && npx @keenmate/pureadmin themes install; \
+	else \
+		echo "themes-install: no demo/pureadmin.json or demo/.pureadmin.json — skipping"; \
+	fi
+
+dev: themes-install ## Snapshot themes and start demo app with iex
 	cd demo && iex -S mix phx.server
 
 build: ## Build hex package

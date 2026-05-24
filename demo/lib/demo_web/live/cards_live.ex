@@ -703,6 +703,29 @@ defmodule DemoWeb.Live.CardsLive do
         <li><code>pa-section-title</code> - Standalone section title with accent border</li>
       </.basic_list>
     </.card>
+
+    <.card title_text="Live-data direction · live_state">
+      <:description>
+        <code>live_state="up"</code> / <code>"down"</code> tint the card background to reflect the latest tick direction. v2.7.0 migrated the internal SCSS from <code>rgba(--pa-success-bg, X)</code> to <code>color-mix()</code> over the 5-step sentiment scale — wrapper API unchanged. Direction-of-change indicators, distinct from status (<code>--success</code> / etc.).
+      </:description>
+      <.grid>
+        <.column size="1-3">
+          <.card live_state="up">
+            <.stat variant="hero-compact" number="$847K" label_text="MRR" change_text="▲ 12.5%" change_direction="positive" />
+          </.card>
+        </.column>
+        <.column size="1-3">
+          <.card live_state="neutral">
+            <.stat variant="hero-compact" number="148 ms" label_text="Latency p95" change_text="±0.7%" change_direction="neutral" />
+          </.card>
+        </.column>
+        <.column size="1-3">
+          <.card live_state="down">
+            <.stat variant="hero-compact" number="2.4%" label_text="Churn" change_text="▲ 14%" change_direction="negative" />
+          </.card>
+        </.column>
+      </.grid>
+    </.card>
     """
   end
 end

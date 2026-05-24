@@ -7,6 +7,24 @@
       "fetched_at": "2026-05-02T19:55:02.298Z",
       "source": "remote"
     },
+    "ayu": {
+      "version": "2.7.0",
+      "content_sha": "sha256:0846d6c6e8ba7b606fd2af5c570168267c8311c04951a195ba296bd0ed48d1f0",
+      "fetched_at": "2026-05-24T19:22:00.988Z",
+      "source": "remote"
+    },
+    "cafeindustrial": {
+      "version": "2.7.0",
+      "content_sha": "sha256:1911d16cff30492ce8b507571e1e0686b518dcf4a188a2cdbcdd9c05a6245c9c",
+      "fetched_at": "2026-05-24T19:22:01.084Z",
+      "source": "remote"
+    },
+    "cobalt2": {
+      "version": "2.7.0",
+      "content_sha": "sha256:aa397d30d5927a8590da223b9f4c5790b523fa7bf25aa3b428c9ddb3ddec3846",
+      "fetched_at": "2026-05-24T19:22:01.126Z",
+      "source": "remote"
+    },
     "corporate": {
       "version": "2.3.4",
       "content_sha": "sha256:f7a99d55f455dde87b0e2bd9fa100c7648412ee29dbc3cc464c37ec863e1438a",
@@ -19,16 +37,58 @@
       "fetched_at": "2026-05-02T19:55:02.674Z",
       "source": "remote"
     },
+    "darkmatter": {
+      "version": "2.7.0",
+      "content_sha": "sha256:a9ebe7b77564acbc5306a72963bee401a1177ecff585cbc883420fdc76c9f9b3",
+      "fetched_at": "2026-05-24T19:22:01.201Z",
+      "source": "remote"
+    },
+    "dracula": {
+      "version": "2.7.0",
+      "content_sha": "sha256:80be344c85ecbabc7115aeb4105b6468b95efd7bfd41cbbb16bed166961e9c4b",
+      "fetched_at": "2026-05-24T19:22:01.246Z",
+      "source": "remote"
+    },
     "express": {
       "version": "2.3.4",
       "content_sha": "sha256:01cf3132a51f89d9b6bad4d0a966cbb058e79b45fd34e12a5dc17b7185ebd1f6",
       "fetched_at": "2026-05-02T19:55:02.851Z",
       "source": "remote"
     },
+    "gruvbox": {
+      "version": "2.7.0",
+      "content_sha": "sha256:f5f8690babf55103e34d8ece10bc4b1963b1d1b4b44a7a0b492747dc43c8ca34",
+      "fetched_at": "2026-05-24T19:22:01.313Z",
+      "source": "remote"
+    },
     "minimal": {
       "version": "2.3.4",
       "content_sha": "sha256:c4d0fa091ecba349065832cd4c37bb1d00d61afdafc08deb02120d713bd908b2",
       "fetched_at": "2026-05-02T19:55:03.003Z",
+      "source": "remote"
+    },
+    "nato": {
+      "version": "2.7.0",
+      "content_sha": "sha256:55582808bc2c90a8851adfea6c0ecc8056939e42c50b565f39b22ab41d980320",
+      "fetched_at": "2026-05-24T19:22:01.371Z",
+      "source": "remote"
+    },
+    "night-owl": {
+      "version": "2.7.0",
+      "content_sha": "sha256:abdf14a4f2ca27cd876d477e2af652f3a364bf1923145ba40522f24da5e7a66c",
+      "fetched_at": "2026-05-24T19:22:01.413Z",
+      "source": "remote"
+    },
+    "one-dark": {
+      "version": "2.7.0",
+      "content_sha": "sha256:4498eabc4dfd296f4c44a9e8b1f34778f98660f7747617023686904885619467",
+      "fetched_at": "2026-05-24T19:22:01.460Z",
+      "source": "remote"
+    },
+    "tokyo-night": {
+      "version": "2.7.0",
+      "content_sha": "sha256:c56225ee3d8a39b721afd520294d6523b78b7891aa3be927036d954f44b369e6",
+      "fetched_at": "2026-05-24T19:22:01.504Z",
       "source": "remote"
     }
   }

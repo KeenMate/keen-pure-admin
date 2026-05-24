@@ -1,14 +1,22 @@
-# Pure Admin v2.6.0 + v2.7.0 Sync Plan
+# Pure Admin v2.6.0 + v2.7.0 + v2.7.1 Sync Plan
 
 Tracks the work to bring `keen_pure_admin` from its current pure-admin v2.5.0
-anchor (commit `1f9d818`) up to the framework's current HEAD `12b9d23`
-(v2.7.0, 2026-05-10). Two upstream releases are covered:
+anchor (commit `1f9d818`) up to the framework's current HEAD. Three upstream
+releases are covered:
 
 - **v2.6.0** (2026-05-07) — KPI showcase suite, token consolidation, Tailwind
   role-colour palette, `pa-stat--square` redesign.
 - **v2.7.0** (2026-05-10) — `pa-modal--banded`, `pa-gauge` rebuild,
   CSS-variable consolidation sweep, link tokens, sidebar/btn-split/timeline
   fixes.
+- **v2.7.1** (2026-05-14) — KPI showcases promoted from inline demo styles
+  into permanent `pa-kpi-*` core components (8 SCSS partials, all `kpi-*`
+  classes renamed to `pa-kpi-*`, per-component cascade vars namespace-prefixed
+  to `--pa-kpi-*`). Post-2.7.1 commits added universal generalisations:
+  generic terminal tab strip (replaces VALUE/Δ%/TREND view-mode toggle),
+  `auto-fit` cell-min grids on gauges + editorial, layout-ratio modifiers on
+  hero + bento, `--no-prev/-delta/-target` toggles on numeric strip,
+  `--no-delta` on sparkline list.
 
 Status legend: `[ ]` not started · `[~]` in progress · `[x]` done · `[-]`
 intentionally skipped (with reason).
@@ -90,58 +98,77 @@ Each shipped as its own function-component module under
 chart slot + label attrs — applies to all.
 
 - [x] **Shared substrate** — `lib/keen_pure_admin/components/kpi.ex` +
-  hooks in `lib/assets/js/hooks/`, registered in `components.ex` and
-  `keen_pure_admin.js`.
-  - [x] `kpi_tile/1` — base tile (id · label · value · prev row · chart
-    slot · detail slot · sentiment variants on value/delta · spark
-    direction modifier · `is_standalone` modifier). Status pill is a slot
-    with a `variant` attr accepting any string (built-ins: `warn` / `good`
-    / `neutral`).
-  - [x] `kpi_tile_detail/1` — popover scaffold with `title_text` / `:title`
-    slot and `:row` slots (`label`, `value`, optional `sentiment` →
-    `pos` / `neg` classes).
+  `kpi_detail.ex` + hooks in `lib/assets/js/hooks/`, registered in
+  `components.ex` and `keen_pure_admin.js`. Re-anchored to v2.7.1
+  `pa-kpi-*` class surface (Phase 1).
+  - [x] `kpi_tile/1` — base tile on `pa-kpi-tile` (head · label · value ·
+    prev row · chart slot · auto-built or raw detail · sentiment variants
+    on value/delta · `variant` for sparkline direction · `is_standalone`).
+    Status pill is `status_text` + `status_variant` (built-ins: `warn` /
+    `good` / `neutral`); `:head` snippet overrides the whole head row.
+    Auto-emits `phx-hook="PureAdminKpiTile"` when `detail_title_text` is
+    set OR `:detail` slot is present.
+  - [x] `kpi_detail/1` — popover element (`pa-kpi-detail` + `__title`) that
+    accepts either a typed `rows` list (auto-built by `KpiDetail.build_auto_rows/1`
+    from `:current` / `:previous` / `:delta_absolute` / `:delta_percent` /
+    `:target` props on the host) OR a raw `:inner_block` override.
+    Replaces the previous `kpi_tile_detail/1` slot scaffold.
+  - [x] `PureAdmin.Components.KpiDetail` (kpi_detail.ex) — shared types +
+    helpers (`build_auto_rows/1`, `delta_to_sentiment/1`,
+    `sentiment_class/1`, `dasherize/1`) used by every KPI tile/row module.
+    Mirrors `kpi-detail.ts` from svelte-pure-admin.
   - [x] `kpi_sparkline/1` — opt-in convenience for the simple
-    polyline+trailing-dot pattern. Users who already have a chart library
-    plug it into the `:chart` slot instead.
-  - [x] `PureAdminKpiTile` JS hook — cursor-anchored Floating UI popover,
-    moves detail to `<body>` on mount, restores on `destroyed`. Auto-emits
-    `phx-hook` only when `:detail` slot has content AND `id` is set.
-  - [x] `PureAdminKpiSparkDot` JS hook — converts SVG `<circle>` to a
-    CSS-pixel `<span>` so the trailing dot stays circular under
-    non-uniform SVG scaling. Idempotent on `updated()`.
-- [ ] **Terminal grid** (`kpi_terminal/1`) — Bloomberg-style dense panel.
-  - View-mode segmented toggle (`VALUE` / `Δ%` / `TREND`) as a sub-component;
-    label strings come from attrs (`mode_value_label`, `mode_delta_label`,
-    `mode_trend_label`) with English defaults.
-  - Status pill slot — content fully user-controlled, modifier attr:
-    `:warn | :good | :neutral`.
-  - `.kpi-tile--standalone` modifier exposed as `:is_standalone` boolean for
-    tiles outside `.kpi-terminal__grid`.
-- [ ] **Sparkline list** (`kpi_sparkline_list/1` + `kpi_sparkline_row/1`)
-  — label · sparkline · value · Δ% rows.
-  - Container-query stacking handled by the framework — verify our wrapper
-    sets `container-type: inline-size` on the list root.
-  - `:chart_first` modifier attr (renders the `kpi-spark-list--chart-first`
-    class).
-  - Each row's sparkline is a slot.
-- [ ] **Comparison gauges** (`kpi_comparison_gauges/1` + `kpi_gauge_row/1`)
-  — goal-oriented bars with target tick.
-  - Sentiment modifier: `:positive | :warning | :negative | :neutral`.
-  - Author-controlled tick: `--kpi-gauge-tick-color` and
-    `--kpi-gauge-tick-pos` exposed as attrs (or `:style` pass-through).
-  - Value/target/scale-caption all label attrs (no `tgt` / `0` strings
-    hardcoded).
-- [ ] **Hero + supporting** (`kpi_hero_supporting/1` + `kpi_hero/1` +
-  `kpi_side_tile/1`).
-  - Hero gets a chart slot (filled-area sparkline goes here — any renderer).
-  - Meta row (`▲ 13.3% · vs last month · tgt $900K`) is a slot, not a
-    structured attr set — too varied across consumers to encode.
-  - Side rail is a slot containing N `kpi_side_tile/1`.
-- [ ] **Bento** (`kpi_bento/1`) — review `kpi-bento.mustache` for final API.
-- [ ] **Numeric strip** (`kpi_numeric_strip/1`) — densest tabular layout,
-  review `kpi-numeric-strip.mustache`.
-- [ ] **Editorial minimal** (`kpi_editorial_minimal/1`) — light type +
-  hairline rules, review `kpi-editorial-minimal.mustache`.
+    polyline+trailing-dot pattern, on `pa-kpi-tile__spark`. Users who
+    already have a chart library plug it into the `:chart` slot instead.
+  - [x] `PureAdminKpiTile` JS hook — re-anchored to `.pa-kpi-detail`
+    (was `.kpi-tile__detail`). Cursor-anchored Floating UI popover, moves
+    detail to `<body>` on mount, restores on `destroyed`.
+  - [x] `PureAdminKpiSparkDot` JS hook — re-anchored to
+    `.pa-kpi-spark-wrap` + `.pa-kpi-spark-dot`. Idempotent on `updated()`.
+- [x] **Terminal grid** — `PureAdmin.Components.KpiTerminal.kpi_terminal/1`
+  (card wrapper) + `:pane` slot (each with `id`, `label_text`, optional
+  `is_active`) for the generic tab strip. No tabs → children wrapped in a
+  single `pa-kpi-terminal__grid--2col`. Tile primitive remains
+  `PureAdmin.Components.Kpi.kpi_tile/1` (with `is_standalone`,
+  `status_text` + `status_variant`, sparkline-direction `variant`). The
+  VALUE/Δ%/TREND view-mode toggle was retired upstream in favour of the
+  generic tab strip — `kpi_terminal/1` exposes a `:header_controls` slot
+  for any custom toolbar a consumer wants instead. `PureAdminKpiTerminalTabs`
+  JS hook drives client-side tab switching.
+- [x] **Sparkline list** — `PureAdmin.Components.KpiSparklineList.kpi_sparkline_list/1`
+  + `kpi_sparkline_row/1`. `is_no_delta` drops the rightmost column
+  (`pa-kpi-spark-list--no-delta`); `is_chart_first` rotates the stacking
+  90° at narrow widths. Row's chart cell is a `:chart` slot; the row
+  itself hosts the popover.
+- [x] **Comparison gauges** — `PureAdmin.Components.KpiGaugeList.kpi_gauge_list/1`
+  + `kpi_gauge/1`. Default cell-min-driven `auto-fit` grid; switch via
+  `grid_layout="2col"` or `"max_2".."max_6"`. `cell_min_width` overrides
+  `--pa-kpi-gauge-cell-min`. `tick_position` / `tick_color` set the gauge
+  tick knobs as inline CSS vars. Sentiment variants: `positive` / `warning`
+  / `negative` / `neutral`.
+- [x] **Hero + supporting** — `PureAdmin.Components.KpiHero.kpi_hero_list/1`
+  + `kpi_hero_main/1` + `kpi_hero_side/1`. `hero_split="2_3"` or `"3_4"`
+  shifts weight to the hero (default 1:1). Hero has `:meta` slot for the
+  rich meta row (or set `delta_text` / `period_text` / `target_text` for
+  the canonical pattern); `:chart` for the sparkline. Rail is a `:rail`
+  slot.
+- [x] **Bento** — `PureAdmin.Components.KpiBento.kpi_bento/1` + `kpi_bento_tile/1`.
+  Default 6-tile hero-left layout; `bento_layout="hero_right"` mirrors;
+  `bento_layout="5_tile"` is hero + 4 supporting. `row_height` overrides
+  `--pa-kpi-bento-row-height`. Set `is_hero` on the first tile for the
+  bigger value + chart sizes.
+- [x] **Numeric strip** — `PureAdmin.Components.KpiStrip.kpi_strip/1` +
+  `kpi_strip_row/1`. Composable `no_previous_value` / `no_delta_percent` /
+  `no_target_bar` toggles. Header row auto-generated from visible columns;
+  override individual labels via `header_labels` (map keyed by column atom)
+  or suppress via `no_header` or replace fully via `:head` slot.
+  `target_bar_percent` drives bar fill (capped at 100% visually);
+  `target_percent_text` is the label below (may exceed 100).
+- [x] **Editorial minimal** — `PureAdmin.Components.KpiEditorial.kpi_editorial/1`
+  + `kpi_editorial_tile/1`. Cell-min-driven `auto-fit` grid by default;
+  `is_2_columns` boolean shorthand or `grid_layout="max_N"` cap modifiers.
+  `cell_min_width` overrides `--pa-kpi-edit-cell-min`. `target_text` is
+  auto-rendered as `<em>tgt</em>{value}` in the meta row.
 
 > ⚠️ **Note on snippet status.** None of the KPI showcases have graduated to
 > `packages/core/snippets/` yet — they live in `demo/views/kpi-*.mustache`.

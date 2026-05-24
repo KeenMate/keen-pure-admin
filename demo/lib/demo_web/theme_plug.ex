@@ -10,10 +10,23 @@ defmodule DemoWeb.ThemePlug do
   - GET /api/themes/manifests — returns all available theme manifests as JSON
   - GET /api/themes/:name/manifest — returns a single theme's manifest
 
-  Directory structure per theme (matches `pureadmin themes install` extraction):
-    themes/{name}/css/{name}.css    — main stylesheet
-    themes/{name}/assets/fonts/...  — bundled fonts
-    themes/{name}/theme.json        — manifest
+  Directory structure per theme — TWO layouts supported side-by-side:
+
+  - **Registry layout** (zip extraction via `pureadmin themes install`):
+        themes/{name}/css/{name}.css    — main stylesheet
+        themes/{name}/assets/fonts/...  — bundled fonts
+        themes/{name}/theme.json        — manifest
+
+  - **Local-build layout** (copied via `.pureadmin.json` disk paths from a
+    sibling `pure-admin-themes/` checkout):
+        themes/{name}/dist/{name}.css   — built stylesheet
+        themes/{name}/src/{name}.scss   — source SCSS
+        themes/{name}/assets/fonts/...  — bundled fonts
+        themes/{name}/theme.json        — manifest
+
+  Both are probed automatically. URLs always use `/themes/{slug}/css/{slug}.css`
+  for the main stylesheet; the local-build layout is served by transparently
+  redirecting `css/{name}.css` → `dist/{name}.css` when only the latter exists.
 
   Uses Erlang's built-in :httpc and :zip — no external tools needed.
   Failed downloads are negatively cached for 10 minutes.
@@ -77,11 +90,34 @@ defmodule DemoWeb.ThemePlug do
           conn
 
         theme_dir ->
-          full_path = Path.join(theme_dir, file_path)
+          full_path = resolve_theme_file(theme_dir, name, file_path)
           Logger.debug("ThemePlug: serving #{full_path} (exists: #{File.regular?(full_path)})")
           serve_static_file(conn, full_path)
       end
     end
+  end
+
+  # Map a requested file path to the actual on-disk path, accounting for the
+  # registry-vs-local-build layout difference. The public URL stays
+  # `/themes/{name}/css/{name}.css` regardless; if only `dist/{name}.css` exists
+  # on disk (local-build layout), serve that instead.
+  defp resolve_theme_file(theme_dir, name, file_path) do
+    primary = Path.join(theme_dir, file_path)
+
+    if File.regular?(primary) do
+      primary
+    else
+      case file_path do
+        "css/" <> rest -> swap_layout(theme_dir, primary, Path.join("dist", rest), name)
+        "dist/" <> rest -> swap_layout(theme_dir, primary, Path.join("css", rest), name)
+        _ -> primary
+      end
+    end
+  end
+
+  defp swap_layout(theme_dir, primary, alt_relative, _name) do
+    alt = Path.join(theme_dir, alt_relative)
+    if File.regular?(alt), do: alt, else: primary
   end
 
   defp find_or_download_theme(name) do
@@ -213,8 +249,17 @@ defmodule DemoWeb.ThemePlug do
     end
   end
 
+  # A theme dir is valid if it has at least one CSS source AND a manifest. We
+  # accept either the registry layout (`css/{name}.css`) or the local-build
+  # layout (`dist/{name}.css` — used when copying from a sibling
+  # `pure-admin-themes` checkout via `.pureadmin.json` disk overrides). The
+  # manifest is preferred over a CSS file probe because v2.6.0+ themes always
+  # ship `theme.json` and its `colorVariants[].file` declares the canonical CSS
+  # location.
   defp valid_theme_dir?(path, name) do
-    File.dir?(path) and File.regular?(Path.join([path, "css", "#{name}.css"]))
+    File.dir?(path) and
+      (File.regular?(Path.join([path, "css", "#{name}.css"])) or
+         File.regular?(Path.join([path, "dist", "#{name}.css"])))
   end
 
   # -- Manifests API --

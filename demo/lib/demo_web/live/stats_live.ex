@@ -92,6 +92,29 @@ defmodule DemoWeb.Live.StatsLive do
       </.grid>
     </.card>
 
+    <.card title_text="5-step sentiment scale · v2.7.0">
+      <:description>
+        The hero delta scale grew from 3 (<code>positive</code> / <code>negative</code> / <code>neutral</code>) to 5 with the addition of <code>very_positive</code> and <code>very_negative</code> for outlier deltas. Neutral colour shifted from <code>--pa-text-color-2</code> (grey) to <code>--pa-neutral</code>. Compare the five deltas side-by-side below.
+      </:description>
+      <.grid>
+        <.column size="1-5">
+          <.stat variant="hero" number="$12.4M" label_text="ARR" change_text="+38.1% breakout" change_direction="very_positive" />
+        </.column>
+        <.column size="1-5">
+          <.stat variant="hero" number="$847K" label_text="MRR" change_text="+12.5%" change_direction="positive" />
+        </.column>
+        <.column size="1-5">
+          <.stat variant="hero" number="148 ms" label_text="Latency p95" change_text="±0.7%" change_direction="neutral" />
+        </.column>
+        <.column size="1-5">
+          <.stat variant="hero" number="2.4%" label_text="Churn" change_text="-5.2%" change_direction="negative" />
+        </.column>
+        <.column size="1-5">
+          <.stat variant="hero" number="$103K" label_text="Cloud Spend" change_text="-38% collapse" change_direction="very_negative" />
+        </.column>
+      </.grid>
+    </.card>
+
     <.card title_text="Square Stats">
       <.grid>
         <.column size="25">

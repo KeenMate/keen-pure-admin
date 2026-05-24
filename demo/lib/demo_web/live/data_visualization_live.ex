@@ -139,7 +139,7 @@ defmodule DemoWeb.Live.DataVisualizationLive do
          4. DASHBOARD GAUGES
          ============================================================ --%>
 
-    <.card title_text="4. Dashboard Gauges" subtitle_text={"Semi-circle gauge indicators. Set value via style=\"--value: 72\" (0-100)."}>
+    <.card title_text="4. Dashboard Gauges" subtitle_text={"Semi-circle gauge indicators. Set value via style=\"--value: 72\" (0-100). v2.7.0 rebuilt the gauge as a true transparent ring — label moved out of the donut, sits below alongside __min and __max."}>
 
       <div class="d-flex gap-xl flex-wrap align-items-end">
         <%!-- CPU gauge --%>
@@ -153,6 +153,18 @@ defmodule DemoWeb.Live.DataVisualizationLive do
 
         <%!-- Zone gauge --%>
         <.gauge value={62} label="Speed" is_zones value_text="62" />
+      </div>
+
+      <.heading level={4} class="mt-6">Size override · v2.7.0 :size attr</.heading>
+      <p class="text-muted mb-2">
+        New <code>:size</code> attr emits <code>--pa-gauge-size</code> inline (default upstream <code>12rem</code>). Width and height (always half the width) both derive from this token. Text inside the donut doesn't auto-scale — set <code>font-size</code> on <code>.pa-gauge__value</code> in your stylesheet for proportional resizing.
+      </p>
+
+      <div class="d-flex gap-xl flex-wrap align-items-end">
+        <.gauge value={68} label="8rem" variant="info" size="8rem" />
+        <.gauge value={68} label="12rem (default)" variant="info" />
+        <.gauge value={68} label="16rem" variant="info" size="16rem" />
+        <.gauge value={68} label="20rem" variant="info" size="20rem" />
       </div>
     </.card>
 

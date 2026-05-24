@@ -1,401 +1,420 @@
 defmodule PureAdmin.Components.Kpi do
   @moduledoc """
-  KPI showcase components for Pure Admin.
+  Shared substrate for the Pure Admin KPI showcase family.
 
-  Pure Admin v2.6.0 introduced a family of KPI indicator designs (Terminal
-  grid, Sparkline list, Comparison gauges, Hero + supporting, Bento, Numeric
-  strip, Editorial minimal). The framework ships them as page-level
-  showcases sharing a common substrate of tile chrome, sentiment colours,
-  a cursor-anchored detail popover, and sparkline tokens.
+  Tracks `@keenmate/pure-admin-core` v2.7.1+ where the seven KPI showcase
+  designs (Terminal grid, Sparkline list, Comparison gauges, Hero+supporting,
+  Bento, Numeric strip, Editorial minimal) were promoted from inline demo
+  styles into permanent `pa-kpi-*` core components. This module provides the
+  parts every showcase reuses:
 
-  This module provides the **substrate** — the parts every showcase reuses:
+  - `kpi_tile/1` — the canonical tile (head · label · value · prev row ·
+    sparkline slot · optional hover detail) used by Terminal grid and as a
+    standalone primitive.
+  - `kpi_detail/1` — hover detail popover with auto-built rows from typed
+    props or a raw `:inner_block` override. The host tile / row carries the
+    `phx-hook="PureAdminKpiTile"` attribute; this component just emits the
+    popover element that the hook finds and moves to `<body>`.
+  - `kpi_sparkline/1` — convenience SVG sparkline matching upstream defaults.
+    Optional — the chart slot accepts any renderer.
 
-  - `kpi_tile/1` — base tile with id, label, value, prev row, status pill,
-    chart slot, and detail popover slot.
-  - `kpi_tile_detail/1` — popover content scaffold (title + label/value
-    rows).
-
-  Showcase-specific wrappers (terminal grid chrome, hero+supporting layout,
-  etc.) are built on top of these primitives in dedicated components.
+  Showcase-specific wrappers (terminal-grid chrome, hero+supporting layout,
+  bento grid, gauge list, etc.) build on top of these primitives in dedicated
+  modules — see `PureAdmin.Components.Kpi.*` siblings.
 
   ## Design principles
 
-  Two constraints shape the API:
-
   1. **Pluggable chart rendering.** The `:chart` slot accepts any markup —
-     inline SVG, a `<div phx-hook="...">` that a JS chart library mounts
-     into, a Contex SVG, an ApexCharts container, etc. The framework does
-     not pick a chart library; the consumer plugs in whatever they
-     already use. A convenience `kpi_sparkline/1` is provided separately
-     for the common SVG-polyline-with-end-dot pattern.
-  2. **Labels are fully customisable.** Every textual element (id, label,
-     status pill content, value, unit, prev row text, delta text, detail
-     title and rows) is an attribute or slot. No English strings are
-     hardcoded in the component. Consumers control all i18n at the call
-     site.
+     inline SVG, a hook-mounted container for Chart.js / D3 / ApexCharts /
+     Contex / etc. The framework does not pick a chart library.
+  2. **Labels are fully customisable.** Every textual element is an attribute
+     or slot. No English strings are hardcoded; consumers control all i18n
+     at the call site.
 
-  ## Sentiment vs. status
+  ## Auto-built detail popover
 
-  Sentiment is *direction of change* (`very_positive | positive | neutral |
-  negative | very_negative`) — applied to the value, delta, and sparkline
-  direction. Status pill is *action urgency* (`warn | good | neutral` or
-  any user-defined variant) — a separate axis. A tile can be
-  `--very-negative` numerically (big drop) and `--good` pill-wise if the
-  drop is expected, and vice versa.
+  Set `detail_title_text` on `kpi_tile/1` (plus any combination of
+  `target_text` / `delta_absolute_text` / `previous_value_text` / etc.) and
+  the popover body is built for you. The row order is Current → Previous →
+  Δ absolute → Δ percent → Target — rows without data are skipped. For raw
+  control, pass a `:detail` slot instead.
 
-  ## Detail popover hook
+  ## Floating UI requirement
 
-  When the `:detail` slot has content **and** an `id` is set on the tile,
-  the component emits `phx-hook="PureAdminKpiTile"`. The hook mounts a
-  cursor-anchored Floating UI popover that moves the detail element to
-  `<body>` on init (to escape ancestor `overflow: hidden`), then updates
-  position on `mousemove`. Without the hook the detail element renders
-  inline and is invisible (`visibility: hidden`).
-
-  Floating UI must be loaded globally as `window.FloatingUIDOM` (matches
-  the existing tooltip/popover hooks).
+  The popover hook (`PureAdminKpiTile`) expects Floating UI loaded globally
+  as `window.FloatingUIDOM` — same convention as Tooltip / Popconfirm.
   """
   use Phoenix.Component
 
   import PureAdmin.Helpers
 
-  @sentiments [nil, "very_positive", "positive", "neutral", "negative", "very_negative"]
-  @directions [nil, "up_strong", "up", "flat", "down", "down_strong"]
+  alias PureAdmin.Components.KpiDetail
 
-  # -- kpi_tile/1 --
+  @sentiments [nil, "very_positive", "positive", "neutral", "negative", "very_negative"]
+  @trend_directions [nil, "up_strong", "up", "flat", "down", "down_strong"]
+
+  # ----------------------------------------------------------------------
+  # kpi_tile/1
+  # ----------------------------------------------------------------------
 
   @doc """
   Renders a single KPI tile.
 
+  Used by the Terminal grid showcase and as a standalone primitive when
+  `is_standalone` is set. The tile is the hover host for the detail popover
+  when either `detail_title_text` is set OR a `:detail` slot is provided —
+  in those cases the component sets `phx-hook="PureAdminKpiTile"` (an
+  `id` is required for the hook).
+
   ## Examples
 
       <.kpi_tile
+        id="completion-rate-30d"
         id_text="KPI.01 · 30d"
+        status_text="WARN"
+        status_variant="warn"
         label_text="Completion Rate"
         value_text="88.6"
         unit_text="%"
-        spark_direction="up"
-        prev_text="prev 84.2%"
+        variant="up"
+        previous_value_text="84.2%"
         delta_text="▲ 5.2%"
-        delta_sentiment="positive"
+        delta_variant="positive"
+        detail_title_text="Completion Rate · 30D"
+        delta_absolute_text="+4.4pp"
+        target_text="90.0%"
       >
-        <:status variant="warn">WARN</:status>
         <:chart>
           <.kpi_sparkline points="0,18 12,16 24,17 36,12 48,15 60,9 72,11 84,7 96,5" dot_at={{96, 5}} />
         </:chart>
       </.kpi_tile>
 
-      <.kpi_tile
-        id="completion-rate-30d"
-        id_text="KPI.01 · 30d"
-        label_text="Completion Rate"
-        value_text="88.6"
-        unit_text="%"
-        is_standalone
-      >
-        <:chart><!-- user-provided D3 / Apex / etc. --></:chart>
-        <:detail>
-          <.kpi_tile_detail title_text="Completion Rate · 30D">
-            <:row label="Current" value="88.6%" />
-            <:row label="Previous" value="84.2%" />
-            <:row label="Δ absolute" value="+4.4pp" sentiment="positive" />
-            <:row label="Target" value="90.0%" />
-          </.kpi_tile_detail>
-        </:detail>
+  Standalone (outside a `pa-kpi-terminal__grid`):
+
+      <.kpi_tile id_text="KPI.07" label_text="Custom" value_text="42" is_standalone>
+        <:chart><!-- consumer-provided D3 / Apex / etc. --></:chart>
       </.kpi_tile>
 
-  ## Sentiment vs. spark direction
+  ## Sentiment axes
 
-  - `value_sentiment` colours the number itself (rare — usually the focal
-    number reads as plain text and the delta carries the sentiment).
-  - `delta_sentiment` colours the delta text in the prev row.
-  - `spark_direction` colours the entire sparkline via `currentColor`. Named
-    by *sentiment of the change*, not by line shape — error rate dropping
-    is `--up` (good), server temp climbing is `--down` (bad).
+  - `variant` colours the entire tile's spark-direction cascade
+    (`up_strong` / `up` / `flat` / `down` / `down_strong`). Named by
+    *sentiment of the change*, not by line shape — error-rate dropping is
+    `"up"`, server-temp climbing is `"down"`.
+  - `value_variant` colours the focal number itself (rare — usually the
+    delta carries the colour).
+  - `delta_variant` colours the bottom-row delta text.
   """
-  attr(:id, :string, default: nil, doc: "Required when `:detail` slot is used (hook needs an id)")
-  attr(:id_text, :string, default: nil, doc: "Identifier shown in tile head (e.g. \"KPI.01 · 30d\")")
-  attr(:label_text, :string, default: nil, doc: "Tile label (e.g. \"Completion Rate\")")
-  attr(:value_text, :string, default: nil, doc: "Focal numeric value")
-  attr(:unit_text, :string, default: nil, doc: "Unit suffix (\"%\", \"°C\", \"K\") — rendered after `value_text`")
-  attr(:unit_prefix_text, :string, default: nil, doc: "Unit prefix (\"$\", \"¥\") — rendered before `value_text`")
-
-  attr(:value_sentiment, :string,
+  attr(:id, :string,
     default: nil,
-    values: @sentiments,
-    doc: "Sentiment colour applied to the value `__num`"
+    doc: "Required when the popover hook is engaged (detail_title_text set OR :detail slot present)"
   )
 
-  attr(:spark_direction, :string,
+  attr(:variant, :string,
     default: nil,
-    values: @directions,
-    doc: "Sentiment colour applied to the sparkline (via `currentColor`) — name by sentiment, not line shape"
-  )
-
-  attr(:prev_text, :string,
-    default: nil,
-    doc: "Left half of the prev row (e.g. \"prev 84.2%\") — full string, no prefix prepended"
-  )
-
-  attr(:delta_text, :string,
-    default: nil,
-    doc: "Right half of the prev row (e.g. \"▲ 5.2%\") — user provides the arrow"
-  )
-
-  attr(:delta_sentiment, :string,
-    default: nil,
-    values: @sentiments,
-    doc: "Sentiment colour for the delta in the prev row"
+    values: @trend_directions,
+    doc: "Spark-direction sentiment cascade — colours the sparkline via `currentColor`"
   )
 
   attr(:is_standalone, :boolean,
     default: false,
-    doc: "Add `--standalone` modifier when the tile lives directly inside a `.pa-col-*` outside a `.kpi-terminal__grid`"
+    doc: "Adds `pa-kpi-tile--standalone` (full border + card bg + bottom margin) for tiles outside `pa-kpi-terminal__grid`"
+  )
+
+  attr(:id_text, :string, default: nil, doc: "Identifier shown in tile head (e.g. \"KPI.01 · 30d\")")
+
+  attr(:status_text, :string,
+    default: nil,
+    doc: "Status pill text (e.g. \"WARN\", \"GOOD\", \"NEUTRAL\")"
+  )
+
+  attr(:status_variant, :string,
+    default: nil,
+    doc: "Status pill variant — built-ins: \"warn\" / \"good\" / \"neutral\""
+  )
+
+  attr(:label_text, :string, default: nil, doc: "Uppercase mono tile label")
+
+  attr(:value_text, :string, default: nil, doc: "Focal numeric value")
+  attr(:unit_text, :string, default: nil, doc: "Unit suffix (\"%\", \"°C\", \"K\")")
+  attr(:prefix_text, :string, default: nil, doc: "Currency / scale prefix (\"$\", \"¥\")")
+
+  attr(:value_variant, :string,
+    default: nil,
+    values: @sentiments,
+    doc: "Sentiment colour applied to the focal number"
+  )
+
+  attr(:previous_value_text, :string,
+    default: nil,
+    doc: "Bare previous value (e.g. \"84.2%\"); rendered as `prev <value>` in the bottom row"
+  )
+
+  attr(:delta_text, :string,
+    default: nil,
+    doc: "Bottom-row Δ% (e.g. \"▲ 5.2%\") — caller provides the arrow"
+  )
+
+  attr(:delta_variant, :string,
+    default: nil,
+    values: @sentiments,
+    doc: "Sentiment colour for the bottom-row delta"
+  )
+
+  # Auto-built detail popover props
+  attr(:detail_title_text, :string,
+    default: nil,
+    doc: "Setting this (or providing `:detail`) enables the popover"
+  )
+
+  attr(:delta_absolute_text, :string, default: nil, doc: "Absolute delta shown only in the popover")
+
+  attr(:delta_absolute_sentiment, :atom,
+    default: nil,
+    values: [nil, :pos, :neg, :warn],
+    doc: "Sentiment override for the Δ absolute popover row"
+  )
+
+  attr(:target_text, :string, default: nil, doc: "Target value shown only in the popover")
+
+  attr(:detail_rows, :list,
+    default: nil,
+    doc: "Override the auto-built popover rows with a typed list — see `PureAdmin.Components.KpiDetail`"
   )
 
   attr(:class, :string, default: nil)
   attr(:rest, :global)
 
-  slot :status, doc: "Status pill (e.g. WARN/GOOD/NEUTRAL). Slot content is the pill text — user-defined." do
-    attr(:variant, :string,
-      doc:
-        "Pill variant — built-ins: \"warn\" (filled orange), \"good\" (text-only), \"neutral\" (filled grey). Any other string emits `kpi-tile__status--{variant}` for custom CSS."
-    )
-  end
-
-  slot(:id_slot,
-    doc: "Rich id content (alternative to `id_text`). Renders inside `.kpi-tile__id`."
-  )
-
-  slot(:label,
-    doc: "Rich label content (alternative to `label_text`). Renders inside `.kpi-tile__label`."
-  )
-
-  slot(:value,
-    doc:
-      "Rich value content (alternative to `value_text` + `unit_text`). Renders inside the single `.kpi-tile__value` span. Use for custom number+symbol arrangements."
-  )
-
-  slot(:chart,
-    doc:
-      "Chart/sparkline area. Place any renderer here — inline SVG, a hook-mounted div, Contex SVG, ApexCharts container, etc. The framework does not pick a chart library."
-  )
-
-  slot(:detail,
-    doc:
-      "Hover detail popover content. Use `kpi_tile_detail/1` for the standard scaffold, or provide custom markup. Requires `id` on the tile and Floating UI loaded globally."
-  )
+  slot(:head, doc: "Override the head row (id + status) with custom markup")
+  slot(:label, doc: "Override the label cell with custom markup")
+  slot(:value, doc: "Override the focal value cell with custom markup")
+  slot(:previous_value, doc: "Override the prev/delta row with custom markup")
+  slot(:chart, doc: "Chart cell — pass any SVG / hook-mounted chart container")
+  slot(:detail, doc: "Raw popover content — overrides the auto-built popover")
 
   def kpi_tile(assigns) do
-    assigns =
-      assigns
-      |> assign(:has_detail, assigns.detail != [])
-      |> assign(:has_hook?, assigns.detail != [] and assigns.id != nil)
+    has_detail? = assigns.detail != [] or assigns.detail_title_text != nil
+
+    assigns = assign(assigns, :has_detail?, has_detail?)
 
     ~H"""
     <div
       id={@id}
-      class={tile_classes(assigns)}
-      phx-hook={if @has_hook?, do: "PureAdminKpiTile"}
+      class={tile_classes(@variant, @is_standalone, @class)}
+      phx-hook={if @has_detail?, do: "PureAdminKpiTile"}
       {@rest}
     >
-      <div :if={@id_text || @id_slot != [] || @status != []} class="kpi-tile__head">
-        <span :if={@id_text || @id_slot != []} class="kpi-tile__id">
-          <%= if @id_slot != [] do %>
-            <%= render_slot(@id_slot) %>
-          <% else %>
-            <%= @id_text %>
-          <% end %>
-        </span>
-        <span :for={s <- @status} class={status_classes(s)}>
-          <%= render_slot(s) %>
-        </span>
-      </div>
+      <%= if @head != [] do %>
+        <div class="pa-kpi-tile__head">
+          {render_slot(@head)}
+        </div>
+      <% else %>
+        <div :if={@id_text || @status_text} class="pa-kpi-tile__head">
+          <span :if={@id_text} class="pa-kpi-tile__id">{@id_text}</span>
+          <span :if={@status_text} class={status_classes(@status_variant)}>{@status_text}</span>
+        </div>
+      <% end %>
 
-      <div :if={@label_text || @label != []} class="kpi-tile__label">
-        <%= if @label != [] do %>
-          <%= render_slot(@label) %>
-        <% else %>
-          <%= @label_text %>
-        <% end %>
-      </div>
+      <%= if @label != [] do %>
+        <div class="pa-kpi-tile__label">{render_slot(@label)}</div>
+      <% else %>
+        <div :if={@label_text} class="pa-kpi-tile__label">{@label_text}</div>
+      <% end %>
 
-      <div :if={@value != [] || @value_text} class="kpi-tile__values">
-        <span class={value_classes(@value_sentiment)}>
+      <div :if={@value != [] || @value_text || @prefix_text || @unit_text} class="pa-kpi-tile__values">
+        <span class={value_classes(@value_variant)}>
           <%= if @value != [] do %>
-            <%= render_slot(@value) %>
+            {render_slot(@value)}
           <% else %>
-            <span :if={@unit_prefix_text} class="kpi-tile__unit"><%= @unit_prefix_text %></span>
-            <span class="kpi-tile__num"><%= @value_text %></span>
-            <span :if={@unit_text} class="kpi-tile__unit"><%= @unit_text %></span>
+            <span :if={@prefix_text} class="pa-kpi-tile__unit">{@prefix_text}</span>
+            <span :if={@value_text} class="pa-kpi-tile__num">{@value_text}</span>
+            <span :if={@unit_text} class="pa-kpi-tile__unit">{@unit_text}</span>
           <% end %>
         </span>
       </div>
 
-      <div :if={@prev_text || @delta_text} class="kpi-tile__prev">
-        <span><%= @prev_text %></span>
-        <span :if={@delta_text} class={delta_classes(@delta_sentiment)}>
-          <%= @delta_text %>
-        </span>
-      </div>
+      <%= if @previous_value != [] do %>
+        <div class="pa-kpi-tile__prev">{render_slot(@previous_value)}</div>
+      <% else %>
+        <div :if={@previous_value_text || @delta_text} class="pa-kpi-tile__prev">
+          <span :if={@previous_value_text}>prev {@previous_value_text}</span>
+          <span :if={@delta_text} class={delta_classes(@delta_variant)}>{@delta_text}</span>
+        </div>
+      <% end %>
 
       <%= for c <- @chart do %>
-        <%= render_slot(c) %>
+        {render_slot(c)}
       <% end %>
 
-      <%= for d <- @detail do %>
-        <%= render_slot(d) %>
-      <% end %>
+      <.kpi_detail
+        :if={@has_detail?}
+        title_text={@detail_title_text}
+        rows={@detail_rows || auto_detail_rows(assigns)}
+      >
+        <%= for d <- @detail do %>
+          {render_slot(d)}
+        <% end %>
+      </.kpi_detail>
     </div>
     """
   end
 
-  defp tile_classes(assigns) do
-    dir = if assigns.spark_direction, do: dasherize(assigns.spark_direction)
-
-    build_classes(
-      "kpi-tile",
-      [
-        {"kpi-tile--#{dir}", dir != nil},
-        {"kpi-tile--standalone", assigns.is_standalone}
-      ],
-      assigns.class
+  defp auto_detail_rows(assigns) do
+    KpiDetail.build_auto_rows(
+      prefix_text: assigns.prefix_text,
+      value_text: assigns.value_text,
+      unit_text: assigns.unit_text,
+      previous_value_text: assigns.previous_value_text,
+      delta_absolute_text: assigns.delta_absolute_text,
+      delta_absolute_sentiment: assigns.delta_absolute_sentiment,
+      delta_text: assigns.delta_text,
+      delta_sentiment: KpiDetail.delta_to_sentiment(assigns.delta_variant),
+      target_text: assigns.target_text
     )
   end
 
-  defp status_classes(slot) do
-    variant = Map.get(slot, :variant)
+  defp tile_classes(variant, is_standalone, extra) do
+    dir = KpiDetail.dasherize(variant)
 
-    build_classes("kpi-tile__status", [
-      {"kpi-tile__status--#{variant}", variant != nil}
+    build_classes(
+      "pa-kpi-tile",
+      [
+        {"pa-kpi-tile--#{dir}", dir != nil},
+        {"pa-kpi-tile--standalone", is_standalone}
+      ],
+      extra
+    )
+  end
+
+  defp status_classes(variant) do
+    v = KpiDetail.dasherize(variant)
+
+    build_classes("pa-kpi-tile__status", [
+      {"pa-kpi-tile__status--#{v}", v != nil}
     ])
   end
 
-  defp value_classes(sentiment) do
-    sent = if sentiment, do: dasherize(sentiment)
+  defp value_classes(variant) do
+    v = KpiDetail.dasherize(variant)
 
-    build_classes("kpi-tile__value", [
-      {"kpi-tile__value--#{sent}", sent != nil}
+    build_classes("pa-kpi-tile__value", [
+      {"pa-kpi-tile__value--#{v}", v != nil}
     ])
   end
 
-  defp delta_classes(sentiment) do
-    sent = if sentiment, do: dasherize(sentiment)
+  defp delta_classes(variant) do
+    v = KpiDetail.dasherize(variant)
 
-    build_classes("kpi-tile__delta", [
-      {"kpi-tile__delta--#{sent}", sent != nil}
+    build_classes("pa-kpi-tile__delta", [
+      {"pa-kpi-tile__delta--#{v}", v != nil}
     ])
   end
 
-  # `very_positive` (attr value, snake_case) → `very-positive` (CSS modifier, kebab-case).
-  defp dasherize(s) when is_binary(s), do: String.replace(s, "_", "-")
-
-  # -- kpi_tile_detail/1 --
+  # ----------------------------------------------------------------------
+  # kpi_detail/1
+  # ----------------------------------------------------------------------
 
   @doc """
-  Renders the standard detail-popover scaffold used by KPI tiles.
+  Renders the KPI hover detail popover.
 
-  Use as the `:detail` slot content of `kpi_tile/1`. The `kpi-tile__detail`
-  root is plain markup; the parent tile's hook moves it to `<body>` and
-  positions it under the cursor.
+  Two ways to author content:
+
+  - **Auto-built rows**: pass `title_text` and a `rows` list (typically
+    produced by `PureAdmin.Components.KpiDetail.build_auto_rows/1`). Each
+    row is `%{label_text: ..., value_text: ..., sentiment: ...}`.
+  - **Raw override**: include any markup as `inner_block`. The component
+    just provides the `<div class="pa-kpi-detail" role="tooltip">` wrapper;
+    write your own `__title` + `<dl>` inside.
+
+  The popover element is opt-in: it renders nothing when there's no title,
+  no rows, and no inner_block. Place it as a direct child of the host tile
+  / row that carries `phx-hook="PureAdminKpiTile"` — the hook moves the
+  popover to `<body>` on mount and follows the cursor inside the host.
 
   ## Examples
 
-      <:detail>
-        <.kpi_tile_detail title_text="Completion Rate · 30D">
-          <:row label="Current" value="88.6%" />
-          <:row label="Previous" value="84.2%" />
-          <:row label="Δ absolute" value="+4.4pp" sentiment="positive" />
-          <:row label="Δ percent" value="+5.2%" sentiment="positive" />
-          <:row label="Target" value="90.0%" />
-        </.kpi_tile_detail>
-      </:detail>
+      <.kpi_detail
+        title_text="Completion Rate · 30D"
+        rows={[
+          %{label_text: "Current", value_text: "88.6%"},
+          %{label_text: "Previous", value_text: "84.2%"},
+          %{label_text: "Δ absolute", value_text: "+4.4pp", sentiment: :pos},
+          %{label_text: "Target", value_text: "90.0%"}
+        ]}
+      />
 
-  Use the `:title` slot for rich title content, or omit both `title_text`
-  and `:title` to render no header.
-
-  ## Row sentiment
-
-  Each `:row` accepts an optional `sentiment` attr (`positive | negative |
-  neutral`). It maps to the `.pos` / `.neg` classes inside
-  `.kpi-tile__detail` — three values rather than the five-step scale
-  because the popover's job is summary, not nuance.
+      <.kpi_detail>
+        <div class="pa-kpi-detail__title">Custom</div>
+        <p>Whatever markup you want.</p>
+      </.kpi_detail>
   """
   attr(:title_text, :string, default: nil)
+  attr(:rows, :list, default: [])
   attr(:class, :string, default: nil)
   attr(:rest, :global)
 
-  slot(:title, doc: "Rich title content (alternative to `title_text`)")
+  slot(:inner_block, doc: "Raw popover content — overrides title + rows")
 
-  slot :row, doc: "Label/value pair (rendered as `<dt>` + `<dd>`)" do
-    attr(:label, :string, required: true)
-    attr(:value, :string, required: true)
-    attr(:sentiment, :string, values: ["positive", "negative", "neutral"])
-  end
+  def kpi_detail(assigns) do
+    has_inner? = assigns.inner_block != []
+    has_data? = assigns.title_text != nil or assigns.rows != []
+    assigns = assigns |> assign(:has_inner?, has_inner?) |> assign(:has_data?, has_data?)
 
-  def kpi_tile_detail(assigns) do
     ~H"""
-    <div class={build_classes("kpi-tile__detail", [], @class)} role="tooltip" {@rest}>
-      <div :if={@title_text || @title != []} class="kpi-tile__detail-title">
-        <%= if @title != [] do %>
-          <%= render_slot(@title) %>
-        <% else %>
-          <%= @title_text %>
-        <% end %>
-      </div>
-      <dl :if={@row != []}>
-        <%= for r <- @row do %>
-          <dt><%= r.label %></dt>
-          <dd class={row_value_class(Map.get(r, :sentiment))}><%= r.value %></dd>
-        <% end %>
-      </dl>
+    <div
+      :if={@has_inner? || @has_data?}
+      class={build_classes("pa-kpi-detail", [], @class)}
+      role="tooltip"
+      {@rest}
+    >
+      <%= if @has_inner? do %>
+        {render_slot(@inner_block)}
+      <% else %>
+        <div :if={@title_text} class="pa-kpi-detail__title">{@title_text}</div>
+        <dl :if={@rows != []}>
+          <%= for row <- @rows do %>
+            <dt>{row.label_text}</dt>
+            <dd class={KpiDetail.sentiment_class(Map.get(row, :sentiment))}>{row.value_text}</dd>
+          <% end %>
+        </dl>
+      <% end %>
     </div>
     """
   end
 
-  defp row_value_class(nil), do: nil
-  defp row_value_class("positive"), do: "pos"
-  defp row_value_class("negative"), do: "neg"
-  defp row_value_class("neutral"), do: nil
-
-  # -- kpi_sparkline/1 (convenience) --
+  # ----------------------------------------------------------------------
+  # kpi_sparkline/1 (convenience)
+  # ----------------------------------------------------------------------
 
   @doc """
-  Convenience SVG sparkline matching the framework's default look.
+  Convenience SVG sparkline matching upstream's default look.
 
-  This is **one option** for the `:chart` slot of `kpi_tile/1` — consumers
-  who already have a chart library (D3, ApexCharts, Vega-Lite, Contex,
-  custom inline SVG, a LiveView hook target) should put that in the slot
-  instead. This convenience exists so the simple cases don't need to wire
-  up a charting library.
-
-  Renders a `<polyline>` inside an SVG with `preserveAspectRatio="none"`
-  so the line stretches to fill the container width. The framework's
+  This is **one option** for the `:chart` slot — consumers who already have
+  a chart library should put that in the slot instead. The sparkline renders
+  a `<polyline>` inside an SVG with `preserveAspectRatio="none"` so the
+  line stretches to fill the container width. The framework's
   `--pa-chart-trendline-height` and `--pa-chart-trendline-stroke` tokens
   control height and stroke width.
 
-  An optional trailing dot is rendered as an HTML `<span>` (not an SVG
-  `<circle>`) so it stays circular under non-uniform SVG scaling. When
-  `dot_at` is set, attach `phx-hook="PureAdminKpiSparkDot"` and pass an
-  `id` (the hook converts the SVG circle to a CSS-pixel-sized span on
-  mount). Without LiveView, the convenience emits a static `<circle>`
-  which will appear oval if the SVG is wider than its viewBox; in that
-  case write your own SVG.
+  When `dot_at` is given, the SVG emits a `<circle>` at that point — at
+  mount time `PureAdminKpiSparkDot` swaps it for a CSS-pixel-sized
+  `<span class="pa-kpi-spark-dot">` so the dot stays circular regardless of
+  chart aspect ratio. Set `id` to engage the hook.
 
   ## Examples
 
       <.kpi_sparkline points="0,18 12,16 24,17 36,12 48,15" />
 
       <.kpi_sparkline
-        id="spark-1"
+        id="spark-completion"
         points="0,18 12,16 24,17 36,12 48,15 60,9 72,11 84,7 96,5"
         dot_at={{96, 5}}
       />
   """
   attr(:id, :string, default: nil)
-  attr(:points, :string, required: true, doc: "SVG polyline points string (e.g. \"0,18 12,16 24,17\")")
-  attr(:view_box, :string, default: "0 0 100 24", doc: "SVG viewBox")
-  attr(:dot_at, :any, default: nil, doc: "`{cx, cy}` tuple for the trailing dot; the hook converts to a CSS span")
+  attr(:points, :string, required: true, doc: "SVG polyline points (e.g. \"0,18 12,16 24,17\")")
+  attr(:view_box, :string, default: "0 0 100 24")
+  attr(:dot_at, :any, default: nil, doc: "`{cx, cy}` tuple for the trailing dot")
   attr(:class, :string, default: nil)
   attr(:rest, :global)
 
@@ -411,7 +430,7 @@ defmodule PureAdmin.Components.Kpi do
     ~H"""
     <svg
       id={@id}
-      class={build_classes("kpi-tile__spark", [], @class)}
+      class={build_classes("pa-kpi-tile__spark", [], @class)}
       viewBox={@view_box}
       preserveAspectRatio="none"
       phx-hook={if @cx, do: "PureAdminKpiSparkDot"}

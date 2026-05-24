@@ -42,7 +42,7 @@ defmodule PureAdmin.Components.Stat do
   attr(:icon_variant, :string,
     default: "primary",
     values: ["primary", "secondary", "success", "info", "warning", "danger"],
-    doc: "Icon color variant"
+    doc: "Icon color variant — `danger` added in v2.7.0"
   )
 
   attr(:number, :string, default: nil, doc: "Value to display")
@@ -51,8 +51,11 @@ defmodule PureAdmin.Components.Stat do
 
   attr(:change_direction, :string,
     default: nil,
-    values: [nil, "positive", "negative", "neutral"],
-    doc: "Change direction (determines color)"
+    values: [nil, "very_positive", "positive", "neutral", "negative", "very_negative"],
+    doc:
+      "Sentiment direction colouring the hero __change. v2.7.0 extended the previous 3-step scale " <>
+        "to 5 by adding `very_positive` / `very_negative` for outlier deltas. Neutral colour shifted " <>
+        "from `--pa-text-color-2` to `--pa-neutral`."
   )
 
   attr(:symbol_text, :string, default: nil, doc: "Symbol text for square variant")
@@ -149,8 +152,10 @@ defmodule PureAdmin.Components.Stat do
   end
 
   defp change_classes(direction) do
+    dir = if is_binary(direction), do: String.replace(direction, "_", "-")
+
     build_classes("pa-stat__change", [
-      {"pa-stat__change--#{direction}", direction != nil}
+      {"pa-stat__change--#{dir}", dir != nil}
     ])
   end
 end

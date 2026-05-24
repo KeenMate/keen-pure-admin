@@ -30,6 +30,21 @@ defmodule DemoWeb.Live.ModalsLive do
           </div>
         </.column>
       </.grid>
+
+      <.grid class="mt-4">
+        <.column size="100">
+          <.heading level={4}>Banded Modals · v2.7.0</.heading>
+          <p class="text-muted mb-2">
+            <code>is_banded</code> emits <code>pa-modal--banded</code> alongside the role variant. Both header AND footer get filled bands using the alert tokens (15% role-mix in light mode, 45% in dark). Buttons inside the bands auto-invert via <code>--pa-text-color-1</code> for cross-theme contrast.
+          </p>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <.button variant="success" phx-click={show_modal("modal-banded-success")}>Banded Success</.button>
+            <.button variant="warning" phx-click={show_modal("modal-banded-warning")}>Banded Warning</.button>
+            <.button variant="danger" phx-click={show_modal("modal-banded-danger")}>Banded Danger</.button>
+            <.button variant="info" phx-click={show_modal("modal-banded-info")}>Banded Info</.button>
+          </div>
+        </.column>
+      </.grid>
       <.grid class="mt-4">
         <.column size="100" md="1-2">
           <.heading level={4}>Position Modifiers</.heading>
@@ -410,6 +425,40 @@ defmodule DemoWeb.Live.ModalsLive do
       <:footer>
         <.button variant="secondary" phx-click={hide_modal("modal-info")}>Later</.button>
         <.button variant="info" phx-click={hide_modal("modal-info")}>Renew Now</.button>
+      </:footer>
+    </.modal>
+
+    <%!-- Banded modals · v2.7.0 --%>
+
+    <.modal id="modal-banded-success" variant="success" is_banded title_text="✓ Backup completed">
+      <p>All 2.4 GB of data has been backed up successfully. The archive is available in your cloud storage.</p>
+      <p>Buttons inside the header and footer auto-invert (<code>--pa-text-color-1</code>) for cross-theme contrast — light theme renders dark-on-pale, dark theme renders light-on-muted.</p>
+      <:footer>
+        <.button variant="success" phx-click={hide_modal("modal-banded-success")}>Got it</.button>
+      </:footer>
+    </.modal>
+
+    <.modal id="modal-banded-warning" variant="warning" is_banded title_text="⚠ Storage almost full">
+      <p>You're using 92% of your 100 GB quota. Consider upgrading or archiving older files.</p>
+      <:footer>
+        <.button variant="secondary" phx-click={hide_modal("modal-banded-warning")}>Later</.button>
+        <.button variant="warning" phx-click={hide_modal("modal-banded-warning")}>Upgrade</.button>
+      </:footer>
+    </.modal>
+
+    <.modal id="modal-banded-danger" variant="danger" is_banded title_text="🔥 Permanent deletion">
+      <p>This will permanently delete <strong>14 projects and 1,283 files</strong>. The action cannot be undone.</p>
+      <:footer>
+        <.button variant="secondary" phx-click={hide_modal("modal-banded-danger")}>Cancel</.button>
+        <.button variant="danger" phx-click={hide_modal("modal-banded-danger")}>Delete forever</.button>
+      </:footer>
+    </.modal>
+
+    <.modal id="modal-banded-info" variant="info" is_banded title_text="New feature available">
+      <p>Banded modals shipped in pure-admin v2.7.0. Combine the existing role variant with <code>is_banded</code> and both header + footer get filled bands using the alert tokens.</p>
+      <:footer>
+        <.button variant="secondary" phx-click={hide_modal("modal-banded-info")}>Dismiss</.button>
+        <.button variant="info" phx-click={hide_modal("modal-banded-info")}>Try it</.button>
       </:footer>
     </.modal>
     """

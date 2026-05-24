@@ -49,6 +49,14 @@ defmodule PureAdmin.Components.Modal do
   )
 
   attr(:size, :string, default: nil, values: [nil, "sm", "md", "lg", "xl", "xxl", "fw"])
+
+  attr(:is_banded, :boolean,
+    default: false,
+    doc:
+      "Apply `pa-modal--banded` (filled header + footer bands). Composes with the role `:variant` " <>
+        "(`success` / `warning` / `danger` / `info`). Buttons inside the bands auto-invert for cross-theme contrast."
+  )
+
   attr(:is_static, :boolean, default: false, doc: "Prevent closing via ESC/backdrop")
   attr(:is_top, :boolean, default: false, doc: "Position near top of viewport")
   attr(:is_scrollable, :boolean, default: false, doc: "Scrollable body")
@@ -135,6 +143,7 @@ defmodule PureAdmin.Components.Modal do
       "pa-modal",
       [
         {"pa-modal--#{assigns.variant}", assigns.variant != nil},
+        {"pa-modal--banded", assigns.is_banded},
         {"pa-modal--static", assigns.is_static},
         {"pa-modal--top", assigns.is_top}
       ],

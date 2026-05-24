@@ -2,24 +2,77 @@
 
 ## Unreleased
 
-### Pure-admin v2.6.0 + v2.7.0 sync (in progress)
+### Pure-admin v2.6.0 + v2.7.0 + v2.7.1 sync
 
-Bringing the library forward from its v2.5.0 anchor (`1f9d818`) to current pure-admin HEAD `12b9d23` (v2.7.0). Two upstream releases are absorbed across this work: v2.6.0 (KPI showcase suite + token consolidation + Tailwind role palette) and v2.7.0 (`pa-modal--banded` + `pa-gauge` rebuild + CSS-variable consolidation sweep + link tokens). Full task list lives in [`pure-admin-2.7-sync.md`](pure-admin-2.7-sync.md) at the repo root.
+Three upstream releases absorbed in a single library bump:
 
-**Landed so far:**
+- **v2.6.0** (`05b416b`) — KPI showcase suite, framework token consolidation, Tailwind role palette, `pa-stat--square` redesign.
+- **v2.7.0** (`12b9d23`) — `pa-modal--banded`, `pa-gauge` rebuild, CSS-variable consolidation sweep, link tokens, sidebar / btn-split / timeline / chip / live-card / outline-secondary fixes.
+- **v2.7.1** (`2754d24`) — KPI showcases promoted from inline demo styles into permanent `pa-kpi-*` core components (8 SCSS partials, all `kpi-*` classes renamed to `pa-kpi-*`, per-component cascade vars namespaced to `--pa-kpi-*`). Post-2.7.1 commits added universal generalisations (generic terminal tab strip, `auto-fit` cell-min grids on gauges + editorial, layout-ratio modifiers on hero + bento, composable `--no-prev`/`--no-delta`/`--no-target` toggles on numeric strip, `--no-delta` on sparkline list).
 
-- **New `PureAdmin.Components.Kpi` module** — shared substrate for the v2.6.0 KPI showcase suite. Three function components:
-    - **`kpi_tile/1`** — base tile (id · label · value · prev row · chart slot · detail slot). Sentiment variants on value and delta cover the new 5-step scale (`very_positive` / `positive` / `neutral` / `negative` / `very_negative`); sparkline direction modifier accepts the same set. Status pill is a slot whose `variant` attr accepts `warn` / `good` / `neutral` plus any user-defined string (emits `kpi-tile__status--{variant}` for custom CSS). `is_standalone` boolean modifier for tiles outside a `.kpi-terminal__grid`.
-    - **`kpi_tile_detail/1`** — Bloomberg-style popover scaffold for the tile's `:detail` slot. `title_text` / `:title` slot + `:row` slots with `label` / `value` and optional `sentiment` (`positive` / `negative` / `neutral`) mapping to the framework's `.pos` / `.neg` classes.
-    - **`kpi_sparkline/1`** — opt-in convenience for the simple SVG polyline + trailing-dot pattern. Users who already have a chart library (D3, ApexCharts, Vega-Lite, Contex, custom inline SVG, hook-mounted div) plug it into the `:chart` slot instead — the framework picks no chart library.
-- **Two new JS hooks** in `lib/assets/js/hooks/`:
-    - **`PureAdminKpiTile`** — cursor-anchored hover detail popover via Floating UI's `computePosition` + virtual reference element. Moves the `.kpi-tile__detail` element to `<body>` on mount (escapes ancestor `overflow: hidden`), updates on `mousemove`, restores original parent on `destroyed`. Auto-emitted by `kpi_tile/1` only when both `:detail` slot has content AND `id` is set — tiles without popovers don't require an id.
-    - **`PureAdminKpiSparkDot`** — converts an SVG `<circle>` to a CSS-pixel-sized `<span>` so the sparkline's trailing dot stays circular under non-uniform scaling (`preserveAspectRatio="none"`). Idempotent on `updated()`.
-- **Two design principles** locked in by the substrate API, applied to every KPI component still to come:
-    1. **Chart rendering is pluggable.** `:chart` slot accepts any markup; framework does not pick a renderer.
-    2. **All labels are user-controlled.** Every textual element (id, label, value, unit, prev / delta strings, status pill content, detail title and rows) is an attr or slot — no English strings hardcoded in the component module.
+#### KPI component family — 9 new modules / 12+ new function components
 
-**Still pending in this sync:** the seven showcase wrappers (Terminal grid, Sparkline list, Comparison gauges, Hero + supporting, Bento, Numeric strip, Editorial minimal); `pa-stat--square` rework; `pa-modal--banded` modifier; `pa-gauge` rebuild; smaller component updates (stat icon `--danger`, sentiment scale on hero deltas, sidebar submenu token, btn-split, timeline, info chip, live-data cards); link tokens and the v2.6.0 / v2.7.0 token-documentation pass. README anchor + `component-audit.md` updates come at the end.
+Built one module per showcase (matching `@keenmate/svelte-pure-admin` 1:1 in component names and prop names), all on the v2.7.1 `pa-kpi-*` class surface.
+
+- **`PureAdmin.Components.Kpi`** (substrate)
+    - `kpi_tile/1` — base tile (head · label · value · prev row · sparkline slot · optional hover detail). Used by Terminal grid + standalone. Status pill is `status_text` + `status_variant` (built-ins `warn` / `good` / `neutral`); `:head` snippet overrides the whole head row. Sentiment variants on value and delta use the 5-step scale (`very_positive` / `positive` / `neutral` / `negative` / `very_negative`). `variant` (formerly `spark_direction`) colours the sparkline via `currentColor`. `is_standalone` for tiles outside a `pa-kpi-terminal__grid`.
+    - `kpi_detail/1` — popover element (`pa-kpi-detail` + `__title`). Auto-builds its `<dl>` from typed props (Current / Previous / Δ absolute / Δ percent / Target) on the host tile, or accepts raw markup via `:inner_block`. Replaces the previous `kpi_tile_detail/1` slot scaffold.
+    - `kpi_sparkline/1` — opt-in convenience for the simple SVG polyline + trailing-dot pattern, on `pa-kpi-tile__spark`. Consumers using D3 / ApexCharts / Chart.js / Contex / etc. plug their renderer into the `:chart` slot instead.
+- **`PureAdmin.Components.KpiDetail`** — shared helpers (`build_auto_rows/1`, `delta_to_sentiment/1`, `sentiment_class/1`, `dasherize/1`) used by every tile / row component. Mirrors `kpi-detail.ts` from svelte-pure-admin.
+- **`PureAdmin.Components.KpiTerminal`** — `kpi_terminal/1` card wrapper with generic `:pane` tab strip (each pane has `id`, `label_text`, optional `is_active`); no panes → children wrapped in a single `pa-kpi-terminal__grid--2col`. `:header_controls` for custom toolbars between title and LIVE pill. The retired VALUE/Δ%/TREND view-mode toggle is replaced by the generic tab strip.
+- **`PureAdmin.Components.KpiSparklineList`** — `kpi_sparkline_list/1` + `kpi_sparkline_row/1`. `is_no_delta` drops the rightmost Δ% column; `is_chart_first` rotates the L→R order 90° at narrow widths.
+- **`PureAdmin.Components.KpiGaugeList`** — `kpi_gauge_list/1` + `kpi_gauge/1`. Default cell-min-driven `auto-fit` grid; switch via `grid_layout="2col"` or `"max_2".."max_6"`. `cell_min_width` overrides `--pa-kpi-gauge-cell-min`. `tick_position` / `tick_color` knobs.
+- **`PureAdmin.Components.KpiHero`** — `kpi_hero_list/1` + `kpi_hero_main/1` + `kpi_hero_side/1`. `hero_split="2_3"` / `"3_4"` shifts weight to the hero (default 1:1). Hero has `:meta` slot (or `delta_text` / `period_text` / `target_text` for the canonical pattern), `:chart` for the sparkline; rail is a `:rail` slot.
+- **`PureAdmin.Components.KpiBento`** — `kpi_bento/1` + `kpi_bento_tile/1`. Default 6-tile hero-left layout; `bento_layout="hero_right"` mirrors; `bento_layout="5_tile"` is hero + 4 supporting. `row_height` overrides `--pa-kpi-bento-row-height`. Set `is_hero` on the first tile.
+- **`PureAdmin.Components.KpiStrip`** — `kpi_strip/1` + `kpi_strip_row/1`. Composable `no_previous_value` / `no_delta_percent` / `no_target_bar` toggles. Header row auto-generated from visible columns; override via `header_labels` (map keyed by column atom) or suppress via `no_header` or replace via `:head` slot. `target_bar_percent` drives the bar fill (capped at 100% visually); `target_percent_text` is the label below (may exceed 100).
+- **`PureAdmin.Components.KpiEditorial`** — `kpi_editorial/1` + `kpi_editorial_tile/1`. Cell-min-driven `auto-fit` grid; `is_2_columns` boolean shorthand or `grid_layout="max_N"` cap modifiers. `target_text` auto-renders as `<em>tgt</em>{value}` in the meta row.
+- **Three JS hooks** in `lib/assets/js/hooks/`:
+    - `PureAdminKpiTile` — cursor-anchored Floating UI popover (virtual reference element); moves `.pa-kpi-detail` to `<body>` on mount, restores on `destroyed`. Auto-engaged whenever a tile / row has a popover.
+    - `PureAdminKpiSparkDot` — converts SVG `<circle>` endpoints to `.pa-kpi-spark-dot` CSS spans so dots stay round under `preserveAspectRatio="none"`.
+    - `PureAdminKpiTerminalTabs` — client-side tab strip wiring for `pa-kpi-terminal__tab` / `pa-kpi-terminal__pane`. Scoped per terminal so nested terminals (if any) stay isolated.
+
+#### Other v2.7.0 component reworks
+
+- **`Modal` — new `is_banded` boolean.** Emits `pa-modal--banded` alongside the existing `:variant` role modifier. Composes — `<.modal variant="success" is_banded>` produces `pa-modal pa-modal--success pa-modal--banded`. Buttons inside the bands auto-invert via the framework's CSS (light theme renders dark-on-pale; dark theme renders light-on-muted). No markup change beyond the new class.
+- **`gauge/1` rebuild** — moved the label out of the donut so `__inner` holds only the value text. Label now renders as a sibling row alongside `__min` and `__max` below the gauge (matches v2.7.0 layout). New `:size` attr emits `--pa-gauge-size` inline (default upstream `12rem`). The `--value` style declaration is unchanged. Existing apps render the label in its new position automatically when they upgrade to `@keenmate/pure-admin-core` ^2.7.0; no markup change required.
+- **`Stat` — 5-step sentiment scale on hero deltas.** `change_direction` now accepts `very_positive` / `very_negative` in addition to `positive` / `negative` / `neutral`. Internally converted to kebab-case (`pa-stat__change--very-positive` etc.) to match upstream's SCSS class names. Neutral colour shifted from `--pa-text-color-2` (grey) to `--pa-neutral` — purely a visual change, no API impact.
+- **`Stat` icon `:danger`** — already exposed in the `icon_variant` enum (`primary` / `secondary` / `success` / `info` / `warning` / `danger`). The framework's previous omission of `--danger` was fixed in `_statistics.scss`; our wrapper already emitted the class so this becomes valid markup automatically when consumers upgrade.
+- **`Card --live-up` / `--live-down`** — already exposed via `live_state="up"` / `"down"`. Upstream migrated the internal SCSS from `rgba(...)` over role colours to `color-mix()` over the 5-step sentiment scale; no API impact.
+- **`btn-split`** — verified the wrapper doesn't emit `overflow: hidden` on `.pa-btn-split` (the v2.7.0 chevron-corner fix relies on the container NOT clipping). Wrapper is correct as-is.
+- **`Timeline`** — v2.7.0 visual tweaks (simple-dot border-radius `50% → 30%`, shadow opacity `0.3 → 0.5`) are CSS-only with no wrapper change.
+
+#### Demo app — `/kpi` section + non-KPI showcase updates
+
+- **8 new LiveViews under `/kpi/*`** (sidebar entry "KPI", chart-line icon):
+    - `/kpi/dashboard` — Combined dashboard exercising all 7 KPI components on one page (Hero + supporting + Terminal + Editorial + Sparkline list + Comparison gauges + Numeric strip + Bento). Useful for integration / spacing / theming verification.
+    - `/kpi/terminal-grid`, `/kpi/sparkline-list`, `/kpi/comparison-gauges`, `/kpi/hero-supporting`, `/kpi/bento`, `/kpi/numeric-strip`, `/kpi/editorial-minimal` — each is a 1:1 port of upstream's `demo/views/kpi-*.mustache`: canonical card + layout-test stress sections (1×3 page-grid, 25/45 asymmetric, mixed grid modifiers) + per-page Usage Guide card + CSS Classes Reference card. The four chart-bearing pages (terminal grid, sparkline list, hero + supporting, bento) also include a Chart.js drop-in section demonstrating the library-agnostic `:chart` slot.
+- **Chart.js drop-in** — `chart.js@4.4.3` loaded via CDN in `demo/lib/demo_web/components/layouts/root.html.heex`. New `PureAdminKpiChart` LiveView hook (`demo/assets/js/hooks/kpi_chart.js`, ~130 lines) renders bar / line / area charts into any `<canvas data-kpi-chart>`. Reads `currentColor` from the slot's KPI sentiment cascade, re-renders on `pa:theme-change`. Tied to LiveView mount/destroy lifecycle (not a one-shot DOMContentLoaded scan).
+- **Modals demo** — new "Banded Modals · v2.7.0" section with 4 role variants (`is_banded` × success / warning / danger / info).
+- **Stats demo** — new "5-step sentiment scale · v2.7.0" card showing all five hero deltas (`very_positive` / `positive` / `neutral` / `negative` / `very_negative`) side-by-side.
+- **Cards demo** — new "Live-data direction · live_state" section with up / neutral / down tinted cards.
+- **Data visualization demo** — new gauge `:size` examples (8rem / 12rem default / 16rem / 20rem) + subtitle noting the v2.7.0 layout rebuild.
+
+#### Theme system — per-developer disk overrides + manifest improvements
+
+- **`demo/pureadmin.json`** — declared all 15 themes (was 5). Team-wide, fetched via lockfile against `pureadmin.io`.
+- **`demo/.pureadmin.json`** (gitignored — per-developer override) — maps every theme slug to `../../pure-admin-themes/{slug}` so themes load from a sibling checkout instead of the remote registry. Mirrors upstream `pure-admin/.pureadmin.json`.
+- **`DemoWeb.ThemePlug` — dual-layout support.** Themes are now served correctly from BOTH the registry layout (`css/{name}.css` — zip extraction) AND the local-build layout (`dist/{name}.css` — direct copy from a sibling `pure-admin-themes` checkout). `valid_theme_dir?/2` probes either layout. New `resolve_theme_file/3` transparently maps the public URL `/themes/{slug}/css/{slug}.css` to the actual on-disk file. Without this, the on-demand re-downloader silently overwrote local copies on every page load.
+- **`DemoWeb.PageContext.slim_color_variants`** — now passes through `description` per variant so the settings panel JS can use it as a `<option title>` tooltip.
+- **`PureAdminSettings` JS hook — manifest-driven CSS path.** `_resolveThemeHref/1` reads `manifest.colorVariants[0].file` to build the stylesheet URL (handles both `dist/` and `css/`). `_applyThemeMode/1` is now pattern-aware via `manifest.modeCssClass` and clears every mode class declared by the manifest (was hardcoded `light` / `dark` only — important for themes declaring custom mode ids).
+
+#### Tooling — Makefile + themes-install wiring
+
+- **`Makefile`** — new `themes-install` target runs `npx @keenmate/pureadmin themes install` from `demo/` (defensive: skips silently if neither `demo/pureadmin.json` nor `demo/.pureadmin.json` exists). `dev:` and `setup:` now depend on `themes-install`, so `make dev` snapshots themes from `.pureadmin.json` disk overrides (or the remote-pinned lockfile) before booting the Phoenix server.
+
+#### Fixed — KPI sparkline escape
+
+- **Sparklines escaping their containers in Hero + supporting / Bento / Combined dashboard.** `PureAdminKpiSparkDot` always wrapped the SVG in `.pa-kpi-spark-wrap` (which has no `height` declaration), even when the SVG's parent was already a tight positioned anchor with explicit `height: 3rem` (`.pa-kpi-hero-main__chart-svg`, `.pa-kpi-bento-tile__chart-svg`). The extra wrap broke the SVG's `height: 100%` chain; combined with `preserveAspectRatio="none"` + `overflow: visible`, the polygon stretched across the entire viewport. Ported upstream's tight-anchor check from `pure-admin/demo/js/kpi-showcases.js`: skip wrapping when `getComputedStyle(parent).position !== 'static'` AND `parent.height ≈ svg.height` (within 4px). Terminal grid (where the SVG IS the anchor with its own explicit height) was unaffected by the bug and remains unaffected by the fix.
+
+#### Pending in a follow-up
+
+- README + theming docs token pass (canonical role tokens `--pa-success/-warning/-danger/-info`; 5-step sentiment; text-strong/secondary/tertiary tiers; surface-hover/-track; chart-trendline tokens; detail-popover chrome; link tokens; var-consolidation note).
+- `pa-stat--square` v2.6.0 redesign — markup is already siblings (`__number` + `__symbol` + `__label`); only need to update demo to showcase mixed `%` / `$` / `°C` / `¥` cases and document container-query sizing.
+- `component-audit.md` re-stamps for the eight reworked components (modal, gauge, stat, card, btn-split, fields-chips, timeline, plus the new KPI family).
 
 ---
 

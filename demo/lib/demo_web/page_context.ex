@@ -33,6 +33,7 @@ defmodule DemoWeb.PageContext do
       %{
         "id" => v["id"],
         "name" => v["name"],
+        "description" => v["description"],
         "file" => v["file"],
         "modes" => slim_modes(v["modes"])
       }

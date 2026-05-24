@@ -12,6 +12,19 @@ Drop-in replacement for Phoenix `CoreComponents` -- provides `button/1`, `badge/
 
 **Live demo:** [elixir.demo.pureadmin.io](https://elixir.demo.pureadmin.io)
 
+## What's new in v1.4.0
+
+Pure-admin **v2.6.0 + v2.7.0 + v2.7.1** absorbed in one bump. Anchored to `@keenmate/pure-admin-core` 2.7.1+. Highlights:
+
+- **9 new KPI modules, 12+ new function components.** A `PureAdmin.Components.Kpi` substrate plus seven showcase modules — `KpiTerminal`, `KpiSparklineList`, `KpiGaugeList`, `KpiHero`, `KpiBento`, `KpiStrip`, `KpiEditorial` — mirroring `@keenmate/svelte-pure-admin` 1:1 in component names and prop names. Each tile-level component auto-builds its hover detail popover from typed props (Current / Previous / Δ absolute / Δ percent / Target) via the shared `PureAdmin.Components.KpiDetail` helpers; chart slot is library-agnostic (D3, ApexCharts, Chart.js, Contex, custom SVG, hook-mounted div — all work).
+- **Three new JS hooks**: `PureAdminKpiTile` (cursor-anchored Floating UI popover), `PureAdminKpiSparkDot` (SVG `<circle>` → CSS `<span>` so dots stay round under `preserveAspectRatio="none"`), `PureAdminKpiTerminalTabs` (client-side tab strip wiring for terminal panes, scoped per terminal).
+- **`Modal` — new `is_banded`** boolean. Emits `pa-modal--banded` alongside the existing `:variant` so `<.modal variant="success" is_banded>` produces a filled-header + filled-footer banded modal that reads against the band on any theme (the framework's CSS auto-inverts inner buttons via `--pa-text-color-1`).
+- **`gauge/1` rebuild.** Label moved out of the donut hole — `__inner` now holds the value only; label sits in a sibling row alongside `__min` and `__max`. New `:size` attr emits `--pa-gauge-size` (default upstream `12rem`). Existing markup updates automatically when consumers bump `@keenmate/pure-admin-core` to ^2.7.0.
+- **`Stat` — 5-step sentiment scale on hero deltas.** `change_direction` accepts `very_positive` / `very_negative` in addition to the existing `positive` / `negative` / `neutral`. Neutral colour shifted from grey to `--pa-neutral`.
+- **Bump `@keenmate/pure-admin-core` to `^2.7.1`** to pick up the canonical `--pa-success` / `-warning` / `-danger` / `-info` role tokens, the 5-step sentiment scale, text-contrast tiers (`--pa-text-strong` / `-secondary` / `-tertiary`), surface tints (`--pa-surface-hover` / `-track`), chart-trendline tokens, detail-popover chrome, link tokens (`--pa-link-color` / `-hover` / `-visited`), and the CSS-variable consolidation sweep across ~180 SCSS-baked role-colour sites.
+
+See [`pure-admin-2.7-sync.md`](pure-admin-2.7-sync.md) for the per-task tracker and the full [CHANGELOG](CHANGELOG.md) for everything that landed.
+
 ## What's new in v1.3.0
 
 Security + correctness release. A full security audit ([`security-audit.md`](security-audit.md)) closed 12 findings, a framework-snippet drift audit ([`component-audit.md`](component-audit.md)) re-aligned every component against the current `pure-admin-core` snippets, and the alert system was re-anchored to pure-admin v2.5.0. Highlights:
@@ -621,7 +634,7 @@ Also available via `window.components['keen-pure-admin'].logging` (KeenMate conv
 
 - Elixir ~> 1.15
 - Phoenix LiveView ~> 1.0
-- `@keenmate/pure-admin-core` CSS (v2.3.6+)
+- `@keenmate/pure-admin-core` CSS (v2.7.1+)
 
 ## Development
 

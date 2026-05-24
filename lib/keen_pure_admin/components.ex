@@ -31,6 +31,13 @@ defmodule PureAdmin.Components do
       import PureAdmin.Components.Form
       import PureAdmin.Components.Grid
       import PureAdmin.Components.Kpi
+      import PureAdmin.Components.KpiBento
+      import PureAdmin.Components.KpiEditorial
+      import PureAdmin.Components.KpiGaugeList
+      import PureAdmin.Components.KpiHero
+      import PureAdmin.Components.KpiSparklineList
+      import PureAdmin.Components.KpiStrip
+      import PureAdmin.Components.KpiTerminal
       import PureAdmin.Components.Layout
       import PureAdmin.Components.List
       import PureAdmin.Components.Loader
