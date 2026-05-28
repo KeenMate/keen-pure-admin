@@ -1,7 +1,7 @@
-# Pure Admin v2.6.0 + v2.7.0 + v2.7.1 Sync Plan
+# Pure Admin v2.6.0 + v2.7.0 + v2.7.1 + v2.8.0 Sync Plan
 
 Tracks the work to bring `keen_pure_admin` from its current pure-admin v2.5.0
-anchor (commit `1f9d818`) up to the framework's current HEAD. Three upstream
+anchor (commit `1f9d818`) up to the framework's current HEAD. Four upstream
 releases are covered:
 
 - **v2.6.0** (2026-05-07) — KPI showcase suite, token consolidation, Tailwind
@@ -12,11 +12,25 @@ releases are covered:
 - **v2.7.1** (2026-05-14) — KPI showcases promoted from inline demo styles
   into permanent `pa-kpi-*` core components (8 SCSS partials, all `kpi-*`
   classes renamed to `pa-kpi-*`, per-component cascade vars namespace-prefixed
-  to `--pa-kpi-*`). Post-2.7.1 commits added universal generalisations:
-  generic terminal tab strip (replaces VALUE/Δ%/TREND view-mode toggle),
-  `auto-fit` cell-min grids on gauges + editorial, layout-ratio modifiers on
-  hero + bento, `--no-prev/-delta/-target` toggles on numeric strip,
-  `--no-delta` on sparkline list.
+  to `--pa-kpi-*`).
+- **v2.8.0** (2026-05-28) — the formerly-`[Unreleased]` post-2.7.1 commits
+  graduated to a stable release: generic terminal tab strip (replaces
+  VALUE/Δ%/TREND view-mode toggle), `auto-fit` cell-min grids on gauges +
+  editorial, layout-ratio modifiers on hero + bento, `--no-prev/-delta/-target`
+  toggles on numeric strip, `--no-delta` on sparkline list — all of which
+  our Phase 2 modules already cover. **Plus one architectural fix**: CSS
+  variable defaults now emit at `:root` in the unthemed bundle
+  (`dist/css/main.css`), closing a FOUC window where pages waiting for a
+  theme stylesheet had `var(--pa-positive)` / `--pa-success-bg` / etc. resolve
+  to invalid values (KPI sparklines / deltas rendered near-black via
+  inherited text colour; web components fell back to hardcoded literals).
+  The fix lives in upstream's `main.scss`, not `_core.scss` — `_core.scss`
+  stays purely component CSS (consumed by BOTH the unthemed bundle AND
+  themes via `@import`; emitting `:root` there would duplicate when a theme
+  also emits its own). No wrapper change required; bump
+  `@keenmate/pure-admin-core` to `^2.8.0` and consumers benefit
+  automatically. Supersedes the 2.7.1-era partial fix that only emitted the
+  5-step sentiment scale at `:root`.
 
 Status legend: `[ ]` not started · `[~]` in progress · `[x]` done · `[-]`
 intentionally skipped (with reason).

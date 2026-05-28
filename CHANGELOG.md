@@ -2,13 +2,22 @@
 
 ## Unreleased
 
-### Pure-admin v2.6.0 + v2.7.0 + v2.7.1 sync
+### Pure-admin v2.6.0 + v2.7.0 + v2.7.1 + v2.8.0 sync
 
-Three upstream releases absorbed in a single library bump:
+Four upstream releases absorbed in a single library bump:
 
 - **v2.6.0** (`05b416b`) — KPI showcase suite, framework token consolidation, Tailwind role palette, `pa-stat--square` redesign.
 - **v2.7.0** (`12b9d23`) — `pa-modal--banded`, `pa-gauge` rebuild, CSS-variable consolidation sweep, link tokens, sidebar / btn-split / timeline / chip / live-card / outline-secondary fixes.
-- **v2.7.1** (`2754d24`) — KPI showcases promoted from inline demo styles into permanent `pa-kpi-*` core components (8 SCSS partials, all `kpi-*` classes renamed to `pa-kpi-*`, per-component cascade vars namespaced to `--pa-kpi-*`). Post-2.7.1 commits added universal generalisations (generic terminal tab strip, `auto-fit` cell-min grids on gauges + editorial, layout-ratio modifiers on hero + bento, composable `--no-prev`/`--no-delta`/`--no-target` toggles on numeric strip, `--no-delta` on sparkline list).
+- **v2.7.1** (`2754d24`) — KPI showcases promoted from inline demo styles into permanent `pa-kpi-*` core components (8 SCSS partials, all `kpi-*` classes renamed to `pa-kpi-*`, per-component cascade vars namespaced to `--pa-kpi-*`).
+- **v2.8.0** (2026-05-28) — the formerly-`[Unreleased]` post-2.7.1 commits graduated to a stable release (generic terminal tab strip, `auto-fit` cell-min grids on gauges + editorial, layout-ratio modifiers on hero + bento, composable `--no-prev`/`--no-delta`/`--no-target` toggles on numeric strip, `--no-delta` on sparkline list — all of which our Phase 2 already covered) **plus one architectural fix** (see below).
+
+#### v2.8.0 architectural fix — CSS variable defaults at `:root` in the unthemed bundle
+
+The bundled `@keenmate/pure-admin-core/css` (`dist/css/main.css`) now emits a complete neutral default for every `--pa-*` / `--base-*` token at `:root`. Before 2.8.0, only themes emitted `:root { --pa-* }` — consumers using the unthemed bundle standalone, OR any page during the FOUC window before its theme stylesheet finished loading, had `var(--pa-positive)` / `--pa-success-bg` / etc. resolve to invalid values. KPI sparklines and deltas rendered near-black via inherited text colour; web components fell back to hardcoded literals.
+
+The fix lives in upstream's `main.scss` (not `_core.scss` — `_core.scss` stays purely component CSS, consumed by BOTH the unthemed bundle AND themes via `@import`; emitting `:root` there would duplicate when a theme also emits its own). Themes are unaffected — they bypass `main.scss` entirely.
+
+**Impact for keen_pure_admin consumers**: no wrapper change required. Bump `@keenmate/pure-admin-core` to `^2.8.0` and KPI sparklines / deltas now render with reasonable neutral colours even before a theme link resolves — or with no theme at all. Supersedes the 2.7.1-era partial fix that only emitted the 5-step sentiment scale at `:root`.
 
 #### KPI component family — 9 new modules / 12+ new function components
 
