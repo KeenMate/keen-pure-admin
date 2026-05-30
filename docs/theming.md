@@ -254,25 +254,97 @@ CSS classes applied to `<body>`: `pa-mode-light` or `pa-mode-dark` (`auto` resol
 
 ## Theme CSS Variables
 
-Override these CSS custom properties to customize the appearance:
+Pure Admin exposes ~195 CSS custom properties split into two layers:
 
-### Core Colors
+- **`--base-*`** (~71 vars) — web-component-style design tokens. Stable, semantic, override-friendly. See [`CSS-VARIABLES.md`](https://github.com/KeenMate/pure-admin/blob/main/packages/core/CSS-VARIABLES.md) in `@keenmate/pure-admin-core` for the full reference.
+- **`--pa-*`** (~124 vars) — framework component tokens. Derived from the `--base-*` layer; most of them aren't intended to be overridden directly, but are useful for ad-hoc styling.
 
-| Variable | Description |
+> **As of `@keenmate/pure-admin-core` v2.8.0**, the unthemed bundle (`dist/css/main.css`) emits a complete neutral default for every `--pa-*` token at `:root`. This means the framework renders with reasonable defaults *before* a theme stylesheet loads, eliminating the FOUC window where sparklines / sentiment indicators rendered near-black. Themes still emit their own `:root` block on top.
+
+### Canonical role tokens (v2.8.0)
+
+The four "what's the user trying to communicate" tokens. Use these instead of hard-coding red/green/yellow/blue:
+
+| Variable | Purpose |
 |---|---|
-| `--accent-color` | Primary accent for interactive elements |
-| `--base-text-color` | Default body text |
-| `--base-bg-color` | Page background |
-| `--base-border-color` | Default borders |
+| `--pa-success` | Success / confirmation |
+| `--pa-warning` | Warning / caution |
+| `--pa-danger` | Danger / error |
+| `--pa-info` | Informational |
 
-### Semantic Colors
+Each role also has a `*-bg` / `*-bg-hover` / `*-bg-light` / `*-bg-subtle` / `*-border` / `*-text` / `*-text-light` family for component-level styling (e.g. `--pa-success-bg-light` for alert backgrounds).
 
-| Variable | Description |
+### 5-step sentiment scale (v2.6.0, refined in v2.8.0)
+
+For data visualization where "positive vs. negative" is the axis (KPI deltas, trend arrows, comparison gauges):
+
+| Variable | Purpose |
 |---|---|
-| `--base-success-color` | Success/positive states |
-| `--base-warning-color` | Warning/caution states |
-| `--base-danger-color` | Danger/error states |
-| `--base-info-color` | Informational states |
+| `--pa-very-positive` | Strong positive (e.g. ↑↑ in KPIs) |
+| `--pa-positive` | Positive — aliases `--pa-success` |
+| `--pa-neutral` | No change / baseline |
+| `--pa-negative` | Negative — aliases `--pa-danger` |
+| `--pa-very-negative` | Strong negative (e.g. ↓↓) |
+
+Used by `Stat`'s 5-step `change_direction` attr (`very_positive` / `positive` / `neutral` / `negative` / `very_negative`) and across the KPI component family.
+
+### Text contrast tiers (v2.8.0)
+
+Three semantic text colours derived from `--pa-text-color-1` via `color-mix()`:
+
+| Variable | Purpose |
+|---|---|
+| `--pa-text-strong` | High-contrast text (85%) — section headings, key values |
+| `--pa-text-secondary` | Secondary text (70%) — supporting copy, captions |
+| `--pa-text-tertiary` | Tertiary text (55%) — labels, hints, timestamps |
+
+These work on both light and dark modes without needing per-mode overrides — the base colour flips, the mixing percentage stays the same.
+
+### Surface tints (v2.8.0)
+
+For hover backdrops and "track" backgrounds in progress / gauge components:
+
+| Variable | Purpose |
+|---|---|
+| `--pa-surface-hover` | Hover backdrop (4% of `--pa-text-color-1` over transparent) |
+| `--pa-surface-track` | Track/rail background for gauges, progress bars (12%) |
+
+### Link tokens (v2.7.0)
+
+| Variable | Purpose |
+|---|---|
+| `--pa-link-color` | Default link colour (aliases `--pa-accent`) |
+| `--pa-link-color-hover` | Hovered link |
+| `--pa-link-color-visited` | Visited link |
+
+### Chart trendline tokens (v2.7.0)
+
+For inline SVG sparklines and trend indicators:
+
+| Variable | Purpose |
+|---|---|
+| `--pa-chart-trendline-height` | Default trendline container height (3rem) |
+| `--pa-chart-trendline-stroke` | SVG `user-space` stroke width (2.1) |
+
+### Detail popover chrome (v2.7.1)
+
+The dark-themed hover detail popover used by every KPI tile / row:
+
+| Variable | Purpose |
+|---|---|
+| `--pa-detail-bg` | Popover background |
+| `--pa-detail-text` | Popover text |
+| `--pa-detail-shadow` | Popover drop-shadow |
+
+### Gauge size (v2.7.0)
+
+| Variable | Purpose |
+|---|---|
+| `--pa-gauge-size` | Half-donut gauge diameter (default 12rem). Override per-instance via the `:size` attr on `gauge/1`. |
+
+### KPI namespaced tokens (v2.7.1)
+
+Per-component cascade variables under `--pa-kpi-*` — e.g. `--pa-kpi-bar-color` (sentiment-tinted bars in comparison gauges), `--pa-kpi-edit-cell-min` (`auto-fit` cell minimum for editorial grids), `--pa-kpi-gauge-cell-min`, `--pa-kpi-bento-row-height`. Most are set via component attrs (`cell_min_width`, `row_height`) rather than via global theme overrides.
 
 ### Layout
 
@@ -282,11 +354,11 @@ Override these CSS custom properties to customize the appearance:
 | `--pa-sidebar-bg` | Sidebar background |
 | `--pa-sidebar-width` | Sidebar width (default: 26rem) |
 
-### Theme Slots
+### Theme color slots
 
 | Variable | Description |
 |---|---|
-| `--base-color-1` through `--base-color-9` | Custom color slots |
+| `--pa-color-1` through `--pa-color-9` | Custom branded colour slots — see [Theme Color Slots](#theme-color-slots-1-9) above |
 
 ## Settings Panel
 

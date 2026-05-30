@@ -27,7 +27,12 @@ defmodule PureAdmin.Components.KpiGaugeList do
   attr(:live_text, :string, default: "LIVE")
   attr(:footer_text, :string, default: nil)
   attr(:grid_layout, :string, default: nil, values: @grid_layouts)
-  attr(:cell_min_width, :string, default: nil, doc: "CSS length for `--pa-kpi-gauge-cell-min` (default upstream `20rem`)")
+
+  attr(:cell_min_width, :string,
+    default: nil,
+    doc: "CSS length for `--pa-kpi-gauge-cell-min` (default upstream `20rem`)"
+  )
+
   attr(:class, :string, default: nil)
   attr(:rest, :global)
 
@@ -94,7 +99,12 @@ defmodule PureAdmin.Components.KpiGaugeList do
   attr(:unit_text, :string, default: nil)
   attr(:prefix_text, :string, default: nil)
   attr(:bar_percent, :integer, default: nil, doc: "Bar fill width as a percentage (0-100; not capped visually)")
-  attr(:tick_position, :string, default: nil, doc: "CSS length / percent for `--pa-kpi-gauge-tick-pos` (default upstream `100%`)")
+
+  attr(:tick_position, :string,
+    default: nil,
+    doc: "CSS length / percent for `--pa-kpi-gauge-tick-pos` (default upstream `100%`)"
+  )
+
   attr(:tick_color, :string, default: nil, doc: "Override for `--pa-kpi-gauge-tick-color`")
   attr(:scale_start_text, :string, default: "0")
   attr(:scale_end_text, :string, default: nil)
@@ -162,15 +172,19 @@ defmodule PureAdmin.Components.KpiGaugeList do
         </div>
       <% end %>
 
-      <Kpi.kpi_detail
-        :if={@has_detail?}
-        title_text={@detail_title_text}
-        rows={@detail_rows || auto_rows(assigns)}
-      >
-        <%= for d <- @detail do %>
-          {render_slot(d)}
-        <% end %>
-      </Kpi.kpi_detail>
+      <%= if @detail != [] do %>
+        <Kpi.kpi_detail :if={@has_detail?}>
+          <%= for d <- @detail do %>
+            {render_slot(d)}
+          <% end %>
+        </Kpi.kpi_detail>
+      <% else %>
+        <Kpi.kpi_detail
+          :if={@has_detail?}
+          title_text={@detail_title_text}
+          rows={@detail_rows || auto_rows(assigns)}
+        />
+      <% end %>
     </div>
     """
   end

@@ -132,6 +132,26 @@ defmodule DemoWeb.Live.StatsLive do
       </.grid>
     </.card>
 
+    <.card title_text="Square stats — mixed units · v2.6.0">
+      <p>
+        v2.6.0 redesigned <code>pa-stat--square</code> so the decorative <code>__symbol</code> watermark sits inline with the big <code>__number</code>. Markup order alone drives visual order — pass <code>is_prefix_symbol</code> to render the symbol BEFORE the number for prefix currencies (<code>$847K</code>, <code>¥12.4M</code>); leave it off for suffix units (<code>87%</code>, <code>23°C</code>). Number font-size scales with the tile width via <code>cqi</code> (container-query inline-size), so a row of squares stays balanced regardless of grid breakpoint.
+      </p>
+      <.grid>
+        <.column size="25">
+          <.stat variant="square" color="success" number="87" symbol_text="%" label_text="Completion" />
+        </.column>
+        <.column size="25">
+          <.stat variant="square" color="info" number="23" symbol_text="°C" label_text="Server temp" />
+        </.column>
+        <.column size="25">
+          <.stat variant="square" color="primary" number="847K" symbol_text="$" label_text="MRR" is_prefix_symbol />
+        </.column>
+        <.column size="25">
+          <.stat variant="square" color="warning" number="12.4M" symbol_text="¥" label_text="JPY revenue" is_prefix_symbol />
+        </.column>
+      </.grid>
+    </.card>
+
     <.card title_text="Stat Cards">
       <.grid>
         <.column size="25">

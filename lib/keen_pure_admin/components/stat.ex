@@ -58,7 +58,16 @@ defmodule PureAdmin.Components.Stat do
         "from `--pa-text-color-2` to `--pa-neutral`."
   )
 
-  attr(:symbol_text, :string, default: nil, doc: "Symbol text for square variant")
+  attr(:symbol_text, :string, default: nil, doc: "Symbol text for square variant (e.g. `%`, `°C`, `$`, `¥`)")
+
+  attr(:is_prefix_symbol, :boolean,
+    default: false,
+    doc:
+      "Square variant only. When true, renders `__symbol` BEFORE `__number` for prefix currencies " <>
+        "(`$847K`, `¥12.4M`). Default false renders `__number` first for suffix units (`87%`, `23°C`). " <>
+        "v2.6.0 contract: markup order drives visual order — no CSS modifier needed."
+  )
+
   # Legacy aliases
   attr(:value, :string, default: nil, doc: "Legacy alias for number")
   attr(:label, :string, default: nil, doc: "Legacy alias for label_text")
@@ -105,8 +114,9 @@ defmodule PureAdmin.Components.Stat do
             </div>
 
           <% @variant == "square" -> %>
+            <div :if={@symbol_text && @is_prefix_symbol} class="pa-stat__symbol"><%= @symbol_text %></div>
             <div class="pa-stat__number"><%= @resolved_number %></div>
-            <div :if={@symbol_text} class="pa-stat__symbol"><%= @symbol_text %></div>
+            <div :if={@symbol_text && !@is_prefix_symbol} class="pa-stat__symbol"><%= @symbol_text %></div>
             <div class="pa-stat__label"><%= @resolved_label %></div>
 
           <% @icon != [] -> %>

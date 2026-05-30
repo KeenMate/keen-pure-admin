@@ -59,7 +59,10 @@ defmodule PureAdmin.Components.KpiDetail do
   @spec delta_to_sentiment(delta_variant() | nil) :: sentiment()
   def delta_to_sentiment(nil), do: nil
   def delta_to_sentiment(v) when v in ["positive", "up_strong", "up-strong", "very_positive", "very-positive"], do: :pos
-  def delta_to_sentiment(v) when v in ["negative", "down_strong", "down-strong", "very_negative", "very-negative"], do: :neg
+
+  def delta_to_sentiment(v) when v in ["negative", "down_strong", "down-strong", "very_negative", "very-negative"],
+    do: :neg
+
   def delta_to_sentiment("warning"), do: :warn
   def delta_to_sentiment(_), do: nil
 

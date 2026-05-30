@@ -1,6 +1,16 @@
 # Changelog
 
-## Unreleased
+## [Unreleased]
+
+### Added
+
+### Changed
+
+### Fixed
+
+---
+
+## [1.2.0] - 2026-05-30 [PUBLISHED]
 
 ### Pure-admin v2.6.0 + v2.7.0 + v2.7.1 + v2.8.0 sync
 
@@ -77,15 +87,56 @@ Built one module per showcase (matching `@keenmate/svelte-pure-admin` 1:1 in com
 
 - **Sparklines escaping their containers in Hero + supporting / Bento / Combined dashboard.** `PureAdminKpiSparkDot` always wrapped the SVG in `.pa-kpi-spark-wrap` (which has no `height` declaration), even when the SVG's parent was already a tight positioned anchor with explicit `height: 3rem` (`.pa-kpi-hero-main__chart-svg`, `.pa-kpi-bento-tile__chart-svg`). The extra wrap broke the SVG's `height: 100%` chain; combined with `preserveAspectRatio="none"` + `overflow: visible`, the polygon stretched across the entire viewport. Ported upstream's tight-anchor check from `pure-admin/demo/js/kpi-showcases.js`: skip wrapping when `getComputedStyle(parent).position !== 'static'` AND `parent.height ≈ svg.height` (within 4px). Terminal grid (where the SVG IS the anchor with its own explicit height) was unaffected by the bug and remains unaffected by the fix.
 
-#### Pending in a follow-up
+#### Fixed — KPI tooltip popover rendered empty (black box)
 
-- README + theming docs token pass (canonical role tokens `--pa-success/-warning/-danger/-info`; 5-step sentiment; text-strong/secondary/tertiary tiers; surface-hover/-track; chart-trendline tokens; detail-popover chrome; link tokens; var-consolidation note).
-- `pa-stat--square` v2.6.0 redesign — markup is already siblings (`__number` + `__symbol` + `__label`); only need to update demo to showcase mixed `%` / `$` / `°C` / `¥` cases and document container-query sizing.
-- `component-audit.md` re-stamps for the eight reworked components (modal, gauge, stat, card, btn-split, fields-chips, timeline, plus the new KPI family).
+- **Every KPI tile / row showed an empty black popover on hover** when the host supplied `detail_title_text` + auto-built rows (the typical case). Phoenix's `inner_block` slot is always a non-empty list whenever the caller has open/close tags around the component — even if the only content between the tags is an empty `<%= for d <- @detail do %>…<% end %>` loop that produces no output. `kpi_detail/1`'s `has_inner?` check (`assigns.inner_block != []`) treated that as "consumer provided custom popover content" → took the inner_block branch → rendered nothing → typed `title_text` + `rows` were silently ignored. The visible result was the popover chrome (`pa-kpi-detail` background + shadow) with no content inside.
+- **Fix at every call site** (8 tile/row modules: `kpi_tile/1`, `kpi_sparkline_row/1`, `kpi_gauge/1`, `kpi_hero_main/1`, `kpi_hero_side/1`, `kpi_bento_tile/1`, `kpi_strip_row/1`, `kpi_editorial_tile/1`): branch the call into `<.kpi_detail>...</...>` form when the consumer's `:detail` slot has content, and `<.kpi_detail .../>` (self-closing) form otherwise. Self-closing leaves `inner_block == []`, so `kpi_detail/1`'s `has_inner?` check becomes a reliable signal. Auto-built rows render correctly; consumer's custom `:detail` slot still wins when supplied.
+- **Defensive: no tooltip when none defined.** `has_detail?` is computed as `@detail != [] or @detail_title_text != nil` — when both are absent, `phx-hook="PureAdminKpiTile"` isn't emitted, the `<.kpi_detail>` element isn't rendered, no `.pa-kpi-detail` exists in the DOM, and the JS hook's `mounted()` also has `if (!this.detail) return` as a safety net.
 
----
+#### Added — `pa:theme-change` event dispatch in settings panel hook (canvas chart reactivity)
 
-## v1.3.0 — 2026-04-25
+- **`PureAdminSettings` hook now dispatches `pa:theme-change` window events** so consumer code that snapshots colours at draw time (Chart.js, ECharts, D3, custom canvas) can re-sample after a theme appearance change. Three event kinds:
+    - `{ kind: "mode", mode }` — fired at the end of `_applyThemeMode` after the `pa-mode-*` body class flips (light↔dark toggle).
+    - `{ kind: "variant", variant }` — fired at the end of `_applyColorVariant` after the `pa-color-*` body class flips (color variant picker).
+    - `{ kind: "theme", themeId }` — fired tied to the `<link id="pa-theme-css">` element's `load` (or `error`) event after a theme stylesheet swap, so canvas re-sampling happens AFTER the new CSS is in effect — not before. One-shot listener that auto-removes itself; the next swap installs its own.
+- **Early-return paths intentionally skip the dispatch** — when the target class is already on `<body>` (nothing visual changed) the events don't fire, so consumers don't waste cycles re-drawing.
+- **Matches upstream pure-admin demo's contract** (`demo/js/settings-panel.js` dispatches the same event with the same kinds for mode / variant). Theme-swap dispatch is our addition — upstream doesn't fire on swap; the svelte side (1.8.0) covers this case with their separate `chartColorSync` action that listens for the link `load` independently.
+- **Why this matters**: SVG sparklines re-colour live via `currentColor`. Canvas charts (including the existing `PureAdminKpiChart` hook in the demo) cache `getComputedStyle(canvas).color` at draw time. Without this dispatch, the canvas froze on every theme/mode change while the SVG around it updated — visually broken. With this dispatch, the hook's `_recolor()` runs and the canvas re-paints in place.
+
+#### Changed — `PureAdminKpiChart` demo hook gains `stacked-bar` + `doughnut` chart types
+
+- **Two new `data-kpi-type` values** for the `demo/assets/js/hooks/kpi_chart.js` hook:
+    - `data-kpi-type="stacked-bar"` — multi-series stacked bar chart. `data-kpi-points` accepts array-of-arrays JSON (`"[[120,140,160,180],[280,290,300,320],[60,70,80,90]]"`); each inner array becomes a stacked series. Optional `data-kpi-labels='["Q1","Q2","Q3","Q4"]'` for x-axis labels (mostly cosmetic — axes stay hidden).
+    - `data-kpi-type="doughnut"` — single-series doughnut. `data-kpi-points` is a flat array of slice values; cutout fixed at `62%`, slice spacing `2px`.
+- **`SERIES_OPACITY = [0.95, 0.65, 0.42, 0.25, 0.15]`** — multi-series and multi-slice colours derive from the host's resolved `currentColor` at decreasing alpha, so each series/slice reads distinctly while still inheriting the KPI sentiment + theme cascade. Both new types re-paint correctly on `pa:theme-change`.
+- **`readPoints/1` is now flatten-safe** — when `data-kpi-points` is array-of-arrays (multi-series format) and a single-series chart type (`line` / `bar`) is requested, it returns the first inner array. So the same data attribute shape can drive either single-series or multi-series charts.
+
+#### Changed — Dashboard rewrite (1:1 with @keenmate/svelte-pure-admin v1.8.0)
+
+- **`/` (`DashboardLive`) overhauled** to mirror svelte-pure-admin's `docs/src/routes/+page.svelte`. Diff vs. the previous version:
+    - Old placeholder "Top Sales Products" card (an `<i class="fa-chart-bar">` icon and the text "Chart Placeholder") replaced with a real **`kpi_sparkline_list`** carrying 5 product rows (Epsilon up-strong, Alpha / Delta / Beta up, Gamma down), each backed by a Chart.js area sparkline via `<canvas data-kpi-chart>`.
+    - Old "Revenue Trend" section (hand-drawn double `<polyline>` SVG with hardcoded points) replaced with a **`kpi_hero_list` `hero_split="2_3"`** + a 13-point Chart.js area chart in the hero + 3 `kpi_hero_side` rail tiles (YTD Revenue, Q4 Actual, Forecast EOY).
+    - Old separate "Revenue Trend & Traffic Sources" row removed — Traffic Sources moved into the right column of the new Top Sales row.
+    - Timeline items in "Recent Activity" — first 3 (most-recent) items now carry `is_filled` to match svelte's `isFilled`. Filled markers signal "just happened"; the older two stay outlined.
+    - New `mount/3` assigns: `top_sales` (5 products with sentiment-ordered ranking + Chart.js data series strings) and `revenue_trend_points` (13-point string).
+    - Everything else (4-up metric cards, KPI squares grid, Recent Orders table, Top Products / System Status / Quick Actions footer row) unchanged.
+
+#### Changed — `/kpi/dashboard` extended with Chart.js stacked bars + doughnuts
+
+- **New section: "Revenue by Segment · Q1–Q4 weekly"** — `kpi_sparkline_list` with 4 rows (Enterprise / SMB / Consumer / Marketplace) each showing a stacked-bar Chart.js chart (New + Renewals + Upgrades, 4 quarters). Each row carries the full popover prop set (Current / Previous / Δ absolute / Δ percent / Target) so the tooltip-fix is also exercised on this section.
+- **New section: "Pipeline & Distribution · Chart.js mix"** — `kpi_bento` mixing both new chart types in one layout:
+    - Hero: Pipeline by Stage (stacked bars, 8 weeks × 3 stages)
+    - Customer Mix + Top Channels + Forecast Confidence (doughnuts at 4 / 5 / 2 slices)
+    - Deals by Region + Stalled % (stacked bars, 6 categories × 2 series)
+    - Sentiment cascade exercised: Stalled % is `negative` (red), Forecast Confidence is `neutral` (grey), the rest are `positive` / `up_strong` (green tones).
+- **Integration test coverage**: with all the recent fixes in place, this page exercises (a) the popover-rendering fix in 4 sparkline rows + 6 bento tiles, (b) the `pa:theme-change` event dispatch by re-colouring both inline-SVG sparklines (via `currentColor`) and Chart.js canvases (via `_recolor()`) on mode flip / theme swap, and (c) the new stacked-bar + doughnut chart types via the `SERIES_OPACITY` cascade.
+
+#### Docs / demo / bookkeeping (catch-up pass)
+
+- **`docs/theming.md` rewritten** — full reference for the v2.8.0 token surface: canonical role tokens (`--pa-success` / `-warning` / `-danger` / `-info`), 5-step sentiment scale, text-contrast tiers (`--pa-text-strong` / `-secondary` / `-tertiary`), surface tints (`--pa-surface-hover` / `-track`), link tokens, chart-trendline tokens, detail-popover chrome, gauge-size, KPI namespaced tokens, plus a callout for the v2.8.0 `:root` defaults architectural fix.
+- **`pa-stat--square` prefix-currency mode wired up.** New `is_prefix_symbol` boolean on `stat/1` (square variant only) flips DOM order to `<symbol><number>` for prefix currencies (`$847K`, `¥12.4M`); default false renders `<number><symbol>` for suffix units (`87%`, `23°C`). Matches v2.6.0's "markup order drives visual order" contract — no CSS modifier needed. Demo `/components/stats` gained a "Square stats — mixed units · v2.6.0" card showing all four cases side-by-side.
+- **`component-audit.md` re-stamped to `d49531c` (v2.8.0).** Seven existing rows re-anchored to `12b9d23` (v2.7.0): Modal (banded), Card (live-up/down sentiment), Stat (square redesign + 5-step), Timeline (visual tweaks), Button (btn-split chevron-corner fix), DataDisplay (fields-chips polish), DataViz (gauge rebuild). Nine new rows added under "no current snippet" for the KPI family (Kpi, KpiDetail, KpiTerminal, KpiSparklineList, KpiGaugeList, KpiHero, KpiBento, KpiStrip, KpiEditorial) — each anchored to its v2.7.1 SCSS partial plus the v2.8.0 commit that added the layout-modifier follow-ups.
+- **`package.json` — declared `peerDependencies: { "@keenmate/pure-admin-core": "^2.8.0" }`.** Previously the package made no machine-readable claim about which framework version it targeted; the CHANGELOG and README said "^2.8.0" but `package.json` was silent.
 
 ### Pure-admin v2.5.0 sync
 
@@ -142,7 +193,7 @@ Components with acknowledged gaps deferred to a later release (tracked in `compo
 
 ---
 
-## v1.1.0 — 2026-04-23
+## [1.1.0] - 2026-04-23 [PUBLISHED]
 
 ### Added
 
@@ -161,7 +212,7 @@ Components with acknowledged gaps deferred to a later release (tracked in `compo
 
 ---
 
-## v1.0.0 — 2026-04-11
+## [1.0.0] - 2026-04-11 [PUBLISHED]
 
 First stable release. Phoenix LiveView component library wrapping Pure Admin CSS framework into 35+ function components, 14 JS hooks, and 3 LiveComponents.
 
@@ -198,7 +249,7 @@ Compatible with `@keenmate/pure-admin-core` v2.3.6 and Phoenix LiveView ~> 1.0.
 
 ---
 
-## v1.0.0-rc.2 — 2026-04-03
+## [1.0.0-rc.2] - 2026-04-03 [PUBLISHED]
 
 ### Added
 
@@ -220,7 +271,7 @@ Compatible with `@keenmate/pure-admin-core` v2.3.6 and Phoenix LiveView ~> 1.0.
 - **Sidebar** — optimize resize handler to only act on breakpoint crossings
 - **Docker build** — fix 404 for CSS assets (`pure-admin.css`, `audi.css`) — app CSS was never copied to `priv/static` and theme bundle API returned empty zip
 
-## v1.0.0-rc.1 — 2026-04-01
+## [1.0.0-rc.1] - 2026-04-01 [PUBLISHED]
 
 ### Flash Messages
 

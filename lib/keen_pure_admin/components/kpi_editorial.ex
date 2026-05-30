@@ -34,7 +34,11 @@ defmodule PureAdmin.Components.KpiEditorial do
     doc: "Force 2-col grid (`pa-kpi-edit__grid--2col`) — shorthand for `grid_layout=\"2col\"`"
   )
 
-  attr(:cell_min_width, :string, default: nil, doc: "CSS length for `--pa-kpi-edit-cell-min` (default upstream `14rem`)")
+  attr(:cell_min_width, :string,
+    default: nil,
+    doc: "CSS length for `--pa-kpi-edit-cell-min` (default upstream `14rem`)"
+  )
+
   attr(:class, :string, default: nil)
   attr(:rest, :global)
 
@@ -154,15 +158,19 @@ defmodule PureAdmin.Components.KpiEditorial do
         </div>
       <% end %>
 
-      <Kpi.kpi_detail
-        :if={@has_detail?}
-        title_text={@detail_title_text}
-        rows={@detail_rows || auto_rows(assigns)}
-      >
-        <%= for d <- @detail do %>
-          {render_slot(d)}
-        <% end %>
-      </Kpi.kpi_detail>
+      <%= if @detail != [] do %>
+        <Kpi.kpi_detail :if={@has_detail?}>
+          <%= for d <- @detail do %>
+            {render_slot(d)}
+          <% end %>
+        </Kpi.kpi_detail>
+      <% else %>
+        <Kpi.kpi_detail
+          :if={@has_detail?}
+          title_text={@detail_title_text}
+          rows={@detail_rows || auto_rows(assigns)}
+        />
+      <% end %>
     </div>
     """
   end

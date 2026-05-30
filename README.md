@@ -12,32 +12,17 @@ Drop-in replacement for Phoenix `CoreComponents` -- provides `button/1`, `badge/
 
 **Live demo:** [elixir.demo.pureadmin.io](https://elixir.demo.pureadmin.io)
 
-## What's new in v1.4.0
+## What's new in v1.2.0
 
-Pure-admin **v2.6.0 + v2.7.0 + v2.7.1 + v2.8.0** absorbed in one bump. Anchored to `@keenmate/pure-admin-core` 2.8.0+. Highlights:
+Pure-admin **v2.5.0 → v2.8.0** sync, KPI showcase suite, plus a full security + correctness sweep. Anchored to `@keenmate/pure-admin-core` 2.8.0+. Highlights:
 
-- **9 new KPI modules, 12+ new function components.** A `PureAdmin.Components.Kpi` substrate plus seven showcase modules — `KpiTerminal`, `KpiSparklineList`, `KpiGaugeList`, `KpiHero`, `KpiBento`, `KpiStrip`, `KpiEditorial` — mirroring `@keenmate/svelte-pure-admin` 1:1 in component names and prop names. Each tile-level component auto-builds its hover detail popover from typed props (Current / Previous / Δ absolute / Δ percent / Target) via the shared `PureAdmin.Components.KpiDetail` helpers; chart slot is library-agnostic (D3, ApexCharts, Chart.js, Contex, custom SVG, hook-mounted div — all work).
-- **Three new JS hooks**: `PureAdminKpiTile` (cursor-anchored Floating UI popover), `PureAdminKpiSparkDot` (SVG `<circle>` → CSS `<span>` so dots stay round under `preserveAspectRatio="none"`), `PureAdminKpiTerminalTabs` (client-side tab strip wiring for terminal panes, scoped per terminal).
-- **`Modal` — new `is_banded`** boolean. Emits `pa-modal--banded` alongside the existing `:variant` so `<.modal variant="success" is_banded>` produces a filled-header + filled-footer banded modal that reads against the band on any theme (the framework's CSS auto-inverts inner buttons via `--pa-text-color-1`).
-- **`gauge/1` rebuild.** Label moved out of the donut hole — `__inner` now holds the value only; label sits in a sibling row alongside `__min` and `__max`. New `:size` attr emits `--pa-gauge-size` (default upstream `12rem`). Existing markup updates automatically when consumers bump `@keenmate/pure-admin-core` to ^2.7.0.
-- **`Stat` — 5-step sentiment scale on hero deltas.** `change_direction` accepts `very_positive` / `very_negative` in addition to the existing `positive` / `negative` / `neutral`. Neutral colour shifted from grey to `--pa-neutral`.
-- **Bump `@keenmate/pure-admin-core` to `^2.8.0`** to pick up:
-    - All canonical role tokens (`--pa-success` / `-warning` / `-danger` / `-info`), the 5-step sentiment scale, text-contrast tiers (`--pa-text-strong` / `-secondary` / `-tertiary`), surface tints (`--pa-surface-hover` / `-track`), chart-trendline tokens, detail-popover chrome, link tokens (`--pa-link-color` / `-hover` / `-visited`), and the CSS-variable consolidation sweep across ~180 SCSS-baked role-colour sites.
-    - **v2.8.0 architectural fix: CSS variable defaults now emit at `:root` in the unthemed bundle (`dist/css/main.css`)**. Before 2.8.0, only themes emitted `:root { --pa-* }` — pages waiting for their theme stylesheet to load had `var(--pa-positive)` / `--pa-success-bg` / etc. resolve to invalid values, causing KPI sparklines and deltas to render near-black via inherited text colour during the FOUC window. The unthemed bundle now ships a complete neutral default for every themable token, so the wrapper works standalone and the FOUC window is covered. Themes unaffected — they still emit their own `:root` block.
+- **9 new KPI modules, 12+ function components** mirroring `@keenmate/svelte-pure-admin` 1:1 — `KpiTerminal`, `KpiSparklineList`, `KpiGaugeList`, `KpiHero`, `KpiBento`, `KpiStrip`, `KpiEditorial`, plus a `Kpi` substrate and `KpiDetail` helpers. Each tile auto-builds its hover popover from typed props (Current / Previous / Δ absolute / Δ percent / Target); chart slot is library-agnostic (D3, ApexCharts, Chart.js, Contex, custom SVG). Three new JS hooks: `PureAdminKpiTile` (cursor-anchored Floating UI popover), `PureAdminKpiSparkDot`, `PureAdminKpiTerminalTabs`.
+- **`Modal` — new `is_banded` boolean**; **`gauge/1` rebuild** (label moved outside the donut, new `:size` attr emitting `--pa-gauge-size`); **`Stat` — 5-step sentiment scale** on hero deltas (`very_positive` / `very_negative` added; neutral shifted to `--pa-neutral`).
+- **Bump `@keenmate/pure-admin-core` to `^2.8.0`** — canonical role tokens (`--pa-success`/`-warning`/`-danger`/`-info`), 5-step sentiment scale, text-contrast tiers, surface tints, link tokens, plus v2.8.0's architectural fix that emits CSS variable defaults at `:root` in the unthemed bundle (kills the FOUC near-black sparklines / deltas).
+- **Pure-admin v2.5.0 alert sync (Breaking)** — `Alert` drops the `pa-alert__content` wrapper when no `:icon` slot is supplied. New `heading_size="lg"` opts back into the louder punchy heading (defaults are now compact, so existing alerts using `<:heading>` / `heading_text` will render smaller until you pass `heading_size="lg"`). New `is_multiline` boolean for icon + multi-line content. `Pager` icon attrs no longer use `Phoenix.HTML.raw/1` — defaults are now Unicode chevrons; markup icons go through new `:first_icon` / `:previous_icon` / `:next_icon` / `:last_icon` slots.
+- **Strict-CSP support + safe URL handling.** Every inline `onclick=` / `<script>` removed from component templates; behaviour lives in a single delegated-events module exposed via the new **`initPureAdminEvents()`** export. New `PureAdmin.Helpers.safe_url/2` deny-list URL validator applied automatically across link-bearing components (`button/1`, `pa_link/1`, `navbar_nav_item/1`, `sidebar_item/1`, `profile_nav_item/1`). Flash markdown links + profile-panel favourites use the same check. Apps can now ship with `script-src 'self'`.
 
-See [`pure-admin-2.7-sync.md`](pure-admin-2.7-sync.md) for the per-task tracker and the full [CHANGELOG](CHANGELOG.md) for everything that landed.
-
-## What's new in v1.3.0
-
-Security + correctness release. A full security audit ([`security-audit.md`](security-audit.md)) closed 12 findings, a framework-snippet drift audit ([`component-audit.md`](component-audit.md)) re-aligned every component against the current `pure-admin-core` snippets, and the alert system was re-anchored to pure-admin v2.5.0. Highlights:
-
-- **Pure-admin v2.5.0 alert sync (Breaking)** — `Alert` drops the `pa-alert__content` wrapper when no `:icon` slot is supplied so structural children (`__heading`, `__list`, `__actions`, `<p>`, `<hr>`) pick up the new `flex-basis: 100%` rules. New `heading_size` attr (`nil` \| `"lg"`) — the framework flipped the punchy heading to opt-in, so existing alerts using `<:heading>` or `heading_text` will render visually smaller until you pass `heading_size="lg"`. New `is_multiline` attr emits `pa-alert--multiline` for the icon + multi-line content case. Bump `@keenmate/pure-admin-core` to `^2.5.0`.
-- **Strict-CSP support** — every inline `onclick=` and inline `<script>` block removed from component templates. Component behaviour lives in a single delegated-events module exposed via the new **`initPureAdminEvents()`** export; call it once in `app.js` alongside `initModalDialogs()`. Apps can now ship with `script-src 'self'`. The only remaining inline `<script>` is the optional `<.fouc_prevention_script />`, which needs a per-request nonce.
-- **`PureAdmin.Helpers.safe_url/2`** — new deny-list URL validator (blocks only `javascript:` / `data:` / `vbscript:` / `file:`; passes http/https, `mailto:`, `tel:`, `sms:`, custom app schemes like `slack://`, and relative paths). Applied automatically to `href={@href}` in `pa_link/1`, `button/1`, `navbar_nav_item/1`, `sidebar_item/1`, `profile_nav_item/1`. Flash markdown links use the same check.
-- **Pager icon attrs no longer use `Phoenix.HTML.raw/1` (Breaking)** — defaults moved from HTML entities to Unicode chevrons (`«‹›»`); markup icons (Font Awesome, SVG) go through the new `:first_icon` / `:previous_icon` / `:next_icon` / `:last_icon` slots. Apps that passed HTML in the string attrs must migrate.
-- **Flash / Toast actions** no longer round-trip `JSON.stringify(action)` through `data-action`; each button is built as a DOM element with the action captured via closure — no attribute-escape attack surface. Plus: `desc_table label_width` CSS-length validation, `profile_panel.js` URL scheme check, hardened `page-context.js` parse, localStorage allowlist checks, `modal_dialogs.custom()` JSDoc warning.
-
-See [`security-audit.md`](security-audit.md) for per-finding detail, [`component-audit.md`](component-audit.md) for the snippet drift log, and the full [CHANGELOG](CHANGELOG.md) for a complete list.
+See the full [CHANGELOG](CHANGELOG.md) for everything that landed.
 
 ## What's new in v1.1.0
 
@@ -75,7 +60,7 @@ end
 ```elixir
 def deps do
   [
-    {:keen_pure_admin, github: "KeenMate/keen-pure-admin", tag: "v1.3.0"}
+    {:keen_pure_admin, github: "KeenMate/keen-pure-admin", tag: "v1.2.0"}
   ]
 end
 ```

@@ -1,7 +1,7 @@
 defmodule PureAdmin.MixProject do
   use Mix.Project
 
-  @version "1.3.0"
+  @version "1.2.0"
   @source_url "https://github.com/KeenMate/keen-pure-admin"
 
   def project do
@@ -122,6 +122,17 @@ defmodule PureAdmin.MixProject do
         "Lists & Timeline": [
           PureAdmin.Components.List,
           PureAdmin.Components.Timeline
+        ],
+        "KPI Showcases": [
+          PureAdmin.Components.Kpi,
+          PureAdmin.Components.KpiDetail,
+          PureAdmin.Components.KpiTerminal,
+          PureAdmin.Components.KpiSparklineList,
+          PureAdmin.Components.KpiGaugeList,
+          PureAdmin.Components.KpiHero,
+          PureAdmin.Components.KpiBento,
+          PureAdmin.Components.KpiStrip,
+          PureAdmin.Components.KpiEditorial
         ],
         "Live Components": ~r/PureAdmin\.Live\./,
         "Helpers & Config": [

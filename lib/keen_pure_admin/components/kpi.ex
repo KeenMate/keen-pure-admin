@@ -118,7 +118,8 @@ defmodule PureAdmin.Components.Kpi do
 
   attr(:is_standalone, :boolean,
     default: false,
-    doc: "Adds `pa-kpi-tile--standalone` (full border + card bg + bottom margin) for tiles outside `pa-kpi-terminal__grid`"
+    doc:
+      "Adds `pa-kpi-tile--standalone` (full border + card bg + bottom margin) for tiles outside `pa-kpi-terminal__grid`"
   )
 
   attr(:id_text, :string, default: nil, doc: "Identifier shown in tile head (e.g. \"KPI.01 · 30d\")")
@@ -246,15 +247,19 @@ defmodule PureAdmin.Components.Kpi do
         {render_slot(c)}
       <% end %>
 
-      <.kpi_detail
-        :if={@has_detail?}
-        title_text={@detail_title_text}
-        rows={@detail_rows || auto_detail_rows(assigns)}
-      >
-        <%= for d <- @detail do %>
-          {render_slot(d)}
-        <% end %>
-      </.kpi_detail>
+      <%= if @detail != [] do %>
+        <.kpi_detail :if={@has_detail?}>
+          <%= for d <- @detail do %>
+            {render_slot(d)}
+          <% end %>
+        </.kpi_detail>
+      <% else %>
+        <.kpi_detail
+          :if={@has_detail?}
+          title_text={@detail_title_text}
+          rows={@detail_rows || auto_detail_rows(assigns)}
+        />
+      <% end %>
     </div>
     """
   end

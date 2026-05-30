@@ -49,7 +49,8 @@ defmodule PureAdmin.Components.KpiStrip do
 
   attr(:header_labels, :map,
     default: %{},
-    doc: "Per-column header overrides — keys are `:metric` | `:now` | `:previous_value` | `:delta_percent` | `:target_bar`"
+    doc:
+      "Per-column header overrides — keys are `:metric` | `:now` | `:previous_value` | `:delta_percent` | `:target_bar`"
   )
 
   attr(:class, :string, default: nil)
@@ -236,15 +237,19 @@ defmodule PureAdmin.Components.KpiStrip do
         </div>
       <% end %>
 
-      <Kpi.kpi_detail
-        :if={@has_detail?}
-        title_text={@detail_title_text}
-        rows={@detail_rows || auto_rows(assigns)}
-      >
-        <%= for d <- @detail do %>
-          {render_slot(d)}
-        <% end %>
-      </Kpi.kpi_detail>
+      <%= if @detail != [] do %>
+        <Kpi.kpi_detail :if={@has_detail?}>
+          <%= for d <- @detail do %>
+            {render_slot(d)}
+          <% end %>
+        </Kpi.kpi_detail>
+      <% else %>
+        <Kpi.kpi_detail
+          :if={@has_detail?}
+          title_text={@detail_title_text}
+          rows={@detail_rows || auto_rows(assigns)}
+        />
+      <% end %>
     </div>
     """
   end

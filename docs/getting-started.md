@@ -45,7 +45,7 @@ This replaces `button/1`, `input/1`, `simple_form/1`, `modal/1`, `table/1`, `lis
 
 - **`header/1`** — use `@page_title` in `<.navbar_title>` (layout renders it, LiveView sets it)
 - **`icon/1`** — use Font Awesome directly: `<i class="fa-solid fa-user"></i>`
-- **`translate_error/1`** — keep your app's Gettext-based implementation
+- **`translate_error/1`** — `PureAdmin.Components.Form.translate_error/1` ships a plain `%{key}`-interpolating default. For Gettext, set `config :keen_pure_admin, :error_formatter, {MyAppWeb.CoreComponents, :translate_error}` and errors flow through your existing pipeline.
 - **`show/1`**, **`hide/1`** — use `Phoenix.LiveView.JS` directly
 
 Also clean up these generated files that use Tailwind classes or CoreComponents functions:
@@ -179,16 +179,21 @@ Browse all available themes at [pureadmin.io](https://pureadmin.io).
 
 ### 5. Register JS hooks
 
-Add `PureAdminHooks` to your LiveSocket in `assets/js/app.js`:
+Add `PureAdminHooks` to your LiveSocket in `assets/js/app.js` and call `initPureAdminEvents()` once to wire the delegated click handlers (popconfirm, popover, copy-to-clipboard, tabs scroll, badge-group expand/collapse):
 
 ```javascript
-import { PureAdminHooks } from "keen_pure_admin"
+import { PureAdminHooks, initPureAdminEvents } from "keen_pure_admin"
 
 // Merge with any existing hooks
 const liveSocket = new LiveSocket("/live", Socket, {
   hooks: { ...colocatedHooks, ...PureAdminHooks }
 })
+
+// Wire delegated click handlers. Idempotent; safe to call once at startup.
+initPureAdminEvents()
 ```
+
+All component behaviour is delivered through `PureAdminHooks` and `initPureAdminEvents` — no inline `onclick=` handlers in the rendered markup, so apps can ship with strict CSP (`script-src 'self'`) without `'unsafe-inline'`. The one exception is the optional FOUC-prevention script (`<.fouc_prevention_script />`), which must run inline in `<head>` before CSS loads; for CSP-strict apps, attach a per-request nonce.
 
 ## Next Steps
 

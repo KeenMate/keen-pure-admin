@@ -154,15 +154,19 @@ defmodule PureAdmin.Components.KpiHero do
         </div>
       <% end %>
 
-      <Kpi.kpi_detail
-        :if={@has_detail?}
-        title_text={@detail_title_text}
-        rows={@detail_rows || auto_rows(assigns)}
-      >
-        <%= for d <- @detail do %>
-          {render_slot(d)}
-        <% end %>
-      </Kpi.kpi_detail>
+      <%= if @detail != [] do %>
+        <Kpi.kpi_detail :if={@has_detail?}>
+          <%= for d <- @detail do %>
+            {render_slot(d)}
+          <% end %>
+        </Kpi.kpi_detail>
+      <% else %>
+        <Kpi.kpi_detail
+          :if={@has_detail?}
+          title_text={@detail_title_text}
+          rows={@detail_rows || auto_rows(assigns)}
+        />
+      <% end %>
     </div>
     """
   end
@@ -240,15 +244,19 @@ defmodule PureAdmin.Components.KpiHero do
         <div :if={@delta_text} class="pa-kpi-hero-side__delta">{@delta_text}</div>
       <% end %>
 
-      <Kpi.kpi_detail
-        :if={@has_detail?}
-        title_text={@detail_title_text}
-        rows={@detail_rows || side_auto_rows(assigns)}
-      >
-        <%= for d <- @detail do %>
-          {render_slot(d)}
-        <% end %>
-      </Kpi.kpi_detail>
+      <%= if @detail != [] do %>
+        <Kpi.kpi_detail :if={@has_detail?}>
+          <%= for d <- @detail do %>
+            {render_slot(d)}
+          <% end %>
+        </Kpi.kpi_detail>
+      <% else %>
+        <Kpi.kpi_detail
+          :if={@has_detail?}
+          title_text={@detail_title_text}
+          rows={@detail_rows || side_auto_rows(assigns)}
+        />
+      <% end %>
     </div>
     """
   end

@@ -225,6 +225,219 @@ defmodule DemoWeb.Live.KpiDashboardLive do
         </:chart>
       </.kpi_bento_tile>
     </.kpi_bento>
+
+    <br />
+
+    <%!-- Chart.js exercise · stacked bars + doughnut --%>
+
+    <h3>Chart.js · stacked bars + doughnut</h3>
+    <p>
+      Exercises the <code>PureAdminKpiChart</code> hook with
+      <code>data-kpi-type="stacked-bar"</code> (multi-series via array-of-arrays in
+      <code>data-kpi-points</code>) and <code>data-kpi-type="doughnut"</code>. Series colour
+      via decreasing-opacity <code>currentColor</code> — flip the theme/mode toggle in the
+      settings panel and every chart below re-colours in place via the
+      <code>pa:theme-change</code> event.
+    </p>
+
+    <.kpi_sparkline_list title_text="Revenue by Segment · Q1–Q4 weekly" is_live>
+      <.kpi_sparkline_row
+        id="seg-enterprise"
+        variant="up"
+        label_text="Enterprise"
+        prefix_text="$"
+        value_text="590"
+        unit_text="K"
+        delta_text="+10.0%"
+        delta_variant="positive"
+        detail_title_text="Enterprise · Q4"
+        previous_value_text="$536K"
+        delta_absolute_text="+$54K"
+        delta_absolute_sentiment={:pos}
+        target_text="$600K"
+      >
+        <:chart>
+          <canvas
+            id="seg-enterprise-chart"
+            phx-hook="PureAdminKpiChart"
+            data-kpi-chart
+            data-kpi-type="stacked-bar"
+            data-kpi-aspect="6"
+            data-kpi-labels='["Q1","Q2","Q3","Q4"]'
+            data-kpi-points="[[120,140,160,180],[280,290,300,320],[60,70,80,90]]"
+          />
+        </:chart>
+      </.kpi_sparkline_row>
+
+      <.kpi_sparkline_row
+        id="seg-smb"
+        variant="up"
+        label_text="SMB"
+        prefix_text="$"
+        value_text="325"
+        unit_text="K"
+        delta_text="+5.5%"
+        delta_variant="positive"
+        detail_title_text="SMB · Q4"
+        previous_value_text="$308K"
+        delta_absolute_text="+$17K"
+        delta_absolute_sentiment={:pos}
+        target_text="$340K"
+      >
+        <:chart>
+          <canvas
+            id="seg-smb-chart"
+            phx-hook="PureAdminKpiChart"
+            data-kpi-chart
+            data-kpi-type="stacked-bar"
+            data-kpi-aspect="6"
+            data-kpi-labels='["Q1","Q2","Q3","Q4"]'
+            data-kpi-points="[[80,90,100,110],[140,150,160,170],[30,35,40,45]]"
+          />
+        </:chart>
+      </.kpi_sparkline_row>
+
+      <.kpi_sparkline_row
+        id="seg-consumer"
+        variant="up_strong"
+        label_text="Consumer"
+        prefix_text="$"
+        value_text="410"
+        unit_text="K"
+        delta_text="+18.2%"
+        delta_variant="very_positive"
+        detail_title_text="Consumer · Q4"
+        previous_value_text="$347K"
+        delta_absolute_text="+$63K"
+        delta_absolute_sentiment={:pos}
+        target_text="$400K"
+      >
+        <:chart>
+          <canvas
+            id="seg-consumer-chart"
+            phx-hook="PureAdminKpiChart"
+            data-kpi-chart
+            data-kpi-type="stacked-bar"
+            data-kpi-aspect="6"
+            data-kpi-labels='["Q1","Q2","Q3","Q4"]'
+            data-kpi-points="[[200,220,240,260],[80,85,90,95],[40,45,50,55]]"
+          />
+        </:chart>
+      </.kpi_sparkline_row>
+
+      <.kpi_sparkline_row
+        id="seg-marketplace"
+        variant="down"
+        label_text="Marketplace"
+        prefix_text="$"
+        value_text="180"
+        unit_text="K"
+        delta_text="-3.8%"
+        delta_variant="negative"
+        detail_title_text="Marketplace · Q4"
+        previous_value_text="$187K"
+        delta_absolute_text="−$7K"
+        delta_absolute_sentiment={:neg}
+        target_text="$220K"
+      >
+        <:chart>
+          <canvas
+            id="seg-marketplace-chart"
+            phx-hook="PureAdminKpiChart"
+            data-kpi-chart
+            data-kpi-type="stacked-bar"
+            data-kpi-aspect="6"
+            data-kpi-labels='["Q1","Q2","Q3","Q4"]'
+            data-kpi-points="[[60,70,80,90],[40,45,50,55],[20,25,30,35]]"
+          />
+        </:chart>
+      </.kpi_sparkline_row>
+    </.kpi_sparkline_list>
+
+    <br />
+
+    <.kpi_bento title_text="Pipeline & Distribution · Chart.js mix">
+      <.kpi_bento_tile is_hero variant="positive" label_text="Pipeline by Stage" prefix_text="$" value_text="2.84" unit_text="M" delta_text="▲ 14.2%">
+        <:chart>
+          <canvas
+            id="cjs-bento-hero"
+            phx-hook="PureAdminKpiChart"
+            data-kpi-chart
+            data-kpi-type="stacked-bar"
+            data-kpi-aspect="3"
+            data-kpi-labels='["W1","W2","W3","W4","W5","W6","W7","W8"]'
+            data-kpi-points="[[420,450,480,520,560,610,650,700],[280,300,320,340,360,380,410,440],[180,200,220,240,260,290,320,360]]"
+          />
+        </:chart>
+      </.kpi_bento_tile>
+
+      <.kpi_bento_tile variant="up_strong" label_text="Customer Mix" value_text="4" unit_text="segments" delta_text="▲ 2.1%">
+        <:chart>
+          <canvas
+            id="cjs-bento-a"
+            phx-hook="PureAdminKpiChart"
+            data-kpi-chart
+            data-kpi-type="doughnut"
+            data-kpi-aspect="2.5"
+            data-kpi-points="[42, 28, 18, 12]"
+          />
+        </:chart>
+      </.kpi_bento_tile>
+
+      <.kpi_bento_tile variant="positive" label_text="Top Channels" value_text="5" unit_text="active" delta_text="▲ 8.7%">
+        <:chart>
+          <canvas
+            id="cjs-bento-b"
+            phx-hook="PureAdminKpiChart"
+            data-kpi-chart
+            data-kpi-type="doughnut"
+            data-kpi-aspect="2.5"
+            data-kpi-points="[38, 24, 18, 12, 8]"
+          />
+        </:chart>
+      </.kpi_bento_tile>
+
+      <.kpi_bento_tile variant="positive" label_text="Deals by Region" value_text="6" unit_text="regions" delta_text="▲ 5.0%">
+        <:chart>
+          <canvas
+            id="cjs-bento-c"
+            phx-hook="PureAdminKpiChart"
+            data-kpi-chart
+            data-kpi-type="stacked-bar"
+            data-kpi-aspect="3.5"
+            data-kpi-labels='["NA","EU","APAC","LATAM","ME","AF"]'
+            data-kpi-points="[[14,11,9,5,3,2],[8,7,6,4,2,1]]"
+          />
+        </:chart>
+      </.kpi_bento_tile>
+
+      <.kpi_bento_tile variant="negative" label_text="Stalled %" value_text="11.4" unit_text="%" delta_text="▲ 1.8pp">
+        <:chart>
+          <canvas
+            id="cjs-bento-d"
+            phx-hook="PureAdminKpiChart"
+            data-kpi-chart
+            data-kpi-type="stacked-bar"
+            data-kpi-aspect="3.5"
+            data-kpi-labels='["W1","W2","W3","W4","W5","W6"]'
+            data-kpi-points="[[6,7,8,9,10,11],[4,5,5,6,6,7]]"
+          />
+        </:chart>
+      </.kpi_bento_tile>
+
+      <.kpi_bento_tile variant="neutral" label_text="Forecast Confidence" value_text="78" unit_text="%" delta_text="— 0">
+        <:chart>
+          <canvas
+            id="cjs-bento-e"
+            phx-hook="PureAdminKpiChart"
+            data-kpi-chart
+            data-kpi-type="doughnut"
+            data-kpi-aspect="2.5"
+            data-kpi-points="[78, 22]"
+          />
+        </:chart>
+      </.kpi_bento_tile>
+    </.kpi_bento>
     """
   end
 end

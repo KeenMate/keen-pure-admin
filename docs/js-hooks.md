@@ -1,15 +1,20 @@
 # JS Hooks
 
-PureAdmin ships 14 JavaScript hooks for interactive features. Import them all via `PureAdminHooks` or individually.
+PureAdmin ships 18 JavaScript hooks for interactive features. Import them all via `PureAdminHooks` or individually.
+
+Most component behaviour is delivered via these hooks plus a delegated-events module — call `initPureAdminEvents()` once at startup to wire the delegated handlers (popconfirm, popover, copy-to-clipboard, tabs scroll, badge-group expand/collapse). Together they let apps ship with strict CSP (`script-src 'self'`) without `'unsafe-inline'`.
 
 ## Setup
 
 ```javascript
-import { PureAdminHooks } from "keen_pure_admin"
+import { PureAdminHooks, initPureAdminEvents } from "keen_pure_admin"
 
 let liveSocket = new LiveSocket("/live", Socket, {
   hooks: { ...PureAdminHooks }
 })
+
+// Wire delegated click handlers. Idempotent; safe to call once at startup.
+initPureAdminEvents()
 ```
 
 ## Available Hooks
@@ -197,6 +202,30 @@ Used by: `<.split_button />`
 Persists sidebar submenu open/closed state to `localStorage`. Restores state on mount, URL-active submenus always win over stored state. Uses `MutationObserver` to detect JS command class changes.
 
 Used by: `<.sidebar_submenu />`
+
+### PureAdminSidebar
+
+Mobile-aware sidebar toggle. Desktop toggles `sidebar-hidden` on `<body>` (full hide or icon-collapse); mobile (≤768px) toggles `sidebar-visible` for the overlay modal pattern. Burger button active state stays synced with sidebar visibility. Persists desktop state to `localStorage`.
+
+Used by: `<.sidebar id="sidebar" />` (paired with `<.navbar_burger />`)
+
+### PureAdminKpiTile
+
+Cursor-anchored hover detail popover for KPI tiles and rows. Uses Floating UI's virtual reference element so the popover follows the cursor; moves `.pa-kpi-detail` to `<body>` on mount to escape `overflow: hidden` ancestors. Auto-engaged whenever a tile or row has detail content.
+
+Used by: `kpi_tile/1`, `kpi_sparkline_row/1`, `kpi_gauge/1`, `kpi_hero_main/1`, `kpi_hero_side/1`, `kpi_bento_tile/1`, `kpi_strip_row/1`, `kpi_editorial_tile/1` — automatically attached when `:detail` or `detail_title_text` is supplied.
+
+### PureAdminKpiSparkDot
+
+Converts the trailing `<circle>` on inline KPI sparkline SVGs into a CSS `.pa-kpi-spark-dot` span. Necessary because the sparkline `<svg>` uses `preserveAspectRatio="none"` for shape-fill — without this, circles render as squashed ellipses on wide tiles.
+
+Used by: `kpi_sparkline/1` (and any consumer-supplied sparkline SVGs in the KPI `:chart` slot).
+
+### PureAdminKpiTerminalTabs
+
+Client-side tab strip wiring for the KPI Terminal card. Toggles `.is-active` on the clicked `.pa-kpi-terminal__tab` and its corresponding `.pa-kpi-terminal__pane`. Scoped per terminal so nested terminals stay isolated.
+
+Used by: `kpi_terminal/1` when one or more `:pane` slots are supplied.
 
 ### PureAdminInfiniteScroll
 
