@@ -27,6 +27,7 @@ defmodule DemoWeb.Live.ComponentsOverviewLive do
     %{title: "Notifications", desc: "Notification list with filtering and actions", href: "/components/notifications", icon: "fa-solid fa-bell", count: "5 variants"},
     %{title: "Stats", desc: "Hero, compact, square stat cards", href: "/components/stats", icon: "fa-solid fa-chart-line", count: "3 variants"},
     %{title: "Code", desc: "Inline code and code blocks", href: "/components/code", icon: "fa-solid fa-code", count: "2 types"},
+    %{title: "Icons", desc: "Smart dispatcher, FA wrapper, inline-SVG Heroicons — typed attrs across all three", href: "/components/icons", icon: "fa-solid fa-icons", count: "3 components"},
     %{title: "Typography", desc: "Headings, paragraphs, text utilities", href: "/components/typography", icon: "fa-solid fa-font", count: "6 levels"},
     %{title: "Checkbox Lists", desc: "Tri-state, select-all, variants, layouts", href: "/components/checkbox-lists", icon: "fa-solid fa-square-check", count: "4 layouts"}
   ]

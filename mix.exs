@@ -107,6 +107,11 @@ defmodule PureAdmin.MixProject do
           PureAdmin.Components.Code,
           PureAdmin.Components.Typography
         ],
+        Icons: [
+          PureAdmin.Components.Icon,
+          PureAdmin.Components.Faicon,
+          PureAdmin.Components.Heroicon
+        ],
         "Data & Tables": [
           PureAdmin.Components.Table,
           PureAdmin.Components.Comparison,

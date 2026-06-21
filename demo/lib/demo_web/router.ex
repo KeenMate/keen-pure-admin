@@ -27,6 +27,7 @@ defmodule DemoWeb.Router do
       live "/components/cards", Live.CardsLive, :index
       live "/components/tabs", Live.TabsLive, :index
       live "/components/grid", Live.GridLive, :index
+      live "/components/icons", Live.IconsLive, :index
       live "/components/inputs", Live.InputsLive, :index
       live "/components/validations", Live.ValidationsLive, :index
       live "/components/checkbox-lists", Live.CheckboxListsLive, :index
