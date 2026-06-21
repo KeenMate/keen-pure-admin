@@ -38,6 +38,7 @@ defmodule PureAdmin.Components.Flash do
   use Phoenix.Component
 
   alias Phoenix.LiveView.JS
+  import PureAdmin.Components.Icon
   import PureAdmin.Helpers
   import PureAdmin.Translations, only: [t: 1]
 
@@ -95,7 +96,7 @@ defmodule PureAdmin.Components.Flash do
       class={build_classes("pa-alert", [{"pa-alert--#{@variant}", true}, {"pa-alert--dismissible", @is_dismissible}], @class)}
       {@rest}
     >
-      <span class="pa-alert__icon"><i class={@icon}></i></span>
+      <span class="pa-alert__icon"><.icon name={@icon} /></span>
       <div class="pa-alert__content">
         <h4 :if={@title} class="pa-alert__heading">{@title}</h4>
         {msg}

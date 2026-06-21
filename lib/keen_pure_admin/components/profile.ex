@@ -8,6 +8,7 @@ defmodule PureAdmin.Components.Profile do
   use Phoenix.Component
 
   alias Phoenix.LiveView.JS
+  import PureAdmin.Components.Icon
   import PureAdmin.Helpers
 
   @doc """
@@ -138,7 +139,7 @@ defmodule PureAdmin.Components.Profile do
     ~H"""
     <li>
       <a href={safe_url(@href)} class={build_classes("pa-profile-panel__nav-item", [], @class)} {@rest}>
-        <span :if={@icon} class="pa-profile-panel__nav-icon"><i class={@icon}></i></span>
+        <span :if={@icon} class="pa-profile-panel__nav-icon"><.icon name={@icon} /></span>
         <%= render_slot(@inner_block) %>
       </a>
     </li>

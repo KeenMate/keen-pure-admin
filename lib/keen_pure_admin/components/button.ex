@@ -9,6 +9,7 @@ defmodule PureAdmin.Components.Button do
   """
   use Phoenix.Component
 
+  import PureAdmin.Components.Icon
   import PureAdmin.Helpers
 
   # -- button/1 --
@@ -282,7 +283,7 @@ defmodule PureAdmin.Components.Button do
         disabled={@disabled}
         phx-click={@on_click}
       >
-        <span :if={@icon} class="pa-btn__icon"><i class={@icon}></i></span>
+        <span :if={@icon} class="pa-btn__icon"><.icon name={@icon} /></span>
         <%= @label %>
       </button>
       <button

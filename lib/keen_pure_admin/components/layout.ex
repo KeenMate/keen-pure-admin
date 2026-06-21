@@ -8,6 +8,7 @@ defmodule PureAdmin.Components.Layout do
 
   alias Phoenix.LiveView.JS
   alias PureAdmin.Config
+  import PureAdmin.Components.Icon
   import PureAdmin.Helpers
 
   @doc """
@@ -537,7 +538,7 @@ defmodule PureAdmin.Components.Layout do
         class={build_classes("pa-sidebar__link", [{"pa-sidebar__link--active", @is_active}], @class)}
         {@rest}
       >
-        <span :if={@icon} class="pa-sidebar__icon"><i class={@icon}></i></span>
+        <span :if={@icon} class="pa-sidebar__icon"><.icon name={@icon} /></span>
         <span class="pa-sidebar__label"><%= @label %></span>
       </a>
     </li>
@@ -580,7 +581,7 @@ defmodule PureAdmin.Components.Layout do
         phx-click={toggle_submenu(@submenu_id)}
         {@rest}
       >
-        <span :if={@icon} class="pa-sidebar__icon"><i class={@icon}></i></span>
+        <span :if={@icon} class="pa-sidebar__icon"><.icon name={@icon} /></span>
         <span class="pa-sidebar__label"><%= @label %></span>
         <span class="pa-sidebar__chevron">&#8250;</span>
       </button>

@@ -2,11 +2,23 @@
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-06-20
+
 ### Added
+
+- `PureAdmin.Components.Faicon` — Font Awesome icon wrapper. Renders `<i class="fa-{variant} fa-{name}">` from `name` + `variant` (solid/regular/light/brands) attributes. Stylesheet (CDN or local) must be loaded by the consumer. Zero deps.
+- `PureAdmin.Components.Heroicon` — inline-SVG Heroicons component. Ships 25 curated outline icons (matching the pureadmin CLI's heroicons → canonical-name map) as `def heroicon/1` clauses with embedded SVG path data. No external CSS, no Tailwind plugin, no hex dep. `stroke="currentColor"` so icons inherit parent text color. Unknown names render a `<span class="heroicon-missing" title="Unknown heroicon: X">` so missing icons stay debuggable.
+- `PureAdmin.Components.Icon` — smart string-based dispatcher. `<.icon name="hero-X" />` routes to `<.heroicon name="X">`; anything else renders as `<i class={name}>`. Exists so the legacy `attr :icon, :string` pattern (used by `sidebar_item`, `sidebar_submenu`, `button`, `flash`, `profile_nav_item`) transparently handles heroicon strings without each call-site needing to know which icon system the caller picked.
+
+All three are imported via the existing `use PureAdmin.Components` bulk macro, so consumers get `<.icon>`, `<.faicon>`, and `<.heroicon>` automatically.
 
 ### Changed
 
-### Fixed
+- `sidebar_item`, `sidebar_submenu`, `button`, `flash`, `profile_nav_item` — their `attr :icon, :string` slot now renders via `<.icon name={@icon} />` instead of `<i class={@icon}>`. Backwards compatible for FA strings (e.g. `"fa-solid fa-rocket"` still works the same way); new behavior is that `"hero-X"` strings now render as inline SVG via `<.heroicon>` instead of empty `<i class="hero-X">`.
+
+### Why this matters
+
+This unblocks the `--heroicons` mode of the elixir-phoenix-liveview template, which previously emitted `<.icon name="hero-X" />` referencing Phoenix's stock `CoreComponents.icon/1` — but the recipe deletes `core_components.ex` in favor of `PureAdmin.Components`, so the symbol vanished and `mix phx.server` failed at compile.
 
 ---
 

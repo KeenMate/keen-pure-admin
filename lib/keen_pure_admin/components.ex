@@ -28,8 +28,11 @@ defmodule PureAdmin.Components do
       import PureAdmin.Components.FilterCard
       import PureAdmin.Components.Flash
       import PureAdmin.Components.DataViz
+      import PureAdmin.Components.Faicon
       import PureAdmin.Components.Form
       import PureAdmin.Components.Grid
+      import PureAdmin.Components.Heroicon
+      import PureAdmin.Components.Icon
       import PureAdmin.Components.Kpi
       import PureAdmin.Components.KpiBento
       import PureAdmin.Components.KpiEditorial
