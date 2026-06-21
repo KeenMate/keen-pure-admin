@@ -26,11 +26,26 @@ defmodule PureAdmin.Components.Faicon do
   attr :class, :string, default: nil,
     doc: "Additional classes for size, color, etc."
 
-  attr :rest, :global
+  attr :color, :string, default: nil, doc: "Color value (passes through to the `<i>` element)."
+  attr :size, :string, default: nil, doc: "Size value (passes through to the `<i>` element)."
+  attr :fill, :string, default: nil, doc: "Pass-through (irrelevant to FA but accepted for API symmetry)."
+  attr :stroke, :string, default: nil, doc: "Pass-through (irrelevant to FA but accepted for API symmetry)."
+  attr :title, :string, default: nil, doc: "Tooltip title."
+
+  attr :aria_label, :string, default: nil,
+    doc: "Accessibility label — emits as `aria-label` in HTML."
 
   def faicon(assigns) do
     ~H"""
-    <i class={["fa-#{@variant}", "fa-#{@name}", @class]} {@rest}></i>
+    <i
+      class={["fa-#{@variant}", "fa-#{@name}", @class]}
+      color={@color}
+      size={@size}
+      fill={@fill}
+      stroke={@stroke}
+      title={@title}
+      aria-label={@aria_label}
+    ></i>
     """
   end
 end
