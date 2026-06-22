@@ -317,23 +317,23 @@ defmodule DemoWeb.Live.GridLive do
       <.heading level={4}>Horizontal Alignment</.heading>
 
       <.paragraph class="pa-text--secondary mb-2"><.code>.pa-row--center</.code></.paragraph>
-      <.grid align="center" class="mb-2" style="background: var(--base-primary-bg);">
+      <.grid align="center" class="mb-2" style="background: var(--pa-surface-hover);">
         <.column size="30"><div class="grid-demo-cell">Centered</div></.column>
       </.grid>
 
       <.paragraph class="pa-text--secondary mb-2"><.code>.pa-row--end</.code></.paragraph>
-      <.grid align="end" class="mb-2" style="background: var(--base-primary-bg);">
+      <.grid align="end" class="mb-2" style="background: var(--pa-surface-hover);">
         <.column size="30"><div class="grid-demo-cell">Right aligned</div></.column>
       </.grid>
 
       <.paragraph class="pa-text--secondary mb-2"><.code>.pa-row--between</.code></.paragraph>
-      <.grid align="between" class="mb-2" style="background: var(--base-primary-bg);">
+      <.grid align="between" class="mb-2" style="background: var(--pa-surface-hover);">
         <.column size="20"><div class="grid-demo-cell">Left</div></.column>
         <.column size="20"><div class="grid-demo-cell">Right</div></.column>
       </.grid>
 
       <.paragraph class="pa-text--secondary mb-2"><.code>.pa-row--around</.code></.paragraph>
-      <.grid align="around" class="mb-4" style="background: var(--base-primary-bg);">
+      <.grid align="around" class="mb-4" style="background: var(--pa-surface-hover);">
         <.column size="20"><div class="grid-demo-cell">A</div></.column>
         <.column size="20"><div class="grid-demo-cell">B</div></.column>
         <.column size="20"><div class="grid-demo-cell">C</div></.column>
@@ -343,21 +343,21 @@ defmodule DemoWeb.Live.GridLive do
       <.grid>
         <.column size="100" md="1-3">
           <.paragraph class="pa-text--secondary mb-2"><.code>.pa-row--top</.code></.paragraph>
-          <.grid valign="top" style="background: var(--base-primary-bg); min-height: 100px;">
+          <.grid valign="top" style="background: var(--pa-surface-hover); min-height: 100px;">
             <.column><div class="grid-demo-cell">Top</div></.column>
             <.column><div class="grid-demo-cell">Top</div></.column>
           </.grid>
         </.column>
         <.column size="100" md="1-3">
           <.paragraph class="pa-text--secondary mb-2"><.code>.pa-row--middle</.code></.paragraph>
-          <.grid valign="middle" style="background: var(--base-primary-bg); min-height: 100px;">
+          <.grid valign="middle" style="background: var(--pa-surface-hover); min-height: 100px;">
             <.column><div class="grid-demo-cell">Middle</div></.column>
             <.column><div class="grid-demo-cell">Middle</div></.column>
           </.grid>
         </.column>
         <.column size="100" md="1-3">
           <.paragraph class="pa-text--secondary mb-2"><.code>.pa-row--bottom</.code></.paragraph>
-          <.grid valign="bottom" style="background: var(--base-primary-bg); min-height: 100px;">
+          <.grid valign="bottom" style="background: var(--pa-surface-hover); min-height: 100px;">
             <.column><div class="grid-demo-cell">Bottom</div></.column>
             <.column><div class="grid-demo-cell">Bottom</div></.column>
           </.grid>
@@ -417,7 +417,7 @@ defmodule DemoWeb.Live.GridLive do
           <div class="grid-demo-cell">1/3</div>
         </.column>
         <.column size="2-3">
-          <div style="background: var(--base-primary-bg); padding: 0.8rem; border-radius: 4px;">
+          <div style="background: var(--pa-surface-hover); padding: 0.8rem; border-radius: 4px;">
             <p class="pa-text pa-text--secondary mb-2">Nested grid inside 2/3 column:</p>
             <.grid>
               <.column size="1-2"><div class="grid-demo-cell" style="background: var(--base-text-color-2);">Nested 1/2</div></.column>

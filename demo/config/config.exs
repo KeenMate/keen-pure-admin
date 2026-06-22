@@ -45,6 +45,7 @@ config :keen_pure_admin,
   app_version: "1.0.0",
   copyright: "© 2026 KeenMate",
   font_class: "pa-font-responsive",
+  icon_callback: {DemoWeb.Icons, :render},
   page_context_providers: [
     &DemoWeb.PageContext.theme_manifests/1
   ]

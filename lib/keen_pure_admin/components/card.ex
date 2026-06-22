@@ -79,6 +79,25 @@ defmodule PureAdmin.Components.Card do
   attr(:has_inline_tabs, :boolean, default: false, doc: "Pill-style buttons in header")
   attr(:header_wrap, :boolean, default: false, doc: "Allow header description to wrap")
   attr(:header_class, :string, default: nil, doc: "Additional CSS classes for header element")
+
+  attr(:actions_variant, :string,
+    default: nil,
+    values: [nil, "responsive", "overflow"],
+    doc:
+      "Collapse model for header `:tools` actions. `\"responsive\"` swaps the full button row for a `<.btn_split>` form via a container query (CSS-only — provide both `.pa-card__actions-full` and `.pa-card__actions-collapsed` subtrees inside `:tools`). `\"overflow\"` JS-collapses buttons into a `...` menu one at a time as the row shrinks (wires up `PureAdminCardActionsOverflow` automatically); buttons can carry `data-pa-actions-priority=\"N\"` to pin (higher stays longer)."
+  )
+
+  attr(:actions_overflow_from, :string,
+    default: "end",
+    values: ["start", "end"],
+    doc:
+      "Tiebreak direction for `actions_variant=\"overflow\"`. `\"end\"` (default) drops the rightmost button first; `\"start\"` drops leftmost first. Flips at runtime via DOM attribute (MutationObserver re-runs the drop walk)."
+  )
+
+  attr(:actions_id, :string, default: nil,
+    doc: "Optional id for the `:tools` actions wrapper. Required when `actions_variant=\"overflow\"` to wire the hook; auto-derived from `:rest`'s `id` if not given."
+  )
+
   attr(:class, :string, default: nil)
   attr(:rest, :global)
   slot(:header, doc: "Full custom header content (overrides title_text/description_text)")
@@ -173,9 +192,17 @@ defmodule PureAdmin.Components.Card do
         <% end %>
 
         <%!-- Tools (slot kept as `:tools` for API stability; CSS class is
-             `pa-card__actions` per pure-admin-core snippet). --%>
+             `pa-card__actions` per pure-admin-core snippet). When
+             `actions_variant` is set, the wrapper carries the matching
+             `--responsive` / `--overflow` modifier; overflow wires the
+             hook + drop direction. --%>
         <%= for tools <- @tools do %>
-          <div class="pa-card__actions"><%= render_slot(tools) %></div>
+          <div
+            class={actions_classes(@actions_variant)}
+            data-pa-actions-overflow-from={@actions_variant == "overflow" && @actions_overflow_from || nil}
+            id={@actions_variant == "overflow" && (@actions_id || actions_auto_id(@rest)) || nil}
+            phx-hook={@actions_variant == "overflow" && "PureAdminCardActionsOverflow" || nil}
+          ><%= render_slot(tools) %></div>
         <% end %>
 
       </div>
@@ -253,5 +280,26 @@ defmodule PureAdmin.Components.Card do
     build_classes("pa-card__body", [
       {"pa-card__body--no-padding", !assigns.has_padding}
     ])
+  end
+
+  defp actions_classes(variant) do
+    build_classes(
+      "pa-card__actions",
+      [
+        {"pa-card__actions--responsive", variant == "responsive"},
+        {"pa-card__actions--overflow", variant == "overflow"}
+      ],
+      nil
+    )
+  end
+
+  # Generate a stable-ish id for the overflow wrapper when no `actions_id` is
+  # given and `:rest` doesn't carry one. The hook needs an id to track which
+  # element it's attached to across LiveView patches.
+  defp actions_auto_id(rest) do
+    case Map.get(rest, :id) do
+      nil -> "pa-card-actions-#{System.unique_integer([:positive])}"
+      id -> "#{id}-actions"
+    end
   end
 end

@@ -8,9 +8,9 @@ Phoenix LiveView component library wrapping the [Pure Admin](https://github.com/
 
 Drop-in replacement for Phoenix `CoreComponents` -- provides `button/1`, `badge/1`, `card/1`, `modal/1`, `table/1`, `input/1`, and 35+ more components with full BEM class support.
 
-**Main site:** [pureadmin.io](https://pureadmin.io) — themes, documentation, and component showcase
+**Main site**: [pureadmin.io](https://pureadmin.io) — themes, documentation, and component showcase
 
-**Live demo:** [elixir.demo.pureadmin.io](https://elixir.demo.pureadmin.io)
+**Live demo**: [elixir.demo.pureadmin.io](https://elixir.demo.pureadmin.io)
 
 ## What's new in v1.2.0
 

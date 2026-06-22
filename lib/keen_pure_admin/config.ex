@@ -11,6 +11,7 @@ defmodule PureAdmin.Config do
         copyright: "© 2026 My Company",
         font_class: "pa-font-responsive",
         default_variant: "primary",
+        default_icon_size: "1.25rem",
         toast_position: "top-right"
 
   Components like `navbar_brand/1` and `footer/1` read from this config
@@ -26,7 +27,37 @@ defmodule PureAdmin.Config do
   | `:copyright` | `nil` | `footer/1` |
   | `:font_class` | `nil` | `root_html_attrs/0` |
   | `:default_variant` | `"primary"` | various components |
+  | `:default_icon_size` | `"1.25rem"` | `heroicon/1`, `faicon/1`, `icon/1` |
+  | `:icon_callback` | `nil` | `icon/1` |
   | `:toast_position` | `"top-right"` | `toast_container/1` |
+
+  ## Icon callback
+
+  When set, `<.icon>` calls this function for any name that isn't a
+  shipped heroicon (`"hero-X"`). The function is a Phoenix function
+  component — it receives the full assigns map (with `name`, `class`,
+  `color`, `size`, `size_value`, `variant`, `fill`, `stroke`, `title`,
+  `aria_label`) and returns rendered HEEx.
+
+      # config/config.exs
+      config :keen_pure_admin, icon_callback: {MyAppWeb.Icons, :render}
+
+      # lib/my_app_web/icons.ex
+      defmodule MyAppWeb.Icons do
+        use Phoenix.Component
+
+        def render(%{name: "lucide-" <> name} = assigns) do
+          assigns = assign(assigns, :file, name)
+          ~H\"""
+          <img src={"/assets/icons/lucide/\#{@file}.svg"} width={@size_value} height={@size_value} />
+          \"""
+        end
+      end
+
+  Either a `{module, function}` tuple or a function capture
+  (`&MyAppWeb.Icons.render/1`) is accepted. The tuple form is safer in
+  `config.exs` because it doesn't require the module to be compiled
+  before the config is evaluated.
   """
 
   @defaults %{
@@ -36,6 +67,8 @@ defmodule PureAdmin.Config do
     copyright: nil,
     font_class: nil,
     default_variant: "primary",
+    default_icon_size: "1.25rem",
+    icon_callback: nil,
     toast_position: "top-right"
   }
 
@@ -76,6 +109,31 @@ defmodule PureAdmin.Config do
   @doc "Get the default component variant."
   @spec default_variant() :: String.t()
   def default_variant, do: get(:default_variant)
+
+  @doc """
+  Get the default icon size — a CSS length applied to `<.heroicon>` (SVG
+  `width`/`height` attrs) and `<.faicon>` / `<.icon>` (inline `font-size`).
+  """
+  @spec icon_size() :: String.t()
+  def icon_size, do: get(:default_icon_size)
+
+  @doc """
+  Get the configured icon callback as a 1-arity function, or `nil`.
+
+  Accepts either a function capture (`&Mod.fun/1`) or a `{module, function}`
+  tuple in config. The tuple form is preferred since it doesn't require
+  the target module to be loaded when `config.exs` is evaluated.
+  """
+  @spec icon_callback() :: (map() -> Phoenix.LiveView.Rendered.t()) | nil
+  def icon_callback do
+    case get(:icon_callback) do
+      nil -> nil
+      fun when is_function(fun, 1) -> fun
+      {mod, fun} when is_atom(mod) and is_atom(fun) -> Function.capture(mod, fun, 1)
+      {mod, fun, _arity} when is_atom(mod) and is_atom(fun) -> Function.capture(mod, fun, 1)
+      _ -> nil
+    end
+  end
 
   @doc """
   Returns HTML attributes for the `<html>` element.

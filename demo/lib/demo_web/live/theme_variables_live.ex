@@ -32,7 +32,6 @@ defmodule DemoWeb.Live.ThemeVariablesLive do
         %{var: "--base-danger-color", desc: "Danger/error/destructive states"},
         %{var: "--base-info-color", desc: "Informational states"},
         %{var: "--base-primary-color", desc: "Primary brand color"},
-        %{var: "--base-primary-bg", desc: "Primary background tint"},
         %{var: "--base-secondary-color", desc: "Secondary/neutral color"}
       ]} is_striped>
         <:col :let={row} label="Variable"><code>{row.var}</code></:col>

@@ -61,7 +61,7 @@ defmodule PureAdmin.Components.Profile do
           <div class="pa-profile-panel__info">
             <h3 class="pa-profile-panel__name" title={@name}><%= @name %></h3>
             <p class="pa-profile-panel__email" title={@email}><%= @email %></p>
-            <span :if={@role} class="pa-profile-panel__role"><%= @role %></span>
+            <span :if={@role} class="pa-badge"><%= @role %></span>
           </div>
 
           <button

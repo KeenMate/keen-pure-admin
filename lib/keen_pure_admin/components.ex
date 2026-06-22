@@ -49,6 +49,7 @@ defmodule PureAdmin.Components do
       import PureAdmin.Components.Pager
       import PureAdmin.Components.Popconfirm
       import PureAdmin.Components.Profile
+      import PureAdmin.Components.Splitter
       import PureAdmin.Components.Stat
       import PureAdmin.Components.Table
       import PureAdmin.Components.Timeline

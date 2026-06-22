@@ -27,7 +27,6 @@ defmodule DemoWeb.Router do
       live "/components/cards", Live.CardsLive, :index
       live "/components/tabs", Live.TabsLive, :index
       live "/components/grid", Live.GridLive, :index
-      live "/components/icons", Live.IconsLive, :index
       live "/components/inputs", Live.InputsLive, :index
       live "/components/validations", Live.ValidationsLive, :index
       live "/components/checkbox-lists", Live.CheckboxListsLive, :index
@@ -50,6 +49,7 @@ defmodule DemoWeb.Router do
       live "/components/typography", Live.TypographyLive, :index
       live "/components/notifications", Live.NotificationsLive, :index
       live "/components/sizing", Live.SizingLive, :index
+      live "/components/splitter", Live.SplitterLive, :index
 
       # Design
       live "/design/colors", Live.ColorsLive, :index
@@ -69,6 +69,7 @@ defmodule DemoWeb.Router do
       live "/phoenix/core-components", Live.CoreComponentsLive, :index
       live "/phoenix/flash", Live.FlashLive, :index
       live "/phoenix/form-demo", Live.FormDemoLive, :index
+      live "/phoenix/icons", Live.IconsLive, :index
 
       # Virtual Scroll
       live "/virtual-scroll/demo", Live.VirtualScrollLive, :index

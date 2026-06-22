@@ -17,11 +17,35 @@ defmodule PureAdmin.Components.Icon do
 
   ## Dispatch rules
 
-  | Name pattern        | Rendered as                  |
-  |---------------------|------------------------------|
-  | `"hero-X"`          | `<.heroicon name="X">`       |
-  | anything else       | `<i class={@name}>` (FA-style) |
-  | `nil` / empty       | renders nothing              |
+  | Name pattern        | Rendered as                                  |
+  |---------------------|----------------------------------------------|
+  | `nil` / empty       | renders nothing                              |
+  | `"hero-X"`          | `<.heroicon name="X">`                       |
+  | any other string    | configured `:icon_callback` if set, else `<i class={@name}>` (FA-style) |
+
+  ## Custom icon sets via callback
+
+  Most projects standardize on one icon set (a custom SVG sprite folder,
+  a special font, Lucide files in `priv/static`, etc.). Configure
+  `:icon_callback` once in `config.exs` and `<.icon>` will route every
+  non-`hero-` name through it. See `PureAdmin.Config` for the contract.
+
+  ## Future improvement: compile-time inline icon set
+
+  The current callback pattern serves SVGs as `<img>` per icon — fine for
+  most use cases, but every unique name costs an HTTP round trip on cold
+  cache, and `stroke="currentColor"` recoloring is lost when the SVG lives
+  in a separate document.
+
+  A future enhancement would be a built-in compile-time inliner (same
+  approach as `<.heroicon>`): point it at a directory of SVG files and
+  generate one function clause per file at compile time.
+
+      Approach:       Compile-time inline (like our Heroicon)
+      HTTP requests:  0
+      Recolorable:    Yes
+      BEAM size:      Larger
+      Adding icons:   Recompile
 
   ## Examples
 
@@ -44,13 +68,13 @@ defmodule PureAdmin.Components.Icon do
     doc: "Icon name. `\"hero-X\"` → Heroicons; anything else → FA-style `<i class>`. May be `nil` or empty at runtime — both render nothing."
 
   attr :class, :string, default: nil,
-    doc: "Additional classes (size, color, etc.)."
+    doc: "Additional classes (color, hover state, etc.). For sizing prefer the `size` attr."
 
   attr :color, :string, default: nil,
     doc: "Color value — CSS color or renderer-specific fragment."
 
   attr :size, :string, default: nil,
-    doc: "Size value — typically a CSS class fragment like `size-4`."
+    doc: "CSS length (e.g. `\"1.5rem\"`). Sets SVG `width`/`height` for heroicons, inline `font-size` for FA-style. Defaults to `PureAdmin.Config.icon_size/0`."
 
   attr :variant, :string, default: nil,
     doc: "Renderer-specific variant (e.g. FA `solid`/`regular`/`light`/`brands`)."
@@ -84,14 +108,20 @@ defmodule PureAdmin.Components.Icon do
   end
 
   def icon(%{name: name} = assigns) when is_binary(name) do
+    assigns = assign(assigns, :size_value, assigns[:size] || PureAdmin.Config.icon_size())
+
+    case PureAdmin.Config.icon_callback() do
+      callback when is_function(callback, 1) -> callback.(assigns)
+      _ -> fallback_icon(assigns)
+    end
+  end
+
+  defp fallback_icon(assigns) do
     ~H"""
     <i
       class={[@name, @class]}
+      style={"font-size: #{@size_value}"}
       color={@color}
-      size={@size}
-      variant={@variant}
-      fill={@fill}
-      stroke={@stroke}
       title={@title}
       aria-label={@aria_label}
     ></i>

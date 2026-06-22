@@ -56,7 +56,7 @@ defmodule DemoWeb.Live.CoreComponentsLive do
               <td><code>input/1</code></td>
               <td>
                 <code>PureAdmin.Components.Form.input/1</code>
-                — accepts <code>field={@form[:x]}</code> the same way CoreComponents does; auto-renders
+                — accepts <code>field=&#123;@form[:x]&#125;</code> the same way CoreComponents does; auto-renders
                 error help. Same treatment on <code>textarea/1</code>, <code>select/1</code>,
                 <code>checkbox/1</code>, <code>radio/1</code>, and <code>form_group/1</code>.
               </td>

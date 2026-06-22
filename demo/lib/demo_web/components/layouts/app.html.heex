@@ -28,7 +28,6 @@
                     <.navbar_nav_item href="/components/loaders">Loaders</.navbar_nav_item>
                     <.navbar_nav_item href="/components/lists">Lists</.navbar_nav_item>
                     <.navbar_nav_item href="/components/code">Code</.navbar_nav_item>
-                    <.navbar_nav_item href="/components/icons">Icons</.navbar_nav_item>
                     <.navbar_nav_item href="/components/callouts">Callouts</.navbar_nav_item>
                     <.navbar_nav_item href="/components/typography">Typography</.navbar_nav_item>
                     <.navbar_nav_item href="/components/stats">Stats</.navbar_nav_item>
@@ -102,6 +101,7 @@
         <.sidebar_item label="CoreComponents Migration" href="/phoenix/core-components" is_active={@current_path == "/phoenix/core-components"} />
         <.sidebar_item label="Flash Messages" href="/phoenix/flash" is_active={@current_path == "/phoenix/flash"} />
         <.sidebar_item label="Form Demo" href="/phoenix/form-demo" is_active={@current_path == "/phoenix/form-demo"} />
+        <.sidebar_item label="Icons" href="/phoenix/icons" is_active={@current_path == "/phoenix/icons"} />
       </.sidebar_submenu>
 
       <.sidebar_submenu id="components" label="Components" icon="fa-solid fa-puzzle-piece" is_open={String.starts_with?(@current_path, "/components")}>
@@ -115,7 +115,6 @@
         <.sidebar_item label="Lists" href="/components/lists" is_active={@current_path == "/components/lists"} />
         <.sidebar_item label="Checkbox Lists" href="/components/checkbox-lists" is_active={@current_path == "/components/checkbox-lists"} />
         <.sidebar_item label="Code" href="/components/code" is_active={@current_path == "/components/code"} />
-        <.sidebar_item label="Icons" href="/components/icons" is_active={@current_path == "/components/icons"} />
         <.sidebar_item label="Alerts" href="/components/alerts" is_active={@current_path == "/components/alerts"} />
         <.sidebar_item label="Callouts" href="/components/callouts" is_active={@current_path == "/components/callouts"} />
         <.sidebar_item label="Toasts" href="/components/toasts" is_active={@current_path == "/components/toasts"} />
@@ -133,6 +132,7 @@
         <.sidebar_item label="Notifications" href="/components/notifications" is_active={@current_path == "/components/notifications"} />
         <.sidebar_item label="Stats" href="/components/stats" is_active={@current_path == "/components/stats"} />
         <.sidebar_item label="Sizing" href="/components/sizing" is_active={@current_path == "/components/sizing"} />
+        <.sidebar_item label="Splitter" href="/components/splitter" is_active={@current_path == "/components/splitter"} />
         <.sidebar_item label="Typography" href="/components/typography" is_active={@current_path == "/components/typography"} />
       </.sidebar_submenu>
 

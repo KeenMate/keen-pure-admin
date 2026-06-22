@@ -6,11 +6,25 @@ defmodule PureAdmin.Components.Heroicon do
   ## Usage
 
       <.heroicon name="rocket-launch" />
-      <.heroicon name="cog-6-tooth" class="size-4 text-color-2" />
+      <.heroicon name="rocket-launch" size="2rem" />
+      <.heroicon name="cog-6-tooth" class="text-color-2" />
 
   Icons use the outline variant from [Heroicons](https://heroicons.com).
   The SVG inherits color from the parent via `stroke="currentColor"`. Pass
   `fill` / `stroke` to override.
+
+  ## Sizing
+
+  The `size` attr is a CSS length (e.g. `"1.5rem"`, `"24px"`) applied to the
+  SVG's `width` and `height` attributes. When omitted it falls back to
+  `PureAdmin.Config.icon_size/0` (default `"1.25rem"`). Setting it via
+  application config keeps icon sizing consistent across the app:
+
+      config :keen_pure_admin, default_icon_size: "1rem"
+
+  CSS classes on the SVG override the `width`/`height` attrs (standard
+  cascade), so `class="size-6"` (Tailwind) or your own utility classes
+  still win when present.
 
   ## Coverage
 
@@ -18,37 +32,45 @@ defmodule PureAdmin.Components.Heroicon do
   heroicons → canonical-name map). An unknown name renders an empty
   placeholder `<span>` with a `title` attribute identifying the missing
   icon. To add more, copy outline 24x24 path data from heroicons.com and
-  add a `def heroicon/1` clause.
+  add a `defp do_heroicon/1` clause.
   """
   use Phoenix.Component
 
   attr :name, :string, required: true,
     doc: "Heroicon name in kebab-case without the `hero-` prefix (e.g. \"rocket-launch\")."
 
-  attr :class, :string, default: "size-5",
-    doc: "CSS classes for sizing/color."
+  attr :class, :string, default: nil,
+    doc: "Additional CSS classes (color, hover state, etc.). For sizing prefer the `size` attr."
 
   # `variant` accepted for API symmetry with `<.icon>` / `<.faicon>` —
   # Heroicons only ships the outline variant in this component today.
   attr :variant, :string, default: nil
   attr :color, :string, default: nil, doc: "Color value (passes through to the `<svg>` element)."
-  attr :size, :string, default: nil, doc: "Extra class appended to `class` for sizing."
+  attr :size, :string, default: nil,
+    doc: "CSS length for SVG `width`/`height`. Defaults to `PureAdmin.Config.icon_size/0`."
   attr :fill, :string, default: nil, doc: "SVG fill — defaults to `none`."
   attr :stroke, :string, default: nil, doc: "SVG stroke — defaults to `currentColor`."
   attr :title, :string, default: nil, doc: "Tooltip title."
   attr :aria_label, :string, default: nil, doc: "Accessibility label — emits as `aria-label`."
 
-  def heroicon(%{name: "rocket-launch"} = assigns) do
+  def heroicon(assigns) do
+    assigns = assign(assigns, :size_value, assigns[:size] || PureAdmin.Config.icon_size())
+    do_heroicon(assigns)
+  end
+
+  defp do_heroicon(%{name: "rocket-launch"} = assigns) do
     ~H"""
     <svg
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
+      width={@size_value}
+      height={@size_value}
       fill={@fill || "none"}
       stroke={@stroke || "currentColor"}
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
-      class={[@class, @size]}
+      class={@class}
       color={@color}
       title={@title}
       aria-label={@aria_label}
@@ -58,17 +80,19 @@ defmodule PureAdmin.Components.Heroicon do
     """
   end
 
-  def heroicon(%{name: "chart-bar"} = assigns) do
+  defp do_heroicon(%{name: "chart-bar"} = assigns) do
     ~H"""
     <svg
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
+      width={@size_value}
+      height={@size_value}
       fill={@fill || "none"}
       stroke={@stroke || "currentColor"}
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
-      class={[@class, @size]}
+      class={@class}
       color={@color}
       title={@title}
       aria-label={@aria_label}
@@ -80,17 +104,19 @@ defmodule PureAdmin.Components.Heroicon do
     """
   end
 
-  def heroicon(%{name: "briefcase"} = assigns) do
+  defp do_heroicon(%{name: "briefcase"} = assigns) do
     ~H"""
     <svg
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
+      width={@size_value}
+      height={@size_value}
       fill={@fill || "none"}
       stroke={@stroke || "currentColor"}
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
-      class={[@class, @size]}
+      class={@class}
       color={@color}
       title={@title}
       aria-label={@aria_label}
@@ -100,17 +126,19 @@ defmodule PureAdmin.Components.Heroicon do
     """
   end
 
-  def heroicon(%{name: "user-group"} = assigns) do
+  defp do_heroicon(%{name: "user-group"} = assigns) do
     ~H"""
     <svg
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
+      width={@size_value}
+      height={@size_value}
       fill={@fill || "none"}
       stroke={@stroke || "currentColor"}
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
-      class={[@class, @size]}
+      class={@class}
       color={@color}
       title={@title}
       aria-label={@aria_label}
@@ -120,17 +148,19 @@ defmodule PureAdmin.Components.Heroicon do
     """
   end
 
-  def heroicon(%{name: "cog-6-tooth"} = assigns) do
+  defp do_heroicon(%{name: "cog-6-tooth"} = assigns) do
     ~H"""
     <svg
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
+      width={@size_value}
+      height={@size_value}
       fill={@fill || "none"}
       stroke={@stroke || "currentColor"}
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
-      class={[@class, @size]}
+      class={@class}
       color={@color}
       title={@title}
       aria-label={@aria_label}
@@ -141,17 +171,19 @@ defmodule PureAdmin.Components.Heroicon do
     """
   end
 
-  def heroicon(%{name: "user"} = assigns) do
+  defp do_heroicon(%{name: "user"} = assigns) do
     ~H"""
     <svg
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
+      width={@size_value}
+      height={@size_value}
       fill={@fill || "none"}
       stroke={@stroke || "currentColor"}
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
-      class={[@class, @size]}
+      class={@class}
       color={@color}
       title={@title}
       aria-label={@aria_label}
@@ -162,17 +194,19 @@ defmodule PureAdmin.Components.Heroicon do
     """
   end
 
-  def heroicon(%{name: "arrow-right-on-rectangle"} = assigns) do
+  defp do_heroicon(%{name: "arrow-right-on-rectangle"} = assigns) do
     ~H"""
     <svg
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
+      width={@size_value}
+      height={@size_value}
       fill={@fill || "none"}
       stroke={@stroke || "currentColor"}
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
-      class={[@class, @size]}
+      class={@class}
       color={@color}
       title={@title}
       aria-label={@aria_label}
@@ -182,17 +216,19 @@ defmodule PureAdmin.Components.Heroicon do
     """
   end
 
-  def heroicon(%{name: "plus"} = assigns) do
+  defp do_heroicon(%{name: "plus"} = assigns) do
     ~H"""
     <svg
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
+      width={@size_value}
+      height={@size_value}
       fill={@fill || "none"}
       stroke={@stroke || "currentColor"}
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
-      class={[@class, @size]}
+      class={@class}
       color={@color}
       title={@title}
       aria-label={@aria_label}
@@ -202,17 +238,19 @@ defmodule PureAdmin.Components.Heroicon do
     """
   end
 
-  def heroicon(%{name: "user-plus"} = assigns) do
+  defp do_heroicon(%{name: "user-plus"} = assigns) do
     ~H"""
     <svg
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
+      width={@size_value}
+      height={@size_value}
       fill={@fill || "none"}
       stroke={@stroke || "currentColor"}
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
-      class={[@class, @size]}
+      class={@class}
       color={@color}
       title={@title}
       aria-label={@aria_label}
@@ -222,17 +260,19 @@ defmodule PureAdmin.Components.Heroicon do
     """
   end
 
-  def heroicon(%{name: "arrow-down-tray"} = assigns) do
+  defp do_heroicon(%{name: "arrow-down-tray"} = assigns) do
     ~H"""
     <svg
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
+      width={@size_value}
+      height={@size_value}
       fill={@fill || "none"}
       stroke={@stroke || "currentColor"}
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
-      class={[@class, @size]}
+      class={@class}
       color={@color}
       title={@title}
       aria-label={@aria_label}
@@ -242,17 +282,19 @@ defmodule PureAdmin.Components.Heroicon do
     """
   end
 
-  def heroicon(%{name: "pencil"} = assigns) do
+  defp do_heroicon(%{name: "pencil"} = assigns) do
     ~H"""
     <svg
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
+      width={@size_value}
+      height={@size_value}
       fill={@fill || "none"}
       stroke={@stroke || "currentColor"}
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
-      class={[@class, @size]}
+      class={@class}
       color={@color}
       title={@title}
       aria-label={@aria_label}
@@ -262,17 +304,19 @@ defmodule PureAdmin.Components.Heroicon do
     """
   end
 
-  def heroicon(%{name: "trash"} = assigns) do
+  defp do_heroicon(%{name: "trash"} = assigns) do
     ~H"""
     <svg
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
+      width={@size_value}
+      height={@size_value}
       fill={@fill || "none"}
       stroke={@stroke || "currentColor"}
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
-      class={[@class, @size]}
+      class={@class}
       color={@color}
       title={@title}
       aria-label={@aria_label}
@@ -282,17 +326,19 @@ defmodule PureAdmin.Components.Heroicon do
     """
   end
 
-  def heroicon(%{name: "shopping-cart"} = assigns) do
+  defp do_heroicon(%{name: "shopping-cart"} = assigns) do
     ~H"""
     <svg
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
+      width={@size_value}
+      height={@size_value}
       fill={@fill || "none"}
       stroke={@stroke || "currentColor"}
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
-      class={[@class, @size]}
+      class={@class}
       color={@color}
       title={@title}
       aria-label={@aria_label}
@@ -302,17 +348,19 @@ defmodule PureAdmin.Components.Heroicon do
     """
   end
 
-  def heroicon(%{name: "bookmark"} = assigns) do
+  defp do_heroicon(%{name: "bookmark"} = assigns) do
     ~H"""
     <svg
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
+      width={@size_value}
+      height={@size_value}
       fill={@fill || "none"}
       stroke={@stroke || "currentColor"}
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
-      class={[@class, @size]}
+      class={@class}
       color={@color}
       title={@title}
       aria-label={@aria_label}
@@ -322,17 +370,19 @@ defmodule PureAdmin.Components.Heroicon do
     """
   end
 
-  def heroicon(%{name: "paint-brush"} = assigns) do
+  defp do_heroicon(%{name: "paint-brush"} = assigns) do
     ~H"""
     <svg
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
+      width={@size_value}
+      height={@size_value}
       fill={@fill || "none"}
       stroke={@stroke || "currentColor"}
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
-      class={[@class, @size]}
+      class={@class}
       color={@color}
       title={@title}
       aria-label={@aria_label}
@@ -342,17 +392,19 @@ defmodule PureAdmin.Components.Heroicon do
     """
   end
 
-  def heroicon(%{name: "chart-bar-square"} = assigns) do
+  defp do_heroicon(%{name: "chart-bar-square"} = assigns) do
     ~H"""
     <svg
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
+      width={@size_value}
+      height={@size_value}
       fill={@fill || "none"}
       stroke={@stroke || "currentColor"}
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
-      class={[@class, @size]}
+      class={@class}
       color={@color}
       title={@title}
       aria-label={@aria_label}
@@ -362,17 +414,19 @@ defmodule PureAdmin.Components.Heroicon do
     """
   end
 
-  def heroicon(%{name: "home"} = assigns) do
+  defp do_heroicon(%{name: "home"} = assigns) do
     ~H"""
     <svg
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
+      width={@size_value}
+      height={@size_value}
       fill={@fill || "none"}
       stroke={@stroke || "currentColor"}
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
-      class={[@class, @size]}
+      class={@class}
       color={@color}
       title={@title}
       aria-label={@aria_label}
@@ -382,17 +436,19 @@ defmodule PureAdmin.Components.Heroicon do
     """
   end
 
-  def heroicon(%{name: "list-bullet"} = assigns) do
+  defp do_heroicon(%{name: "list-bullet"} = assigns) do
     ~H"""
     <svg
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
+      width={@size_value}
+      height={@size_value}
       fill={@fill || "none"}
       stroke={@stroke || "currentColor"}
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
-      class={[@class, @size]}
+      class={@class}
       color={@color}
       title={@title}
       aria-label={@aria_label}
@@ -402,17 +458,19 @@ defmodule PureAdmin.Components.Heroicon do
     """
   end
 
-  def heroicon(%{name: "view-columns"} = assigns) do
+  defp do_heroicon(%{name: "view-columns"} = assigns) do
     ~H"""
     <svg
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
+      width={@size_value}
+      height={@size_value}
       fill={@fill || "none"}
       stroke={@stroke || "currentColor"}
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
-      class={[@class, @size]}
+      class={@class}
       color={@color}
       title={@title}
       aria-label={@aria_label}
@@ -422,17 +480,19 @@ defmodule PureAdmin.Components.Heroicon do
     """
   end
 
-  def heroicon(%{name: "pencil-square"} = assigns) do
+  defp do_heroicon(%{name: "pencil-square"} = assigns) do
     ~H"""
     <svg
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
+      width={@size_value}
+      height={@size_value}
       fill={@fill || "none"}
       stroke={@stroke || "currentColor"}
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
-      class={[@class, @size]}
+      class={@class}
       color={@color}
       title={@title}
       aria-label={@aria_label}
@@ -442,17 +502,19 @@ defmodule PureAdmin.Components.Heroicon do
     """
   end
 
-  def heroicon(%{name: "lock-closed"} = assigns) do
+  defp do_heroicon(%{name: "lock-closed"} = assigns) do
     ~H"""
     <svg
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
+      width={@size_value}
+      height={@size_value}
       fill={@fill || "none"}
       stroke={@stroke || "currentColor"}
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
-      class={[@class, @size]}
+      class={@class}
       color={@color}
       title={@title}
       aria-label={@aria_label}
@@ -462,17 +524,19 @@ defmodule PureAdmin.Components.Heroicon do
     """
   end
 
-  def heroicon(%{name: "bell"} = assigns) do
+  defp do_heroicon(%{name: "bell"} = assigns) do
     ~H"""
     <svg
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
+      width={@size_value}
+      height={@size_value}
       fill={@fill || "none"}
       stroke={@stroke || "currentColor"}
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
-      class={[@class, @size]}
+      class={@class}
       color={@color}
       title={@title}
       aria-label={@aria_label}
@@ -482,17 +546,19 @@ defmodule PureAdmin.Components.Heroicon do
     """
   end
 
-  def heroicon(%{name: "swatch"} = assigns) do
+  defp do_heroicon(%{name: "swatch"} = assigns) do
     ~H"""
     <svg
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
+      width={@size_value}
+      height={@size_value}
       fill={@fill || "none"}
       stroke={@stroke || "currentColor"}
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
-      class={[@class, @size]}
+      class={@class}
       color={@color}
       title={@title}
       aria-label={@aria_label}
@@ -502,17 +568,19 @@ defmodule PureAdmin.Components.Heroicon do
     """
   end
 
-  def heroicon(%{name: "squares-2x2"} = assigns) do
+  defp do_heroicon(%{name: "squares-2x2"} = assigns) do
     ~H"""
     <svg
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
+      width={@size_value}
+      height={@size_value}
       fill={@fill || "none"}
       stroke={@stroke || "currentColor"}
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
-      class={[@class, @size]}
+      class={@class}
       color={@color}
       title={@title}
       aria-label={@aria_label}
@@ -525,17 +593,19 @@ defmodule PureAdmin.Components.Heroicon do
     """
   end
 
-  def heroicon(%{name: "book-open"} = assigns) do
+  defp do_heroicon(%{name: "book-open"} = assigns) do
     ~H"""
     <svg
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
+      width={@size_value}
+      height={@size_value}
       fill={@fill || "none"}
       stroke={@stroke || "currentColor"}
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
-      class={[@class, @size]}
+      class={@class}
       color={@color}
       title={@title}
       aria-label={@aria_label}
@@ -547,7 +617,7 @@ defmodule PureAdmin.Components.Heroicon do
 
   # Fallback — unknown icon name. Empty span so the layout doesn't collapse,
   # title so the missing icon is debuggable in dev tools.
-  def heroicon(%{name: name} = assigns) when is_binary(name) do
+  defp do_heroicon(%{name: name} = assigns) when is_binary(name) do
     assigns = assign(assigns, :missing, name)
 
     ~H"""

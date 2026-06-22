@@ -25,13 +25,14 @@ import {LiveSocket} from "phoenix_live_view"
 import {hooks as colocatedHooks} from "phoenix-colocated/demo"
 import {PureAdminHooks, initModalDialogs, initPureAdminEvents} from "../../../lib/assets/js/keen_pure_admin"
 import {PureAdminKpiChart} from "./hooks/kpi_chart"
+import {SplitterStorageClear} from "./hooks/splitter_storage_clear"
 import topbar from "../vendor/topbar"
 
 const csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 const liveSocket = new LiveSocket("/live", Socket, {
   longPollFallbackMs: 2500,
   params: {_csrf_token: csrfToken},
-  hooks: {...colocatedHooks, ...PureAdminHooks, PureAdminKpiChart},
+  hooks: {...colocatedHooks, ...PureAdminHooks, PureAdminKpiChart, SplitterStorageClear},
 })
 
 // Show progress bar on live navigation and form submits
