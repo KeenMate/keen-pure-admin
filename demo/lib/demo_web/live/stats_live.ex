@@ -152,6 +152,167 @@ defmodule DemoWeb.Live.StatsLive do
       </.grid>
     </.card>
 
+    <.card title_text="Square stats — fit-to-box + progressive disclosure · v2.9.0-rc04">
+      <p>
+        Opt into fit mode with <code>is_fit</code> on a <code>variant="square"</code> stat. It emits
+        <code>data-pa-stat-fit</code> and wires the <code>PureAdminStatFit</code> hook
+        (<code>pa-stat-fit.js</code>). The primary <code>__number</code> is sized to fill the tile at the
+        largest font that still fits — never overflows, independent of character count (a pure-CSS
+        <code>cqi</code> clamp can't guarantee that). A priority ladder reveals rows as the tile earns
+        <strong>both</strong> width and height:
+        <code>__number</code> (P0) → <code>__symbol</code> (P1) → <code>__label</code> (P2) →
+        <code>__change</code> (P3) → <code>__context</code> (P4). Fit mode
+        <strong>requires a height source</strong> on the tile (each tile below sets an explicit height).
+      </p>
+
+      <h4>Priority ladder — same content, growing box</h4>
+      <p>
+        Watch the tiers appear as each tile gets taller / wider. Smallest shows the number only; the
+        largest reveals all five rows. The number always fits and stays maxed.
+      </p>
+      <.grid>
+        <.column size="1-5">
+          <.stat
+            variant="square"
+            color="info"
+            is_fit
+            number="847K"
+            symbol_text="$"
+            is_prefix_symbol
+            label_text="Monthly Revenue"
+            change_text="12.5% vs last month"
+            change_direction="positive"
+            context_text="Updated 2 min ago"
+            style="height: 6rem;"
+          />
+        </.column>
+        <.column size="1-5">
+          <.stat
+            variant="square"
+            color="info"
+            is_fit
+            number="847K"
+            symbol_text="$"
+            is_prefix_symbol
+            label_text="Monthly Revenue"
+            change_text="12.5% vs last month"
+            change_direction="positive"
+            context_text="Updated 2 min ago"
+            style="height: 9rem;"
+          />
+        </.column>
+        <.column size="1-5">
+          <.stat
+            variant="square"
+            color="info"
+            is_fit
+            number="847K"
+            symbol_text="$"
+            is_prefix_symbol
+            label_text="Monthly Revenue"
+            change_text="12.5% vs last month"
+            change_direction="positive"
+            context_text="Updated 2 min ago"
+            style="height: 12rem;"
+          />
+        </.column>
+        <.column size="1-5">
+          <.stat
+            variant="square"
+            color="info"
+            is_fit
+            number="847K"
+            symbol_text="$"
+            is_prefix_symbol
+            label_text="Monthly Revenue"
+            change_text="12.5% vs last month"
+            change_direction="positive"
+            context_text="Updated 2 min ago"
+            style="height: 15rem;"
+          />
+        </.column>
+        <.column size="1-5">
+          <.stat
+            variant="square"
+            color="info"
+            is_fit
+            number="847K"
+            symbol_text="$"
+            is_prefix_symbol
+            label_text="Monthly Revenue"
+            change_text="12.5% vs last month"
+            change_direction="positive"
+            context_text="Updated 2 min ago"
+            style="height: 18rem;"
+          />
+        </.column>
+      </.grid>
+
+      <h4>Char-count independence — same box, different numbers</h4>
+      <p>
+        All four tiles are the same size. Each number fills its box at the max font that fits, whatever the
+        character count.
+      </p>
+      <.grid>
+        <.column size="25">
+          <.stat variant="square" color="secondary" is_fit number="1" label_text="Res Version" style="height: 10rem;" />
+        </.column>
+        <.column size="25">
+          <.stat variant="square" color="secondary" is_fit number="92" label_text="Contracts" style="height: 10rem;" />
+        </.column>
+        <.column size="25">
+          <.stat
+            variant="square"
+            color="secondary"
+            is_fit
+            number="847K"
+            symbol_text="$"
+            is_prefix_symbol
+            label_text="Revenue"
+            style="height: 10rem;"
+          />
+        </.column>
+        <.column size="25">
+          <.stat
+            variant="square"
+            color="secondary"
+            is_fit
+            number="12.4M"
+            symbol_text="¥"
+            is_prefix_symbol
+            label_text="Tokyo Office"
+            style="height: 10rem;"
+          />
+        </.column>
+      </.grid>
+
+      <h4>Wide banner layout (<code>pa-stat--fit-wide</code>)</h4>
+      <p>
+        Once a fit tile is ≥ 32rem wide, <code>pa-stat-fit.js</code> toggles the
+        <code>pa-stat--fit-wide</code> class and the tile flips to a horizontal banner — the number fills
+        the left, the metadata stacks in a column to its right. This full-width tile is wide enough to
+        trigger it; the narrow one above stacks vertically.
+      </p>
+      <.grid>
+        <.column size="100">
+          <.stat
+            variant="square"
+            color="primary"
+            is_fit
+            number="847K"
+            symbol_text="$"
+            is_prefix_symbol
+            label_text="Monthly Revenue"
+            change_text="12.5% vs last month"
+            change_direction="positive"
+            style="height: 12rem;"
+          >
+            <:context>Updated 2 min ago · <strong>FY2026 Q2</strong></:context>
+          </.stat>
+        </.column>
+      </.grid>
+    </.card>
+
     <.card title_text="Stat Cards">
       <.grid>
         <.column size="25">

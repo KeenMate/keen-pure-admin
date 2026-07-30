@@ -36,22 +36,30 @@ defmodule PureAdmin.Components.Heroicon do
   """
   use Phoenix.Component
 
-  attr :name, :string, required: true,
+  attr(:name, :string,
+    required: true,
     doc: "Heroicon name in kebab-case without the `hero-` prefix (e.g. \"rocket-launch\")."
+  )
 
-  attr :class, :string, default: nil,
+  attr(:class, :string,
+    default: nil,
     doc: "Additional CSS classes (color, hover state, etc.). For sizing prefer the `size` attr."
+  )
 
   # `variant` accepted for API symmetry with `<.icon>` / `<.faicon>` —
   # Heroicons only ships the outline variant in this component today.
-  attr :variant, :string, default: nil
-  attr :color, :string, default: nil, doc: "Color value (passes through to the `<svg>` element)."
-  attr :size, :string, default: nil,
+  attr(:variant, :string, default: nil)
+  attr(:color, :string, default: nil, doc: "Color value (passes through to the `<svg>` element).")
+
+  attr(:size, :string,
+    default: nil,
     doc: "CSS length for SVG `width`/`height`. Defaults to `PureAdmin.Config.icon_size/0`."
-  attr :fill, :string, default: nil, doc: "SVG fill — defaults to `none`."
-  attr :stroke, :string, default: nil, doc: "SVG stroke — defaults to `currentColor`."
-  attr :title, :string, default: nil, doc: "Tooltip title."
-  attr :aria_label, :string, default: nil, doc: "Accessibility label — emits as `aria-label`."
+  )
+
+  attr(:fill, :string, default: nil, doc: "SVG fill — defaults to `none`.")
+  attr(:stroke, :string, default: nil, doc: "SVG stroke — defaults to `currentColor`.")
+  attr(:title, :string, default: nil, doc: "Tooltip title.")
+  attr(:aria_label, :string, default: nil, doc: "Accessibility label — emits as `aria-label`.")
 
   def heroicon(assigns) do
     assigns = assign(assigns, :size_value, assigns[:size] || PureAdmin.Config.icon_size())

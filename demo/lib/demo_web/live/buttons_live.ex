@@ -379,6 +379,86 @@ defmodule DemoWeb.Live.ButtonsLive do
       </.button_group>
     </.card>
 
+    <%!-- Overflow Toolbar --%>
+    <.card
+      title_text="Overflow Toolbar"
+      subtitle_text="Buttons collapse into a dedicated [⋮] more menu when the row runs out of horizontal space, and pop back out as room returns"
+    >
+      <.paragraph class="text-muted mb-1">
+        Drag the resize handle in the bottom-right of the box below to shrink the bar. Lowest
+        <code>data-pa-actions-priority</code> (default <code>0</code>) drops into the
+        <code>[⋮]</code> menu first; ties broken by the child nearest the end. "Publish" is pinned
+        with <code>data-pa-actions-priority="10"</code>. A nested split button collapses as one atomic
+        labeled group — its own options stay attached to its label.
+      </.paragraph>
+      <div style="overflow: auto; resize: horizontal; min-width: 64px; max-width: 100%; padding: 1rem; border: 1px dashed var(--pa-border-color); border-radius: var(--pa-border-radius);">
+        <.overflow id="overflow-demo-end">
+          <.button variant="secondary" phx-click="split_action" phx-value-action="save">
+            <:icon><i class="fas fa-floppy-disk"></i></:icon>
+            Save
+          </.button>
+          <.button variant="secondary" phx-click="split_action" phx-value-action="format">
+            <:icon><i class="fas fa-wand-magic-sparkles"></i></:icon>
+            Format
+          </.button>
+          <.button variant="secondary" phx-click="split_action" phx-value-action="refresh">
+            <:icon><i class="fas fa-rotate"></i></:icon>
+            Refresh
+          </.button>
+          <.button variant="success" data-pa-actions-priority="10" phx-click="split_action" phx-value-action="publish">
+            <:icon><i class="fas fa-cloud-arrow-up"></i></:icon>
+            Publish
+          </.button>
+          <.split_button
+            label="Run"
+            icon="fas fa-play"
+            variant="primary"
+            on_click="split_action"
+          >
+            <:item icon="fas fa-gear" on_click="split_action" action="run-options">Run with options…</:item>
+            <:item is_danger icon="fas fa-stop" on_click="split_action" action="stop-all">Stop all jobs</:item>
+          </.split_button>
+        </.overflow>
+      </div>
+
+      <.heading level="4" class="mt-4">Drop direction &amp; ghost trigger</.heading>
+      <.paragraph class="text-muted mb-1">
+        Default drops the child nearest the end first. Set <code>overflow_from="start"</code> to drop
+        the leftmost child first instead. This bar also uses <code>trigger="ghost"</code> for the
+        chromeless <code>[⋮]</code> look.
+      </.paragraph>
+      <div style="overflow: auto; resize: horizontal; min-width: 64px; max-width: 100%; padding: 1rem; border: 1px dashed var(--pa-border-color); border-radius: var(--pa-border-radius);">
+        <.overflow id="overflow-demo-start" overflow_from="start" trigger="ghost">
+          <.button variant="info" is_outline>
+            <:icon><i class="fas fa-filter"></i></:icon>
+            Filter
+          </.button>
+          <.button variant="secondary" is_outline>
+            <:icon><i class="fas fa-arrow-down-wide-short"></i></:icon>
+            Sort
+          </.button>
+          <.button variant="warning" is_outline>
+            <:icon><i class="fas fa-layer-group"></i></:icon>
+            Group
+          </.button>
+          <.button variant="primary" is_outline>
+            <:icon><i class="fas fa-table-cells"></i></:icon>
+            Pivot
+          </.button>
+          <.split_button
+            label="Export"
+            icon="fas fa-download"
+            variant="primary"
+            on_click="split_action"
+          >
+            <:item icon="fas fa-file-csv" on_click="split_action" action="export-csv">Export as CSV</:item>
+            <:item icon="fas fa-file-code" on_click="split_action" action="export-json">Export as JSON</:item>
+            <:item icon="fas fa-file-pdf" on_click="split_action" action="export-pdf">Export as PDF</:item>
+          </.split_button>
+        </.overflow>
+      </div>
+    </.card>
+
     <%!-- Text Truncation --%>
     <.card title_text="Text Truncation">
       <.paragraph class="text-muted mb-1">

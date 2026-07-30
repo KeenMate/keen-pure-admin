@@ -20,6 +20,7 @@ RUN apt-get update \
        ca-certificates \
        nodejs \
        npm \
+       unzip \
   && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /build

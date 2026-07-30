@@ -53,7 +53,14 @@ defmodule PureAdmin.Components.Button do
   attr(:is_loading, :boolean, default: false, doc: "Loading state with spinner")
   attr(:is_icon_only, :boolean, default: false, doc: "Icon-only button (square)")
   attr(:is_ripple, :boolean, default: false, doc: "Ripple effect on click")
-  attr(:align, :string, default: nil, values: [nil, "start", "end", "center", "justify"], doc: "Content alignment")
+
+  attr(:align, :string,
+    default: nil,
+    values: [nil, "start", "end", "center", "justify"],
+    doc:
+      "Content alignment. As of pure-admin-core 2.9.0-rc06 every button (text-only, icon+label, block) uses one unified inline-flex model that centers content by default — pass `align=\"start\"` for the old left-aligned look on full-width / block icon+label buttons."
+  )
+
   attr(:icon_position, :string, default: "start", values: ["start", "end"], doc: "Icon position relative to text")
   attr(:type, :string, default: "button", doc: "HTML button type")
   attr(:href, :string, default: nil, doc: "Link URL (renders as <a> tag)")
@@ -190,6 +197,102 @@ defmodule PureAdmin.Components.Button do
     )
   end
 
+  # -- overflow/1 --
+
+  @doc """
+  Renders a progressive-collapse toolbar (`pa-overflow`) — a constrained-width
+  row that folds its lowest-priority buttons into a dedicated `[⋮]` "more" menu
+  as horizontal space shrinks, and pops them back out as room returns.
+
+  Wraps Pure Admin's `pa-overflow` (2.9.0-rc06+) and wires the
+  `PureAdminOverflow` JS hook. The block brings its own `min-width: 0;
+  overflow: hidden; flex-shrink: 1` layout contract (from `_overflow.scss`) so
+  `scrollWidth > clientWidth` reports overflow honestly.
+
+  This replaces the rc04 `btn_toolbar/1` + `pa-btn-split--auto-absorb`
+  mechanism, which upstream removed in rc06: rather than making a domain split
+  button double as the overflow sink (unrelated commands ending up under a
+  semantic `Export ▾` menu), `overflow/1` uses a neutral `[⋮]` "more" menu.
+  A nested `<.split_button>` collapses as one atomic labeled group — its
+  primary action plus its own menu items travel together under a section
+  label, so its options never mix with unrelated toolbar commands. Per-row
+  action buttons (`:item action_icon`) survive the collapse and still fire.
+  Fully reversible on widen.
+
+  ## Drop order & priority
+
+  Each child can carry `data-pa-actions-priority` (default `0`, passed through
+  via the button's `:rest` global attrs). Lowest priority drops into the
+  "more" menu first; ties break by the child nearest the end
+  (`overflow_from="end"`, the default). Set `overflow_from="start"` to drop
+  the leftmost child first instead. Pin a button so it never collapses by
+  giving it a high priority (e.g. `data-pa-actions-priority="10"`).
+
+  ## Trigger appearance
+
+  The `[⋮]` "more" trigger ships as a standard bordered `pa-btn--secondary`
+  square. Pass `trigger="ghost"` for the chromeless ghost look.
+
+  ## Examples
+
+      <.overflow id="my-toolbar">
+        <.button variant="secondary">Search</.button>
+        <.button variant="secondary">Filter</.button>
+        <.button variant="success" data-pa-actions-priority="10">Publish</.button>
+        <.split_button label="Run" variant="primary" on_click="run">
+          <:item icon="fas fa-gear">Run with options…</:item>
+        </.split_button>
+      </.overflow>
+
+      <.overflow overflow_from="start" trigger="ghost">
+        <.button variant="secondary" is_outline>Filter</.button>
+        <.button variant="secondary" is_outline>Sort</.button>
+      </.overflow>
+  """
+  attr(:id, :string, default: nil, doc: "DOM id (auto-generated if omitted; required for the JS hook)")
+
+  attr(:overflow_from, :string,
+    default: nil,
+    values: [nil, "start", "end"],
+    doc:
+      "Drop-order tiebreak direction, emitted as `data-pa-actions-overflow-from`. `\"end\"` (default) drops the rightmost child first; `\"start\"` drops leftmost first. Flips at runtime via DOM attribute."
+  )
+
+  attr(:trigger, :string,
+    default: nil,
+    values: [nil, "secondary", "ghost"],
+    doc:
+      "`[⋮]` more-trigger look, emitted as `data-pa-overflow-trigger`. Default (nil) is the standard bordered `pa-btn--secondary` square; `\"ghost\"` swaps in the chromeless ghost look."
+  )
+
+  attr(:class, :string, default: nil, doc: "Additional CSS classes")
+  attr(:rest, :global)
+
+  slot(:inner_block,
+    required: true,
+    doc: "Toolbar buttons; may include one or more nested .pa-btn-split split buttons"
+  )
+
+  def overflow(assigns) do
+    assigns =
+      assign_new(assigns, :id, fn ->
+        "pa-overflow-#{System.unique_integer([:positive])}"
+      end)
+
+    ~H"""
+    <div
+      id={@id}
+      class={build_classes("pa-overflow", [], @class)}
+      phx-hook="PureAdminOverflow"
+      data-pa-actions-overflow-from={@overflow_from}
+      data-pa-overflow-trigger={@trigger == "ghost" && "ghost" || nil}
+      {@rest}
+    >
+      <%= render_slot(@inner_block) %>
+    </div>
+    """
+  end
+
   # -- split_button/1 --
 
   @doc """
@@ -262,6 +365,11 @@ defmodule PureAdmin.Components.Button do
     attr(:action_event, :string, doc: "LiveView event for the inline action button")
     attr(:action_value, :string, doc: "Value sent with the inline action event")
     attr(:action_variant, :string, doc: "Variant for the inline action button (default: \"danger\")")
+
+    attr(:keep_open, :boolean,
+      doc:
+        "Keep the dropdown open when this item is clicked (emits `data-pa-keep-open`), instead of the default close-on-click. Use for items that open a popconfirm / sub-panel anchored to the item."
+    )
   end
 
   def split_button(assigns) do
@@ -303,6 +411,7 @@ defmodule PureAdmin.Components.Button do
                   type="button"
                   data-phx-click={item[:on_click]}
                   data-phx-value-action={item[:action]}
+                  data-pa-keep-open={item[:keep_open] && "" || nil}
                 >
                   <span :if={item[:icon]} class="pa-btn-split__item-icon"><i class={item[:icon]}></i></span>
                   <%= render_slot(item) %>
@@ -322,6 +431,7 @@ defmodule PureAdmin.Components.Button do
                 type="button"
                 data-phx-click={item[:on_click]}
                 data-phx-value-action={item[:action]}
+                data-pa-keep-open={item[:keep_open] && "" || nil}
               >
                 <span :if={item[:icon]} class="pa-btn-split__item-icon"><i class={item[:icon]}></i></span>
                 <%= render_slot(item) %>

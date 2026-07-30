@@ -78,10 +78,17 @@ defmodule PureAdmin.Components.Code do
         $ mix deps.get
       </.code_block>
   """
-  attr(:language, :string, default: nil,
-    doc: "Language hint. Pure-admin ships accents for: javascript, json, html, css, bash, sql, python. Aliases like heex/eex/ts/sh map to the closest supported variant; unsupported languages render with no accent.")
-  attr(:filename, :string, default: nil,
-    doc: "Filename shown in the header. Triggers the headered `.pa-code-block` form.")
+  attr(:language, :string,
+    default: nil,
+    doc:
+      "Language hint. Pure-admin ships accents for: javascript, json, html, css, bash, sql, python. Aliases like heex/eex/ts/sh map to the closest supported variant; unsupported languages render with no accent."
+  )
+
+  attr(:filename, :string,
+    default: nil,
+    doc: "Filename shown in the header. Triggers the headered `.pa-code-block` form."
+  )
+
   attr(:is_compact, :boolean, default: false, doc: "Smaller padding and font size.")
   attr(:is_numbered, :boolean, default: false, doc: "Line-number gutter on the inline-start side.")
   attr(:class, :string, default: nil)

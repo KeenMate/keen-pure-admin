@@ -61,7 +61,10 @@ defmodule PureAdmin.Components.CardTest do
 
       assert html =~ "pa-card__header"
       assert html =~ "My Title"
-      assert html =~ "<h3>"
+      # rc05: title is always the canonical .pa-card__title > .pa-card__title-text
+      # structure (never a bare <h3>).
+      assert_class(html, "pa-card__title")
+      assert html =~ ~s(<h3 class="pa-card__title-text">My Title</h3>)
     end
 
     test "renders ghost card" do

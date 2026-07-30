@@ -64,27 +64,41 @@ defmodule PureAdmin.Components.Icon do
   use Phoenix.Component
   import PureAdmin.Components.Heroicon
 
-  attr :name, :string, required: true,
-    doc: "Icon name. `\"hero-X\"` → Heroicons; anything else → FA-style `<i class>`. May be `nil` or empty at runtime — both render nothing."
+  attr(:name, :string,
+    required: true,
+    doc:
+      "Icon name. `\"hero-X\"` → Heroicons; anything else → FA-style `<i class>`. May be `nil` or empty at runtime — both render nothing."
+  )
 
-  attr :class, :string, default: nil,
+  attr(:class, :string,
+    default: nil,
     doc: "Additional classes (color, hover state, etc.). For sizing prefer the `size` attr."
+  )
 
-  attr :color, :string, default: nil,
+  attr(:color, :string,
+    default: nil,
     doc: "Color value — CSS color or renderer-specific fragment."
+  )
 
-  attr :size, :string, default: nil,
-    doc: "CSS length (e.g. `\"1.5rem\"`). Sets SVG `width`/`height` for heroicons, inline `font-size` for FA-style. Defaults to `PureAdmin.Config.icon_size/0`."
+  attr(:size, :string,
+    default: nil,
+    doc:
+      "CSS length (e.g. `\"1.5rem\"`). Sets SVG `width`/`height` for heroicons, inline `font-size` for FA-style. Defaults to `PureAdmin.Config.icon_size/0`."
+  )
 
-  attr :variant, :string, default: nil,
+  attr(:variant, :string,
+    default: nil,
     doc: "Renderer-specific variant (e.g. FA `solid`/`regular`/`light`/`brands`)."
+  )
 
-  attr :fill, :string, default: nil, doc: "SVG fill color."
-  attr :stroke, :string, default: nil, doc: "SVG stroke color."
-  attr :title, :string, default: nil, doc: "Tooltip title."
+  attr(:fill, :string, default: nil, doc: "SVG fill color.")
+  attr(:stroke, :string, default: nil, doc: "SVG stroke color.")
+  attr(:title, :string, default: nil, doc: "Tooltip title.")
 
-  attr :aria_label, :string, default: nil,
+  attr(:aria_label, :string,
+    default: nil,
     doc: "Accessibility label — emits as `aria-label` in HTML."
+  )
 
   def icon(%{name: nil} = assigns), do: ~H""
   def icon(%{name: ""} = assigns), do: ~H""

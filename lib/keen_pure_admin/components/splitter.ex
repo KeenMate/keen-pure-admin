@@ -56,17 +56,33 @@ defmodule PureAdmin.Components.Splitter do
   content, mark the title element with `data-pa-splitter-rail-title` so it
   also rotates.
 
+  ## Events (v2.9.0-rc04+)
+
+  The splitter emits three bubbling `CustomEvent`s from the affected pane, so
+  a consumer can listen once on the splitter root (or higher):
+
+    * `pa-splitter:resize` — `detail: { index, pane, size }`, fired per pane on
+      every size application (unfiltered during drag — debounce if expensive).
+    * `pa-splitter:collapse` — `detail: { index, pane }`, when a pane rails.
+    * `pa-splitter:expand` — `detail: { index, pane }`, when a pane restores.
+
+  Init from saved state does *not* fire `collapse` for panes that load already
+  rail'd — only user-initiated transitions emit. Each pane is also stamped with
+  `pa-splitter__pane--horizontal` / `--vertical` at registration.
+
   ## Two markup modes
 
-  Upstream supports a legacy 2-pane shorthand with root-level `min-start` /
-  `max-start` / `default` / `minimize="start|end"` attributes. This wrapper
-  always emits the N-pane form (per-pane attributes) — the upstream JS
-  normalizes the legacy markup into the N-pane form at init anyway, so
-  there's no behavioural difference and a single Phoenix API stays smaller.
+  Upstream v2.9.0-rc05 dropped the legacy 2-pane shorthand. This wrapper always
+  emits the N-pane form (per-pane attributes); for backward compatibility with
+  hand-written legacy markup, `splitter_core.js` carries a keen-only
+  `normalizeLegacyMarkup()` shim that translates the old root-level `min-start` /
+  `max-start` / `default` / `minimize="start|end"` attributes into per-pane form
+  at init, so both shapes keep working through a single code path.
   """
   use Phoenix.Component
 
-  attr(:id, :string, default: nil,
+  attr(:id, :string,
+    default: nil,
     doc:
       "Persistence id. When set, layout saves to `localStorage` under `pa-splitter:<id>`. Also used as the hook anchor for LiveView lifecycle."
   )
@@ -78,21 +94,24 @@ defmodule PureAdmin.Components.Splitter do
       "`\"horizontal\"` → panes side-by-side, vertical gutter. `\"vertical\"` → panes stacked, horizontal gutter. The splitter takes whatever cross-axis size its parent provides (height for horizontal, width for vertical) — make sure the parent is sized or panes collapse."
   )
 
-  attr(:rail_size, :integer, default: nil,
+  attr(:rail_size, :integer,
+    default: nil,
     doc:
       "Rail width in px when a pane is minimized. Defaults to the `--pa-splitter-rail-size` CSS custom property (or `40` if unset)."
   )
 
-  attr(:step, :integer, default: nil,
+  attr(:step, :integer,
+    default: nil,
     doc: "Keyboard arrow-step in px. Default `10`."
   )
 
-  attr(:minimize_threshold, :string, default: nil,
-    doc:
-      "Drag-into-rail snap ratio of the drag-start size, floored at `rail × 1.5`. Default `\"0.40\"`."
+  attr(:minimize_threshold, :string,
+    default: nil,
+    doc: "Drag-into-rail snap ratio of the drag-start size, floored at `rail × 1.5`. Default `\"0.40\"`."
   )
 
-  attr(:is_minimize_mirror, :boolean, default: false,
+  attr(:is_minimize_mirror, :boolean,
+    default: false,
     doc:
       "Flip the minimized rail-title text 180° (transform: scale(-1,-1) on the heading inside `[data-pa-splitter-rail-title]` or `.pa-card__header`). Useful when bottom-to-top reading direction is preferred."
   )
@@ -100,7 +119,9 @@ defmodule PureAdmin.Components.Splitter do
   attr(:class, :string, default: nil)
   attr(:rest, :global, include: ~w(style))
 
-  slot :pane, required: true, doc: "One slot entry per pane. Panes and gutters interleave automatically (N panes → N-1 gutters)." do
+  slot :pane,
+    required: true,
+    doc: "One slot entry per pane. Panes and gutters interleave automatically (N panes → N-1 gutters)." do
     attr(:size, :string,
       doc:
         "Initial size as a px (`\"240px\"`) or percent (`\"30%\"`) value. Panes without `size` share the leftover equally — or, if every pane has a `size`, the last one absorbs the remainder."

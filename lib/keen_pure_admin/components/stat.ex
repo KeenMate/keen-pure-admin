@@ -30,6 +30,22 @@ defmodule PureAdmin.Components.Stat do
       <.stat number="99.9%" label_text="Uptime" icon_variant="success">
         <:icon><i class="fa-solid fa-check-circle"></i></:icon>
       </.stat>
+
+      <%!-- Fit + progressive-disclosure square (v2.9.0-rc04). Needs a height
+           source (explicit height / aspect-ratio / sized grid cell). --%>
+      <.stat
+        variant="square"
+        color="info"
+        is_fit
+        number="847K"
+        symbol_text="$"
+        is_prefix_symbol
+        label_text="Monthly Revenue"
+        change_text="12.5% vs last month"
+        change_direction="positive"
+        context_text="Updated 2 min ago"
+        style="height: 16rem;"
+      />
   """
   attr(:variant, :string, default: nil, values: [nil, "hero", "hero-compact", "square"], doc: "Stat display variant")
 
@@ -68,6 +84,28 @@ defmodule PureAdmin.Components.Stat do
         "v2.6.0 contract: markup order drives visual order — no CSS modifier needed."
   )
 
+  attr(:is_fit, :boolean,
+    default: false,
+    doc:
+      "Square variant only. Opt into fit-to-box + progressive-disclosure mode (v2.9.0-rc04). " <>
+        "Emits `data-pa-stat-fit` and wires the `PureAdminStatFit` hook (`pa-stat-fit.js`): the " <>
+        "`__number` is sized to fill the tile at the largest font that still fits (never overflows, " <>
+        "any character count), and a priority ladder reveals rows as the tile earns BOTH width and " <>
+        "height — `__number` (P0) → `__symbol` (P1) → `__label` (P2) → `__change` (P3) → `__context` " <>
+        "(P4). Once the tile is ≥ 32rem wide it flips to a horizontal banner (`pa-stat--fit-wide`, " <>
+        "toggled by the JS). REQUIRES a height source on the tile (explicit height / aspect-ratio / " <>
+        "sized grid cell) because `container-type: size` sizes the box independently of its content. " <>
+        "An `id` is auto-derived if not supplied via `:rest`."
+  )
+
+  attr(:context_text, :string,
+    default: nil,
+    doc:
+      "Square fit-mode only. Lowest-priority (P4) caption row — e.g. `\"Updated 2 min ago\"` — " <>
+        "rendered as `.pa-stat__context`. Revealed last, only when the tile is largest. Mirror of the " <>
+        "`:context` slot (pass one or the other)."
+  )
+
   # Legacy aliases
   attr(:value, :string, default: nil, doc: "Legacy alias for number")
   attr(:label, :string, default: nil, doc: "Legacy alias for label_text")
@@ -76,6 +114,13 @@ defmodule PureAdmin.Components.Stat do
   attr(:class, :string, default: nil)
   attr(:rest, :global)
   slot(:icon, doc: "Icon content")
+
+  slot(:context,
+    doc:
+      "Square fit-mode only. Rich (P4) `.pa-stat__context` caption row — the named-slot half of the " <>
+        "`context_text` dual pair. Use when the caption needs markup; use `context_text` for a plain string."
+  )
+
   slot(:inner_block, doc: "Custom layout content (overrides default rendering)")
 
   def stat(assigns) do
@@ -92,15 +137,32 @@ defmodule PureAdmin.Components.Stat do
           other -> other
         end
 
+    # Fit mode is square-only. When on, emit `data-pa-stat-fit`, wire the
+    # PureAdminStatFit hook, and auto-derive an id if the caller didn't pass
+    # one via `:rest` (the hook needs a stable id, and LiveView requires an id
+    # on any phx-hook element).
+    is_fit = assigns.is_fit && assigns.variant == "square"
+
     assigns =
       assigns
       |> assign(:resolved_number, number)
       |> assign(:resolved_label, label_text)
       |> assign(:resolved_change, change_text)
       |> assign(:resolved_direction, change_direction)
+      |> assign(:fit?, is_fit)
+      # Only auto-derive an id when fit mode is on AND the caller didn't already
+      # supply one via `:rest` — otherwise `{@rest}` renders the id and we'd emit
+      # a duplicate attribute.
+      |> assign(:fit_id, (is_fit && !Map.has_key?(assigns.rest, :id) && stat_auto_id()) || nil)
 
     ~H"""
-    <div class={stat_classes(assigns)} {@rest}>
+    <div
+      class={stat_classes(assigns)}
+      data-pa-stat-fit={(@fit? && "") || nil}
+      id={@fit_id}
+      phx-hook={(@fit? && "PureAdminStatFit") || nil}
+      {@rest}
+    >
       <%!-- Custom content via inner_block --%>
       <%= if @inner_block != [] do %>
         <%= render_slot(@inner_block) %>
@@ -114,10 +176,21 @@ defmodule PureAdmin.Components.Stat do
             </div>
 
           <% @variant == "square" -> %>
+            <%!-- Authored-flat children. In fit mode pa-stat-fit.js wraps
+                 __number + __symbol into __slot > __group and the __label /
+                 __change / __context rows into a __meta column at runtime. --%>
             <div :if={@symbol_text && @is_prefix_symbol} class="pa-stat__symbol"><%= @symbol_text %></div>
             <div class="pa-stat__number"><%= @resolved_number %></div>
             <div :if={@symbol_text && !@is_prefix_symbol} class="pa-stat__symbol"><%= @symbol_text %></div>
             <div class="pa-stat__label"><%= @resolved_label %></div>
+            <%!-- Fit-mode disclosure rows (P3 change, P4 context). Rendered
+                 flat; the JS moves them into the __meta column. --%>
+            <div :if={@fit? && @resolved_change} class={change_classes(@resolved_direction)}>
+              <%= @resolved_change %>
+            </div>
+            <div :if={@fit? && (@context_text || @context != [])} class="pa-stat__context">
+              <%= if @context != [], do: render_slot(@context), else: @context_text %>
+            </div>
 
           <% @icon != [] -> %>
             <div class={"pa-stat__icon pa-stat__icon--#{@icon_variant}"}>
@@ -160,6 +233,8 @@ defmodule PureAdmin.Components.Stat do
       assigns.class
     )
   end
+
+  defp stat_auto_id, do: "pa-stat-fit-#{System.unique_integer([:positive])}"
 
   defp change_classes(direction) do
     dir = if is_binary(direction), do: String.replace(direction, "_", "-")

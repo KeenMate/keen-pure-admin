@@ -50,6 +50,7 @@ defmodule DemoWeb.Router do
       live "/components/notifications", Live.NotificationsLive, :index
       live "/components/sizing", Live.SizingLive, :index
       live "/components/splitter", Live.SplitterLive, :index
+      live "/components/range-group", Live.RangeGroupLive, :index
 
       # Design
       live "/design/colors", Live.ColorsLive, :index

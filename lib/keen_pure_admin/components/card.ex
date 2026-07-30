@@ -94,8 +94,17 @@ defmodule PureAdmin.Components.Card do
       "Tiebreak direction for `actions_variant=\"overflow\"`. `\"end\"` (default) drops the rightmost button first; `\"start\"` drops leftmost first. Flips at runtime via DOM attribute (MutationObserver re-runs the drop walk)."
   )
 
-  attr(:actions_id, :string, default: nil,
-    doc: "Optional id for the `:tools` actions wrapper. Required when `actions_variant=\"overflow\"` to wire the hook; auto-derived from `:rest`'s `id` if not given."
+  attr(:actions_overflow_trigger, :string,
+    default: nil,
+    values: [nil, "secondary", "ghost"],
+    doc:
+      "`[⋮]` more-trigger look for `actions_variant=\"overflow\"`, emitted as `data-pa-overflow-trigger`. Default (nil) is the standard bordered `pa-btn--secondary` square (upstream default as of 2.9.0-rc06); `\"ghost\"` swaps in the chromeless look."
+  )
+
+  attr(:actions_id, :string,
+    default: nil,
+    doc:
+      "Optional id for the `:tools` actions wrapper. Required when `actions_variant=\"overflow\"` to wire the hook; auto-derived from `:rest`'s `id` if not given."
   )
 
   attr(:class, :string, default: nil)
@@ -126,10 +135,22 @@ defmodule PureAdmin.Components.Card do
 
     has_header = assigns.header != [] || has_structured_header
 
+    # rc05: the title is ALWAYS `.pa-card__title` > `.pa-card__title-text`
+    # (the icon span is the only optional part) — never a bare <h3>. Resolve
+    # a single title text + optional icon from the (:title slot | title_text)
+    # and (:title_icon slot | :title slot's `icon` attr) inputs.
+    title_slot = List.first(assigns.title)
+    title_display_text = (title_slot && title_slot.text) || assigns.title_text
+    title_slot_icon = title_slot && title_slot[:icon]
+
     assigns =
       assigns
       |> assign(:has_header, has_header)
       |> assign(:has_structured_header, has_structured_header)
+      |> assign(:title_display_text, title_display_text)
+      |> assign(:title_slot_icon, title_slot_icon)
+      |> assign(:has_title, title_display_text != nil)
+      |> assign(:has_title_icon, assigns.title_icon != [] || title_slot_icon != nil)
 
     ~H"""
     <div class={card_classes(assigns)} {@rest}>
@@ -142,26 +163,12 @@ defmodule PureAdmin.Components.Card do
 
       <%!-- Structured header --%>
       <div :if={@has_header && @header == []} class={header_classes(assigns)}>
-        <%!-- Title with icon: wrapped in pa-card__title div --%>
-        <div :if={@title_icon != [] && (@title != [] || @title_text != nil)} class="pa-card__title">
-          <%= for title_icon <- @title_icon do %>
-            <span class="pa-card__title-icon"><%= render_slot(title_icon) %></span>
-          <% end %>
-          <%= for title <- @title do %>
-            <h3 class="pa-card__title-text"><%= title.text %></h3>
-          <% end %>
-          <h3 :if={@title == [] && @title_text != nil} class="pa-card__title-text"><%= @title_text %></h3>
+        <%!-- Canonical title (rc05): always .pa-card__title > .pa-card__title-text,
+             with an optional .pa-card__title-icon span. Never a bare <h3>. --%>
+        <div :if={@has_title} class="pa-card__title">
+          <span :if={@has_title_icon} class="pa-card__title-icon"><%= if @title_icon != [], do: render_slot(@title_icon), else: @title_slot_icon %></span>
+          <h3 class="pa-card__title-text"><%= @title_display_text %></h3>
         </div>
-        <%!-- Title with icon via :title slot attr --%>
-        <%= for title <- @title do %>
-          <div :if={@title_icon == [] && title[:icon]} class="pa-card__title">
-            <span class="pa-card__title-icon"><%= title[:icon] %></span>
-            <h3 class="pa-card__title-text"><%= title.text %></h3>
-          </div>
-          <h3 :if={@title_icon == [] && !title[:icon]}><%= title.text %></h3>
-        <% end %>
-        <%!-- Title text only: plain h3 --%>
-        <h3 :if={@title_icon == [] && @title == [] && @title_text != nil}><%= @title_text %></h3>
 
         <%!-- Inline tabs (after title) --%>
         <div :if={@tabs != [] && @has_inline_tabs} class="pa-card__tabs pa-card__tabs--inline">
@@ -170,12 +177,9 @@ defmodule PureAdmin.Components.Card do
           <% end %>
         </div>
 
-        <%!-- Description --%>
-        <p :if={@description_text != nil && @description == []} class={
-          if @header_wrap, do: "pa-card__description", else: "pa-card__description pa-card__description--truncate"
-        }>
-          <%= @description_text %>
-        </p>
+        <%!-- Description (canonical .pa-card__description; truncates by default,
+             `header_wrap` → pa-card__header--wrap opts out via CSS). --%>
+        <p :if={@description_text != nil && @description == []} class="pa-card__description"><%= @description_text %></p>
         <%= for description <- @description do %>
           <p class="pa-card__description"><%= render_slot(description) %></p>
         <% end %>
@@ -200,6 +204,7 @@ defmodule PureAdmin.Components.Card do
           <div
             class={actions_classes(@actions_variant)}
             data-pa-actions-overflow-from={@actions_variant == "overflow" && @actions_overflow_from || nil}
+            data-pa-overflow-trigger={@actions_variant == "overflow" && @actions_overflow_trigger == "ghost" && "ghost" || nil}
             id={@actions_variant == "overflow" && (@actions_id || actions_auto_id(@rest)) || nil}
             phx-hook={@actions_variant == "overflow" && "PureAdminCardActionsOverflow" || nil}
           ><%= render_slot(tools) %></div>
