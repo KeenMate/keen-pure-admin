@@ -33,6 +33,24 @@ defmodule PureAdmin.Components.Button do
         Save
         <:icon><i class="fa-solid fa-floppy-disk"></i></:icon>
       </.button>
+
+      # Truncation (canonical pure-admin pattern): constrain the width and put
+      # `text-truncate` on an inner <span> — works with or without an icon. The
+      # label is a bare flex child of `.pa-btn` (not wrapped in `.pa-btn__label`,
+      # which has no `min-width: 0` and would refuse to shrink), so the span's
+      # `overflow: hidden` resolves its flex min-size to 0 and ellipsis kicks in.
+      <.button variant="secondary" class="minwr-10 maxwr-10">
+        <:icon>×</:icon>
+        <span class="text-truncate">Cancel and Go Back</span>
+      </.button>
+
+  > #### `.pa-btn__label` wrapper {: .info}
+  >
+  > The label is emitted as a bare child matching the pure-admin snippet, EXCEPT
+  > when `align="center"` — that wraps it in `.pa-btn__label` so the core
+  > `--align-center` rule (`flex: 1; text-align: center`) can flex-fill the label.
+  > `align="center"` is therefore incompatible with `text-truncate` (a flex-fill
+  > wrapper can't also shrink to ellipsis) — same limitation as pure-admin core.
   """
   attr(:variant, :string,
     default: "primary",
@@ -84,7 +102,7 @@ defmodule PureAdmin.Components.Button do
       >
         <span :if={@is_loading} class="pa-btn__spinner"></span>
         <span :if={@icon != [] && @icon_position == "start"} :for={icon <- @icon} class="pa-btn__icon"><%= render_slot(icon) %></span>
-        <%= if @icon != [] do %><span class="pa-btn__label"><%= render_slot(@inner_block) %></span><% else %><%= render_slot(@inner_block) %><% end %>
+        <%= if @align == "center" do %><span class="pa-btn__label"><%= render_slot(@inner_block) %></span><% else %><%= render_slot(@inner_block) %><% end %>
         <span :if={@icon != [] && @icon_position == "end"} :for={icon <- @icon} class="pa-btn__icon"><%= render_slot(icon) %></span>
       </a>
     <% else %>
@@ -97,7 +115,7 @@ defmodule PureAdmin.Components.Button do
       >
         <span :if={@is_loading} class="pa-btn__spinner"></span>
         <span :if={@icon != [] && @icon_position == "start"} :for={icon <- @icon} class="pa-btn__icon"><%= render_slot(icon) %></span>
-        <%= if @icon != [] do %><span class="pa-btn__label"><%= render_slot(@inner_block) %></span><% else %><%= render_slot(@inner_block) %><% end %>
+        <%= if @align == "center" do %><span class="pa-btn__label"><%= render_slot(@inner_block) %></span><% else %><%= render_slot(@inner_block) %><% end %>
         <span :if={@icon != [] && @icon_position == "end"} :for={icon <- @icon} class="pa-btn__icon"><%= render_slot(icon) %></span>
       </button>
     <% end %>
@@ -233,6 +251,18 @@ defmodule PureAdmin.Components.Button do
   The `[⋮]` "more" trigger ships as a standard bordered `pa-btn--secondary`
   square. Pass `trigger="ghost"` for the chromeless ghost look.
 
+  ## LiveView
+
+  The hook manages the wrapper's children imperatively — it appends the `[⋮]`
+  trigger as a real DOM node and reparents overflowing buttons into a
+  body-portal menu. So the wrapper is rendered with `phx-update="ignore"`:
+  LiveView renders the initial buttons once, then leaves the subtree to the JS.
+  Without it, a diff would delete the JS-added trigger (`insertBefore` then
+  throws `NotFoundError`) and re-insert server copies of the moved buttons as
+  duplicates. Consequence: the button set is fixed after mount — to change it
+  from the server, change the wrapper `id` so LiveView remounts the whole
+  toolbar (and the hook re-initializes).
+
   ## Examples
 
       <.overflow id="my-toolbar">
@@ -284,6 +314,7 @@ defmodule PureAdmin.Components.Button do
       id={@id}
       class={build_classes("pa-overflow", [], @class)}
       phx-hook="PureAdminOverflow"
+      phx-update="ignore"
       data-pa-actions-overflow-from={@overflow_from}
       data-pa-overflow-trigger={@trigger == "ghost" && "ghost" || nil}
       {@rest}

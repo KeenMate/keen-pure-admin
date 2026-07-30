@@ -80,6 +80,12 @@ defmodule PureAdmin.Components.Card do
   attr(:header_wrap, :boolean, default: false, doc: "Allow header description to wrap")
   attr(:header_class, :string, default: nil, doc: "Additional CSS classes for header element")
 
+  attr(:title_class, :string,
+    default: nil,
+    doc:
+      "Additional CSS classes for the `.pa-card__title` element. Useful with `actions_variant=\"overflow\"` to give the title a min-width floor (e.g. `\"minw-45\"`) so it yields before the header actions collapse, matching the pure-admin card-overflow snippet."
+  )
+
   attr(:actions_variant, :string,
     default: nil,
     values: [nil, "responsive", "overflow"],
@@ -165,7 +171,7 @@ defmodule PureAdmin.Components.Card do
       <div :if={@has_header && @header == []} class={header_classes(assigns)}>
         <%!-- Canonical title (rc05): always .pa-card__title > .pa-card__title-text,
              with an optional .pa-card__title-icon span. Never a bare <h3>. --%>
-        <div :if={@has_title} class="pa-card__title">
+        <div :if={@has_title} class={build_classes("pa-card__title", [], @title_class)}>
           <span :if={@has_title_icon} class="pa-card__title-icon"><%= if @title_icon != [], do: render_slot(@title_icon), else: @title_slot_icon %></span>
           <h3 class="pa-card__title-text"><%= @title_display_text %></h3>
         </div>
@@ -207,6 +213,7 @@ defmodule PureAdmin.Components.Card do
             data-pa-overflow-trigger={@actions_variant == "overflow" && @actions_overflow_trigger == "ghost" && "ghost" || nil}
             id={@actions_variant == "overflow" && (@actions_id || actions_auto_id(@rest)) || nil}
             phx-hook={@actions_variant == "overflow" && "PureAdminCardActionsOverflow" || nil}
+            phx-update={@actions_variant == "overflow" && "ignore" || nil}
           ><%= render_slot(tools) %></div>
         <% end %>
 

@@ -11,19 +11,36 @@ defmodule DemoWeb.Live.ButtonsLive do
   end
 
   def handle_event("split_action", %{"action" => action}, socket) do
-    {:noreply, PureAdmin.Components.Toast.push_toast(socket, "info", "Split Button", "Action: #{action}")}
+    {:noreply,
+     PureAdmin.Components.Toast.push_toast(socket, "info", "Split Button", "Action: #{action}")}
   end
 
   def handle_event("split_action", _params, socket) do
-    {:noreply, PureAdmin.Components.Toast.push_toast(socket, "info", "Split Button", "Primary button clicked")}
+    {:noreply,
+     PureAdmin.Components.Toast.push_toast(
+       socket,
+       "info",
+       "Split Button",
+       "Primary button clicked"
+     )}
   end
 
   def handle_event("remove_item", %{"action" => item}, socket) do
-    {:noreply, PureAdmin.Components.Toast.push_toast(socket, "warning", "Removed", "Removed: #{item}", duration: 3000)}
+    {:noreply,
+     PureAdmin.Components.Toast.push_toast(socket, "warning", "Removed", "Removed: #{item}",
+       duration: 3000
+     )}
   end
 
   def handle_event("remove_member", %{"action" => member}, socket) do
-    {:noreply, PureAdmin.Components.Toast.push_toast(socket, "danger", "Member Removed", "Removed member: #{member}", duration: 3000)}
+    {:noreply,
+     PureAdmin.Components.Toast.push_toast(
+       socket,
+       "danger",
+       "Member Removed",
+       "Removed member: #{member}",
+       duration: 3000
+     )}
   end
 
   def handle_info({:stop_loading, _btn}, socket) do
@@ -258,7 +275,9 @@ defmodule DemoWeb.Live.ButtonsLive do
           </.button_group>
 
           <.heading level={4} class="mt-2">Vertical → Horizontal at lg (992px)</.heading>
-          <.paragraph class="text-muted mb-1">Starts vertical, becomes horizontal on large screens</.paragraph>
+          <.paragraph class="text-muted mb-1">
+            Starts vertical, becomes horizontal on large screens
+          </.paragraph>
           <.button_group is_vertical responsive="lg-horizontal">
             <.button variant="success">Approve</.button>
             <.button variant="warning">Review</.button>
@@ -277,11 +296,16 @@ defmodule DemoWeb.Live.ButtonsLive do
     </.grid>
 
     <%!-- Split Buttons --%>
-    <.card title_text="Split Buttons" subtitle_text="Primary action + dropdown toggle combined into a single control">
+    <.card
+      title_text="Split Buttons"
+      subtitle_text="Primary action + dropdown toggle combined into a single control"
+    >
       <.button_group class="gap-lg">
         <.split_button label="Save" variant="primary" on_click="split_action">
           <:item icon="fas fa-file" on_click="split_action" action="save-draft">Save as Draft</:item>
-          <:item icon="fas fa-door-closed" on_click="split_action" action="save-close">Save &amp; Close</:item>
+          <:item icon="fas fa-door-closed" on_click="split_action" action="save-close">
+            Save &amp; Close
+          </:item>
           <:item icon="fas fa-plus" on_click="split_action" action="save-new">Save &amp; New</:item>
         </.split_button>
 
@@ -290,10 +314,21 @@ defmodule DemoWeb.Live.ButtonsLive do
           <:item on_click="split_action" action="archive">Archive Instead</:item>
         </.split_button>
 
-        <.split_button label="Export" icon="fas fa-download" variant="secondary" on_click="split_action">
-          <:item icon="fas fa-file-csv" on_click="split_action" action="export-csv">Export as CSV</:item>
-          <:item icon="fas fa-file-excel" on_click="split_action" action="export-excel">Export as Excel</:item>
-          <:item icon="fas fa-file-pdf" on_click="split_action" action="export-pdf">Export as PDF</:item>
+        <.split_button
+          label="Export"
+          icon="fas fa-download"
+          variant="secondary"
+          on_click="split_action"
+        >
+          <:item icon="fas fa-file-csv" on_click="split_action" action="export-csv">
+            Export as CSV
+          </:item>
+          <:item icon="fas fa-file-excel" on_click="split_action" action="export-excel">
+            Export as Excel
+          </:item>
+          <:item icon="fas fa-file-pdf" on_click="split_action" action="export-pdf">
+            Export as PDF
+          </:item>
         </.split_button>
       </.button_group>
 
@@ -321,7 +356,10 @@ defmodule DemoWeb.Live.ButtonsLive do
       </.button_group>
 
       <.heading level="4" class="mt-4">Upward Placement</.heading>
-      <.paragraph class="mb-1">Use <code>data-placement="top-end"</code> to open the menu upward. Floating UI will auto-flip if there's not enough space.</.paragraph>
+      <.paragraph class="mb-1">
+        Use <code>data-placement="top-end"</code>
+        to open the menu upward. Floating UI will auto-flip if there's not enough space.
+      </.paragraph>
       <.button_group class="gap-lg">
         <.split_button label="Upload" variant="primary" placement="top-end">
           <:item>Upload File</:item>
@@ -337,7 +375,10 @@ defmodule DemoWeb.Live.ButtonsLive do
       </.button_group>
 
       <.heading level="4" class="mt-4">Custom Icons (no rotation)</.heading>
-      <.paragraph class="mb-1">Omit <code>pa-btn-split__chevron</code> from the icon for static icons that don't rotate on open.</.paragraph>
+      <.paragraph class="mb-1">
+        Omit <code>pa-btn-split__chevron</code>
+        from the icon for static icons that don't rotate on open.
+      </.paragraph>
       <.button_group class="gap-lg">
         <.split_button label="Share" icon="fas fa-share" variant="primary" on_click="split_action">
           <:item>Share via Email</:item>
@@ -358,23 +399,114 @@ defmodule DemoWeb.Live.ButtonsLive do
       </.button_group>
 
       <.heading level="4" class="mt-4">Items with Actions</.heading>
-      <.paragraph class="mb-1">Menu items can include inline action buttons for quick operations like delete.</.paragraph>
+      <.paragraph class="mb-1">
+        Menu items can include inline action buttons for quick operations like delete.
+      </.paragraph>
       <.button_group class="gap-lg">
-        <.split_button label="Bookmarks" icon="fas fa-bookmark" variant="primary" on_click="split_action">
-          <:item icon="fas fa-home" on_click="split_action" action="Dashboard" action_icon="fas fa-trash-can" action_event="remove_item" action_value="Dashboard">Dashboard</:item>
-          <:item icon="fas fa-chart-line" on_click="split_action" action="Analytics" action_icon="fas fa-trash-can" action_event="remove_item" action_value="Analytics">Analytics</:item>
-          <:item icon="fas fa-users" on_click="split_action" action="Team Members" action_icon="fas fa-trash-can" action_event="remove_item" action_value="Team Members">Team Members</:item>
+        <.split_button
+          label="Bookmarks"
+          icon="fas fa-bookmark"
+          variant="primary"
+          on_click="split_action"
+        >
+          <:item
+            icon="fas fa-home"
+            on_click="split_action"
+            action="Dashboard"
+            action_icon="fas fa-trash-can"
+            action_event="remove_item"
+            action_value="Dashboard"
+          >
+            Dashboard
+          </:item>
+          <:item
+            icon="fas fa-chart-line"
+            on_click="split_action"
+            action="Analytics"
+            action_icon="fas fa-trash-can"
+            action_event="remove_item"
+            action_value="Analytics"
+          >
+            Analytics
+          </:item>
+          <:item
+            icon="fas fa-users"
+            on_click="split_action"
+            action="Team Members"
+            action_icon="fas fa-trash-can"
+            action_event="remove_item"
+            action_value="Team Members"
+          >
+            Team Members
+          </:item>
         </.split_button>
 
-        <.split_button label="Recent" icon="fas fa-clock-rotate-left" variant="secondary" on_click="split_action">
-          <:item icon="fas fa-file" on_click="split_action" action="Report Q4.pdf" action_icon="fas fa-xmark" action_event="remove_item" action_value="Report Q4.pdf" action_variant="secondary">Report Q4.pdf</:item>
-          <:item icon="fas fa-file-code" on_click="split_action" action="schema.sql" action_icon="fas fa-xmark" action_event="remove_item" action_value="schema.sql" action_variant="secondary">schema.sql</:item>
+        <.split_button
+          label="Recent"
+          icon="fas fa-clock-rotate-left"
+          variant="secondary"
+          on_click="split_action"
+        >
+          <:item
+            icon="fas fa-file"
+            on_click="split_action"
+            action="Report Q4.pdf"
+            action_icon="fas fa-xmark"
+            action_event="remove_item"
+            action_value="Report Q4.pdf"
+            action_variant="secondary"
+          >
+            Report Q4.pdf
+          </:item>
+          <:item
+            icon="fas fa-file-code"
+            on_click="split_action"
+            action="schema.sql"
+            action_icon="fas fa-xmark"
+            action_event="remove_item"
+            action_value="schema.sql"
+            action_variant="secondary"
+          >
+            schema.sql
+          </:item>
         </.split_button>
 
-        <.split_button label="Members" icon="fas fa-user-plus" variant="danger" on_click="split_action">
-          <:item icon="fas fa-user" on_click="split_action" action="Alice Cooper" action_icon="fas fa-trash-can" action_event="remove_member" action_value="Alice Cooper">Alice Cooper</:item>
-          <:item icon="fas fa-user" on_click="split_action" action="Bob Dylan" action_icon="fas fa-trash-can" action_event="remove_member" action_value="Bob Dylan">Bob Dylan</:item>
-          <:item icon="fas fa-user" on_click="split_action" action="Charlie Parker" action_icon="fas fa-trash-can" action_event="remove_member" action_value="Charlie Parker">Charlie Parker</:item>
+        <.split_button
+          label="Members"
+          icon="fas fa-user-plus"
+          variant="danger"
+          on_click="split_action"
+        >
+          <:item
+            icon="fas fa-user"
+            on_click="split_action"
+            action="Alice Cooper"
+            action_icon="fas fa-trash-can"
+            action_event="remove_member"
+            action_value="Alice Cooper"
+          >
+            Alice Cooper
+          </:item>
+          <:item
+            icon="fas fa-user"
+            on_click="split_action"
+            action="Bob Dylan"
+            action_icon="fas fa-trash-can"
+            action_event="remove_member"
+            action_value="Bob Dylan"
+          >
+            Bob Dylan
+          </:item>
+          <:item
+            icon="fas fa-user"
+            on_click="split_action"
+            action="Charlie Parker"
+            action_icon="fas fa-trash-can"
+            action_event="remove_member"
+            action_value="Charlie Parker"
+          >
+            Charlie Parker
+          </:item>
         </.split_button>
       </.button_group>
     </.card>
@@ -386,10 +518,15 @@ defmodule DemoWeb.Live.ButtonsLive do
     >
       <.paragraph class="text-muted mb-1">
         Drag the resize handle in the bottom-right of the box below to shrink the bar. Lowest
-        <code>data-pa-actions-priority</code> (default <code>0</code>) drops into the
-        <code>[⋮]</code> menu first; ties broken by the child nearest the end. "Publish" is pinned
-        with <code>data-pa-actions-priority="10"</code>. A nested split button collapses as one atomic
-        labeled group — its own options stay attached to its label.
+        <code>data-pa-actions-priority</code>
+        (default <code>0</code>) drops into the <code>[⋮]</code>
+        menu first; ties broken by the child nearest the end. "Publish" is pinned
+        with <code>data-pa-actions-priority="10"</code>, "Members" with <code>15</code>, and "Run"
+        stays visible longest with <code>20</code>. Drag all the way in and even a split button
+        collapses into the <code>[⋮]</code>
+        menu as an atomic labeled group — its primary plus its
+        own options, nothing foreign mixes in. The "Members" split button's rows carry inline delete
+        buttons that survive the collapse and still fire.
       </.paragraph>
       <div style="overflow: auto; resize: horizontal; min-width: 64px; max-width: 100%; padding: 1rem; border: 1px dashed var(--pa-border-color); border-radius: var(--pa-border-radius);">
         <.overflow id="overflow-demo-end">
@@ -405,7 +542,12 @@ defmodule DemoWeb.Live.ButtonsLive do
             <:icon><i class="fas fa-rotate"></i></:icon>
             Refresh
           </.button>
-          <.button variant="success" data-pa-actions-priority="10" phx-click="split_action" phx-value-action="publish">
+          <.button
+            variant="success"
+            data-pa-actions-priority="10"
+            phx-click="split_action"
+            phx-value-action="publish"
+          >
             <:icon><i class="fas fa-cloud-arrow-up"></i></:icon>
             Publish
           </.button>
@@ -414,9 +556,52 @@ defmodule DemoWeb.Live.ButtonsLive do
             icon="fas fa-play"
             variant="primary"
             on_click="split_action"
+            data-pa-actions-priority="20"
           >
-            <:item icon="fas fa-gear" on_click="split_action" action="run-options">Run with options…</:item>
-            <:item is_danger icon="fas fa-stop" on_click="split_action" action="stop-all">Stop all jobs</:item>
+            <:item icon="fas fa-gear" on_click="split_action" action="run-options">
+              Run with options…
+            </:item>
+            <:item is_danger icon="fas fa-stop" on_click="split_action" action="stop-all">
+              Stop all jobs
+            </:item>
+          </.split_button>
+          <.split_button
+            label="Members"
+            icon="fas fa-user-plus"
+            variant="danger"
+            on_click="split_action"
+            data-pa-actions-priority="15"
+          >
+            <:item
+              icon="fas fa-user"
+              on_click="split_action"
+              action="member-alice"
+              action_icon="fas fa-trash-can"
+              action_event="remove_member"
+              action_value="Alice Cooper"
+            >
+              Alice Cooper
+            </:item>
+            <:item
+              icon="fas fa-user"
+              on_click="split_action"
+              action="member-bob"
+              action_icon="fas fa-trash-can"
+              action_event="remove_member"
+              action_value="Bob Dylan"
+            >
+              Bob Dylan
+            </:item>
+            <:item
+              icon="fas fa-user"
+              on_click="split_action"
+              action="member-charlie"
+              action_icon="fas fa-trash-can"
+              action_event="remove_member"
+              action_value="Charlie Parker"
+            >
+              Charlie Parker
+            </:item>
           </.split_button>
         </.overflow>
       </div>
@@ -451,18 +636,238 @@ defmodule DemoWeb.Live.ButtonsLive do
             variant="primary"
             on_click="split_action"
           >
-            <:item icon="fas fa-file-csv" on_click="split_action" action="export-csv">Export as CSV</:item>
-            <:item icon="fas fa-file-code" on_click="split_action" action="export-json">Export as JSON</:item>
-            <:item icon="fas fa-file-pdf" on_click="split_action" action="export-pdf">Export as PDF</:item>
+            <:item icon="fas fa-file-csv" on_click="split_action" action="export-csv">
+              Export as CSV
+            </:item>
+            <:item icon="fas fa-file-code" on_click="split_action" action="export-json">
+              Export as JSON
+            </:item>
+            <:item icon="fas fa-file-pdf" on_click="split_action" action="export-pdf">
+              Export as PDF
+            </:item>
           </.split_button>
         </.overflow>
       </div>
+
+      <.heading level="4" class="mt-4">In card headers</.heading>
+      <.paragraph class="text-muted mb-1">
+        In a card header, set <code>actions_variant="overflow"</code>
+        on the <code>&lt;.card&gt;</code>
+        —
+        the <code>:tools</code>
+        become direct children of <code>.pa-card__actions--overflow</code>
+        (no
+        inner wrapper), it appends its own <code>[⋮]</code>
+        more-menu, and the title yields before the
+        actions collapse. Laid out three-up so each card is already narrow — resize the window to watch
+        each toolbar collapse at its own breakpoint.
+      </.paragraph>
+      <.grid class="mt-2">
+        <.column size="100" lg="1-3">
+          <.card
+            title_text="Quarterly Performance & Customer Engagement Analytics Dashboard"
+            title_class="minw-45"
+            actions_variant="overflow"
+          >
+            <:tools>
+              <.button
+                variant="ghost"
+                size="xs"
+                title="Refresh"
+                phx-click="split_action"
+                phx-value-action="refresh"
+              >
+                <:icon><i class="fas fa-rotate"></i></:icon>
+                Refresh
+              </.button>
+              <.button
+                variant="info"
+                is_outline
+                size="xs"
+                phx-click="split_action"
+                phx-value-action="filter"
+              >
+                <:icon><i class="fas fa-filter"></i></:icon>
+                Filter
+              </.button>
+              <.button
+                variant="secondary"
+                is_outline
+                size="xs"
+                phx-click="split_action"
+                phx-value-action="configure"
+              >
+                <:icon><i class="fas fa-gear"></i></:icon>
+                Configure
+              </.button>
+              <.button
+                variant="success"
+                size="xs"
+                data-pa-actions-priority="10"
+                phx-click="split_action"
+                phx-value-action="export"
+              >
+                <:icon><i class="fas fa-download"></i></:icon>
+                Export
+              </.button>
+              <.split_button
+                label="Add widget"
+                icon="fas fa-plus"
+                variant="primary"
+                size="xs"
+                on_click="split_action"
+                data-pa-actions-priority="20"
+              >
+                <:item icon="fas fa-chart-line" on_click="split_action" action="add-chart">
+                  Add chart
+                </:item>
+                <:item icon="fas fa-table" on_click="split_action" action="add-table">
+                  Add table
+                </:item>
+              </.split_button>
+            </:tools>
+            <.paragraph class="text-muted">
+              The actions bar in the header carries the overflow behavior — narrow the window to watch
+              Configure, Filter, and Refresh fold into the <code>[⋮]</code> more-menu in that order
+              (lowest priority first; Export is pinned, and the Add-widget split button survives longest).
+            </.paragraph>
+          </.card>
+        </.column>
+
+        <.column size="100" lg="1-3">
+          <.card
+            title_text="Database Migration Tasks — Production Environment Schema Updates"
+            actions_variant="overflow"
+          >
+            <:tools>
+              <.button variant="info" size="xs" phx-click="split_action" phx-value-action="validate">
+                <:icon><i class="fas fa-circle-check"></i></:icon>
+                Validate
+              </.button>
+              <.button variant="warning" size="xs" phx-click="split_action" phx-value-action="backup">
+                <:icon><i class="fas fa-database"></i></:icon>
+                Backup
+              </.button>
+              <.button
+                variant="danger"
+                is_outline
+                size="xs"
+                phx-click="split_action"
+                phx-value-action="rollback"
+              >
+                <:icon><i class="fas fa-rotate-left"></i></:icon>
+                Rollback
+              </.button>
+              <.split_button
+                label="Deploy"
+                icon="fas fa-rocket"
+                variant="success"
+                size="xs"
+                on_click="split_action"
+                data-pa-actions-priority="20"
+              >
+                <:item icon="fas fa-flask" on_click="split_action" action="dry-run">
+                  Dry-run only
+                </:item>
+                <:item icon="fas fa-vial" on_click="split_action" action="deploy-staging">
+                  Deploy to staging
+                </:item>
+                <:item is_danger icon="fas fa-fire" on_click="split_action" action="force-deploy">
+                  Force deploy (skip checks)
+                </:item>
+              </.split_button>
+            </:tools>
+            <.paragraph class="text-muted">
+              No pinning here — siblings collapse in default order (rightmost first: Rollback → Backup →
+              Validate). The Deploy split button survives longest, dropping into the <code>[⋮]</code>
+              more-menu as an atomic labeled group.
+            </.paragraph>
+          </.card>
+        </.column>
+
+        <.column size="100" lg="1-3">
+          <.card
+            title_text="Team Members & Permissions Management — Enterprise Console"
+            title_class="minw-60"
+            actions_variant="overflow"
+          >
+            <:tools>
+              <.button variant="ghost" size="xs" phx-click="split_action" phx-value-action="search">
+                <:icon><i class="fas fa-magnifying-glass"></i></:icon>
+                Search
+              </.button>
+              <.button
+                variant="secondary"
+                is_outline
+                size="xs"
+                phx-click="split_action"
+                phx-value-action="sort"
+              >
+                <:icon><i class="fas fa-arrow-down-wide-short"></i></:icon>
+                Sort
+              </.button>
+              <.button
+                variant="info"
+                is_outline
+                size="xs"
+                phx-click="split_action"
+                phx-value-action="filter"
+              >
+                <:icon><i class="fas fa-filter"></i></:icon>
+                Filter
+              </.button>
+              <.button
+                variant="secondary"
+                size="xs"
+                phx-click="split_action"
+                phx-value-action="import"
+              >
+                <:icon><i class="fas fa-file-import"></i></:icon>
+                Import CSV
+              </.button>
+              <.button
+                variant="info"
+                size="xs"
+                data-pa-actions-priority="5"
+                phx-click="split_action"
+                phx-value-action="invite"
+              >
+                <:icon><i class="fas fa-envelope"></i></:icon>
+                Invite
+              </.button>
+              <.split_button
+                label="Add user"
+                icon="fas fa-user-plus"
+                variant="primary"
+                size="xs"
+                on_click="split_action"
+                data-pa-actions-priority="20"
+              >
+                <:item icon="fas fa-user-tag" on_click="split_action" action="add-role">
+                  Add user with role…
+                </:item>
+                <:item icon="fas fa-users" on_click="split_action" action="bulk-add">
+                  Bulk add from team
+                </:item>
+              </.split_button>
+            </:tools>
+            <.paragraph class="text-muted">
+              Six siblings — Invite is pinned with priority 5, so it survives the first wave of collapses
+              but still folds away before Add user. The title yields first (truncating to a min-width
+              floor) so the action bar keeps its buttons; only when the header is genuinely tiny does the
+              split button fold its own primary into the <code>[⋮]</code>
+              more-menu, leaving just the toggle.
+            </.paragraph>
+          </.card>
+        </.column>
+      </.grid>
     </.card>
 
     <%!-- Text Truncation --%>
     <.card title_text="Text Truncation">
       <.paragraph class="text-muted mb-1">
-        Use <code>.text-truncate</code> with a fixed width (<code>.wr-*</code>) to truncate long text with ellipsis
+        Use <code>.text-truncate</code>
+        with a fixed width (<code>.wr-*</code>) to truncate long text with ellipsis
       </.paragraph>
       <div class="component-showcase">
         <.button variant="secondary" class="text-truncate wr-15">
@@ -509,36 +914,104 @@ defmodule DemoWeb.Live.ButtonsLive do
         <.card title_text="Icon Only Buttons">
           <.paragraph class="mb-2">Icon-only button sizes (XS → XL):</.paragraph>
           <.button_group class="mb-2">
-            <.button variant="primary" is_icon_only size="xs" title="XS - 28px"><i class="fa-solid fa-star"></i></.button>
-            <.button variant="primary" is_icon_only size="sm" title="SM - 32px"><i class="fa-solid fa-star"></i></.button>
-            <.button variant="primary" is_icon_only title="Default - 40px"><i class="fa-solid fa-star"></i></.button>
-            <.button variant="primary" is_icon_only size="lg" title="LG - 48px"><i class="fa-solid fa-star"></i></.button>
-            <.button variant="primary" is_icon_only size="xl" title="XL - 56px"><i class="fa-solid fa-star"></i></.button>
+            <.button variant="primary" is_icon_only size="xs" title="XS - 28px">
+              <i class="fa-solid fa-star"></i>
+            </.button>
+            <.button variant="primary" is_icon_only size="sm" title="SM - 32px">
+              <i class="fa-solid fa-star"></i>
+            </.button>
+            <.button variant="primary" is_icon_only title="Default - 40px">
+              <i class="fa-solid fa-star"></i>
+            </.button>
+            <.button variant="primary" is_icon_only size="lg" title="LG - 48px">
+              <i class="fa-solid fa-star"></i>
+            </.button>
+            <.button variant="primary" is_icon_only size="xl" title="XL - 56px">
+              <i class="fa-solid fa-star"></i>
+            </.button>
           </.button_group>
           <.paragraph class="mb-2">Various colors - default size:</.paragraph>
           <.button_group class="mb-2">
-            <.button variant="primary" is_icon_only title="Save"><i class="fa-solid fa-floppy-disk"></i></.button>
-            <.button variant="secondary" is_icon_only title="Search"><i class="fa-solid fa-magnifying-glass"></i></.button>
-            <.button variant="success" is_icon_only title="Check"><i class="fa-solid fa-check"></i></.button>
-            <.button variant="warning" is_icon_only title="Warning"><i class="fa-solid fa-triangle-exclamation"></i></.button>
-            <.button variant="danger" is_icon_only title="Trash"><i class="fa-solid fa-trash"></i></.button>
-            <.button variant="info" is_icon_only title="Info"><i class="fa-solid fa-circle-info"></i></.button>
+            <.button variant="primary" is_icon_only title="Save">
+              <i class="fa-solid fa-floppy-disk"></i>
+            </.button>
+            <.button variant="secondary" is_icon_only title="Search">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </.button>
+            <.button variant="success" is_icon_only title="Check">
+              <i class="fa-solid fa-check"></i>
+            </.button>
+            <.button variant="warning" is_icon_only title="Warning">
+              <i class="fa-solid fa-triangle-exclamation"></i>
+            </.button>
+            <.button variant="danger" is_icon_only title="Trash">
+              <i class="fa-solid fa-trash"></i>
+            </.button>
+            <.button variant="info" is_icon_only title="Info">
+              <i class="fa-solid fa-circle-info"></i>
+            </.button>
           </.button_group>
           <.paragraph class="mb-2">Compact (XS) - perfect for table actions:</.paragraph>
           <.button_group>
             <.button variant="primary" is_icon_only size="xs" title="View">👁️</.button>
             <.button variant="secondary" is_icon_only size="xs" title="Edit">✏️</.button>
             <.button variant="danger" is_icon_only size="xs" title="Delete">🗑️</.button>
-            <.button variant="success" is_icon_only size="xs" title="Check"><i class="fa-solid fa-check"></i></.button>
-            <.button variant="warning" is_icon_only size="xs" title="Warning"><i class="fa-solid fa-triangle-exclamation"></i></.button>
-            <.button variant="info" is_icon_only size="xs" title="Download"><i class="fa-solid fa-download"></i></.button>
+            <.button variant="success" is_icon_only size="xs" title="Check">
+              <i class="fa-solid fa-check"></i>
+            </.button>
+            <.button variant="warning" is_icon_only size="xs" title="Warning">
+              <i class="fa-solid fa-triangle-exclamation"></i>
+            </.button>
+            <.button variant="info" is_icon_only size="xs" title="Download">
+              <i class="fa-solid fa-download"></i>
+            </.button>
           </.button_group>
           <.paragraph class="mb-2">With ripple and loading states (click to test):</.paragraph>
           <.button_group>
-            <.button variant="primary" is_icon_only is_ripple title="Save" is_loading={@loading_btn == "icon-save"} phx-click="toggle_loading" phx-value-btn="icon-save"><i class="fa-solid fa-floppy-disk"></i></.button>
-            <.button variant="secondary" is_icon_only is_ripple title="Refresh" is_loading={@loading_btn == "icon-refresh"} phx-click="toggle_loading" phx-value-btn="icon-refresh"><i class="fa-solid fa-rotate-right"></i></.button>
-            <.button variant="success" is_icon_only is_ripple title="Upload" is_loading={@loading_btn == "icon-upload"} phx-click="toggle_loading" phx-value-btn="icon-upload"><i class="fa-solid fa-upload"></i></.button>
-            <.button variant="danger" is_icon_only is_ripple title="Delete" is_loading={@loading_btn == "icon-delete"} phx-click="toggle_loading" phx-value-btn="icon-delete"><i class="fa-solid fa-trash"></i></.button>
+            <.button
+              variant="primary"
+              is_icon_only
+              is_ripple
+              title="Save"
+              is_loading={@loading_btn == "icon-save"}
+              phx-click="toggle_loading"
+              phx-value-btn="icon-save"
+            >
+              <i class="fa-solid fa-floppy-disk"></i>
+            </.button>
+            <.button
+              variant="secondary"
+              is_icon_only
+              is_ripple
+              title="Refresh"
+              is_loading={@loading_btn == "icon-refresh"}
+              phx-click="toggle_loading"
+              phx-value-btn="icon-refresh"
+            >
+              <i class="fa-solid fa-rotate-right"></i>
+            </.button>
+            <.button
+              variant="success"
+              is_icon_only
+              is_ripple
+              title="Upload"
+              is_loading={@loading_btn == "icon-upload"}
+              phx-click="toggle_loading"
+              phx-value-btn="icon-upload"
+            >
+              <i class="fa-solid fa-upload"></i>
+            </.button>
+            <.button
+              variant="danger"
+              is_icon_only
+              is_ripple
+              title="Delete"
+              is_loading={@loading_btn == "icon-delete"}
+              phx-click="toggle_loading"
+              phx-value-btn="icon-delete"
+            >
+              <i class="fa-solid fa-trash"></i>
+            </.button>
           </.button_group>
         </.card>
       </.column>
@@ -547,7 +1020,10 @@ defmodule DemoWeb.Live.ButtonsLive do
     <%!-- Fixed Width Buttons --%>
     <.card title_text="Fixed Width Buttons">
       <.paragraph class="mb-1">
-        Use <code>minwr-*</code> + <code>maxwr-*</code> to constrain width. Add <code>text-truncate</code> on an inner span for ellipsis:
+        Use <code>minwr-*</code>
+        + <code>maxwr-*</code>
+        to constrain width. Add <code>text-truncate</code>
+        on an inner span for ellipsis:
       </.paragraph>
       <div class="d-flex flex-column align-items-start gap-sm">
         <.button variant="primary" class="minwr-10 maxwr-10">
@@ -564,7 +1040,9 @@ defmodule DemoWeb.Live.ButtonsLive do
         </.button>
       </div>
 
-      <.heading level={4} class="mt-6">Different Widths (<code>minwr-8</code> to <code>minwr-20</code>)</.heading>
+      <.heading level={4} class="mt-6">
+        Different Widths (<code>minwr-8</code> to <code>minwr-20</code>)
+      </.heading>
       <div class="d-flex flex-column align-items-start gap-sm">
         <.button variant="primary" class="minwr-8">minwr-8</.button>
         <.button variant="primary" class="minwr-10">minwr-10</.button>
@@ -577,7 +1055,9 @@ defmodule DemoWeb.Live.ButtonsLive do
     <.grid>
       <.column size="100" lg="1-2">
         <.card title_text="Button Text Alignment">
-          <.paragraph class="mb-1">Control text alignment within fixed-width buttons. Note the varied text lengths to show the effect:</.paragraph>
+          <.paragraph class="mb-1">
+            Control text alignment within fixed-width buttons. Note the varied text lengths to show the effect:
+          </.paragraph>
 
           <.heading level={4}>Inline Start Aligned</.heading>
           <.button_group is_vertical>
@@ -641,7 +1121,9 @@ defmodule DemoWeb.Live.ButtonsLive do
 
       <.column size="100" lg="1-2">
         <.card title_text="Font Awesome Icons">
-          <.paragraph class="mb-1">Font Awesome icons with varied text lengths to show alignment:</.paragraph>
+          <.paragraph class="mb-1">
+            Font Awesome icons with varied text lengths to show alignment:
+          </.paragraph>
 
           <.heading level={4}>Inline Start Aligned</.heading>
           <.button_group is_vertical>
@@ -778,19 +1260,30 @@ defmodule DemoWeb.Live.ButtonsLive do
     <.card title_text="Usage Guide">
       <.heading level={4}>Ripple Effect</.heading>
       <.paragraph>
-        Add <code>pa-btn--ripple</code> class and <code>data-ripple</code> attribute to any button for click animation feedback.
+        Add <code>pa-btn--ripple</code>
+        class and <code>data-ripple</code>
+        attribute to any button for click animation feedback.
       </.paragraph>
 
       <.heading level={4}>Loading States</.heading>
       <.paragraph>
-        Use <code>pa-btn--loading</code> class to show spinner. JavaScript can toggle this class during async operations.
+        Use <code>pa-btn--loading</code>
+        class to show spinner. JavaScript can toggle this class during async operations.
       </.paragraph>
 
       <.heading level={4}>Best Practices</.heading>
       <.basic_list>
-        <li><strong>Fast Sites:</strong> Always show loading feedback, even for quick operations (200-500ms minimum)</li>
-        <li><strong>User Confidence:</strong> Ripple effects confirm button clicks were registered</li>
-        <li><strong>Prevent Double-clicks:</strong> Disable buttons during loading to prevent duplicate submissions</li>
+        <li>
+          <strong>Fast Sites:</strong>
+          Always show loading feedback, even for quick operations (200-500ms minimum)
+        </li>
+        <li>
+          <strong>User Confidence:</strong> Ripple effects confirm button clicks were registered
+        </li>
+        <li>
+          <strong>Prevent Double-clicks:</strong>
+          Disable buttons during loading to prevent duplicate submissions
+        </li>
         <li><strong>Accessibility:</strong> Loading states are announced to screen readers</li>
       </.basic_list>
     </.card>
@@ -826,8 +1319,8 @@ defmodule DemoWeb.Live.ButtonsLive do
 
       <.heading level={4} class="mt-4">Theme Color Variants</.heading>
       <.basic_list spacing="compact">
-        <li><code>pa-btn--color-{1-9}</code> - Theme color slot buttons</li>
-        <li><code>pa-btn--outline-color-{1-9}</code> - Outline theme color slot buttons</li>
+        <li><code>pa-btn--color-{1 - 9}</code> - Theme color slot buttons</li>
+        <li><code>pa-btn--outline-color-{1 - 9}</code> - Outline theme color slot buttons</li>
       </.basic_list>
 
       <.heading level={4} class="mt-4">Button Sizes</.heading>
