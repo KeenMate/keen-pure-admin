@@ -137,7 +137,9 @@ The `navbar_brand` and `footer` components read from this config automatically. 
 
 ### 4. Install a theme and update the root layout
 
-Declare the themes your app ships with in a `pureadmin.json` at your project root:
+Get a theme into `priv/static/themes/<id>/` (so the CSS lands at `priv/static/themes/<id>/css/<id>.css`). Two ways — pick one:
+
+**Option A — PureAdmin CLI (recommended).** Declare the themes your app ships with in a `pureadmin.json` at your project root:
 
 ```json
 {
@@ -148,13 +150,17 @@ Declare the themes your app ships with in a `pureadmin.json` at your project roo
 }
 ```
 
-Then resolve and download them with the PureAdmin CLI:
+Then resolve and download them with the CLI:
 
 ```bash
 npx @keenmate/pureadmin themes install
 ```
 
-This generates `pureadmin.lock.json` (commit it — same convention as `package-lock.json`) and extracts each theme to `priv/static/themes/<id>/`. CI / Docker builds should run `npx @keenmate/pureadmin themes ci` instead, which reproduces the lockfile exactly and fails fast if the two files drift. Add `priv/static/themes/` to `.gitignore` — themes are downloaded artifacts.
+This generates `pureadmin.lock.json` (commit it — same convention as `package-lock.json`) and extracts each theme to `priv/static/themes/<id>/`. CI / Docker builds should run `npx @keenmate/pureadmin themes ci` instead, which reproduces the lockfile exactly and fails fast if the two files drift.
+
+**Option B — manual download (no CLI / Node).** On [pureadmin.io](https://pureadmin.io), open a theme (e.g. [pureadmin.io/theme/audi](https://pureadmin.io/theme/audi)) and click **Download vX.Y.Z**. Extract the zip into `priv/static/themes/` so you get `priv/static/themes/<id>/css/<id>.css` (the zip is self-contained — fonts resolve via relative paths, no adjustment needed). Good when you don't want Node in your toolchain or you're pinning a single theme by hand; you manage updates yourself instead of via the lockfile.
+
+Either way, add `priv/static/themes/` to `.gitignore` — themes are downloaded artifacts. (See the [theming guide](theming.html) for the full three-file CLI workflow, CI/Docker, and theme switching.)
 
 Add `themes` to your static paths so Phoenix serves the files:
 
