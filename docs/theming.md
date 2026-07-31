@@ -17,14 +17,14 @@ Browse and preview all themes at [pureadmin.io](https://pureadmin.io).
 
 ## Installing Themes
 
-Theme zips are self-contained — the compiled CSS in `dist/` references fonts via relative paths (`../assets/fonts/...`), so extracting a zip preserves correct asset resolution without any path adjustments.
+Theme zips are self-contained — the compiled CSS in `css/` references fonts via relative paths (`../assets/fonts/...`), so extracting a zip preserves correct asset resolution without any path adjustments.
 
-Each theme zip contains:
+Each theme zip contains (the zip root holds these directly — extract them under `priv/static/themes/<id>/`):
 
 ```
 audi/
 ├── theme.json                       # metadata: colors, variants, modes, fonts, checksums
-├── dist/
+├── css/
 │   └── audi.css                     # compiled CSS (ready to use)
 ├── scss/
 │   └── audi.scss                    # SCSS source (for customization, see below)
