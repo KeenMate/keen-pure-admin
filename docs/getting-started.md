@@ -52,7 +52,15 @@ Also clean up these generated files that use Tailwind classes or CoreComponents 
 
 - **Delete** `lib/my_app_web/components/core_components.ex` — no longer needed
 - **Delete** `priv/static/assets/default.css` — Phoenix default styles that conflict with Pure Admin
-- **Replace** `lib/my_app_web/controllers/page_html/home.html.heex` — the generated page uses Tailwind classes and `Layouts.flash_group` which no longer exists
+- **Replace** `lib/my_app_web/controllers/page_html/home.html.heex` — the generated page uses Tailwind classes and `Layouts.flash_group` which no longer exists. Swap it for a minimal page (it renders inside the `app` layout you set up in step 2):
+
+```heex
+<%!-- lib/my_app_web/controllers/page_html/home.html.heex --%>
+<.card title_text="Welcome to my_app">
+  <.paragraph>Your app is now using Pure Admin components.</.paragraph>
+  <.button variant="primary">Get started</.button>
+</.card>
+```
 
 ### 2. Replace the generated layouts
 
@@ -161,6 +169,8 @@ Then replace the CSS links in `lib/my_app_web/components/layouts/root.html.heex`
 <head>
   <%!-- Pure Admin theme (includes core CSS) --%>
   <link rel="stylesheet" href="/themes/audi/css/audi.css" />
+  <%!-- Your app's own styles (keep this — it's where your custom CSS lives) --%>
+  <link phx-track-static rel="stylesheet" href={~p"/assets/css/app.css"} />
   <%!-- Font Awesome icons --%>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <%!-- Floating UI (for tooltips, popovers, split buttons) --%>
@@ -192,6 +202,8 @@ const liveSocket = new LiveSocket("/live", Socket, {
 // Wire delegated click handlers. Idempotent; safe to call once at startup.
 initPureAdminEvents()
 ```
+
+> The bare `from "keen_pure_admin"` import resolves because Phoenix ≥ 1.8 adds `deps/` to esbuild's `NODE_PATH` (see the `:esbuild` config in `config/config.exs`). If esbuild reports `Could not resolve "keen_pure_admin"` — e.g. on an app upgraded from an older Phoenix — either add `env: %{"NODE_PATH" => [Path.expand("../deps", __DIR__), Mix.Project.build_path()]}` to your esbuild config, or import via the relative path `from "../../deps/keen_pure_admin/lib/assets/js/keen_pure_admin"`.
 
 All component behaviour is delivered through `PureAdminHooks` and `initPureAdminEvents` — no inline `onclick=` handlers in the rendered markup, so apps can ship with strict CSP (`script-src 'self'`) without `'unsafe-inline'`. The one exception is the optional FOUC-prevention script (`<.fouc_prevention_script />`), which must run inline in `<head>` before CSS loads; for CSP-strict apps, attach a per-request nonce.
 
