@@ -12,6 +12,18 @@ Drop-in replacement for Phoenix `CoreComponents` -- provides `button/1`, `badge/
 
 **Live demo**: [elixir.demo.pureadmin.io](https://elixir.demo.pureadmin.io)
 
+## What's new in v1.3.0-rc.1
+
+First release candidate for the **pure-admin 2.9.0** sync, pinned to `@keenmate/pure-admin-core` `^2.9.0-rc07`. Highlights:
+
+- **New components** — `<.overflow>` (progressive-collapse toolbar that folds buttons into a `[⋮]` "more" menu as space runs out), `<.splitter>` (resizable N-pane splitter with drag / minimize-to-rail / `localStorage` persistence and bubbling `pa-splitter:resize` / `:collapse` / `:expand` events), `<.range_group>` + `<.range>` (compact multi-range filter with a floating panel), and `<.stat is_fit>` fit-to-box stat tiles.
+- **Icons** — `<.icon>` / `<.faicon>` / `<.heroicon>` (25 inline-SVG heroicons, zero deps), plus a configurable `:icon_callback` for plugging in a custom icon set. The legacy `attr :icon` slots now route `"hero-X"` strings to inline SVG.
+- **Buttons — unified inline-flex model (behavior change).** Every button type now centers content by default; full-width / block icon+label buttons that used to left-align now center — pass `align="start"` for the old look. Canonical text truncation is `.text-truncate` on an inner `<span>`.
+- **Card header rework to the rc05 canonical structure** — one DOM tree for every card; new `actions_variant="overflow"` / `"responsive"` header-action collapse models and a `title_class` for the overflow title floor.
+- **Fixes** — overflow toolbars no longer crash under LiveView (`phx-update="ignore"` + trigger guard), and icon + `text-truncate` buttons ellipse correctly instead of spilling the icon.
+
+See the full [CHANGELOG](CHANGELOG.md) for everything in the 2.9.0 sync.
+
 ## What's new in v1.2.0
 
 Pure-admin **v2.5.0 → v2.8.0** sync, KPI showcase suite, plus a full security + correctness sweep. Anchored to `@keenmate/pure-admin-core` 2.8.0+. Highlights:
@@ -23,13 +35,6 @@ Pure-admin **v2.5.0 → v2.8.0** sync, KPI showcase suite, plus a full security 
 - **Strict-CSP support + safe URL handling.** Every inline `onclick=` / `<script>` removed from component templates; behaviour lives in a single delegated-events module exposed via the new **`initPureAdminEvents()`** export. New `PureAdmin.Helpers.safe_url/2` deny-list URL validator applied automatically across link-bearing components (`button/1`, `pa_link/1`, `navbar_nav_item/1`, `sidebar_item/1`, `profile_nav_item/1`). Flash markdown links + profile-panel favourites use the same check. Apps can now ship with `script-src 'self'`.
 
 See the full [CHANGELOG](CHANGELOG.md) for everything that landed.
-
-## What's new in v1.1.0
-
-- **`field={@form[:x]}` on form components** — `input/1`, `textarea/1`, `select/1`, `checkbox/1`, `radio/1`, and `form_group/1` now accept a Phoenix `Phoenix.HTML.FormField` and derive `name`, `id`, `value` (or `checked`), and error state automatically. `input/textarea/select` also auto-render the error `form_help` below themselves — no per-field boilerplate.
-- **`PureAdmin.Components.Form.translate_error/1`** — ships a default `%{key}`-interpolating formatter; override with `config :keen_pure_admin, :error_formatter, {MyAppWeb.CoreComponents, :translate_error}` for Gettext-aware apps.
-- **`PureAdmin.DateTime`** — date/time/relative formatting helper with `format/2` (short/long date, short/long date-time, time, relative, or raw strftime) and `relative/2` (`now`, `5 minutes ago`, `in 2 hours`, etc.). Month names, weekday names, and relative phrases all flow through `PureAdmin.Translations.t/2` with 47 new keys under `pureAdmin.datetime.*`.
-- **Flash — `replace: true` + `clear_flash/2`** — `push_flash(..., replace: true)` wipes any prior alerts in the container so status messages don't stack; `clear_flash/2` empties it without pushing.
 
 ## Prerequisites
 

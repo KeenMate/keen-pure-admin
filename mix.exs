@@ -1,7 +1,7 @@
 defmodule PureAdmin.MixProject do
   use Mix.Project
 
-  @version "1.3.0"
+  @version "1.3.0-rc.1"
   @source_url "https://github.com/KeenMate/keen-pure-admin"
 
   def project do
@@ -89,7 +89,8 @@ defmodule PureAdmin.MixProject do
           PureAdmin.Components.CommandPalette,
           PureAdmin.Components.Profile,
           PureAdmin.Components.SettingsPanel,
-          PureAdmin.Components.Grid
+          PureAdmin.Components.Grid,
+          PureAdmin.Components.Splitter
         ],
         "UI Components": [
           PureAdmin.Components.Button,
@@ -122,7 +123,8 @@ defmodule PureAdmin.MixProject do
         ],
         "Forms & Inputs": [
           PureAdmin.Components.Form,
-          PureAdmin.Components.CheckboxList
+          PureAdmin.Components.CheckboxList,
+          PureAdmin.Components.RangeGroup
         ],
         "Lists & Timeline": [
           PureAdmin.Components.List,

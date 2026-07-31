@@ -4,9 +4,20 @@
 
 ### Added
 
+### Changed
+
+### Fixed
+
+## [1.3.0-rc.1] - 2026-07-31 [PUBLISHED]
+
+### Added
+
 - **`PureAdmin.Config` — `:default_icon_size` and `:icon_callback` config keys.** `default_icon_size` (default `"1.25rem"`) is the CSS length applied as SVG `width`/`height` on `<.heroicon>` and inline `font-size` on `<.faicon>` / `<.icon>` fallback when the call site doesn't pass an explicit `size`. `icon_callback` accepts `&Mod.fun/1`, `{Mod, :fun}`, or `{Mod, :fun, 1}` — tuple forms are preferred in `config.exs` since user modules aren't compiled when config evaluates. The callback is a function component (receives the full assigns) invoked by `<.icon>` for any name that doesn't start with `hero-`.
 - **`<.icon>` callback dispatch.** Non-`hero-` names route through the configured `:icon_callback` if set; otherwise the existing FA-style `<i class={name}>` fallback runs. Lets a project standardize on a custom icon set (Lucide SVGs, a private sprite, base64, etc.) without touching every call site that uses the legacy `attr :icon, :string` pattern.
 - **Future-improvement note in `<.icon>` moduledoc** — sketches a compile-time inline icon-set generator (same approach as `<.heroicon>`) as a follow-up to the runtime callback. Captures the tradeoffs (0 HTTP requests, recolorable via `currentColor`, larger BEAM, recompile to add icons) for when a project outgrows the callback pattern.
+- **`PureAdmin.Components.Faicon`** — Font Awesome icon wrapper. Renders `<i class="fa-{variant} fa-{name}">` from `name` + `variant` (solid/regular/light/brands). Stylesheet (CDN or local) must be loaded by the consumer. Zero deps.
+- **`PureAdmin.Components.Heroicon`** — inline-SVG Heroicons component. Ships 25 curated outline icons (matching the pureadmin CLI's heroicons → canonical-name map) as `def heroicon/1` clauses with embedded SVG path data. No external CSS, no Tailwind plugin, no hex dep. `stroke="currentColor"` so icons inherit parent text color. Unknown names render a debuggable `<span class="heroicon-missing" title="Unknown heroicon: X">`.
+- **`PureAdmin.Components.Icon`** — smart string-based dispatcher. `<.icon name="hero-X" />` routes to `<.heroicon name="X">`; anything else renders as `<i class={name}>`. Lets the legacy `attr :icon, :string` pattern (`sidebar_item`, `sidebar_submenu`, `button`, `flash`, `profile_nav_item`) transparently handle heroicon strings. All three components are auto-imported via the `use PureAdmin.Components` bulk macro.
 - **`<.card>` — `title_class` attr.** Passes extra CSS classes onto the `.pa-card__title` element. Primarily for `actions_variant="overflow"`: a `minw-*` floor (e.g. `title_class="minw-45"`) makes the header title yield to a min-width before the header actions collapse, matching the pure-admin card-overflow snippet.
 - **Demo `buttons_live` — overflow toolbar filled out to the full canonical set.** The standalone toolbar gains a second split button ("Members", priority 15) whose rows carry inline delete buttons that survive the collapse into `[⋮]` and still fire (`remove_member`). A new "In card headers" section adds the three-up `<.card actions_variant="overflow">` examples (Quarterly / Database Migration / Team Members), demonstrating title-yield via `title_class="minw-*"`, priority pinning, and the split button collapsing last as an atomic labeled group.
 
@@ -17,6 +28,7 @@
 - **`<.heroicon>` — explicit `width`/`height` from `:size`.** SVG opening tag now emits `width={@size_value}` `height={@size_value}` (resolved against `PureAdmin.Config.icon_size/0`). `class` default dropped from `"size-5"` to `nil` — sizing is now attribute-driven, not Tailwind-class-driven. Public `heroicon/1` is a thin wrapper that computes `size_value` then delegates to the 25 `defp do_heroicon/1` SVG clauses.
 - **`<.faicon>` — inline `font-size` from `:size`.** Renders `style="font-size: {size}"` (resolved against `PureAdmin.Config.icon_size/0`). Dropped bogus `size` / `fill` / `stroke` HTML attrs from the `<i>` — they're SVG-only and were silently ignored.
 - **`<.icon>` fallback — inline `font-size` from `:size`.** Same treatment as `<.faicon>` for the FA-style `<i class={name}>` branch.
+- **`attr :icon, :string` slots now render via `<.icon>`.** `sidebar_item`, `sidebar_submenu`, `button`, `flash`, `profile_nav_item` render their icon through `<.icon name={@icon} />` instead of `<i class={@icon}>`. Backwards compatible for FA strings (`"fa-solid fa-rocket"` still works); `"hero-X"` strings now render as inline SVG via `<.heroicon>` instead of an empty `<i class="hero-X">`. Unblocks the `--heroicons` mode of the elixir-phoenix-liveview template, which emitted `<.icon name="hero-X" />` against Phoenix's stock `CoreComponents.icon/1` — deleted by the recipe in favor of `PureAdmin.Components`.
 - **`<.code_block>` — match pure-admin's actual class surface.** Removed invented classes (`pa-code-block-wrapper`, `pa-code-block--heex`, `pa-code-block__filename`, `pa-code-block__language`). Two branches now: with `filename` → `pa-code-block` > `__header` (with `__title`) > `__body` > `<pre class="pa-code pa-code--{lang}">`; without filename → naked `<pre class="pa-code …">`. Inner `<code>` element removed (was double-applying inline-code styling). New `is_compact` and `is_numbered` attrs. Language normalization map handles `heex→html`, `ts→javascript`, `sh→bash`, `py→python`, etc.; supported pure-admin language modifiers are `javascript json html css bash sql python`.
 
 ### Fixed
@@ -51,26 +63,6 @@ Full sync to `@keenmate/pure-admin-core@2.9.0-rc06`. Peer-dep bumped `^2.8.0` �
 - **`PureAdmin.Components.RangeGroup` (`<.range_group>` + `<.range>`)** — new component wrapping pure-admin 2.9.0-rc04's compact multi-range filter (`.pa-range-group`) and its standalone slider primitive (`.pa-range`). `range/1` emits a single- or dual-thumb `.pa-range` (handle-shape modifiers `rect`/`bar`/`arrow`/`needle`, optional ticks / tick-labels / snap-ticks, number formatting). `range_group/1` is the toggle-+-floating-panel wrapper over N `:range` slot rows (one per dimension), wiring `phx-hook="PureAdminRangeGroup"` + `phx-update="ignore"` (the panel reparents to `<body>`; per-instance `--pa-range-*` token overrides go on `panel_style` / the rows, never the root). The group emits bubbling `pa-range-group:change` / `:apply` / `:reset` events with a `values` payload keyed by `data-key` (a bound at its extent reports `null` = "Any"). Registered in the `use PureAdmin.Components` bulk macro. `range_group_core.js` is the verbatim upstream `range-group.js` (`window.PaRangeGroup`). New demo at `/components/range-group`.
 - **`<.card>` header rework to rc05 canonical structure.** The title is now ALWAYS `.pa-card__title` > `.pa-card__title-text` (the `.pa-card__title-icon` span is the only optional part) — the previous three-way branching (bare `<h3>` when no icon, `.pa-card__title` when icon) is gone, so one DOM tree serves every card. Dropped the invented `pa-card__description--truncate` class: `.pa-card__description` truncates by default in the stylesheet and `header_wrap` (`pa-card__header--wrap`) opts out. Footer buttons already live in `.pa-card__actions` (auto-pinned to the trailing edge, no spacer needed). Backward compatible for callers using `title_text` / `:title` / `:title_icon`.
 - **Demos** — `stats_live` gains a fit-mode showcase (priority ladder, wide/narrow layouts, `:context` slot); `buttons_live` gains an overflow toolbar section (two resizable bars — default `[⋮]` trigger + drop-from-end, and a ghost trigger + drop-from-start, each with a nested split button that collapses as an atomic labeled group); new `range_group_live` mirrors `range-group.mustache` (basic multi-range filter, handle shapes, ticks & click-to-seek, filter-card row) with a live event readout; all built with keen wrapper components.
-
-## [1.3.0] - 2026-06-20
-
-### Added
-
-- `PureAdmin.Components.Faicon` — Font Awesome icon wrapper. Renders `<i class="fa-{variant} fa-{name}">` from `name` + `variant` (solid/regular/light/brands) attributes. Stylesheet (CDN or local) must be loaded by the consumer. Zero deps.
-- `PureAdmin.Components.Heroicon` — inline-SVG Heroicons component. Ships 25 curated outline icons (matching the pureadmin CLI's heroicons → canonical-name map) as `def heroicon/1` clauses with embedded SVG path data. No external CSS, no Tailwind plugin, no hex dep. `stroke="currentColor"` so icons inherit parent text color. Unknown names render a `<span class="heroicon-missing" title="Unknown heroicon: X">` so missing icons stay debuggable.
-- `PureAdmin.Components.Icon` — smart string-based dispatcher. `<.icon name="hero-X" />` routes to `<.heroicon name="X">`; anything else renders as `<i class={name}>`. Exists so the legacy `attr :icon, :string` pattern (used by `sidebar_item`, `sidebar_submenu`, `button`, `flash`, `profile_nav_item`) transparently handles heroicon strings without each call-site needing to know which icon system the caller picked.
-
-All three are imported via the existing `use PureAdmin.Components` bulk macro, so consumers get `<.icon>`, `<.faicon>`, and `<.heroicon>` automatically.
-
-### Changed
-
-- `sidebar_item`, `sidebar_submenu`, `button`, `flash`, `profile_nav_item` — their `attr :icon, :string` slot now renders via `<.icon name={@icon} />` instead of `<i class={@icon}>`. Backwards compatible for FA strings (e.g. `"fa-solid fa-rocket"` still works the same way); new behavior is that `"hero-X"` strings now render as inline SVG via `<.heroicon>` instead of empty `<i class="hero-X">`.
-
-### Why this matters
-
-This unblocks the `--heroicons` mode of the elixir-phoenix-liveview template, which previously emitted `<.icon name="hero-X" />` referencing Phoenix's stock `CoreComponents.icon/1` — but the recipe deletes `core_components.ex` in favor of `PureAdmin.Components`, so the symbol vanished and `mix phx.server` failed at compile.
-
----
 
 ## [1.2.0] - 2026-05-30 [PUBLISHED]
 
