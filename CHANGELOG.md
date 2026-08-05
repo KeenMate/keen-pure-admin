@@ -8,6 +8,16 @@
 
 ### Fixed
 
+## [1.3.0-rc.2] - 2026-08-05 [PUBLISHED]
+
+### Changed
+
+- **Peer-dep bumped `^2.9.0-rc07` → `^2.9.0-rc08`; verified against pure-admin-core 2.9.0-rc08.** rc08 is an internal SCSS restructuring — the variable system, `--base-*`/`--pa-*` emit mixins, utilities, and the `.pa-row`/`.pa-col` grid were single-sourced out of core into the shared `@keenmate/pure-css` package via `@import`/`@forward` shims. **Public SCSS import paths and every emitted class name are unchanged**, so no keen component, JS hook, or emitted DOM needed to change. Three potentially-breaking upstream changes were checked and cleared: (1) the removed legacy PureCSS `.pure-g`/`.pure-u-*` grid doesn't touch us — `<.grid>`/`<.column>` already emit `.pa-row`/`.pa-col-*`; (2) the new SCSS-build `--load-path=node_modules` requirement is internal to upstream theme compilation — the demo consumes pre-built theme CSS via `npx @keenmate/pureadmin themes install`, not local SCSS; (3) rc08's additive utilities (`.gap-*`/`.gap-x-*`/`.gap-y-*`, `.font-family-system`/`-sans`, the now-live `.border`/`.rounded`, `--pa-border-color`) are unused by the library. Theme CSS picks up the rc08 rules once themes are reinstalled.
+
+### Fixed
+
+- **Docs — corrected theme-zip structure (`css/`, not `dist/`) and documented both theme-install paths** (pureadmin CLI + manual download) in getting-started, plus gaps found dogfooding a clean install.
+
 ## [1.3.0-rc.1] - 2026-07-31 [PUBLISHED]
 
 ### Added

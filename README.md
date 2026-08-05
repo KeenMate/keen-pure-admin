@@ -12,6 +12,16 @@ Drop-in replacement for Phoenix `CoreComponents` -- provides `button/1`, `badge/
 
 **Live demo**: [elixir.demo.pureadmin.io](https://elixir.demo.pureadmin.io)
 
+## What's new in v1.3.0-rc.2
+
+Maintenance sync to `@keenmate/pure-admin-core` `^2.9.0-rc08`. Highlights:
+
+- **Peer-dep bumped `^2.9.0-rc07` → `^2.9.0-rc08`.** rc08 is an internal upstream SCSS restructuring (the variable system, utilities, and the `.pa-row`/`.pa-col` grid moved into the shared `@keenmate/pure-css` package) — public import paths and every emitted class name are unchanged, so no component, hook, or emitted DOM changed. Reinstall themes (`npx @keenmate/pureadmin themes install`) to pick up the rc08 CSS.
+- **Verified no impact** from rc08's breaking-looking changes: the removed legacy PureCSS `.pure-g`/`.pure-u-*` grid isn't used (we already emit `.pa-row`/`.pa-col-*`), and the new SCSS `--load-path=node_modules` build requirement is internal to upstream theme compilation.
+- **Docs** — corrected the downloaded theme-zip structure (`css/`, not `dist/`) and documented both theme-install paths (pureadmin CLI + manual download) in getting-started.
+
+See the full [CHANGELOG](CHANGELOG.md) for details.
+
 ## What's new in v1.3.0-rc.1
 
 First release candidate for the **pure-admin 2.9.0** sync, pinned to `@keenmate/pure-admin-core` `^2.9.0-rc07`. Highlights:
@@ -23,18 +33,6 @@ First release candidate for the **pure-admin 2.9.0** sync, pinned to `@keenmate/
 - **Fixes** — overflow toolbars no longer crash under LiveView (`phx-update="ignore"` + trigger guard), and icon + `text-truncate` buttons ellipse correctly instead of spilling the icon.
 
 See the full [CHANGELOG](CHANGELOG.md) for everything in the 2.9.0 sync.
-
-## What's new in v1.2.0
-
-Pure-admin **v2.5.0 → v2.8.0** sync, KPI showcase suite, plus a full security + correctness sweep. Anchored to `@keenmate/pure-admin-core` 2.8.0+. Highlights:
-
-- **9 new KPI modules, 12+ function components** mirroring `@keenmate/svelte-pure-admin` 1:1 — `KpiTerminal`, `KpiSparklineList`, `KpiGaugeList`, `KpiHero`, `KpiBento`, `KpiStrip`, `KpiEditorial`, plus a `Kpi` substrate and `KpiDetail` helpers. Each tile auto-builds its hover popover from typed props (Current / Previous / Δ absolute / Δ percent / Target); chart slot is library-agnostic (D3, ApexCharts, Chart.js, Contex, custom SVG). Three new JS hooks: `PureAdminKpiTile` (cursor-anchored Floating UI popover), `PureAdminKpiSparkDot`, `PureAdminKpiTerminalTabs`.
-- **`Modal` — new `is_banded` boolean**; **`gauge/1` rebuild** (label moved outside the donut, new `:size` attr emitting `--pa-gauge-size`); **`Stat` — 5-step sentiment scale** on hero deltas (`very_positive` / `very_negative` added; neutral shifted to `--pa-neutral`).
-- **Bump `@keenmate/pure-admin-core` to `^2.8.0`** — canonical role tokens (`--pa-success`/`-warning`/`-danger`/`-info`), 5-step sentiment scale, text-contrast tiers, surface tints, link tokens, plus v2.8.0's architectural fix that emits CSS variable defaults at `:root` in the unthemed bundle (kills the FOUC near-black sparklines / deltas).
-- **Pure-admin v2.5.0 alert sync (Breaking)** — `Alert` drops the `pa-alert__content` wrapper when no `:icon` slot is supplied. New `heading_size="lg"` opts back into the louder punchy heading (defaults are now compact, so existing alerts using `<:heading>` / `heading_text` will render smaller until you pass `heading_size="lg"`). New `is_multiline` boolean for icon + multi-line content. `Pager` icon attrs no longer use `Phoenix.HTML.raw/1` — defaults are now Unicode chevrons; markup icons go through new `:first_icon` / `:previous_icon` / `:next_icon` / `:last_icon` slots.
-- **Strict-CSP support + safe URL handling.** Every inline `onclick=` / `<script>` removed from component templates; behaviour lives in a single delegated-events module exposed via the new **`initPureAdminEvents()`** export. New `PureAdmin.Helpers.safe_url/2` deny-list URL validator applied automatically across link-bearing components (`button/1`, `pa_link/1`, `navbar_nav_item/1`, `sidebar_item/1`, `profile_nav_item/1`). Flash markdown links + profile-panel favourites use the same check. Apps can now ship with `script-src 'self'`.
-
-See the full [CHANGELOG](CHANGELOG.md) for everything that landed.
 
 ## Prerequisites
 
