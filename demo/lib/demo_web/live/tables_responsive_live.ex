@@ -60,7 +60,7 @@ defmodule DemoWeb.Live.TablesResponsiveLive do
   """
 
   @code_in_card ~S"""
-  <.card title_text="Users" has_padding={false}>
+  <.table_card title_text="Users">
     <.table rows={@users} is_responsive>
       <:col :let={row} label="Name">{row.name}</:col>
       <:col :let={row} label="Email">{row.email}</:col>
@@ -68,7 +68,7 @@ defmodule DemoWeb.Live.TablesResponsiveLive do
         <.badge variant="success">{row.status}</.badge>
       </:col>
     </.table>
-  </.card>
+  </.table_card>
   """
 
   @code_key_points ~S"""
@@ -79,7 +79,7 @@ defmodule DemoWeb.Live.TablesResponsiveLive do
 
   <%!-- Combine with table variants --%>
   <.table rows={@data} is_responsive is_striped />
-  <.table rows={@data} is_responsive is_hover />
+  <.table rows={@data} is_responsive />
 
   <%!-- Actions column with button groups --%>
   <:action :let={row}>
@@ -196,7 +196,7 @@ defmodule DemoWeb.Live.TablesResponsiveLive do
     </.card>
 
     <%!-- Basic Responsive Table --%>
-    <.card has_padding={false} title_text="Basic Responsive Table">
+    <.table_card title_text="Basic Responsive Table">
       <:subtitle>Simple user data table with automatic mobile transformation</:subtitle>
       <.table rows={@users} is_responsive>
         <:col :let={row} label="ID">{row.id}</:col>
@@ -207,10 +207,10 @@ defmodule DemoWeb.Live.TablesResponsiveLive do
           <.badge variant={user_status_variant(row.status)} size="sm">{row.status}</.badge>
         </:col>
       </.table>
-    </.card>
+    </.table_card>
 
     <%!-- Product Catalog --%>
-    <.card has_padding={false} title_text="Product Catalog">
+    <.table_card title_text="Product Catalog">
       <:subtitle>E-commerce product table with prices and stock status</:subtitle>
       <.table rows={@products} is_responsive is_striped>
         <:action :let={_p}>
@@ -227,10 +227,10 @@ defmodule DemoWeb.Live.TablesResponsiveLive do
         </:col>
         <:col :let={p} label="Rating">{"⭐⭐⭐⭐⭐ (#{p.rating})"}</:col>
       </.table>
-    </.card>
+    </.table_card>
 
     <%!-- Recent Orders --%>
-    <.card has_padding={false} title_text="Recent Orders">
+    <.table_card title_text="Recent Orders">
       <:subtitle>Order management table with dates, customers, and amounts</:subtitle>
       <.table rows={@orders} is_responsive>
         <:action :let={_o}>
@@ -245,10 +245,10 @@ defmodule DemoWeb.Live.TablesResponsiveLive do
           <.badge variant={order_status_variant(o.status)} size="sm">{o.status}</.badge>
         </:col>
       </.table>
-    </.card>
+    </.table_card>
 
     <%!-- CSS Grid Custom Layouts --%>
-    <.card has_padding={false} title_text="CSS Grid Custom Layouts">
+    <.table_card title_text="CSS Grid Custom Layouts">
       <:subtitle>Use <.code>.pa-table--responsive-grid</.code> for custom multi-column mobile layouts</:subtitle>
       <table class="pa-table pa-table--responsive-grid pa-table--striped">
         <thead>
@@ -287,7 +287,7 @@ defmodule DemoWeb.Live.TablesResponsiveLive do
           First name and last name appear side-by-side, email and status span full width, phone and department are on the same row.
         </.alert>
       </:footer>
-    </.card>
+    </.table_card>
 
     <%!-- HTML Implementation --%>
     <.card title_text="HTML Implementation">

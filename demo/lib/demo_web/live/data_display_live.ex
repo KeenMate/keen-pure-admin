@@ -374,7 +374,7 @@ defmodule DemoWeb.Live.DataDisplayLive do
         <.table rows={[
           %{product: "Mechanical Keyboard", sku: "KB-MX-BRN", qty: "2", price: "$149", total: "$298"},
           %{product: "27\" 4K Monitor", sku: "MON-27-4K", qty: "4", price: "$449", total: "$1,796"}
-        ]} is_striped is_hover>
+        ]} is_striped>
           <:col :let={row} label="Product">{row.product}</:col>
           <:col :let={row} label="SKU">{row.sku}</:col>
           <:col :let={row} label="Qty" align="end">{row.qty}</:col>

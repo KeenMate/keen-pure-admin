@@ -417,7 +417,7 @@ defmodule DemoWeb.Live.FormDemoLive do
         No submissions yet. Fill in the form above and click <strong>Save Entry</strong>.
       </.callout>
 
-      <.table :if={@entries != []} rows={@entries} is_striped is_hover>
+      <.table :if={@entries != []} rows={@entries} is_striped>
         <:col :let={e} label="Name">{full_name(e)}</:col>
         <:col :let={e} label="Email">
           <a href={"mailto:" <> e.email} class="pa-link">{e.email}</a>

@@ -2,7 +2,7 @@ defmodule PureAdmin.Components.Table do
   @moduledoc """
   Table components for Pure Admin.
 
-  Provides `table/1`, `table_responsive/1`, `table_container/1`, and `table_card/1`.
+  Provides `table/1`, `table_container/1`, and `table_card/1`.
   """
   use Phoenix.Component
 
@@ -15,7 +15,7 @@ defmodule PureAdmin.Components.Table do
 
   ## Examples
 
-      <.table rows={@users} is_striped is_hover>
+      <.table rows={@users} is_striped>
         <:col :let={user} label="Name"><%= user.name %></:col>
         <:col :let={user} label="Email"><%= user.email %></:col>
         <:action :let={user}>
@@ -28,11 +28,14 @@ defmodule PureAdmin.Components.Table do
   attr(:row_id, :any, default: nil, doc: "Function to generate row id from row data")
   attr(:row_click, :any, default: nil, doc: "JS command for row click")
   attr(:is_striped, :boolean, default: false, doc: "Alternating row colors")
-  attr(:is_hover, :boolean, default: false, doc: "Hover effect on rows")
+  # Note: former `is_hover` / `is_borderless` attrs emitted `pa-table--hover` /
+  # `pa-table--borderless`, neither of which exists in core. Row hover is ON by
+  # DEFAULT (`.pa-table tbody tr:hover`), and the default table is already
+  # borderless (`pa-table--bordered` is the opt-in). Both attrs were no-ops and
+  # were dropped.
   attr(:is_bordered, :boolean, default: false, doc: "Full cell borders on all sides")
-  attr(:is_borderless, :boolean, default: false, doc: "Remove all cell borders")
   attr(:is_compact, :boolean, default: false, doc: "Compact table (reduced padding)")
-  attr(:is_responsive, :boolean, default: false, doc: "Wrap in responsive scrolling container")
+  attr(:is_responsive, :boolean, default: false, doc: "Mobile row→card transform (pa-table--responsive)")
   attr(:is_responsive_grid, :boolean, default: false, doc: "CSS Grid responsive collapse on mobile")
   attr(:size, :string, default: nil, values: [nil, "xs", "sm", "lg", "xl"])
   attr(:class, :string, default: nil)
@@ -58,14 +61,11 @@ defmodule PureAdmin.Components.Table do
         assign(assigns, row_id: assigns.row_id || fn {id, _item} -> id end)
       end
 
+    # `is_responsive` is expressed entirely by the `pa-table--responsive`
+    # modifier on the <table> (the mobile row→card transform). No wrapper is
+    # needed — the old `.pa-table-responsive` div had no upstream CSS.
     ~H"""
-    <%= if @is_responsive do %>
-      <div class="pa-table-responsive">
-        <.table_inner {assigns} />
-      </div>
-    <% else %>
-      <.table_inner {assigns} />
-    <% end %>
+    <.table_inner {assigns} />
     """
   end
 
@@ -127,9 +127,7 @@ defmodule PureAdmin.Components.Table do
       "pa-table",
       [
         {"pa-table--striped", assigns.is_striped},
-        {"pa-table--hover", assigns.is_hover},
         {"pa-table--bordered", assigns.is_bordered},
-        {"pa-table--borderless", assigns.is_borderless},
         {"pa-table--responsive", assigns.is_responsive},
         {"pa-table--responsive-grid", assigns.is_responsive_grid},
         {"pa-table--#{effective_size}", effective_size != nil}
@@ -139,28 +137,11 @@ defmodule PureAdmin.Components.Table do
   end
 
   @doc """
-  Wraps a table in a responsive scrolling container.
+  Wraps a table in a bordered, horizontally-scrollable container with **no header**.
 
-  ## Examples
-
-      <.table_responsive>
-        <.table rows={@data}>...</.table>
-      </.table_responsive>
-  """
-  attr(:class, :string, default: nil)
-  attr(:rest, :global)
-  slot(:inner_block, required: true)
-
-  def table_responsive(assigns) do
-    ~H"""
-    <div class={build_classes("pa-table-responsive", [], @class)} {@rest}>
-      <%= render_slot(@inner_block) %>
-    </div>
-    """
-  end
-
-  @doc """
-  Wraps a table in a bordered container with scroll support.
+  This is one of the two blessed table-in-container shapes (the card-less one).
+  For a table that needs a header, actions, footer, or card chrome, use
+  `table_card/1` instead.
 
   ## Examples
 
@@ -168,12 +149,20 @@ defmodule PureAdmin.Components.Table do
         <.table rows={@data}>...</.table>
       </.table_container>
 
-      <.table_container is_panel title_text="Users">
-        <:actions><.button size="sm">Export</.button></:actions>
-        <.table rows={@data}>...</.table>
-      </.table_container>
+  > #### Deprecated: `is_panel` {: .warning}
+  >
+  > The `is_panel` mode emits `pa-table-container--panel` (plus
+  > `__header`/`__title`/`__actions`), which upstream deprecated in
+  > pure-admin-core 2.9.0-rc10 as a near-duplicate of `table_card/1`. It still
+  > renders (legacy tolerance) but is undocumented upstream and slated for
+  > removal in a future major. Use `table_card/1` for any table that needs a
+  > header/actions/footer.
   """
-  attr(:is_panel, :boolean, default: false, doc: "Card-like panel styling with shadow")
+  attr(:is_panel, :boolean,
+    default: false,
+    doc: "DEPRECATED (rc10): panel styling with header. Use table_card/1 instead."
+  )
+
   attr(:title_text, :string, default: nil, doc: "Header title (panel mode only)")
   attr(:class, :string, default: nil)
   attr(:rest, :global)
@@ -217,13 +206,18 @@ defmodule PureAdmin.Components.Table do
         </.table>
       </.table_card>
 
-      <.table_card title_text="Sales" variant="primary" is_scrollable>
+      <.table_card title_text="Sales" subtitle_text="Last 30 days" variant="primary" is_scrollable>
         <:actions><.button size="sm">Export</.button></:actions>
         <.table rows={@data}>...</.table>
         <:footer><.pager page={@page} total_pages={@total_pages} /></:footer>
       </.table_card>
   """
   attr(:title_text, :string, default: nil, doc: "Card title")
+
+  attr(:subtitle_text, :string,
+    default: nil,
+    doc: "Optional subtitle (rc11) — emits pa-table-card__description, flexes + truncates"
+  )
 
   attr(:variant, :string,
     default: nil,
@@ -242,12 +236,15 @@ defmodule PureAdmin.Components.Table do
   attr(:class, :string, default: nil)
   attr(:rest, :global)
   slot(:header, doc: "Custom header content (overrides title_text)")
+  slot(:subtitle, doc: "Subtitle content (overrides subtitle_text)")
   slot(:actions, doc: "Header action buttons")
   slot(:inner_block, required: true)
   slot(:footer, doc: "Footer content (e.g. pagination)")
 
   def table_card(assigns) do
-    has_header = assigns.header != [] || assigns.title_text != nil || assigns.actions != []
+    has_header =
+      assigns.header != [] || assigns.title_text != nil ||
+        assigns.subtitle_text != nil || assigns.subtitle != [] || assigns.actions != []
 
     assigns = assign(assigns, :has_header, has_header)
 
@@ -262,6 +259,9 @@ defmodule PureAdmin.Components.Table do
           <%= render_slot(@header) %>
         <% else %>
           <h3 :if={@title_text}><%= @title_text %></h3>
+          <p :if={@subtitle != [] || @subtitle_text} class="pa-table-card__description">
+            <%= if @subtitle != [], do: render_slot(@subtitle), else: @subtitle_text %>
+          </p>
         <% end %>
         <div :if={@actions != []} class="pa-table-card__actions">
           <%= render_slot(@actions) %>

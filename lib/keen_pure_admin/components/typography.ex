@@ -21,8 +21,11 @@ defmodule PureAdmin.Components.Typography do
     level = if is_binary(assigns.level), do: assigns.level, else: "#{assigns.level}"
     assigns = assign(assigns, :tag, "h#{level}")
 
+    # Core headings are bare semantic tags (`<h1>`..`<h6>`) with NO class — core
+    # defines no `pa-heading` (see snippets/typography.html). Emit the tag
+    # unclassed; callers add utilities via `class` (e.g. `pa-text--center`).
     ~H"""
-    <.dynamic_tag tag_name={@tag} class={build_classes("pa-heading", [], @class)} {@rest}>
+    <.dynamic_tag tag_name={@tag} class={@class} {@rest}>
       <%= render_slot(@inner_block) %>
     </.dynamic_tag>
     """
@@ -34,8 +37,10 @@ defmodule PureAdmin.Components.Typography do
   slot(:inner_block, required: true)
 
   def paragraph(assigns) do
+    # Core's canonical paragraph is `<p class="pa-text">` (core defines no
+    # `pa-paragraph`). Matches keen's own `text/1`, which also uses `pa-text`.
     ~H"""
-    <p class={build_classes("pa-paragraph", [], @class)} {@rest}>
+    <p class={build_classes("pa-text", [], @class)} {@rest}>
       <%= render_slot(@inner_block) %>
     </p>
     """

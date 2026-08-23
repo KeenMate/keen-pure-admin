@@ -69,8 +69,11 @@ defmodule PureAdmin.Components.Popconfirm do
       |> assign(:cancel_text, assigns.cancel_text || t("pureAdmin.popconfirm.cancel"))
 
     ~H"""
+    <%!-- Anchor wrapper: keen can't attach the trigger data-attr to arbitrary
+         slot content, so it wraps the trigger. No `pa-popconfirm-wrapper` class —
+         that's not a core class (core's trigger is a bare sibling); the JS anchors
+         via `data-pa-popconfirm-trigger`, and inline-block/relative come from style. --%>
     <div
-      class="pa-popconfirm-wrapper"
       style="display: inline-block; position: relative;"
       data-pa-popconfirm-trigger={@id}
     >

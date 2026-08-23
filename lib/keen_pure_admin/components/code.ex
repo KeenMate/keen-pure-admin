@@ -89,6 +89,12 @@ defmodule PureAdmin.Components.Code do
     doc: "Filename shown in the header. Triggers the headered `.pa-code-block` form."
   )
 
+  attr(:copy_text, :string,
+    default: nil,
+    doc:
+      "When set, renders a canonical `📋 Copy` button in the `__header` (matching `snippets/code.html`), wired to keen's global `[data-pa-copy]` clipboard delegator to copy this exact string. Also triggers the headered `.pa-code-block` form (so copy works without a filename). A LiveView wrapper can't read the slot's rendered text server-side, so the copy source is passed explicitly here."
+  )
+
   attr(:is_compact, :boolean, default: false, doc: "Smaller padding and font size.")
   attr(:is_numbered, :boolean, default: false, doc: "Line-number gutter on the inline-start side.")
   attr(:class, :string, default: nil)
@@ -99,15 +105,25 @@ defmodule PureAdmin.Components.Code do
     assigns = assign(assigns, :resolved_language, resolve_language(assigns.language))
 
     ~H"""
-    <div :if={@filename} class={["pa-code-block", @class]} {@rest}>
+    <div :if={@filename || @copy_text} class={["pa-code-block", @class]} {@rest}>
       <div class="pa-code-block__header">
-        <span class="pa-code-block__title">{@filename}</span>
+        <span :if={@filename} class="pa-code-block__title">{@filename}</span>
+        <button
+          :if={@copy_text}
+          type="button"
+          class="pa-btn pa-btn--xs pa-btn--secondary"
+          data-pa-copy
+          data-copy-value={@copy_text}
+        >
+          <span class="pa-btn__icon"><i class="fa-solid fa-copy" aria-hidden="true"></i></span>
+          Copy
+        </button>
       </div>
       <div class="pa-code-block__body">
         <pre class={pre_classes(@resolved_language, @is_compact, @is_numbered, nil)}>{render_slot(@inner_block)}</pre>
       </div>
     </div>
-    <pre :if={!@filename} class={pre_classes(@resolved_language, @is_compact, @is_numbered, @class)} {@rest}>{render_slot(@inner_block)}</pre>
+    <pre :if={!(@filename || @copy_text)} class={pre_classes(@resolved_language, @is_compact, @is_numbered, @class)} {@rest}>{render_slot(@inner_block)}</pre>
     """
   end
 

@@ -126,17 +126,16 @@ defmodule PureAdmin.Components.List do
   # ─── Complex Structured Lists ───
 
   @doc "Renders a styled list container."
-  attr(:is_bordered, :boolean, default: false, doc: "Add borders between items")
   attr(:class, :string, default: nil)
   attr(:rest, :global)
   slot(:inner_block, required: true)
 
   def list(assigns) do
+    # The interactive `.pa-list` block ships NO bordered modifier in core (only
+    # `.pa-list-basic--bordered` exists, on `basic_list/1`). The former
+    # `is_bordered` attr emitted a dead `pa-list--bordered` class and was dropped.
     ~H"""
-    <div
-      class={build_classes("pa-list", [{"pa-list--bordered", @is_bordered}], @class)}
-      {@rest}
-    >
+    <div class={build_classes("pa-list", [], @class)} {@rest}>
       <%= render_slot(@inner_block) %>
     </div>
     """
@@ -182,17 +181,21 @@ defmodule PureAdmin.Components.List do
       <%= if @inner_block != [] && !@has_structured do %>
         <%= render_slot(@inner_block) %>
       <% else %>
+        <%!-- Canonical order: __meta lives INSIDE __content, stacked under
+             title/subtitle (see snippets/lists.html — every example nests it,
+             and the reference lists __meta under __content). It is NOT an
+             item-level sibling. --%>
         <div class="pa-list__content">
           <div :if={@title_text} class="pa-list__title"><%= @title_text %></div>
           <div :if={@subtitle_text} class="pa-list__subtitle"><%= @subtitle_text %></div>
-        </div>
-        <%= if @meta != [] do %>
-          <%= for meta <- @meta do %>
-            <%= render_slot(meta) %>
+          <%= if @meta != [] do %>
+            <%= for meta <- @meta do %>
+              <%= render_slot(meta) %>
+            <% end %>
+          <% else %>
+            <div :if={@meta_text} class="pa-list__meta"><%= @meta_text %></div>
           <% end %>
-        <% else %>
-          <div :if={@meta_text} class="pa-list__meta"><%= @meta_text %></div>
-        <% end %>
+        </div>
         <%= if @inner_block != [] do %>
           <%= render_slot(@inner_block) %>
         <% end %>

@@ -31,6 +31,11 @@ defmodule PureAdmin.Components.Timeline do
     doc: "Prevent mobile collapse for alternating variant"
   )
 
+  attr(:is_single_column, :boolean,
+    default: false,
+    doc: "Emit pa-timeline--single-column — collapse an alternating timeline to one side"
+  )
+
   attr(:class, :string, default: nil)
   attr(:rest, :global)
   slot(:inner_block, required: true)
@@ -45,7 +50,8 @@ defmodule PureAdmin.Components.Timeline do
       class={build_classes("pa-timeline", [
         {"pa-timeline--#{@variant}", @variant != nil},
         {"pa-timeline--#{@align}", @align != nil},
-        {"pa-timeline--keep-layout", @is_keep_layout}
+        {"pa-timeline--keep-layout", @is_keep_layout},
+        {"pa-timeline--single-column", @is_single_column}
       ], @class)}
       {@rest}
     >
@@ -135,14 +141,17 @@ defmodule PureAdmin.Components.Timeline do
           </div>
 
         <% true -> %>
-          <%!-- Simple layout: time + content --%>
+          <%!-- Simple layout: time (sibling) + content. Core's canonical in-content
+               title is a bare <h3> (see the alternating snippet) — NOT the invented
+               `pa-timeline__title` / `pa-timeline__meta` classes, which have zero SCSS.
+               Matches the icon/block branch above, which already emits <h3> + <p>. --%>
           <div :if={@time_text} class="pa-timeline__time"><%= @time_text %></div>
           <div class="pa-timeline__content">
             <%= for title <- @title do %>
-              <div class="pa-timeline__title"><%= render_slot(title) %></div>
+              <h3><%= render_slot(title) %></h3>
             <% end %>
             <%= for meta <- @meta do %>
-              <div class="pa-timeline__meta"><%= render_slot(meta) %></div>
+              <p><%= render_slot(meta) %></p>
             <% end %>
             <%= render_slot(@inner_block) %>
           </div>

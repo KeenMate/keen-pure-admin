@@ -425,6 +425,7 @@ defmodule PureAdmin.Components.Form do
   attr(:value, :string, required: true)
   attr(:checked, :boolean, default: false)
   attr(:label, :string, default: nil)
+  attr(:size, :string, default: nil, values: [nil, "xs", "sm", "lg", "xl"], doc: "Scales the native radio (emits pa-radio--{size})")
   attr(:class, :string, default: nil)
   attr(:rest, :global, include: ~w(disabled required form phx-change phx-click phx-debounce))
 
@@ -440,7 +441,7 @@ defmodule PureAdmin.Components.Form do
 
   def radio(assigns) do
     ~H"""
-    <label class={build_classes("pa-radio", [], @class)}>
+    <label class={build_classes("pa-radio", [{"pa-radio--#{@size}", @size != nil}], @class)}>
       <input type="radio" name={@name} id={@id} value={@value} checked={@checked} {@rest} />
       <%= @label %>
     </label>
@@ -567,20 +568,23 @@ defmodule PureAdmin.Components.Form do
       <.input_group>
         <.input type="text" name="search" placeholder="Search..." />
         <:button>
-          <.button variant="primary">Search</.button>
+          <%!-- The button addon MUST carry pa-input-group__button so it keeps
+               the group's joined border-radius (see snippets/forms.html). --%>
+          <.button variant="primary" class="pa-input-group__button">Search</.button>
         </:button>
       </.input_group>
   """
+  attr(:size, :string, default: nil, values: [nil, "xs", "sm", "lg", "xl"], doc: "Matches prepend/append height (emits pa-input-group--{size})")
   attr(:class, :string, default: nil)
   attr(:rest, :global)
   slot(:prepend, doc: "Left addon text")
   slot(:append, doc: "Right addon text")
-  slot(:button, doc: "Button addon")
+  slot(:button, doc: "Button addon — pass class=\"pa-input-group__button\" on the button so it keeps the group's joined radius")
   slot(:inner_block, required: true)
 
   def input_group(assigns) do
     ~H"""
-    <div class={build_classes("pa-input-group", [], @class)} {@rest}>
+    <div class={build_classes("pa-input-group", [{"pa-input-group--#{@size}", @size != nil}], @class)} {@rest}>
       <span :for={prepend <- @prepend} class="pa-input-group__prepend"><%= render_slot(prepend) %></span>
       <%= render_slot(@inner_block) %>
       <span :for={append <- @append} class="pa-input-group__append"><%= render_slot(append) %></span>
@@ -640,18 +644,19 @@ defmodule PureAdmin.Components.Form do
   """
   attr(:for, :any, required: true, doc: "Phoenix form struct or changeset")
   attr(:as, :any, default: nil)
-  attr(:is_inline, :boolean, default: false)
   attr(:class, :string, default: nil)
   attr(:rest, :global, include: ~w(phx-change phx-submit phx-target autocomplete))
   slot(:inner_block, required: true)
   slot(:actions, doc: "Form action buttons")
 
   def simple_form(assigns) do
+    # Note: former `is_inline` attr emitted `pa-form--inline`, which has no core
+    # CSS (core has no inline-form modifier) — dropped as a dead class.
     ~H"""
     <.form
       for={@for}
       as={@as}
-      class={build_classes("pa-form", [{"pa-form--inline", @is_inline}], @class)}
+      class={build_classes("pa-form", [], @class)}
       {@rest}
     >
       <%= render_slot(@inner_block) %>
@@ -696,7 +701,9 @@ defmodule PureAdmin.Components.Form do
     ~H"""
     <div class={build_classes("pa-input-wrapper", [], @class)} {@rest}>
       <%= render_slot(@inner_block) %>
-      <button :if={@has_clear} class="pa-input-wrapper__clear" type="button" phx-click={@on_clear}>×</button>
+      <button :if={@has_clear} class="pa-input-wrapper__clear" type="button" phx-click={@on_clear} aria-label="Clear">
+        <span class="pa-icon pa-icon--x" aria-hidden="true"></span>
+      </button>
     </div>
     """
   end

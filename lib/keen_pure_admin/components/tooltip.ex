@@ -54,7 +54,8 @@ defmodule PureAdmin.Components.Tooltip do
     <span
       class={build_classes("pa-tooltip", [
         {"pa-tooltip--floating", !@is_inline},
-        {"pa-tooltip--#{@position}", @position != nil},
+        # "top" is the default position — core defines no `pa-tooltip--top`.
+        {"pa-tooltip--#{@position}", @position not in [nil, "top"]},
         {"pa-tooltip--#{@variant}", @variant != nil},
         {"pa-tooltip--multiline", @multiline},
         {"pa-tooltip--help", @is_help},
@@ -119,7 +120,9 @@ defmodule PureAdmin.Components.Tooltip do
       <div class="pa-popover__content" data-placement={@placement}>
         <div class="pa-popover__header">
           <h4><%= @title_text %></h4>
-          <button class="pa-popover__close" data-pa-popover-close aria-label="Close">×</button>
+          <button class="pa-popover__close" data-pa-popover-close aria-label="Close">
+            <span class="pa-icon pa-icon--x" aria-hidden="true"></span>
+          </button>
         </div>
         <div class="pa-popover__body">
           <%= render_slot(@inner_block) %>

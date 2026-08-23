@@ -101,7 +101,7 @@ defmodule PureAdmin.Components.Modal do
             phx-click={JS.exec(@on_cancel, "phx-remove", to: "##{@id}")}
             aria-label={t("pureAdmin.a11y.close")}
           >
-            &#10005;
+            <span class="pa-icon pa-icon--x" aria-hidden="true"></span>
           </button>
         </div>
         <div class={body_classes(assigns)}>
@@ -139,10 +139,16 @@ defmodule PureAdmin.Components.Modal do
   end
 
   defp modal_classes(assigns) do
+    # Core has ONE variant knob: the root `.pa-modal--{variant}`, which colours
+    # the header (and, with `--banded`, the footer) via descendant rules. There
+    # is NO `pa-modal__header--{variant}` class. `header_variant` is a keen alias
+    # that core can't express independently, so it falls back into the root class.
+    variant = assigns.variant || assigns.header_variant
+
     build_classes(
       "pa-modal",
       [
-        {"pa-modal--#{assigns.variant}", assigns.variant != nil},
+        {"pa-modal--#{variant}", variant != nil},
         {"pa-modal--banded", assigns.is_banded},
         {"pa-modal--static", assigns.is_static},
         {"pa-modal--top", assigns.is_top}
@@ -152,18 +158,19 @@ defmodule PureAdmin.Components.Modal do
   end
 
   defp container_classes(assigns) do
+    # "md" is the default medium — core defines no `pa-modal__container--md`
+    # (sizes are sm / lg / xl / xxl / fw); a bare `.pa-modal__container` IS medium.
+    size = if assigns.size in [nil, "md"], do: nil, else: assigns.size
+
     build_classes("pa-modal__container", [
-      {"pa-modal__container--#{assigns.size}", assigns.size != nil}
+      {"pa-modal__container--#{size}", size != nil}
     ])
   end
 
-  defp header_classes(assigns) do
-    variant = assigns.header_variant || assigns.variant
-
-    build_classes("pa-modal__header", [
-      {"pa-modal__header--#{variant}", variant != nil}
-    ])
-  end
+  # Header colour comes from the root `.pa-modal--{variant}` (see modal_classes);
+  # `pa-modal__header--{variant}` does not exist in core, so the header carries
+  # only its base class.
+  defp header_classes(_assigns), do: "pa-modal__header"
 
   defp body_classes(assigns) do
     build_classes(

@@ -219,7 +219,11 @@ defmodule PureAdmin.Components.Stat do
     variant_class =
       case assigns.variant do
         "hero" -> "pa-stat--hero"
-        "hero-compact" -> "pa-stat--hero pa-stat--hero--compact"
+        # Core defines `pa-stat--hero-compact` as a standalone modifier (single
+        # dash; shares base with `--hero` via a comma selector). The old
+        # `pa-stat--hero--compact` was an invalid double-dash class that matched
+        # nothing, and pairing it with `--hero` was redundant.
+        "hero-compact" -> "pa-stat--hero-compact"
         "square" -> "pa-stat--square"
         _ -> nil
       end

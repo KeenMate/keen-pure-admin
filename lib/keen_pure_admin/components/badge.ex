@@ -35,7 +35,8 @@ defmodule PureAdmin.Components.Badge do
   attr(:theme_color, :string,
     default: nil,
     values: [nil, "1", "2", "3", "4", "5", "6", "7", "8", "9"],
-    doc: "Theme color 1-9"
+    doc:
+      "Theme colour slot 1-9. Emits `pa-badge--color-N` (v2.9.0-rc15+), which paints `--pa-color-N` with a guaranteed-contrasting `--pa-color-N-text` label — unlike the old generic `pa-bg-color-N` utility that only set the background and could land dark-text-on-dark."
   )
 
   attr(:class, :string, default: nil)
@@ -62,7 +63,7 @@ defmodule PureAdmin.Components.Badge do
         {"text-truncate", assigns.max_width != nil},
         {"pa-badge--pill", assigns.is_pill},
         {"pa-badge--ellipsis-start", assigns.is_ellipsis_start},
-        {"pa-bg-color-#{assigns.theme_color}", assigns.theme_color != nil}
+        {"pa-badge--color-#{assigns.theme_color}", assigns.theme_color != nil}
       ],
       assigns.class
     )

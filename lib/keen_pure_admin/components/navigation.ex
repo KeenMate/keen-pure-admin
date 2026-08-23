@@ -95,16 +95,20 @@ defmodule PureAdmin.Components.Navigation do
   attr(:tabs_id, :string, default: nil, doc: "ID of the parent tabs container (for JS switching)")
   attr(:is_active, :boolean, default: false)
 
+  # `width`/`height` emit `pa-tabs__item--w-{N}x` / `--h-{N}x` — fixed-size tabs
+  # (uniform-width strips, square icon tabs). The CSS for these is being added to
+  # core `_tabs.scss` (pure-admin session); until it ships they render as normal
+  # tabs. Retained so keen mirrors the forthcoming core contract. `Nx` = N rem.
   attr(:width, :string,
     default: nil,
     values: [nil, "1x", "2x", "3x", "4x", "5x", "6x", "7x", "8x", "9x", "10x"],
-    doc: "Fixed width"
+    doc: "Fixed tab width — emits pa-tabs__item--w-{N}x (core CSS pending)"
   )
 
   attr(:height, :string,
     default: nil,
     values: [nil, "1x", "2x", "3x", "4x", "5x", "6x", "7x", "8x", "9x", "10x"],
-    doc: "Fixed height"
+    doc: "Fixed tab height — emits pa-tabs__item--h-{N}x (core CSS pending)"
   )
 
   attr(:class, :string, default: nil)
