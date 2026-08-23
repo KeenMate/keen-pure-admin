@@ -158,3 +158,31 @@ the Notes column so the diff is obvious:
 ```
 | Alert | alerts.html | ⏳ | — | — | Re-audit queued — was ✅ at `512ef3c` 2026-04-24 |
 ```
+
+---
+
+## Sidebar coverage — remaining non-component pages (2026-08-23, `fe0cfdc`)
+
+Closing the sidebar sweep. These pages don't map to a core component snippet:
+
+- **Icons (`icon`/`faicon`/`heroicon`, `/phoenix/icons`) — N/A (no drift).** These
+  are icon-provider adapters, not pure-admin markup: `faicon` → `<i class="fa-{variant} fa-{name}">`,
+  `heroicon` → inline `<svg>`, `icon` dispatches (`hero-*` → heroicon, else FA `<i>`).
+  The only core icon *contract* is the masked `pa-icon`/`pa-icon--x` primitive, already
+  used correctly in every close/remove affordance (verified). Nothing to diff.
+- **Virtual scroll (`/virtual-scroll/demo`) — feature gap, no drift.** Core ships a
+  CSS-only `pa-virtual-table` (windowed table). keen does NOT componentise it and uses
+  **infinite scroll** instead (`phx-hook="PureAdminInfiniteScroll"` + `data-*` on a regular
+  table) — a different, LiveView-idiomatic pattern with ZERO `pa-*` structural classes, so
+  no invented-class risk. Gap: apps wanting the `pa-virtual-table` CSS render it by hand.
+- **Phoenix CoreComponents (`/phoenix/core-components`) — nothing new.** Re-showcases
+  already-audited components (card / callout / badge / …).
+- **Sizing demos (`/components/sizing`, `/tables/sizing`) — FIXED.** The width table listed
+  `wr-12/14/16/24/32/48`, which are **off** core's actual `wr-*` scale (1-10, then 15/20/25/…/50
+  in 5-rem steps) — those rows showcased non-existent utilities. Replaced with real scale
+  values (`wr-15/20/25/30/35/40/45/50`). All 23 sizing-demo utilities now verified present
+  in core CSS.
+
+**Sidebar sweep is now complete** — every component page has had at least a class-sweep;
+the 8 highest-traffic (forms, modal, tooltip, popconfirm, tabs, lists, buttons, +cards) also
+got the full structural live-DOM diff.

@@ -20,14 +20,14 @@ defmodule DemoWeb.Live.SizingLive do
         %{class: "wr-6", value: "6rem", desc: "Labels"},
         %{class: "wr-8", value: "8rem", desc: "Short inputs"},
         %{class: "wr-10", value: "10rem", desc: "Medium inputs"},
-        %{class: "wr-12", value: "12rem", desc: "Standard inputs"},
-        %{class: "wr-14", value: "14rem", desc: "Wide inputs"},
-        %{class: "wr-16", value: "16rem", desc: "Sidebars"},
+        %{class: "wr-15", value: "15rem", desc: "Standard inputs"},
         %{class: "wr-20", value: "20rem", desc: "Panels"},
-        %{class: "wr-24", value: "24rem", desc: "Cards"},
-        %{class: "wr-32", value: "32rem", desc: "Modals"},
+        %{class: "wr-25", value: "25rem", desc: "Cards"},
+        %{class: "wr-30", value: "30rem", desc: "Wide cards"},
+        %{class: "wr-35", value: "35rem", desc: "Sidebars"},
         %{class: "wr-40", value: "40rem", desc: "Content areas"},
-        %{class: "wr-48", value: "48rem", desc: "Wide content"}
+        %{class: "wr-45", value: "45rem", desc: "Wide content"},
+        %{class: "wr-50", value: "50rem", desc: "Extra wide"}
       ]} is_striped>
         <:col :let={row} label="Class"><code>.{row.class}</code></:col>
         <:col :let={row} label="Width">{row.value}</:col>
