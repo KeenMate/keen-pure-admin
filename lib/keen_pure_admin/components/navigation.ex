@@ -40,6 +40,13 @@ defmodule PureAdmin.Components.Navigation do
   attr(:size, :string, default: nil, values: [nil, "sm", "lg"])
   attr(:align, :string, default: nil, values: [nil, "centered", "full"])
   attr(:overflow, :string, default: nil, values: [nil, "nowrap", "scrollable", "collapse"])
+
+  attr(:is_wrap_labels, :boolean,
+    default: false,
+    doc:
+      "Emit pa-tabs--wrap-labels: let long tab titles wrap to multiple lines (items are white-space:nowrap by default) with a unified row height. Pair with a maxwr-* width cap on the item to choose the wrap point."
+  )
+
   attr(:class, :string, default: nil)
   attr(:rest, :global)
   slot(:inner_block, required: true)
@@ -73,7 +80,8 @@ defmodule PureAdmin.Components.Navigation do
         {"pa-tabs--#{effective_style}", effective_style != nil},
         {"pa-tabs--#{assigns.size}", assigns.size != nil},
         {"pa-tabs--#{assigns.align}", assigns.align != nil},
-        {"pa-tabs--#{assigns.overflow}", assigns.overflow != nil}
+        {"pa-tabs--#{assigns.overflow}", assigns.overflow != nil},
+        {"pa-tabs--wrap-labels", assigns.is_wrap_labels}
       ],
       assigns.class
     )
@@ -95,22 +103,12 @@ defmodule PureAdmin.Components.Navigation do
   attr(:tabs_id, :string, default: nil, doc: "ID of the parent tabs container (for JS switching)")
   attr(:is_active, :boolean, default: false)
 
-  # `width`/`height` emit `pa-tabs__item--w-{N}x` / `--h-{N}x` — fixed-size tabs
-  # (uniform-width strips, square icon tabs). The CSS for these is being added to
-  # core `_tabs.scss` (pure-admin session); until it ships they render as normal
-  # tabs. Retained so keen mirrors the forthcoming core contract. `Nx` = N rem.
-  attr(:width, :string,
-    default: nil,
-    values: [nil, "1x", "2x", "3x", "4x", "5x", "6x", "7x", "8x", "9x", "10x"],
-    doc: "Fixed tab width — emits pa-tabs__item--w-{N}x (core CSS pending)"
-  )
-
-  attr(:height, :string,
-    default: nil,
-    values: [nil, "1x", "2x", "3x", "4x", "5x", "6x", "7x", "8x", "9x", "10x"],
-    doc: "Fixed tab height — emits pa-tabs__item--h-{N}x (core CSS pending)"
-  )
-
+  # Fixed-size tabs are done with the generic rem width/height utilities via
+  # `class`, NOT dedicated attrs: `minwr-N` (min-width), `maxwr-N` (max-width,
+  # pairs with the container's `is_wrap_labels`), `minhr-N` (min-height, e.g. a
+  # square icon tab = `class="minwr-3 minhr-3"`). Core resolved the fixed-size-tab
+  # design as `pa-tabs--wrap-labels` + these utilities and explicitly retired the
+  # old `pa-tabs__item--w-{N}x`/`--h-{N}x` scale (it never had matching CSS).
   attr(:class, :string, default: nil)
   attr(:rest, :global, include: ~w(disabled))
   slot(:icon, doc: "Icon content (rendered before text)")
@@ -140,9 +138,7 @@ defmodule PureAdmin.Components.Navigation do
     build_classes(
       "pa-tabs__item",
       [
-        {"pa-tabs__item--active", assigns.is_active},
-        {"pa-tabs__item--w-#{assigns.width}", assigns.width != nil},
-        {"pa-tabs__item--h-#{assigns.height}", assigns.height != nil}
+        {"pa-tabs__item--active", assigns.is_active}
       ],
       assigns.class
     )

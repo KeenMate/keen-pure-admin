@@ -135,14 +135,16 @@ defmodule DemoWeb.Live.TabsLive do
       <.column size="100" md="1-2">
         <.card title_text="Fixed Width Tabs">
           <.alert variant="info">
-            <strong>Available widths:</strong> Use <code>pa-tabs__item--w-1x</code> through <code>pa-tabs__item--w-10x</code> for 1rem to 10rem min-width.
+            <strong>Sizing:</strong> apply the rem width/height utilities on the tab item via <code>class</code> —
+            <code>minwr-N</code> (min-width), <code>maxwr-N</code> (max-width, pairs with <code>&lt;.tabs is_wrap_labels&gt;</code>),
+            and <code>minhr-N</code> (min-height; a square icon tab is <code>class="minwr-3 minhr-3"</code>).
           </.alert>
 
-          <.heading level={4}>6x Width (6rem each)</.heading>
+          <.heading level={4}>minwr-6 (6rem min-width each)</.heading>
           <.tabs id="fixed-6x-tabs">
-            <.tab_item tabs_id="fixed-6x-tabs" target="fixed-6x-1" is_active width="6x">View</.tab_item>
-            <.tab_item tabs_id="fixed-6x-tabs" target="fixed-6x-2" width="6x">Edit</.tab_item>
-            <.tab_item tabs_id="fixed-6x-tabs" target="fixed-6x-3" width="6x">Delete</.tab_item>
+            <.tab_item tabs_id="fixed-6x-tabs" target="fixed-6x-1" is_active class="minwr-6">View</.tab_item>
+            <.tab_item tabs_id="fixed-6x-tabs" target="fixed-6x-2" class="minwr-6">Edit</.tab_item>
+            <.tab_item tabs_id="fixed-6x-tabs" target="fixed-6x-3" class="minwr-6">Delete</.tab_item>
           </.tabs>
           <.tabs_content id="fixed-6x-tabs-content">
             <.tab_panel id="fixed-6x-1" is_active><.paragraph>Fixed width tabs maintain consistent sizing.</.paragraph></.tab_panel>
@@ -152,11 +154,11 @@ defmodule DemoWeb.Live.TabsLive do
 
           <.heading level={4} class="mt-6">8x Width (8rem each)</.heading>
           <.tabs id="fixed-8x-tabs">
-            <.tab_item tabs_id="fixed-8x-tabs" target="fixed-8x-1" is_active width="8x">
+            <.tab_item tabs_id="fixed-8x-tabs" target="fixed-8x-1" is_active class="minwr-8">
               <:icon><i class="fa-solid fa-chart-line"></i></:icon>
               <span>Dashboard</span>
             </.tab_item>
-            <.tab_item tabs_id="fixed-8x-tabs" target="fixed-8x-2" width="8x">
+            <.tab_item tabs_id="fixed-8x-tabs" target="fixed-8x-2" class="minwr-8">
               <:icon><i class="fa-solid fa-chart-bar"></i></:icon>
               <span>Analytics</span>
             </.tab_item>
@@ -164,6 +166,18 @@ defmodule DemoWeb.Live.TabsLive do
           <.tabs_content id="fixed-8x-tabs-content">
             <.tab_panel id="fixed-8x-1" is_active><.paragraph>Dashboard data.</.paragraph></.tab_panel>
             <.tab_panel id="fixed-8x-2"><.paragraph>Analytics data.</.paragraph></.tab_panel>
+          </.tabs_content>
+
+          <.heading level={4} class="mt-6">Wrap labels (multi-line titles, unified height)</.heading>
+          <.tabs id="wrap-tabs" is_wrap_labels>
+            <.tab_item tabs_id="wrap-tabs" target="wrap-1" is_active class="maxwr-15">Complaints and missed items</.tab_item>
+            <.tab_item tabs_id="wrap-tabs" target="wrap-2" class="maxwr-15">Orders</.tab_item>
+            <.tab_item tabs_id="wrap-tabs" target="wrap-3" class="maxwr-15">Returns and refunds</.tab_item>
+          </.tabs>
+          <.tabs_content id="wrap-tabs-content">
+            <.tab_panel id="wrap-1" is_active><.paragraph>Long labels wrap; all tabs share the tallest height.</.paragraph></.tab_panel>
+            <.tab_panel id="wrap-2"><.paragraph>Orders content.</.paragraph></.tab_panel>
+            <.tab_panel id="wrap-3"><.paragraph>Returns content.</.paragraph></.tab_panel>
           </.tabs_content>
         </.card>
       </.column>
@@ -481,16 +495,16 @@ defmodule DemoWeb.Live.TabsLive do
         <.card title_text="Icon-Only Tabs - Vertical">
           <.tabs_vertical_layout>
             <.tabs id="icon-vert-tabs" style="vertical" align="centered">
-              <.tab_item tabs_id="icon-vert-tabs" target="icon-vert-1" is_active width="3x" height="3x" class="pa-tooltip" data-tooltip="Home">
+              <.tab_item tabs_id="icon-vert-tabs" target="icon-vert-1" is_active class="minwr-3 minhr-3 pa-tooltip" data-tooltip="Home">
                 <i class="fa-solid fa-house"></i>
               </.tab_item>
-              <.tab_item tabs_id="icon-vert-tabs" target="icon-vert-2" width="3x" height="3x" class="pa-tooltip" data-tooltip="Profile">
+              <.tab_item tabs_id="icon-vert-tabs" target="icon-vert-2" class="minwr-3 minhr-3 pa-tooltip" data-tooltip="Profile">
                 <i class="fa-solid fa-user"></i>
               </.tab_item>
-              <.tab_item tabs_id="icon-vert-tabs" target="icon-vert-3" width="3x" height="3x" class="pa-tooltip" data-tooltip="Messages">
+              <.tab_item tabs_id="icon-vert-tabs" target="icon-vert-3" class="minwr-3 minhr-3 pa-tooltip" data-tooltip="Messages">
                 <i class="fa-solid fa-envelope"></i>
               </.tab_item>
-              <.tab_item tabs_id="icon-vert-tabs" target="icon-vert-4" width="3x" height="3x" class="pa-tooltip" data-tooltip="Settings">
+              <.tab_item tabs_id="icon-vert-tabs" target="icon-vert-4" class="minwr-3 minhr-3 pa-tooltip" data-tooltip="Settings">
                 <i class="fa-solid fa-gear"></i>
               </.tab_item>
             </.tabs>
@@ -550,15 +564,15 @@ defmodule DemoWeb.Live.TabsLive do
 
     <.tabs_vertical_layout>
       <.tabs id="standalone-vert-tabs" style="vertical">
-        <.tab_item tabs_id="standalone-vert-tabs" target="standalone-vert-1" is_active height="3x">
+        <.tab_item tabs_id="standalone-vert-tabs" target="standalone-vert-1" is_active class="minhr-3">
           <:icon><i class="fa-solid fa-house"></i></:icon>
           <span>Dashboard</span>
         </.tab_item>
-        <.tab_item tabs_id="standalone-vert-tabs" target="standalone-vert-2" height="3x">
+        <.tab_item tabs_id="standalone-vert-tabs" target="standalone-vert-2" class="minhr-3">
           <:icon><i class="fa-solid fa-chart-bar"></i></:icon>
           <span>Analytics</span>
         </.tab_item>
-        <.tab_item tabs_id="standalone-vert-tabs" target="standalone-vert-3" height="3x">
+        <.tab_item tabs_id="standalone-vert-tabs" target="standalone-vert-3" class="minhr-3">
           <:icon><i class="fa-solid fa-users"></i></:icon>
           <span>Users</span>
         </.tab_item>
@@ -659,15 +673,15 @@ defmodule DemoWeb.Live.TabsLive do
 
     <.tabs_vertical_layout is_bordered>
       <.tabs id="bordered-vert-tabs" style="vertical">
-        <.tab_item tabs_id="bordered-vert-tabs" target="bordered-vert-1" is_active height="3x">
+        <.tab_item tabs_id="bordered-vert-tabs" target="bordered-vert-1" is_active class="minhr-3">
           <:icon><i class="fa-solid fa-gauge"></i></:icon>
           <span>Overview</span>
         </.tab_item>
-        <.tab_item tabs_id="bordered-vert-tabs" target="bordered-vert-2" height="3x">
+        <.tab_item tabs_id="bordered-vert-tabs" target="bordered-vert-2" class="minhr-3">
           <:icon><i class="fa-solid fa-chart-pie"></i></:icon>
           <span>Reports</span>
         </.tab_item>
-        <.tab_item tabs_id="bordered-vert-tabs" target="bordered-vert-3" height="3x">
+        <.tab_item tabs_id="bordered-vert-tabs" target="bordered-vert-3" class="minhr-3">
           <:icon><i class="fa-solid fa-gear"></i></:icon>
           <span>Settings</span>
         </.tab_item>
