@@ -135,12 +135,10 @@ defmodule DemoWeb.Live.TabsLive do
       <.column size="100" md="1-2">
         <.card title_text="Fixed Width Tabs">
           <.alert variant="info">
-            <strong>Sizing:</strong> apply the rem width/height utilities on the tab item via <code>class</code> —
-            <code>minwr-N</code> (min-width), <code>maxwr-N</code> (max-width, pairs with <code>&lt;.tabs is_wrap_labels&gt;</code>),
-            and <code>minhr-N</code> (min-height; a square icon tab is <code>class="minwr-3 minhr-3"</code>).
+            <strong>Sizing utilities:</strong> Use <code>minwr-&#123;n&#125;</code> / <code>wr-&#123;n&#125;</code> / <code>maxwr-&#123;n&#125;</code> (rem width) on a tab item — <code>n</code> = 1&ndash;10, 15, 20&hellip;50. <code>minwr-*</code> sets a floor (short labels align, long ones still grow); <code>wr-*</code> pins an exact width.
           </.alert>
 
-          <.heading level={4}>minwr-6 (6rem min-width each)</.heading>
+          <.heading level={4}>Min-width 6rem (minwr-6)</.heading>
           <.tabs id="fixed-6x-tabs">
             <.tab_item tabs_id="fixed-6x-tabs" target="fixed-6x-1" is_active class="minwr-6">View</.tab_item>
             <.tab_item tabs_id="fixed-6x-tabs" target="fixed-6x-2" class="minwr-6">Edit</.tab_item>
@@ -152,7 +150,7 @@ defmodule DemoWeb.Live.TabsLive do
             <.tab_panel id="fixed-6x-3"><.paragraph>Delete operations here.</.paragraph></.tab_panel>
           </.tabs_content>
 
-          <.heading level={4} class="mt-6">8x Width (8rem each)</.heading>
+          <.heading level={4} class="mt-6">Min-width 8rem with icons (minwr-8)</.heading>
           <.tabs id="fixed-8x-tabs">
             <.tab_item tabs_id="fixed-8x-tabs" target="fixed-8x-1" is_active class="minwr-8">
               <:icon><i class="fa-solid fa-chart-line"></i></:icon>
@@ -167,17 +165,51 @@ defmodule DemoWeb.Live.TabsLive do
             <.tab_panel id="fixed-8x-1" is_active><.paragraph>Dashboard data.</.paragraph></.tab_panel>
             <.tab_panel id="fixed-8x-2"><.paragraph>Analytics data.</.paragraph></.tab_panel>
           </.tabs_content>
+        </.card>
+      </.column>
+    </.grid>
 
-          <.heading level={4} class="mt-6">Wrap labels (multi-line titles, unified height)</.heading>
-          <.tabs id="wrap-tabs" is_wrap_labels>
-            <.tab_item tabs_id="wrap-tabs" target="wrap-1" is_active class="maxwr-15">Complaints and missed items</.tab_item>
-            <.tab_item tabs_id="wrap-tabs" target="wrap-2" class="maxwr-15">Orders</.tab_item>
-            <.tab_item tabs_id="wrap-tabs" target="wrap-3" class="maxwr-15">Returns and refunds</.tab_item>
+    <%!-- Wrap Labels: multi-line titles with unified height --%>
+    <.grid>
+      <.column size="100">
+        <.card title_text="Wrap Labels (multi-line titles)">
+          <.alert variant="info">
+            <strong>The problem:</strong> an irregular label set like
+            <em>Orders / Invoices / Delivery sheets / Complaints and missed items</em>
+            looks bad both ways &mdash; <code>--full</code> stretches the short tabs into dead space,
+            and plain auto width leaves the long one huge and the edge ragged.
+            <code>pa-tabs--wrap-labels</code> lets the long title wrap; cap it with
+            <code>maxwr-*</code> to choose the wrap point. The row then keeps every tab as tall
+            as the wrapped one &mdash; no zig-zag &mdash; via the flex row's default
+            <code>align-items: stretch</code>.
+          </.alert>
+
+          <.heading level={4}>Default (auto width, no wrap) &mdash; ragged, long tab dominates</.heading>
+          <.tabs id="wl-auto-tabs">
+            <.tab_item tabs_id="wl-auto-tabs" target="wl-auto-1" is_active>Orders</.tab_item>
+            <.tab_item tabs_id="wl-auto-tabs" target="wl-auto-2">Invoices</.tab_item>
+            <.tab_item tabs_id="wl-auto-tabs" target="wl-auto-3">Delivery sheets</.tab_item>
+            <.tab_item tabs_id="wl-auto-tabs" target="wl-auto-4">Complaints and missed items</.tab_item>
           </.tabs>
-          <.tabs_content id="wrap-tabs-content">
-            <.tab_panel id="wrap-1" is_active><.paragraph>Long labels wrap; all tabs share the tallest height.</.paragraph></.tab_panel>
-            <.tab_panel id="wrap-2"><.paragraph>Orders content.</.paragraph></.tab_panel>
-            <.tab_panel id="wrap-3"><.paragraph>Returns content.</.paragraph></.tab_panel>
+          <.tabs_content id="wl-auto-tabs-content">
+            <.tab_panel id="wl-auto-1" is_active><.paragraph>Orders content.</.paragraph></.tab_panel>
+            <.tab_panel id="wl-auto-2"><.paragraph>Invoices content.</.paragraph></.tab_panel>
+            <.tab_panel id="wl-auto-3"><.paragraph>Delivery sheets content.</.paragraph></.tab_panel>
+            <.tab_panel id="wl-auto-4"><.paragraph>Complaints content.</.paragraph></.tab_panel>
+          </.tabs_content>
+
+          <.heading level={4} class="mt-6">With <code>&lt;.tabs is_wrap_labels&gt;</code> + <code>maxwr-15</code> on the long tab &mdash; tidy, level</.heading>
+          <.tabs id="wl-wrap-tabs" is_wrap_labels>
+            <.tab_item tabs_id="wl-wrap-tabs" target="wl-wrap-1" is_active>Orders</.tab_item>
+            <.tab_item tabs_id="wl-wrap-tabs" target="wl-wrap-2">Invoices</.tab_item>
+            <.tab_item tabs_id="wl-wrap-tabs" target="wl-wrap-3">Delivery sheets</.tab_item>
+            <.tab_item tabs_id="wl-wrap-tabs" target="wl-wrap-4" class="maxwr-15">Complaints and missed items</.tab_item>
+          </.tabs>
+          <.tabs_content id="wl-wrap-tabs-content">
+            <.tab_panel id="wl-wrap-1" is_active><.paragraph>Orders content &mdash; the long tab wraps to two lines; the short tabs stretch to match its height.</.paragraph></.tab_panel>
+            <.tab_panel id="wl-wrap-2"><.paragraph>Invoices content.</.paragraph></.tab_panel>
+            <.tab_panel id="wl-wrap-3"><.paragraph>Delivery sheets content.</.paragraph></.tab_panel>
+            <.tab_panel id="wl-wrap-4"><.paragraph>Complaints content.</.paragraph></.tab_panel>
           </.tabs_content>
         </.card>
       </.column>
