@@ -186,3 +186,56 @@ Closing the sidebar sweep. These pages don't map to a core component snippet:
 **Sidebar sweep is now complete** — every component page has had at least a class-sweep;
 the 8 highest-traffic (forms, modal, tooltip, popconfirm, tabs, lists, buttons, +cards) also
 got the full structural live-DOM diff.
+
+---
+
+## Data-viz, Settings, Flash + KPI suite (2026-08-24, `fe0cfdc`)
+
+### DataViz (`data_viz.ex`) — FIXED
+Core styles semantic variants only; **`primary` is the default fill** (base
+`.pa-progress__fill { background: var(--pa-accent) }`) with no `--primary` rule.
+keen offered `variant="primary"` on `progress` / `progress_ring` / `gauge` /
+`sparkline` / `stacked_segment` / `data_bar`, emitting a **dead `--primary`
+class** each time. Fixed: suppress the modifier when `variant == "primary"`
+(kept in `values:` as the documented default alias — same precedent as tooltip
+`--top` / modal `size="md"`). Also:
+- **heatmap** offered `warning`/`info` variants that core never styles
+  (core heatmap = `success` + `danger` cell ramps + `--compact` only) → dropped
+  `warning`/`info` from `values:`, exposed the real `is_compact` → `pa-heatmap--compact`.
+- **data_bar** now exposes core's real `pa-data-bar--negative` (was missing).
+Regression test: `test/keen_pure_admin/components/data_viz_test.exs` (7 tests).
+
+### Settings panel (`settings_panel.ex`) — CLEAN
+Every emitted class (`pa-settings-panel__toggle/content/title/section/label/
+select/checkbox-group/checkbox/hint`, `pa-btn--block`) exists in core. No drift.
+
+### Flash (`flash.ex`) — FIXED (minor)
+`flash/1` uses core `pa-alert` + `pa-icon--x` (audited, correct). Dropped the
+off-contract **`pa-flash-container`** class from `flash_container/1` — it has
+zero core CSS and zero JS references (the hook uses `data-container-id` +
+`phx-hook`), a `pa-`-prefixed marker implying a core contract that doesn't exist
+(same pattern as the popconfirm-wrapper drop). The div + its functional attrs
+stay; only the phantom class is gone.
+
+### KPI suite — 8/9 CLEAN, 1 FIXED
+Parallel structural audit of all 9 keen KPI files vs their `_kpi-*.scss`
+counterparts + built CSS (every interpolated modifier resolved against
+`values:` lists / Elixir maps):
+- **CLEAN:** `kpi.ex`, `kpi_detail.ex`, `kpi_bento.ex`, `kpi_terminal.ex`,
+  `kpi_editorial.ex`, `kpi_gauge_list.ex`, `kpi_hero.ex`, `kpi_sparkline_list.ex`.
+  Every emitted class maps to a real core rule; modifiers gated on non-nil so no
+  dead-default leaks; sparkline correctly uses TWO ramps (row `--up-strong…` vs
+  delta `--very-positive…`).
+- **`kpi_strip.ex` — FIXED (real bug).** `head_cell_classes/1` dasherized the
+  full column atom → emitted `pa-kpi-strip__head--previous-value/-delta-percent/
+  -target-bar` + nonexistent `--metric`/`--now`. Core blesses only the SHORT
+  forms `--prev`/`--delta`/`--target` (which the `--no-prev`/`--no-delta`/
+  `--no-target` hide rules target) + `--num`. Five invented no-op classes that
+  also silently broke the header-hide rules. Fixed via a `@head_modifiers`
+  atom→short-name map; `metric`/`now` head cells now carry no modifier (matches
+  core). Regression test: `test/keen_pure_admin/components/kpi_strip_test.exs`.
+
+Low-priority MISSING-FEATURE notes (not drift): bento/hero `__chart-svg` inner
+wrapper is the slot author's responsibility (keen emits only `__chart`);
+editorial footer `<strong>` emphasis not surfaced. Full keen suite green
+(164 tests + 16 doctests).

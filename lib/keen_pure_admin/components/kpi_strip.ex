@@ -32,6 +32,16 @@ defmodule PureAdmin.Components.KpiStrip do
 
   @numeric_columns [:now, :previous_value, :delta_percent]
 
+  # Core (`_kpi-numeric-strip.scss`) blesses only the short head modifiers
+  # `--prev` / `--delta` / `--target` (the `--no-*` hide rules target these);
+  # `metric` / `now` head cells carry no modifier. Map the column atoms to the
+  # blessed names rather than dasherizing the full atom.
+  @head_modifiers %{
+    previous_value: "prev",
+    delta_percent: "delta",
+    target_bar: "target"
+  }
+
   # ----------------------------------------------------------------------
   # kpi_strip/1
   # ----------------------------------------------------------------------
@@ -131,9 +141,11 @@ defmodule PureAdmin.Components.KpiStrip do
   defp label_of(col, overrides), do: Map.get(overrides, col) || Map.fetch!(@default_header_labels, col)
 
   defp head_cell_classes(col) do
+    modifier = Map.get(@head_modifiers, col)
+
     build_classes("pa-kpi-strip__head", [
       {"pa-kpi-strip__head--num", col in @numeric_columns},
-      {"pa-kpi-strip__head--#{col |> Atom.to_string() |> String.replace("_", "-")}", true}
+      {"pa-kpi-strip__head--#{modifier}", modifier != nil}
     ])
   end
 

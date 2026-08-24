@@ -107,7 +107,7 @@ defmodule PureAdmin.Components.Flash do
         phx-click={@dismiss_cmd}
         aria-label={t("pureAdmin.a11y.close")}
       >
-        <span aria-hidden="true">&times;</span>
+        <span class="pa-icon pa-icon--x" aria-hidden="true"></span>
       </button>
     </div>
     """
@@ -246,7 +246,7 @@ defmodule PureAdmin.Components.Flash do
       id={@id}
       phx-hook="PureAdminFlash"
       data-container-id={@id}
-      class={build_classes("pa-flash-container", [], @class)}
+      class={@class}
       aria-live="polite"
       {@rest}
     >

@@ -31,7 +31,7 @@ defmodule PureAdmin.Components.DataViz do
   def progress(assigns) do
     ~H"""
     <div class={build_classes("pa-progress", [
-      {"pa-progress--#{@variant}", @variant != nil},
+      {"pa-progress--#{@variant}", @variant not in [nil, "primary"]},
       {"pa-progress--#{@size}", @size != nil},
       {"pa-progress--striped", @is_striped},
       {"pa-progress--animated", @is_animated},
@@ -109,7 +109,7 @@ defmodule PureAdmin.Components.DataViz do
 
   def stacked_segment(assigns) do
     ~H"""
-    <div class={build_classes("pa-stacked-bar__segment", [{"pa-stacked-bar__segment--#{@variant}", @variant != nil}])} style={"--value: #{@value}%"}></div>
+    <div class={build_classes("pa-stacked-bar__segment", [{"pa-stacked-bar__segment--#{@variant}", @variant not in [nil, "primary"]}])} style={"--value: #{@value}%"}></div>
     """
   end
 
@@ -160,7 +160,7 @@ defmodule PureAdmin.Components.DataViz do
   def progress_ring(assigns) do
     ~H"""
     <div class={build_classes("pa-progress-ring", [
-      {"pa-progress-ring--#{@variant}", @variant != nil},
+      {"pa-progress-ring--#{@variant}", @variant not in [nil, "primary"]},
       {"pa-progress-ring--#{@size}", @size != nil}
     ], @class)} style={"--value: #{@value}"} {@rest}>
       <div class="pa-progress-ring__inner">
@@ -209,7 +209,7 @@ defmodule PureAdmin.Components.DataViz do
     ~H"""
     <div class="text-center">
       <div class={build_classes("pa-gauge", [
-        {"pa-gauge--#{@variant}", @variant != nil},
+        {"pa-gauge--#{@variant}", @variant not in [nil, "primary"]},
         {"pa-gauge--zones", @is_zones}
       ], @class)} style={gauge_style(@value, @size)} {@rest}>
         <div class="pa-gauge__inner">
@@ -236,12 +236,12 @@ defmodule PureAdmin.Components.DataViz do
       <.data_bar value={95} variant="success" />
   """
   attr(:value, :integer, required: true, doc: "Percentage (0-100)")
-  attr(:variant, :string, default: nil, values: [nil, "primary", "success", "warning", "danger", "info"])
+  attr(:variant, :string, default: nil, values: [nil, "primary", "success", "warning", "danger", "info", "negative"])
   attr(:class, :string, default: nil)
 
   def data_bar(assigns) do
     ~H"""
-    <div class={build_classes("pa-data-bar", [{"pa-data-bar--#{@variant}", @variant != nil}], @class)}>
+    <div class={build_classes("pa-data-bar", [{"pa-data-bar--#{@variant}", @variant not in [nil, "primary"]}], @class)}>
       <div class="pa-data-bar__track">
         <div class="pa-data-bar__fill" style={"--value: #{@value}%"}></div>
       </div>
@@ -260,13 +260,17 @@ defmodule PureAdmin.Components.DataViz do
   """
   attr(:columns, :integer, required: true, doc: "Number of columns in grid")
   attr(:levels, :list, required: true, doc: "List of level values (0-4)")
-  attr(:variant, :string, default: nil, values: [nil, "success", "warning", "danger", "info"])
+  attr(:variant, :string, default: nil, values: [nil, "success", "danger"], doc: "Core only styles success/danger cell ramps")
+  attr(:is_compact, :boolean, default: false, doc: "Denser cells (pa-heatmap--compact)")
   attr(:class, :string, default: nil)
   attr(:rest, :global)
 
   def heatmap(assigns) do
     ~H"""
-    <div class={build_classes("pa-heatmap", [{"pa-heatmap--#{@variant}", @variant != nil}], @class)}
+    <div class={build_classes("pa-heatmap", [
+      {"pa-heatmap--#{@variant}", @variant != nil},
+      {"pa-heatmap--compact", @is_compact}
+    ], @class)}
          style={"grid-template-columns: repeat(#{@columns}, 1.2rem)"} {@rest}>
       <%= for level <- @levels do %>
         <div class="pa-heatmap__cell" data-level={level}></div>
@@ -309,7 +313,7 @@ defmodule PureAdmin.Components.DataViz do
   def sparkline(assigns) do
     ~H"""
     <div class={build_classes("pa-sparkline", [
-      {"pa-sparkline--#{@variant}", @variant != nil},
+      {"pa-sparkline--#{@variant}", @variant not in [nil, "primary"]},
       {"pa-sparkline--#{@size}", @size != nil}
     ], @class)} {@rest}>
       <%= for val <- @values do %>
