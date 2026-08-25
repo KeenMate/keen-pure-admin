@@ -27,12 +27,48 @@ defmodule PureAdmin.Components.CommandPalette do
       <.command_palette id="cmd" display="tokens" is_open={@cp_open} mode={@cp_mode} ... />
   """
   use Phoenix.Component
+  alias Phoenix.LiveView.JS
   import PureAdmin.Helpers
   import PureAdmin.Translations, only: [t: 1, t: 2]
+
+  @doc """
+  JS command that opens the command palette by id — wire it to any trigger
+  (e.g. `navbar_search/1`, `sidebar_search/1`) via `phx-click`.
+
+  It dispatches `pa:command-palette:open` to the palette element; the
+  `PureAdminCommandPalette` hook listens and toggles the palette open. This
+  avoids each trigger needing its own LiveView event plumbing.
+
+  ## Examples
+
+      <.navbar_search phx-click={show_command_palette()} />
+      <.sidebar_search phx-click={show_command_palette("my-palette")} />
+  """
+  def show_command_palette(js_or_id \\ %JS{}, id \\ "command-palette")
+
+  # Ergonomic single-arg id form: show_command_palette("my-palette").
+  def show_command_palette(id, _default) when is_binary(id) do
+    JS.dispatch(%JS{}, "pa:command-palette:open", to: "##{id}")
+  end
+
+  # Piped/default form: show_command_palette() or JS.push(...) |> show_command_palette("id").
+  def show_command_palette(js, id) do
+    JS.dispatch(js, "pa:command-palette:open", to: "##{id}")
+  end
 
   attr(:id, :string, default: "command-palette")
   attr(:is_open, :boolean, default: false)
   attr(:query, :string, default: "")
+
+  # Size preset (rc15): sets container width + results height together. For an
+  # arbitrary size, leave this nil and override the runtime CSS variables
+  # (`--pa-command-palette-width` / `-offset-top` / `-results-max-height`) at
+  # `:root`, inline, or per-instance instead — no recompile needed.
+  attr(:size, :string,
+    default: nil,
+    values: [nil, "sm", "lg", "xl"],
+    doc: "Size preset: sm (48/28.8rem), lg (76.8/51.2rem), xl (89.6/64rem); nil keeps the 60.8/38.4rem default."
+  )
 
   # Display style
   attr(:display, :string,
@@ -110,7 +146,7 @@ defmodule PureAdmin.Components.CommandPalette do
     ~H"""
     <div
       id={@id}
-      class={build_classes("pa-command-palette", [{"pa-command-palette--active", @is_open}], @class)}
+      class={build_classes("pa-command-palette", [{"pa-command-palette--active", @is_open}, {"pa-command-palette--#{@size}", @size != nil}], @class)}
       phx-hook="PureAdminCommandPalette"
       data-mode={@mode}
       data-display={@display}
@@ -180,7 +216,7 @@ defmodule PureAdmin.Components.CommandPalette do
         ])}>
           <%= if @is_loading and @results == [] do %>
             <div class="pa-command-palette__loader">
-              <div class="pa-spinner pa-spinner--sm pa-spinner--primary"></div>
+              <div class="pa-spinner pa-spinner--primary"></div>
               <span><%= t("pureAdmin.commandPalette.searching") %></span>
             </div>
           <% else %>
@@ -240,8 +276,8 @@ defmodule PureAdmin.Components.CommandPalette do
                       </div>
                     </div>
                     <span :if={item[:badge]} class="pa-badge"><%= item[:badge] %></span>
-                    <div :if={item[:shortcut]} class="pa-command-palette__item-shortcut">
-                      <code><%= item[:shortcut] %></code>
+                    <div :if={item[:shortcut]} class="pa-command-palette__shortcut">
+                      <span class="pa-command-palette__key"><%= item[:shortcut] %></span>
                     </div>
                   </div>
                 <% end %>

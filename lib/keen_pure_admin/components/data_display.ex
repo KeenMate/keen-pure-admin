@@ -161,7 +161,7 @@ defmodule PureAdmin.Components.DataDisplay do
   def field_group(assigns) do
     ~H"""
     <div class={build_classes("pa-field-group", [], @class)} {@rest}>
-      <div class="pa-field-group__title"><%= @title %></div>
+      <h3 class="pa-field-group__title"><%= @title %></h3>
       <%= render_slot(@inner_block) %>
     </div>
     """
@@ -422,8 +422,8 @@ defmodule PureAdmin.Components.DataDisplay do
   ## Examples
 
       <.accent_grid>
-        <.accent_grid_item label="Revenue" value="$12,430" color="1" />
-        <.accent_grid_item label="Orders" value="847" color="2" />
+        <.accent_grid_item label="Revenue" value="$12,430" variant="success" />
+        <.accent_grid_item label="Orders" value="847" variant="info" />
       </.accent_grid>
   """
   attr(:class, :string, default: nil)
@@ -442,16 +442,12 @@ defmodule PureAdmin.Components.DataDisplay do
   attr(:label, :string, required: true)
   attr(:value, :string, required: true)
 
-  attr(:color, :string,
-    default: nil,
-    values: [nil, "1", "2", "3", "4", "5", "6", "7", "8", "9"],
-    doc: "Accent color 1-9"
-  )
-
+  # Core defines accent-grid item accents ONLY as the four semantic variants —
+  # there is no `--color-{1..9}` nor `--primary` (verified against main.css).
   attr(:variant, :string,
     default: nil,
-    values: [nil, "primary", "success", "warning", "danger", "info"],
-    doc: "Semantic color variant"
+    values: [nil, "success", "warning", "danger", "info"],
+    doc: "Semantic accent variant (success/warning/danger/info)"
   )
 
   attr(:class, :string, default: nil)
@@ -459,7 +455,6 @@ defmodule PureAdmin.Components.DataDisplay do
   def accent_grid_item(assigns) do
     ~H"""
     <div class={build_classes("pa-accent-grid__item", [
-      {"pa-accent-grid__item--color-#{@color}", @color != nil},
       {"pa-accent-grid__item--#{@variant}", @variant != nil}
     ], @class)}>
       <div class="pa-accent-grid__label"><%= @label %></div>

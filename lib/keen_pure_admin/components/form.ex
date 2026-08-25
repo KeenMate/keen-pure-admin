@@ -227,11 +227,15 @@ defmodule PureAdmin.Components.Form do
   end
 
   defp textarea_classes(assigns) do
+    # Core has NO `.pa-textarea--success/--warning/--error` border styling
+    # (unlike .pa-input/.pa-select). Textarea errors surface through the
+    # `pa-form-help--error` rendered below, not a border modifier
+    # (snippets/forms.html). `validation` stays declared for the shared
+    # field-binding path but emits no textarea class.
     build_classes(
       "pa-textarea",
       [
         {"pa-textarea--#{assigns.size}", assigns.size != nil},
-        {"pa-textarea--#{assigns.validation}", assigns.validation != nil},
         {"pa-textarea--color-#{assigns.color}", assigns.color != nil}
       ],
       assigns.class
@@ -460,9 +464,9 @@ defmodule PureAdmin.Components.Form do
         <.input type="email" name="email" id="email" />
       </.form_group>
 
-      <.form_group validation="error" is_required>
+      <.form_group validation="error">
         <.form_label for="name">Name</.form_label>
-        <.input type="text" name="name" id="name" />
+        <.input type="text" name="name" id="name" required />
         <.form_help variant="error">Name is required</.form_help>
       </.form_group>
   """
@@ -473,7 +477,14 @@ defmodule PureAdmin.Components.Form do
 
   attr(:label, :string, default: nil, doc: "Shorthand for a simple text label")
   attr(:validation, :string, default: nil, values: [nil, "success", "warning", "error"])
-  attr(:is_required, :boolean, default: false)
+
+  attr(:is_required, :boolean,
+    default: false,
+    doc:
+      "Deprecated no-op. Mark the control with the native `required` attribute instead — " <>
+        "core renders the required asterisk on the group's label automatically."
+  )
+
   attr(:is_horizontal, :boolean, default: false)
   attr(:class, :string, default: nil)
   attr(:rest, :global)
@@ -491,18 +502,21 @@ defmodule PureAdmin.Components.Form do
   def form_group(assigns) do
     ~H"""
     <div class={form_group_classes(assigns)} {@rest}>
-      <label :if={@label} class="pa-form-label"><%= @label %></label>
+      <label :if={@label}><%= @label %></label>
       <%= render_slot(@inner_block) %>
     </div>
     """
   end
 
   defp form_group_classes(assigns) do
+    # A <label> inside `.pa-form .pa-form-group` is auto-styled by core — there
+    # is NO `.pa-form-label` class (snippets/forms.html). And core defines no
+    # `.pa-form-group--required` rule; use the native `required` attr on the
+    # control instead. Only validation + horizontal are real modifiers.
     build_classes(
       "pa-form-group",
       [
         {"pa-form-group--#{assigns.validation}", assigns.validation != nil},
-        {"pa-form-group--required", assigns.is_required},
         {"pa-form-group--horizontal", assigns.is_horizontal}
       ],
       assigns.class
@@ -511,17 +525,33 @@ defmodule PureAdmin.Components.Form do
 
   @doc """
   Renders a form label.
+
+  The required asterisk is **attribute-driven**: mark the associated control with
+  the native `required` attribute and core renders the marker via
+  `.pa-form-group:has(:required) > label:not(.pa-checkbox):not(.pa-radio)::after`
+  (core 2.9.0+). The label needs no class and no manual asterisk.
   """
   attr(:for, :string, default: nil)
-  attr(:is_required, :boolean, default: false, doc: "Adds asterisk indicator")
+
+  attr(:is_required, :boolean,
+    default: false,
+    doc:
+      "Deprecated no-op. Requiredness is now driven by the native `required` attribute " <>
+        "on the control (core auto-renders the asterisk). Pass `required` to the input/select/textarea."
+  )
+
   attr(:class, :string, default: nil)
   attr(:rest, :global)
   slot(:inner_block, required: true)
 
   def form_label(assigns) do
+    # Core auto-styles a bare `<label>` inside `.pa-form-group` (no
+    # `.pa-form-label` class) and adds the required asterisk itself when the
+    # group holds a `:required` control — so keen emits a plain label with no
+    # manual asterisk (which would otherwise double up).
     ~H"""
-    <label for={@for} class={build_classes("pa-form-label", [{"pa-form-label--required", @is_required}], @class)} {@rest}>
-      <%= render_slot(@inner_block) %><span :if={@is_required} class="text-danger"> *</span>
+    <label for={@for} class={@class} {@rest}>
+      <%= render_slot(@inner_block) %>
     </label>
     """
   end
@@ -633,9 +663,9 @@ defmodule PureAdmin.Components.Form do
   ## Examples
 
       <.simple_form for={@form} phx-change="validate" phx-submit="save">
-        <.form_group is_required>
+        <.form_group>
           <.form_label for="name">Name</.form_label>
-          <.input type="text" name={@form[:name].name} value={@form[:name].value} />
+          <.input type="text" name={@form[:name].name} value={@form[:name].value} required />
         </.form_group>
         <:actions>
           <.button variant="primary" type="submit">Save</.button>

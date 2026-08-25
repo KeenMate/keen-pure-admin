@@ -97,22 +97,22 @@ defmodule DemoWeb.Live.ValidationsLive do
         <.grid>
           <.column size="100" md="50">
             <.form_group validation="error">
-              <.form_label is_required>Email Address</.form_label>
-              <.input type="email" value="invalid-email" validation="error" />
+              <.form_label>Email Address</.form_label>
+              <.input type="email" value="invalid-email" validation="error" required />
               <.form_help variant="error">Please enter a valid email address</.form_help>
             </.form_group>
           </.column>
           <.column size="100" md="50">
             <.form_group validation="error">
-              <.form_label is_required>Password</.form_label>
-              <.input type="password" value="123" validation="error" />
+              <.form_label>Password</.form_label>
+              <.input type="password" value="123" validation="error" required />
               <.form_help variant="error">Password must be at least 8 characters</.form_help>
             </.form_group>
           </.column>
           <.column size="100" md="50">
             <.form_group validation="success">
-              <.form_label is_required>Username</.form_label>
-              <.input type="text" value="johndoe" validation="success" />
+              <.form_label>Username</.form_label>
+              <.input type="text" value="johndoe" validation="success" required />
               <.form_help variant="success">Username is available</.form_help>
             </.form_group>
           </.column>
@@ -149,8 +149,8 @@ defmodule DemoWeb.Live.ValidationsLive do
         <.grid>
           <.column size="100" md="50">
             <.form_group validation="error">
-              <.form_label is_required>First Name</.form_label>
-              <.input type="text" placeholder="Enter first name" validation="error" />
+              <.form_label>First Name</.form_label>
+              <.input type="text" placeholder="Enter first name" validation="error" required />
             </.form_group>
           </.column>
           <.column size="100" md="50">
@@ -161,14 +161,14 @@ defmodule DemoWeb.Live.ValidationsLive do
           </.column>
           <.column size="100" md="50">
             <.form_group validation="error">
-              <.form_label is_required>Email</.form_label>
-              <.input type="email" value="not-an-email" validation="error" />
+              <.form_label>Email</.form_label>
+              <.input type="email" value="not-an-email" validation="error" required />
             </.form_group>
           </.column>
           <.column size="100" md="50">
             <.form_group validation="error">
-              <.form_label is_required>Password</.form_label>
-              <.input type="password" value="password" validation="error" />
+              <.form_label>Password</.form_label>
+              <.input type="password" value="password" validation="error" required />
             </.form_group>
           </.column>
           <.column size="100">
@@ -202,8 +202,8 @@ defmodule DemoWeb.Live.ValidationsLive do
         <.grid>
           <.column size="100" md="50">
             <.form_group validation="error">
-              <.form_label for="card-number" is_required>Card Number</.form_label>
-              <.input type="text" id="card-number" value="1234-5678-XXXX" validation="error" />
+              <.form_label for="card-number">Card Number</.form_label>
+              <.input type="text" id="card-number" value="1234-5678-XXXX" validation="error" required />
               <.form_help variant="error">Invalid card number format. Please use 16 digits.</.form_help>
             </.form_group>
           </.column>
@@ -216,8 +216,8 @@ defmodule DemoWeb.Live.ValidationsLive do
           </.column>
           <.column size="100" md="25">
             <.form_group validation="error">
-              <.form_label for="cvv" is_required>CVV</.form_label>
-              <.input type="text" id="cvv" value="12" validation="error" />
+              <.form_label for="cvv">CVV</.form_label>
+              <.input type="text" id="cvv" value="12" validation="error" required />
               <.form_help variant="error">Must be 3 or 4 digits</.form_help>
             </.form_group>
           </.column>
@@ -357,7 +357,7 @@ defmodule DemoWeb.Live.ValidationsLive do
 
       <%!-- Simulated toast preview --%>
       <.card class="mt-4" has_padding>
-        <.paragraph class="text-muted mb-2"><em>Toast preview (normally appears in corner):</em></.paragraph>
+        <.paragraph class="pa-text--secondary mb-2"><em>Toast preview (normally appears in corner):</em></.paragraph>
         <.alert variant="danger">
           <strong>Validation Failed</strong> — Invalid credentials. Please check your email and password.
         </.alert>
@@ -375,7 +375,7 @@ defmodule DemoWeb.Live.ValidationsLive do
       <.grid>
         <%!-- On Input (Real-time) --%>
         <.column size="100" md="1-3">
-          <.card class="pa-card--bordered" variant="warning" title_text="On Input (Real-time)">
+          <.card variant="warning" title_text="On Input (Real-time)">
             <form phx-change="realtime_change">
               <.form_group validation={email_validation(@realtime_touched, @realtime_email)}>
                 <.form_label>Email</.form_label>
@@ -394,13 +394,13 @@ defmodule DemoWeb.Live.ValidationsLive do
                 <.form_help :if={!@realtime_touched}>Type to see validation</.form_help>
               </.form_group>
             </form>
-            <small class="mt-2 text-muted">Validates as user types. Can feel aggressive.</small>
+            <small class="mt-2 pa-text--secondary">Validates as user types. Can feel aggressive.</small>
           </.card>
         </.column>
 
         <%!-- On Blur (Recommended) --%>
         <.column size="100" md="1-3">
-          <.card class="pa-card--bordered" variant="success" title_text="On Blur (Recommended)">
+          <.card variant="success" title_text="On Blur (Recommended)">
             <.form_group validation={email_validation(@blur_touched, @blur_email)}>
               <.form_label>Email</.form_label>
               <.input
@@ -416,13 +416,13 @@ defmodule DemoWeb.Live.ValidationsLive do
               <.form_help :if={@blur_touched && valid_email?(@blur_email)} variant="success">Valid email</.form_help>
               <.form_help :if={!@blur_touched}>Click away to validate</.form_help>
             </.form_group>
-            <small class="mt-2 text-muted">Validates when field loses focus. Good balance.</small>
+            <small class="mt-2 pa-text--secondary">Validates when field loses focus. Good balance.</small>
           </.card>
         </.column>
 
         <%!-- On Submit --%>
         <.column size="100" md="1-3">
-          <.card class="pa-card--bordered" variant="info" title_text="On Submit">
+          <.card variant="primary" title_text="On Submit">
             <form phx-submit="submit_validate">
               <.form_group validation={email_validation(@submit_touched, @submit_email)}>
                 <.form_label>Email</.form_label>
@@ -441,7 +441,7 @@ defmodule DemoWeb.Live.ValidationsLive do
               </.form_group>
               <.button variant="info" size="sm" type="submit" class="mt-2">Validate</.button>
             </form>
-            <small class="mt-2 text-muted">All errors shown at once on submit. Traditional approach.</small>
+            <small class="mt-2 pa-text--secondary">All errors shown at once on submit. Traditional approach.</small>
           </.card>
         </.column>
       </.grid>
@@ -536,7 +536,7 @@ defmodule DemoWeb.Live.ValidationsLive do
         </.column>
         <.column size="1-3" class="text-center">
           <.badge size="lg" class="pa-badge--default">3</.badge>
-          <.paragraph class="mt-2 text-muted">Confirm</.paragraph>
+          <.paragraph class="mt-2 pa-text--secondary">Confirm</.paragraph>
         </.column>
       </.grid>
 
@@ -548,8 +548,8 @@ defmodule DemoWeb.Live.ValidationsLive do
         <.grid>
           <.column size="100" md="50">
             <.form_group validation="error">
-              <.form_label is_required>Display Name</.form_label>
-              <.input type="text" placeholder="Enter display name" validation="error" />
+              <.form_label>Display Name</.form_label>
+              <.input type="text" placeholder="Enter display name" validation="error" required />
               <.form_help variant="error">Display name is required</.form_help>
             </.form_group>
           </.column>
@@ -605,7 +605,7 @@ defmodule DemoWeb.Live.ValidationsLive do
         <li><code>text-danger</code> - Red text color</li>
         <li><code>text-warning</code> - Yellow/orange text color</li>
         <li><code>text-success</code> - Green text color</li>
-        <li><code>text-muted</code> - Muted/gray text color</li>
+        <li><code>pa-text--secondary</code> - Muted/gray text color</li>
       </.basic_list>
     </.card>
     """

@@ -47,8 +47,8 @@ defmodule DemoWeb.Live.TypographyLive do
         <.card title_text="Links">
           <div style="display: flex; flex-direction: column; gap: 8px;">
             <.pa_link href="#">Default link style</.pa_link>
-            <.pa_link href="#" variant="primary">Primary link</.pa_link>
-            <.pa_link href="#" variant="secondary">Secondary link</.pa_link>
+            <%!-- pa-link has no colour modifiers; for a dimmed link add a .text-* utility --%>
+            <.pa_link href="#" class="text-secondary">Secondary link</.pa_link>
           </div>
         </.card>
       </.column>

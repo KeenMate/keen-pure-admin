@@ -47,7 +47,7 @@ defmodule DemoWeb.Live.ComponentsOverviewLive do
             <.badge variant="primary" size="sm">{comp.count}</.badge>
           </div>
           <div class="pa-card__body">
-            <p class="text-muted">{comp.desc}</p>
+            <p class="pa-text--secondary">{comp.desc}</p>
           </div>
         </a>
       </.column>

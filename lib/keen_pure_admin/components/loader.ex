@@ -66,7 +66,10 @@ defmodule PureAdmin.Components.Loader do
   attr(:color, :string,
     default: nil,
     values: [nil, "primary", "secondary", "success", "danger", "warning", "info"],
-    doc: "Loader color"
+    doc:
+      "Loader color. Loaders paint from `currentColor`, so this emits an inline " <>
+        "`style=\"color: var(--pa-…)\"` on the wrapper (there is no `pa-loader-{type}--{color}` " <>
+        "class in core). Pass your own `style` via `class`/a wrapper instead of combining with `color`."
   )
 
   attr(:class, :string, default: nil)
@@ -74,7 +77,7 @@ defmodule PureAdmin.Components.Loader do
 
   def loader(assigns) do
     ~H"""
-    <div class={loader_classes(assigns)} {@rest}>
+    <div class={loader_classes(assigns)} style={color_style(@color)} {@rest}>
       <%= cond do %>
         <% @type == "dots" -> %>
           <span></span><span></span><span></span>
@@ -85,6 +88,13 @@ defmodule PureAdmin.Components.Loader do
     </div>
     """
   end
+
+  # Core themes loaders via `currentColor` on the wrapper, not a modifier class.
+  # Map the semantic color name to the matching --pa-* custom property.
+  defp color_style(nil), do: nil
+  defp color_style("primary"), do: "color: var(--pa-accent)"
+  defp color_style("secondary"), do: "color: var(--pa-text-color-2)"
+  defp color_style(color), do: "color: var(--pa-#{color}-bg)"
 
   @doc "Renders a centered loader container (flexbox centering)."
   attr(:class, :string, default: nil)
@@ -117,11 +127,12 @@ defmodule PureAdmin.Components.Loader do
   end
 
   defp loader_classes(assigns) do
+    # Only `--lg` size modifiers exist per loader type; color is handled by the
+    # inline `color:` style (see color_style/1), never a `--{color}` class.
     build_classes(
       "pa-loader-#{assigns.type}",
       [
-        {"pa-loader-#{assigns.type}--#{assigns.size}", assigns.size != nil},
-        {"pa-loader-#{assigns.type}--#{assigns.color}", assigns.color != nil}
+        {"pa-loader-#{assigns.type}--#{assigns.size}", assigns.size != nil}
       ],
       assigns.class
     )

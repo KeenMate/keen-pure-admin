@@ -71,6 +71,20 @@ defmodule PureAdmin.Components.BadgeTest do
       assert html =~ "Notifications"
       assert html =~ "5"
     end
+
+    test "is_interactive is a no-op — never emits pa-composite-badge--interactive" do
+      html =
+        render_component(&Badge.composite_badge/1, %{
+          variant: "primary",
+          icon: "🔔",
+          label: "Notifications",
+          count: "5",
+          is_interactive: true,
+          class: nil
+        })
+
+      refute_class(html, "pa-composite-badge--interactive")
+    end
   end
 
   describe "badge_group/1" do

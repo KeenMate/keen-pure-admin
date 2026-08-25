@@ -239,3 +239,93 @@ Low-priority MISSING-FEATURE notes (not drift): bento/hero `__chart-svg` inner
 wrapper is the slot author's responsibility (keen emits only `__chart`);
 editorial footer `<strong>` emphasis not surfaced. Full keen suite green
 (164 tests + 16 doctests).
+
+## Full-library re-validation vs post-audit snippets (2026-08-25, pure-admin d423d05)
+
+pure-admin ran a two-round adversarial re-review of ALL 39 snippets (commit
+`d423d05` — component catalog + gold-standard library + AUDIT.md), catching
+invented classes / false prose that structural-coverage % is blind to. Re-ran
+the same lens over EVERY keen component via 8 parallel report-only agents
+(buckets: INVENTED / DEAD-DEFAULT / STRUCTURAL / OFF-SCALE / MISSING; each finding
+evidenced against snippet + `_*.scss` + built `dist/css/main.css`). Verified every
+flagged class with a direct `grep` of main.css before fixing. Fixes:
+
+**INVENTED (class in keen markup, zero CSS rule):**
+- `form.ex` — `pa-form-label` + `pa-form-label--required` (the whole `form_label/1`
+  and the `form_group` label shorthand were built on a class the snippet explicitly
+  disavows). Core auto-styles a bare `<label>` inside `.pa-form-group`. Emit bare `<label>`.
+- `form.ex` — `pa-textarea--{success,warning,error}` (textarea has NO validation
+  border in core; only `.pa-input`/`.pa-select` do). Errors already surface via the
+  `pa-form-help--error` below — dropped the border modifier.
+- `loader.ex` — `pa-loader-{type}--{color}` (e.g. `pa-loader-dots--primary`). Loaders
+  paint from `currentColor`; core themes them via an inline `style="color: var(--pa-…)"`.
+  Rewrote `color` to emit inline colour (primary→--pa-accent, secondary→--pa-text-color-2,
+  else --pa-{color}-bg); kept the real `--lg` size class.
+- `typography.ex` — `text/1` `pa-text--{muted,small,success,danger,warning,info}` and
+  `pa_link/1` `pa-link--{primary,secondary,muted}` (pa-link has NO modifiers). Real set is
+  `pa-text--{xs,sm,lg,xl,primary,secondary,start,center,end,caption,lead}`; semantic colours
+  live in `.text-*` utilities. Mapped friendly `text/1` names to real classes
+  (muted→pa-text--secondary, small→pa-text--sm, success→text-success, …); removed pa_link's
+  dead variant attr.
+- `command_palette.ex` — results-item `pa-command-palette__item-shortcut` + bare `<code>` →
+  the blessed `pa-command-palette__shortcut` + `<span class="pa-command-palette__key">`
+  (the home branch was already correct; the results branch had drifted).
+- `data_display.ex` — `accent_grid_item` `pa-accent-grid__item--color-{1..9}` + `--primary`
+  (core only has success/warning/danger/info). Dropped the `color` attr + `primary` value.
+
+**DEAD-DEFAULT / dead modifier (emitted class == base default, no CSS rule):**
+- `badge.ex` — `pa-composite-badge--interactive` (hover/cursor is baked into base
+  `__label`/`__button`). Dropped; `is_interactive` kept as a documented no-op.
+- `card.ex` — `variant="info"` → `pa-card--info` (only primary/success/warning/danger/stat/
+  color-N exist; info is a header underline only) and `is_bordered` → `pa-card--bordered`
+  (no rule). Removed `info` from the enum; `is_bordered` now a documented no-op.
+- `stat.ex` — `icon_variant="secondary"` (icon set is primary/success/warning/danger/info
+  only) removed; colour variant now GATED on `variant=="square"` (core defines colours only
+  as `.pa-stat--square.pa-stat--{color}`, so a hero/default stat was emitting a dead class).
+
+**STRUCTURAL (fidelity to blessed shape):**
+- `data_display.ex` — `field_group` title `<div>` → `<h3 class="pa-field-group__title">`.
+- `callout.ex` — no-icon branch no longer wraps content in `pa-callout__content` (that
+  wrapper is the icon-only clearfix; snippet puts content as a direct child).
+
+**MISSING:** `checkbox_list.ex` — added the real `pa-checkbox-list__item--selected` state
+(`state="selected"`), which core styles but keen had no path to.
+
+**@doc-only invented:** `layout.ex` `fit_slot/1` docstring taught `pa-navbar__icon-btn`
+(no CSS) → `pa-btn pa-btn--icon-only`.
+
+**Demo drift fixed (same invented classes, in demo markup):** the invented `text-muted`
+utility (killed in the snippet audit; `grep .text-muted main.css` = 0) was used ~50× across
+15 demo LiveViews — swept to the real `pa-text--secondary` (`color: var(--pa-text-color-2)`),
+including two pages that were *teaching* `text-muted` as a real utility. Also dropped hardcoded
+`pa-card--bordered` + `variant="info"` from validations_live cards and the cards_live "Info Card"
+(demoed a nonexistent variant), and fixed typography_live's `pa_link variant=`.
+
+Added 17 regression tests (form label/textarea, typography text/pa_link, loader colour,
+data_display accent-grid + field_group, card bordered no-op, stat colour-gating, badge
+interactive no-op) — full keen suite green (183 tests + 16 doctests). Demo recompiles clean
+(`mix compile --force`, no undefined-attribute warnings). NOT committed (large pre-existing WIP
+pile in keen; awaiting user).
+
+### Required-field marker → attribute-driven (2026-08-25, follows pure-admin core change)
+
+pure-admin's other session made the required-field asterisk **attribute-driven** in
+core: `.pa-form-group:has(:required) > label:not(.pa-checkbox):not(.pa-radio)::after`
+(+ a `.pa-form`-scoped margin reset) — no class, purely the native `required` attribute
+on the control; checkbox/radio labels excluded. This collided with the manual asterisk
+keen's `form_label/1` rendered (`<span class="text-danger"> *</span>` when `is_required`):
+once the new theme CSS is live, both would fire → **double** asterisk. Reconciled keen to
+the single, attribute-driven contract:
+- `form.ex` — dropped the manual asterisk from `form_label/1`; `is_required` on both
+  `form_label/1` and `form_group/1` is now a documented **deprecated no-op** (pass native
+  `required` to the control instead). keen's structure is compatible: the `label` shorthand
+  and nested `form_label` both render a top-level `<label>` that is a direct child of
+  `.pa-form-group` and is not `.pa-checkbox`/`.pa-radio`.
+- Demo — migrated all 12 `is_required` label usages (form_demo_live, validations_live) to
+  native `required` on the control so the marker still renders.
+- Theme CSS — keen's served copies were stale (0 hits); refreshed all 15 from the rebuilt
+  `../pure-admin-themes/*/dist/*.css` (both source + `_build` priv, incl. the shadowing
+  `css/*.css`); verified `has(:required)` now present in every served file.
+- Updated the form regression test (asserts NO manual `text-danger` asterisk + that a
+  `required` control flows through). Suite green (184 tests + 16 doctests); demo `mix compile
+  --force` clean.

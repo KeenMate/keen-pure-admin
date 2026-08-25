@@ -107,7 +107,7 @@ defmodule DemoWeb.Live.DashboardLive do
 
   def render(assigns) do
     ~H"""
-    <p class="text-muted">Real-time overview of key performance metrics</p>
+    <p class="pa-text--secondary">Real-time overview of key performance metrics</p>
 
     <%!-- KPI Metric Cards --%>
     <.grid>
@@ -262,12 +262,12 @@ defmodule DemoWeb.Live.DashboardLive do
           </.grid>
         </.card>
 
-        <.card has_padding={false} title_text="Traffic Sources">
+        <.table_card title_text="Traffic Sources">
           <.table rows={@traffic_sources} size="sm" is_compact>
             <:col :let={row} label="Source">{row.source}</:col>
             <:col :let={row} label="%" align="end"><strong>{row.pct}</strong></:col>
           </.table>
-        </.card>
+        </.table_card>
       </.column>
     </.grid>
 
@@ -298,7 +298,7 @@ defmodule DemoWeb.Live.DashboardLive do
         </.card>
       </.column>
       <.column size="50">
-        <.card has_padding={false} title_text="Recent Orders">
+        <.table_card title_text="Recent Orders">
           <.table rows={@orders} size="sm" is_compact>
             <:col :let={order} label="Order ID">{order.id}</:col>
             <:col :let={order} label="Customer">{order.customer}</:col>
@@ -310,19 +310,19 @@ defmodule DemoWeb.Live.DashboardLive do
           <:footer>
             <.button variant="secondary" size="sm">View All Orders</.button>
           </:footer>
-        </.card>
+        </.table_card>
       </.column>
     </.grid>
 
     <%!-- Bottom Row - Performance Metrics --%>
     <.grid>
       <.column size="1-3">
-        <.card has_padding={false} title_text="Top Products">
+        <.table_card title_text="Top Products">
           <.table rows={@top_products} size="sm" is_compact>
             <:col :let={row} label="Product">{row.name}</:col>
             <:col :let={row} label="Revenue" align="end"><strong>{row.revenue}</strong></:col>
           </.table>
-        </.card>
+        </.table_card>
       </.column>
       <.column size="1-3">
         <.card has_padding={false} title_text="System Status">

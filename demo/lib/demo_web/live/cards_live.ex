@@ -302,12 +302,9 @@ defmodule DemoWeb.Live.CardsLive do
             <.paragraph>Card with danger color theme.</.paragraph>
           </.card>
         </.column>
-        <.column size="100" md="1-2">
-          <.card variant="info">
-            <:header><.heading level={4}>Info Card</.heading></:header>
-            <.paragraph>Card with info color theme.</.paragraph>
-          </.card>
-        </.column>
+        <%!-- Core has no `pa-card--info` fill variant (only primary/success/
+             warning/danger). For a blue-accented card use a theme colour slot
+             (see "Theme Color Cards" below) or a header underline. --%>
       </.grid>
     </.section>
 

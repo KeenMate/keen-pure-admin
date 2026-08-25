@@ -90,7 +90,7 @@ defmodule DemoWeb.Live.NotificationsLive do
             <.notification_icon variant={n.variant} />
           </:avatar>
           <:meta>
-            <span class="text-muted text-sm">{n.time}</span>
+            <span class="pa-text--secondary text-sm">{n.time}</span>
             <.button
               :if={n.is_unread}
               variant="ghost"

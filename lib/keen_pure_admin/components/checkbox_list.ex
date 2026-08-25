@@ -102,7 +102,7 @@ defmodule PureAdmin.Components.CheckboxList do
   attr(:id, :string, required: true)
   attr(:label_text, :string, required: true)
   attr(:description_text, :string, default: nil)
-  attr(:state, :string, default: nil, values: [nil, "disabled", "locked"])
+  attr(:state, :string, default: nil, values: [nil, "selected", "disabled", "locked"])
   attr(:checked, :boolean, default: false)
   attr(:disabled, :boolean, default: false)
   attr(:class, :string, default: nil)
@@ -115,6 +115,7 @@ defmodule PureAdmin.Components.CheckboxList do
 
     ~H"""
     <li class={build_classes("pa-checkbox-list__item", [
+      {"pa-checkbox-list__item--selected", @state == "selected"},
       {"pa-checkbox-list__item--disabled", @state == "disabled"},
       {"pa-checkbox-list__item--locked", @state == "locked"}
     ], @class)}>

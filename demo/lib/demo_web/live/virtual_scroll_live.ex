@@ -148,7 +148,7 @@ defmodule DemoWeb.Live.VirtualScrollLive do
             <.loader_center :if={@loading}>
               <.loader />
             </.loader_center>
-            <p :if={not @has_more} class="text-center text-muted py-4">
+            <p :if={not @has_more} class="text-center pa-text--secondary py-4">
               All {@loaded_count} items loaded.
             </p>
           </div>

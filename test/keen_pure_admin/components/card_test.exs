@@ -44,6 +44,12 @@ defmodule PureAdmin.Components.CardTest do
       refute html =~ "pa-card__header"
     end
 
+    test "is_bordered is a no-op — never emits pa-card--bordered (no core rule)" do
+      html = render_component(&Card.card/1, default_assigns(%{is_bordered: true}))
+
+      refute_class(html, "pa-card--bordered")
+    end
+
     test "renders card with variant" do
       html = render_component(&Card.card/1, default_assigns(%{variant: "primary"}))
 

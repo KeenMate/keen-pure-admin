@@ -57,8 +57,8 @@ defmodule PureAdmin.Components.Stat do
 
   attr(:icon_variant, :string,
     default: "primary",
-    values: ["primary", "secondary", "success", "info", "warning", "danger"],
-    doc: "Icon color variant — `danger` added in v2.7.0"
+    values: ["primary", "success", "info", "warning", "danger"],
+    doc: "Icon color variant — `danger` added in v2.7.0. (No `--secondary`: core defines only these five.)"
   )
 
   attr(:number, :string, default: nil, doc: "Value to display")
@@ -228,11 +228,17 @@ defmodule PureAdmin.Components.Stat do
         _ -> nil
       end
 
+    # Core only defines the colour variants COMPOUNDED with `--square`
+    # (`.pa-stat--square.pa-stat--{color}`); a standalone `.pa-stat--{color}` on
+    # a default/hero stat matches nothing. Gate the colour class on the square
+    # variant so we never emit a dead modifier.
+    color = assigns.color != nil and assigns.variant == "square"
+
     build_classes(
       "pa-stat",
       [
         {variant_class, variant_class != nil},
-        {"pa-stat--#{assigns.color}", assigns.color != nil}
+        {"pa-stat--#{assigns.color}", color}
       ],
       assigns.class
     )

@@ -148,7 +148,12 @@ defmodule PureAdmin.Components.Badge do
   attr(:label, :string, required: true, doc: "Label text")
   attr(:count, :string, default: nil, doc: "Count/button text (legacy alias for button_text)")
   attr(:button_text, :string, default: nil, doc: "Button section text")
-  attr(:is_interactive, :boolean, default: false, doc: "Enable hover/click styles")
+  attr(:is_interactive, :boolean,
+    default: false,
+    doc:
+      "Deprecated no-op. Core bakes hover/cursor into the base `__label`/`__button`; " <>
+        "there is no `pa-composite-badge--interactive` rule. Wire `on_label_click`/`on_button_click` instead."
+  )
   attr(:on_label_click, :string, default: nil, doc: "LiveView event fired when label is clicked")
   attr(:on_button_click, :string, default: nil, doc: "LiveView event fired when button is clicked")
   attr(:class, :string, default: nil)
@@ -176,8 +181,7 @@ defmodule PureAdmin.Components.Badge do
 
     ~H"""
     <div class={build_classes("pa-composite-badge", [
-      {"pa-composite-badge--#{@variant}", true},
-      {"pa-composite-badge--interactive", @is_interactive}
+      {"pa-composite-badge--#{@variant}", true}
     ], @class)} {@rest}>
       <span :if={@icon && @icon_content == []} class="pa-composite-badge__icon"><%= @icon %></span>
       <span :for={ic <- @icon_content} class="pa-composite-badge__icon"><%= render_slot(ic) %></span>

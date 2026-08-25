@@ -49,7 +49,7 @@ defmodule PureAdmin.Components.Typography do
   @doc "Renders a text span."
   attr(:variant, :string,
     default: nil,
-    values: [nil, "muted", "small", "primary", "success", "danger", "warning", "info"]
+    values: [nil, "muted", "small", "primary", "secondary", "success", "danger", "warning", "info"]
   )
 
   attr(:class, :string, default: nil)
@@ -57,27 +57,41 @@ defmodule PureAdmin.Components.Typography do
   slot(:inner_block, required: true)
 
   def text(assigns) do
+    assigns = assign(assigns, :variant_class, text_variant_class(assigns.variant))
+
     ~H"""
-    <span class={build_classes("pa-text", [{"pa-text--#{@variant}", @variant != nil}], @class)} {@rest}>
+    <span class={build_classes("pa-text", [{@variant_class, @variant_class != nil}], @class)} {@rest}>
       <%= render_slot(@inner_block) %>
     </span>
     """
   end
 
-  @doc "Renders a styled link."
+  # Core ships only `pa-text--primary/--secondary` (+ size/align/style) — there is
+  # no `pa-text--muted/--small/--success/--danger/--warning/--info`. Semantic
+  # colours live in the `.text-*` utilities. Map keen's friendly variant names to
+  # the real classes rather than emitting invented modifiers.
+  defp text_variant_class(nil), do: nil
+  defp text_variant_class("muted"), do: "pa-text--secondary"
+  defp text_variant_class("small"), do: "pa-text--sm"
+  defp text_variant_class("primary"), do: "pa-text--primary"
+  defp text_variant_class("secondary"), do: "pa-text--secondary"
+  defp text_variant_class(color), do: "text-#{color}"
+
+  @doc """
+  Renders a styled link.
+
+  Core's `.pa-link` has no colour modifiers — it inherits the accent colour.
+  For a dimmed or semantic link, add a `.text-*` utility via `class`
+  (e.g. `class="text-secondary"`).
+  """
   attr(:href, :string, default: "#")
-  attr(:variant, :string, default: nil, values: [nil, "primary", "secondary", "muted"])
   attr(:class, :string, default: nil)
   attr(:rest, :global, include: ~w(navigate patch target))
   slot(:inner_block, required: true)
 
   def pa_link(assigns) do
     ~H"""
-    <a
-      href={safe_url(@href)}
-      class={build_classes("pa-link", [{"pa-link--#{@variant}", @variant != nil}], @class)}
-      {@rest}
-    >
+    <a href={safe_url(@href)} class={build_classes("pa-link", [], @class)} {@rest}>
       <%= render_slot(@inner_block) %>
     </a>
     """

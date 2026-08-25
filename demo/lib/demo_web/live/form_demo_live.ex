@@ -326,22 +326,22 @@ defmodule DemoWeb.Live.FormDemoLive do
         <.grid>
           <.column size="100" md="50">
             <.form_group field={@form[:first_name]}>
-              <.form_label is_required>First Name</.form_label>
-              <.input field={@form[:first_name]} placeholder="Jane" />
+              <.form_label>First Name</.form_label>
+              <.input field={@form[:first_name]} placeholder="Jane" required />
             </.form_group>
           </.column>
 
           <.column size="100" md="50">
             <.form_group field={@form[:last_name]}>
-              <.form_label is_required>Last Name</.form_label>
-              <.input field={@form[:last_name]} placeholder="Doe" />
+              <.form_label>Last Name</.form_label>
+              <.input field={@form[:last_name]} placeholder="Doe" required />
             </.form_group>
           </.column>
 
           <.column size="100" md="50">
             <.form_group field={@form[:email]}>
-              <.form_label is_required>Email</.form_label>
-              <.input field={@form[:email]} type="email" placeholder="jane@example.com" />
+              <.form_label>Email</.form_label>
+              <.input field={@form[:email]} type="email" placeholder="jane@example.com" required />
             </.form_group>
           </.column>
 
@@ -424,18 +424,18 @@ defmodule DemoWeb.Live.FormDemoLive do
         </:col>
         <:col :let={e} label="Department">
           <.badge :if={e.department != ""} variant="info">{e.department}</.badge>
-          <span :if={e.department == ""} class="text-muted">—</span>
+          <span :if={e.department == ""} class="pa-text--secondary">—</span>
         </:col>
         <:col :let={e} label="Start Date">
-          <span :if={e.start_date == ""} class="text-muted">—</span>
+          <span :if={e.start_date == ""} class="pa-text--secondary">—</span>
           <span :if={e.start_date != ""}>{e.start_date}</span>
         </:col>
         <:col :let={e} label="Bio" class="col-auto">
-          <span :if={e.bio == ""} class="text-muted">—</span>
+          <span :if={e.bio == ""} class="pa-text--secondary">—</span>
           <span :if={e.bio != ""} title={e.bio}>{truncate(e.bio, 60)}</span>
         </:col>
         <:col :let={e} label="Submitted">
-          <span class="text-muted" title={PureAdmin.DateTime.format(e.inserted_at, :long_date_time)}>
+          <span class="pa-text--secondary" title={PureAdmin.DateTime.format(e.inserted_at, :long_date_time)}>
             {PureAdmin.DateTime.relative(e.inserted_at)}
           </span>
         </:col>

@@ -63,14 +63,15 @@ defmodule PureAdmin.Components.Callout do
           <%= render_slot(@inner_block) %>
         </div>
       <% else %>
+        <%!-- No icon: content is a direct child of .pa-callout. The
+              pa-callout__content wrapper exists only to clearfix the floated
+              icon, so it's icon-only (snippets/callouts.html). --%>
         <%= if @title != [] do %>
           <h4 :for={title <- @title} class="pa-callout__heading"><%= render_slot(title) %></h4>
         <% else %>
           <h4 :if={@heading_text} class="pa-callout__heading"><%= @heading_text %></h4>
         <% end %>
-        <div class="pa-callout__content">
-          <%= render_slot(@inner_block) %>
-        </div>
+        <%= render_slot(@inner_block) %>
       <% end %>
     </div>
     """

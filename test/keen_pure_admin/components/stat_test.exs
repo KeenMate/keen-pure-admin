@@ -58,6 +58,31 @@ defmodule PureAdmin.Components.StatTest do
       assert html =~ "Capacity"
     end
 
+    test "color is suppressed on non-square stats (core only styles it compounded with --square)" do
+      html =
+        render_component(&Stat.stat/1, %{
+          variant: "hero",
+          color: "warning",
+          icon_variant: "primary",
+          number: "78",
+          label_text: "Capacity",
+          change_text: nil,
+          change_direction: nil,
+          symbol_text: nil,
+          value: nil,
+          label: nil,
+          trend: nil,
+          trend_direction: nil,
+          class: nil,
+          icon: [],
+          inner_block: []
+        })
+
+      # .pa-stat--warning only exists as `.pa-stat--square.pa-stat--warning`, so a
+      # hero stat must not emit the standalone (dead) colour class.
+      refute_class(html, "pa-stat--warning")
+    end
+
     test "renders negative change direction" do
       html =
         render_component(&Stat.stat/1, %{

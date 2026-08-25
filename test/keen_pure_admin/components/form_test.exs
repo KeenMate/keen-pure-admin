@@ -12,6 +12,70 @@ defmodule PureAdmin.Components.FormTest do
     Phoenix.LiveViewTest.render_component(template_fun, assigns)
   end
 
+  describe "form_group/1 + form_label/1 use core-blessed markup" do
+    test "form_group label is a bare <label> — no pa-form-label class" do
+      html =
+        render(
+          fn assigns ->
+            ~H'<.form_group label="Email"><input /></.form_group>'
+          end,
+          %{}
+        )
+
+      refute_class(html, "pa-form-label")
+      assert html =~ "<label>Email</label>"
+    end
+
+    test "is_required does not emit pa-form-group--required (no core rule)" do
+      html =
+        render(
+          fn assigns ->
+            ~H'<.form_group is_required><input /></.form_group>'
+          end,
+          %{}
+        )
+
+      assert_class(html, "pa-form-group")
+      refute_class(html, "pa-form-group--required")
+    end
+
+    test "form_label emits a plain <label> — no pa-form-label class, no manual asterisk" do
+      html =
+        render(
+          fn assigns ->
+            ~H'<.form_label for="n" is_required>Name</.form_label>'
+          end,
+          %{}
+        )
+
+      refute_class(html, "pa-form-label")
+      assert html =~ ~s(for="n")
+      # Requiredness is attribute-driven (core's :has(:required) ::after) — keen
+      # must NOT hand-render an asterisk, which would double the core marker.
+      refute html =~ "text-danger"
+    end
+
+    test "required control flows through so core's :has(:required) marker fires" do
+      html =
+        render(
+          fn assigns ->
+            ~H"""
+            <.form_group>
+              <.form_label for="e">Email</.form_label>
+              <.input type="email" id="e" name="e" required />
+            </.form_group>
+            """
+          end,
+          %{}
+        )
+
+      # The group holds a required control and the label is a direct child of
+      # .pa-form-group — the two structural preconditions for the core rule.
+      assert_class(html, "pa-form-group")
+      assert html =~ "required"
+    end
+  end
+
   describe "input/1 with :field" do
     test "derives name, id, value from the form field" do
       form = to_form(%{"email" => "jane@example.com"}, as: :user)
@@ -103,7 +167,7 @@ defmodule PureAdmin.Components.FormTest do
       assert html =~ ">Hello</textarea>"
     end
 
-    test "renders errors" do
+    test "surfaces errors via pa-form-help--error, not a border modifier" do
       errors = [bio: {"is too short", []}]
       form = to_form(%{"bio" => ""}, as: :user, errors: errors, action: :validate)
 
@@ -113,7 +177,10 @@ defmodule PureAdmin.Components.FormTest do
           %{form: form}
         )
 
-      assert_class(html, "pa-textarea--error")
+      # Core has no .pa-textarea--{success,warning,error} border styling — the
+      # error surfaces through the pa-form-help--error rendered below.
+      refute_class(html, "pa-textarea--error")
+      assert_class(html, "pa-form-help--error")
       assert html =~ "is too short"
     end
   end
