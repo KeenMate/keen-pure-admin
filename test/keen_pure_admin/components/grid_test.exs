@@ -15,7 +15,7 @@ defmodule PureAdmin.Components.GridTest do
           inner_block: [%{__slot__: :inner_block, inner_block: fn _, _ -> "columns" end}]
         })
 
-      assert_class(html, "pa-row")
+      assert_class(html, "pc-row")
     end
 
     test "renders row with modifiers" do
@@ -29,10 +29,10 @@ defmodule PureAdmin.Components.GridTest do
           inner_block: [%{__slot__: :inner_block, inner_block: fn _, _ -> "" end}]
         })
 
-      assert_class(html, "pa-row--no-gutter")
-      assert_class(html, "pa-row--same-height")
-      assert_class(html, "pa-row--center")
-      assert_class(html, "pa-row--middle")
+      assert_class(html, "pc-row--no-gutter")
+      assert_class(html, "pc-row--same-height")
+      assert_class(html, "pc-row--center")
+      assert_class(html, "pc-row--middle")
     end
   end
 
@@ -50,9 +50,9 @@ defmodule PureAdmin.Components.GridTest do
           inner_block: [%{__slot__: :inner_block, inner_block: fn _, _ -> "content" end}]
         })
 
-      assert_class(html, "pa-col-100")
-      assert_class(html, "pa-col-md-50")
-      assert_class(html, "pa-col-lg-1-3")
+      assert_class(html, "pc-col-100")
+      assert_class(html, "pc-col-md-50")
+      assert_class(html, "pc-col-lg-1-3")
     end
 
     test "renders column with offset" do
@@ -68,8 +68,8 @@ defmodule PureAdmin.Components.GridTest do
           inner_block: [%{__slot__: :inner_block, inner_block: fn _, _ -> "" end}]
         })
 
-      assert_class(html, "pa-col-50")
-      assert_class(html, "pa-offset-25")
+      assert_class(html, "pc-col-50")
+      assert_class(html, "pc-offset-25")
     end
   end
 end

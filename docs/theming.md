@@ -250,7 +250,7 @@ Mode is managed client-side via the settings panel. The `fouc_prevention_script`
 
 `default_mode` controls the first-visit mode (before any user selection is stored). Accepts `"light"`, `"dark"`, or `"auto"` (follows OS `prefers-color-scheme`). Defaults to `"light"`.
 
-CSS classes applied to `<body>`: `pa-mode-light` or `pa-mode-dark` (`auto` resolves to one of these at runtime).
+CSS classes applied to `<body>`: `pc-mode-light` or `pc-mode-dark` (`auto` resolves to one of these at runtime).
 
 ## Theme CSS Variables
 

@@ -74,8 +74,8 @@ defmodule DemoWeb.Live.GridLive do
     <%!-- Overview --%>
     <.card title_text="Overview">
       <.paragraph class="pa-text--secondary mb-4">
-        Pure Admin uses a custom flexbox grid system with intuitive naming. Columns use <.code>pa-col-&#123;size&#125;</.code> for percentages
-        and <.code>pa-col-&#123;x&#125;-&#123;y&#125;</.code> for fractions.
+        Pure Admin uses a custom flexbox grid system with intuitive naming. Columns use <.code>pc-col-&#123;size&#125;</.code> for percentages
+        and <.code>pc-col-&#123;x&#125;-&#123;y&#125;</.code> for fractions.
       </.paragraph>
 
       <.grid>
@@ -92,10 +92,10 @@ defmodule DemoWeb.Live.GridLive do
         <.column size="100" md="50">
           <.heading level={4}>Breakpoints</.heading>
           <.table rows={[
-            %{prefix: "sm", width: "576px", example: "pa-col-sm-50"},
-            %{prefix: "md", width: "768px", example: "pa-col-md-50"},
-            %{prefix: "lg", width: "992px", example: "pa-col-lg-50"},
-            %{prefix: "xl", width: "1200px", example: "pa-col-xl-50"}
+            %{prefix: "sm", width: "576px", example: "pc-col-sm-50"},
+            %{prefix: "md", width: "768px", example: "pc-col-md-50"},
+            %{prefix: "lg", width: "992px", example: "pc-col-lg-50"},
+            %{prefix: "xl", width: "1200px", example: "pc-col-xl-50"}
           ]} is_striped>
             <:col :let={row} label="Prefix"><.code>{row.prefix}</.code></:col>
             <:col :let={row} label="Min Width">{row.width}</:col>
@@ -107,75 +107,75 @@ defmodule DemoWeb.Live.GridLive do
 
     <%!-- Basic Usage --%>
     <.card title_text="Basic Usage">
-      <:subtitle>Auto-equal width columns with <.code>.pa-col</.code></:subtitle>
+      <:subtitle>Auto-equal width columns with <.code>.pc-col</.code></:subtitle>
       <.heading level={4}>Two Equal Columns</.heading>
       <.grid class="mb-4">
         <.column>
-          <div class="grid-demo-cell">.pa-col</div>
+          <div class="grid-demo-cell">.pc-col</div>
         </.column>
         <.column>
-          <div class="grid-demo-cell">.pa-col</div>
+          <div class="grid-demo-cell">.pc-col</div>
         </.column>
       </.grid>
 
       <.heading level={4}>Three Equal Columns</.heading>
       <.grid class="mb-4">
         <.column>
-          <div class="grid-demo-cell">.pa-col</div>
+          <div class="grid-demo-cell">.pc-col</div>
         </.column>
         <.column>
-          <div class="grid-demo-cell">.pa-col</div>
+          <div class="grid-demo-cell">.pc-col</div>
         </.column>
         <.column>
-          <div class="grid-demo-cell">.pa-col</div>
+          <div class="grid-demo-cell">.pc-col</div>
         </.column>
       </.grid>
 
       <.heading level={4}>Four Equal Columns</.heading>
       <.grid class="mb-4">
         <.column>
-          <div class="grid-demo-cell">.pa-col</div>
+          <div class="grid-demo-cell">.pc-col</div>
         </.column>
         <.column>
-          <div class="grid-demo-cell">.pa-col</div>
+          <div class="grid-demo-cell">.pc-col</div>
         </.column>
         <.column>
-          <div class="grid-demo-cell">.pa-col</div>
+          <div class="grid-demo-cell">.pc-col</div>
         </.column>
         <.column>
-          <div class="grid-demo-cell">.pa-col</div>
+          <div class="grid-demo-cell">.pc-col</div>
         </.column>
       </.grid>
 
       <.heading level={4}>Auto Width Column</.heading>
       <.grid>
         <.column>
-          <div class="grid-demo-cell">.pa-col (fills remaining)</div>
+          <div class="grid-demo-cell">.pc-col (fills remaining)</div>
         </.column>
         <.column size="auto">
-          <div class="grid-demo-cell">.pa-col-auto (content width)</div>
+          <div class="grid-demo-cell">.pc-col-auto (content width)</div>
         </.column>
       </.grid>
     </.card>
 
     <%!-- Percentage Columns --%>
     <.card title_text="Percentage Columns">
-      <:subtitle>Fixed widths in 5% increments: <.code>.pa-col-5</.code> through <.code>.pa-col-100</.code></:subtitle>
+      <:subtitle>Fixed widths in 5% increments: <.code>.pc-col-5</.code> through <.code>.pc-col-100</.code></:subtitle>
       <.grid class="mb-2">
-        <.column size="25"><div class="grid-demo-cell">.pa-col-25</div></.column>
-        <.column size="75"><div class="grid-demo-cell">.pa-col-75</div></.column>
+        <.column size="25"><div class="grid-demo-cell">.pc-col-25</div></.column>
+        <.column size="75"><div class="grid-demo-cell">.pc-col-75</div></.column>
       </.grid>
       <.grid class="mb-2">
-        <.column size="1-3"><div class="grid-demo-cell">.pa-col-1-3</div></.column>
-        <.column size="2-3"><div class="grid-demo-cell">.pa-col-2-3</div></.column>
+        <.column size="1-3"><div class="grid-demo-cell">.pc-col-1-3</div></.column>
+        <.column size="2-3"><div class="grid-demo-cell">.pc-col-2-3</div></.column>
       </.grid>
       <.grid class="mb-2">
-        <.column size="50"><div class="grid-demo-cell">.pa-col-50</div></.column>
-        <.column size="50"><div class="grid-demo-cell">.pa-col-50</div></.column>
+        <.column size="50"><div class="grid-demo-cell">.pc-col-50</div></.column>
+        <.column size="50"><div class="grid-demo-cell">.pc-col-50</div></.column>
       </.grid>
       <.grid class="mb-2">
-        <.column size="40"><div class="grid-demo-cell">.pa-col-40</div></.column>
-        <.column size="60"><div class="grid-demo-cell">.pa-col-60</div></.column>
+        <.column size="40"><div class="grid-demo-cell">.pc-col-40</div></.column>
+        <.column size="60"><div class="grid-demo-cell">.pc-col-60</div></.column>
       </.grid>
       <.grid class="mb-2">
         <.column size="20"><div class="grid-demo-cell">20</div></.column>
@@ -185,7 +185,7 @@ defmodule DemoWeb.Live.GridLive do
         <.column size="20"><div class="grid-demo-cell">20</div></.column>
       </.grid>
       <.grid>
-        <.column size="100"><div class="grid-demo-cell">.pa-col-100 (full width)</div></.column>
+        <.column size="100"><div class="grid-demo-cell">.pc-col-100 (full width)</div></.column>
       </.grid>
 
       <.alert variant="info" class="mt-4">
@@ -195,17 +195,17 @@ defmodule DemoWeb.Live.GridLive do
 
     <%!-- Fraction Columns --%>
     <.card title_text="Fraction Columns">
-      <:subtitle>Intuitive naming for common layouts: <.code>.pa-col-1-3</.code>, <.code>.pa-col-2-3</.code>, etc.</:subtitle>
+      <:subtitle>Intuitive naming for common layouts: <.code>.pc-col-1-3</.code>, <.code>.pc-col-2-3</.code>, etc.</:subtitle>
       <.heading level={4}>Halves (1/2)</.heading>
       <.grid class="mb-4">
-        <.column size="1-2"><div class="grid-demo-cell">.pa-col-1-2 (50%)</div></.column>
-        <.column size="1-2"><div class="grid-demo-cell">.pa-col-1-2 (50%)</div></.column>
+        <.column size="1-2"><div class="grid-demo-cell">.pc-col-1-2 (50%)</div></.column>
+        <.column size="1-2"><div class="grid-demo-cell">.pc-col-1-2 (50%)</div></.column>
       </.grid>
 
       <.heading level={4}>Thirds (1/3, 2/3)</.heading>
       <.grid class="mb-2">
-        <.column size="1-3"><div class="grid-demo-cell">.pa-col-1-3 (33.3%)</div></.column>
-        <.column size="2-3"><div class="grid-demo-cell">.pa-col-2-3 (66.7%)</div></.column>
+        <.column size="1-3"><div class="grid-demo-cell">.pc-col-1-3 (33.3%)</div></.column>
+        <.column size="2-3"><div class="grid-demo-cell">.pc-col-2-3 (66.7%)</div></.column>
       </.grid>
       <.grid class="mb-4">
         <.column size="1-3"><div class="grid-demo-cell">1/3</div></.column>
@@ -215,8 +215,8 @@ defmodule DemoWeb.Live.GridLive do
 
       <.heading level={4}>Quarters (1/4, 3/4)</.heading>
       <.grid class="mb-2">
-        <.column size="1-4"><div class="grid-demo-cell">.pa-col-1-4 (25%)</div></.column>
-        <.column size="3-4"><div class="grid-demo-cell">.pa-col-3-4 (75%)</div></.column>
+        <.column size="1-4"><div class="grid-demo-cell">.pc-col-1-4 (25%)</div></.column>
+        <.column size="3-4"><div class="grid-demo-cell">.pc-col-3-4 (75%)</div></.column>
       </.grid>
       <.grid class="mb-4">
         <.column size="1-4"><div class="grid-demo-cell">1/4</div></.column>
@@ -265,8 +265,8 @@ defmodule DemoWeb.Live.GridLive do
       <.heading level={4}>Mobile-First Pattern</.heading>
       <.paragraph class="pa-text--secondary mb-2">Full width on mobile, 50% on medium screens and up:</.paragraph>
       <.grid class="mb-4">
-        <.column size="100" md="50"><div class="grid-demo-cell">.pa-col-100 .pa-col-md-50</div></.column>
-        <.column size="100" md="50"><div class="grid-demo-cell">.pa-col-100 .pa-col-md-50</div></.column>
+        <.column size="100" md="50"><div class="grid-demo-cell">.pc-col-100 .pc-col-md-50</div></.column>
+        <.column size="100" md="50"><div class="grid-demo-cell">.pc-col-100 .pc-col-md-50</div></.column>
       </.grid>
 
       <.heading level={4}>Progressive Columns</.heading>
@@ -289,26 +289,26 @@ defmodule DemoWeb.Live.GridLive do
       <.heading level={4}>Responsive Fractions</.heading>
       <.paragraph class="pa-text--secondary mb-2">Fractions also support breakpoints:</.paragraph>
       <.grid>
-        <.column size="100" md="1-3"><div class="grid-demo-cell">.pa-col-100 .pa-col-md-1-3</div></.column>
-        <.column size="100" md="2-3"><div class="grid-demo-cell">.pa-col-100 .pa-col-md-2-3</div></.column>
+        <.column size="100" md="1-3"><div class="grid-demo-cell">.pc-col-100 .pc-col-md-1-3</div></.column>
+        <.column size="100" md="2-3"><div class="grid-demo-cell">.pc-col-100 .pc-col-md-2-3</div></.column>
       </.grid>
     </.card>
 
     <%!-- Offsets --%>
     <.card title_text="Offsets">
-      <:subtitle>Push columns with left margin: <.code>.pa-offset-{"{size}"}</.code></:subtitle>
+      <:subtitle>Push columns with left margin: <.code>.pc-offset-{"{size}"}</.code></:subtitle>
       <.heading level={4}>Centering with Offsets</.heading>
       <.grid class="mb-2">
-        <.column size="50" offset="25"><div class="grid-demo-cell">.pa-col-50 .pa-offset-25</div></.column>
+        <.column size="50" offset="25"><div class="grid-demo-cell">.pc-col-50 .pc-offset-25</div></.column>
       </.grid>
       <.grid class="mb-4">
-        <.column size="1-3" class="pa-offset-33"><div class="grid-demo-cell">.pa-col-1-3 .pa-offset-33</div></.column>
+        <.column size="1-3" class="pc-offset-33"><div class="grid-demo-cell">.pc-col-1-3 .pc-offset-33</div></.column>
       </.grid>
 
       <.heading level={4}>Asymmetric Layouts</.heading>
       <.grid>
-        <.column size="30" offset="10"><div class="grid-demo-cell">.pa-col-30 .pa-offset-10</div></.column>
-        <.column size="40" offset="10"><div class="grid-demo-cell">.pa-col-40 .pa-offset-10</div></.column>
+        <.column size="30" offset="10"><div class="grid-demo-cell">.pc-col-30 .pc-offset-10</div></.column>
+        <.column size="40" offset="10"><div class="grid-demo-cell">.pc-col-40 .pc-offset-10</div></.column>
       </.grid>
     </.card>
 
@@ -316,23 +316,23 @@ defmodule DemoWeb.Live.GridLive do
     <.card title_text="Row Alignment" subtitle_text="Control horizontal and vertical alignment of columns">
       <.heading level={4}>Horizontal Alignment</.heading>
 
-      <.paragraph class="pa-text--secondary mb-2"><.code>.pa-row--center</.code></.paragraph>
+      <.paragraph class="pa-text--secondary mb-2"><.code>.pc-row--center</.code></.paragraph>
       <.grid align="center" class="mb-2" style="background: var(--pa-surface-hover);">
         <.column size="30"><div class="grid-demo-cell">Centered</div></.column>
       </.grid>
 
-      <.paragraph class="pa-text--secondary mb-2"><.code>.pa-row--end</.code></.paragraph>
+      <.paragraph class="pa-text--secondary mb-2"><.code>.pc-row--end</.code></.paragraph>
       <.grid align="end" class="mb-2" style="background: var(--pa-surface-hover);">
         <.column size="30"><div class="grid-demo-cell">Right aligned</div></.column>
       </.grid>
 
-      <.paragraph class="pa-text--secondary mb-2"><.code>.pa-row--between</.code></.paragraph>
+      <.paragraph class="pa-text--secondary mb-2"><.code>.pc-row--between</.code></.paragraph>
       <.grid align="between" class="mb-2" style="background: var(--pa-surface-hover);">
         <.column size="20"><div class="grid-demo-cell">Left</div></.column>
         <.column size="20"><div class="grid-demo-cell">Right</div></.column>
       </.grid>
 
-      <.paragraph class="pa-text--secondary mb-2"><.code>.pa-row--around</.code></.paragraph>
+      <.paragraph class="pa-text--secondary mb-2"><.code>.pc-row--around</.code></.paragraph>
       <.grid align="around" class="mb-4" style="background: var(--pa-surface-hover);">
         <.column size="20"><div class="grid-demo-cell">A</div></.column>
         <.column size="20"><div class="grid-demo-cell">B</div></.column>
@@ -342,21 +342,21 @@ defmodule DemoWeb.Live.GridLive do
       <.heading level={4}>Vertical Alignment</.heading>
       <.grid>
         <.column size="100" md="1-3">
-          <.paragraph class="pa-text--secondary mb-2"><.code>.pa-row--top</.code></.paragraph>
+          <.paragraph class="pa-text--secondary mb-2"><.code>.pc-row--top</.code></.paragraph>
           <.grid valign="top" style="background: var(--pa-surface-hover); min-height: 100px;">
             <.column><div class="grid-demo-cell">Top</div></.column>
             <.column><div class="grid-demo-cell">Top</div></.column>
           </.grid>
         </.column>
         <.column size="100" md="1-3">
-          <.paragraph class="pa-text--secondary mb-2"><.code>.pa-row--middle</.code></.paragraph>
+          <.paragraph class="pa-text--secondary mb-2"><.code>.pc-row--middle</.code></.paragraph>
           <.grid valign="middle" style="background: var(--pa-surface-hover); min-height: 100px;">
             <.column><div class="grid-demo-cell">Middle</div></.column>
             <.column><div class="grid-demo-cell">Middle</div></.column>
           </.grid>
         </.column>
         <.column size="100" md="1-3">
-          <.paragraph class="pa-text--secondary mb-2"><.code>.pa-row--bottom</.code></.paragraph>
+          <.paragraph class="pa-text--secondary mb-2"><.code>.pc-row--bottom</.code></.paragraph>
           <.grid valign="bottom" style="background: var(--pa-surface-hover); min-height: 100px;">
             <.column><div class="grid-demo-cell">Bottom</div></.column>
             <.column><div class="grid-demo-cell">Bottom</div></.column>
@@ -367,7 +367,7 @@ defmodule DemoWeb.Live.GridLive do
 
     <%!-- No Gutter --%>
     <.card title_text="No Gutter">
-      <:subtitle>Remove spacing between columns with <.code>.pa-row--no-gutter</.code></:subtitle>
+      <:subtitle>Remove spacing between columns with <.code>.pc-row--no-gutter</.code></:subtitle>
       <.heading level={4}>Default (with gutter)</.heading>
       <.grid class="mb-4">
         <.column size="1-3"><div class="grid-demo-cell">1/3</div></.column>
@@ -386,12 +386,12 @@ defmodule DemoWeb.Live.GridLive do
     <%!-- Visibility Utilities --%>
     <.card title_text="Visibility Utilities" subtitle_text="Show/hide elements at different breakpoints">
       <.table rows={[
-        %{class: ".pa-hide", desc: "Always hidden"},
-        %{class: ".pa-show", desc: "Always visible"},
-        %{class: ".pa-hide-{bp}", desc: "Hidden at breakpoint and up"},
-        %{class: ".pa-show-{bp}", desc: "Visible at breakpoint and up"},
-        %{class: ".pa-hide-below-{bp}", desc: "Hidden below breakpoint"},
-        %{class: ".pa-show-below-{bp}", desc: "Visible below breakpoint"}
+        %{class: ".pc-hide", desc: "Always hidden"},
+        %{class: ".pc-show", desc: "Always visible"},
+        %{class: ".pc-hide-{bp}", desc: "Hidden at breakpoint and up"},
+        %{class: ".pc-show-{bp}", desc: "Visible at breakpoint and up"},
+        %{class: ".pc-hide-below-{bp}", desc: "Hidden below breakpoint"},
+        %{class: ".pc-show-below-{bp}", desc: "Visible below breakpoint"}
       ]} is_striped class="mb-4">
         <:col :let={row} label="Class"><.code>{row.class}</.code></:col>
         <:col :let={row} label="Description">{row.desc}</:col>
@@ -400,11 +400,11 @@ defmodule DemoWeb.Live.GridLive do
       <.heading level={4}>Live Demo (resize browser)</.heading>
       <.grid>
         <.column>
-          <div class="grid-demo-cell pa-hide-md" style="background: var(--base-danger-color);">
-            <strong>Mobile Only</strong><br />.pa-hide-md
+          <div class="grid-demo-cell pc-hide-md" style="background: var(--base-danger-color);">
+            <strong>Mobile Only</strong><br />.pc-hide-md
           </div>
-          <div class="grid-demo-cell pa-hide-below-md" style="background: var(--base-success-color);">
-            <strong>Desktop Only</strong><br />.pa-hide-below-md
+          <div class="grid-demo-cell pc-hide-below-md" style="background: var(--base-success-color);">
+            <strong>Desktop Only</strong><br />.pc-hide-below-md
           </div>
         </.column>
       </.grid>
@@ -434,21 +434,21 @@ defmodule DemoWeb.Live.GridLive do
         <.column size="100" md="50">
           <.heading level={4}>Percentage Classes</.heading>
           <.paragraph class="pa-text--secondary">
-            <.code>.pa-col-5</.code> <.code>.pa-col-10</.code> <.code>.pa-col-15</.code> <.code>.pa-col-20</.code> <.code>.pa-col-25</.code><br />
-            <.code>.pa-col-30</.code> <.code>.pa-col-35</.code> <.code>.pa-col-40</.code> <.code>.pa-col-45</.code> <.code>.pa-col-50</.code><br />
-            <.code>.pa-col-55</.code> <.code>.pa-col-60</.code> <.code>.pa-col-65</.code> <.code>.pa-col-70</.code> <.code>.pa-col-75</.code><br />
-            <.code>.pa-col-80</.code> <.code>.pa-col-85</.code> <.code>.pa-col-90</.code> <.code>.pa-col-95</.code> <.code>.pa-col-100</.code>
+            <.code>.pc-col-5</.code> <.code>.pc-col-10</.code> <.code>.pc-col-15</.code> <.code>.pc-col-20</.code> <.code>.pc-col-25</.code><br />
+            <.code>.pc-col-30</.code> <.code>.pc-col-35</.code> <.code>.pc-col-40</.code> <.code>.pc-col-45</.code> <.code>.pc-col-50</.code><br />
+            <.code>.pc-col-55</.code> <.code>.pc-col-60</.code> <.code>.pc-col-65</.code> <.code>.pc-col-70</.code> <.code>.pc-col-75</.code><br />
+            <.code>.pc-col-80</.code> <.code>.pc-col-85</.code> <.code>.pc-col-90</.code> <.code>.pc-col-95</.code> <.code>.pc-col-100</.code>
           </.paragraph>
         </.column>
         <.column size="100" md="50">
           <.heading level={4}>Fraction Classes</.heading>
           <.paragraph class="pa-text--secondary">
-            <.code>.pa-col-1-2</.code><br />
-            <.code>.pa-col-1-3</.code> <.code>.pa-col-2-3</.code><br />
-            <.code>.pa-col-1-4</.code> <.code>.pa-col-3-4</.code><br />
-            <.code>.pa-col-1-5</.code> <.code>.pa-col-2-5</.code> <.code>.pa-col-3-5</.code> <.code>.pa-col-4-5</.code><br />
-            <.code>.pa-col-1-6</.code> <.code>.pa-col-5-6</.code><br />
-            <.code>.pa-col-1-12</.code> <.code>.pa-col-5-12</.code> <.code>.pa-col-7-12</.code> <.code>.pa-col-11-12</.code>
+            <.code>.pc-col-1-2</.code><br />
+            <.code>.pc-col-1-3</.code> <.code>.pc-col-2-3</.code><br />
+            <.code>.pc-col-1-4</.code> <.code>.pc-col-3-4</.code><br />
+            <.code>.pc-col-1-5</.code> <.code>.pc-col-2-5</.code> <.code>.pc-col-3-5</.code> <.code>.pc-col-4-5</.code><br />
+            <.code>.pc-col-1-6</.code> <.code>.pc-col-5-6</.code><br />
+            <.code>.pc-col-1-12</.code> <.code>.pc-col-5-12</.code> <.code>.pc-col-7-12</.code> <.code>.pc-col-11-12</.code>
           </.paragraph>
         </.column>
       </.grid>

@@ -282,29 +282,29 @@ defmodule DemoWeb.Live.ValidationsLive do
 
       <form class="pa-form">
         <.form_group is_horizontal class="align-items-center">
-          <.form_label class="pa-col-md-25" for="company-name">Company Name</.form_label>
-          <div class="pa-col-md-40">
+          <.form_label class="pc-col-md-25" for="company-name">Company Name</.form_label>
+          <div class="pc-col-md-40">
             <.input type="text" id="company-name" value="" validation="error" />
           </div>
-          <div class="pa-col-md-35">
+          <div class="pc-col-md-35">
             <.form_help variant="error" class="mt-0">Company name is required</.form_help>
           </div>
         </.form_group>
         <.form_group is_horizontal class="align-items-center">
-          <.form_label class="pa-col-md-25" for="website-url">Website URL</.form_label>
-          <div class="pa-col-md-40">
+          <.form_label class="pc-col-md-25" for="website-url">Website URL</.form_label>
+          <div class="pc-col-md-40">
             <.input type="url" id="website-url" value="not-a-url" validation="error" />
           </div>
-          <div class="pa-col-md-35">
+          <div class="pc-col-md-35">
             <.form_help variant="error" class="mt-0">Please enter a valid URL (e.g., https://example.com)</.form_help>
           </div>
         </.form_group>
         <.form_group is_horizontal class="align-items-center">
-          <.form_label class="pa-col-md-25" for="industry-select">Industry</.form_label>
-          <div class="pa-col-md-40">
+          <.form_label class="pc-col-md-25" for="industry-select">Industry</.form_label>
+          <div class="pc-col-md-40">
             <.select id="industry-select" validation="success" options={["Technology"]} />
           </div>
-          <div class="pa-col-md-35">
+          <div class="pc-col-md-35">
             <.form_help variant="success" class="mt-0">&#10003; Valid selection</.form_help>
           </div>
         </.form_group>

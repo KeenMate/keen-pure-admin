@@ -2,7 +2,7 @@ defmodule PureAdmin.Components.Grid do
   @moduledoc """
   Grid system components for Pure Admin.
 
-  Provides `grid/1` (row) and `column/1` wrapping the `pa-row` and `pa-col-*` classes.
+  Provides `grid/1` (row) and `column/1` wrapping the `pc-row` and `pc-col-*` classes.
   """
   use Phoenix.Component
 
@@ -42,12 +42,12 @@ defmodule PureAdmin.Components.Grid do
 
   defp row_classes(assigns) do
     build_classes(
-      "pa-row",
+      "pc-row",
       [
-        {"pa-row--no-gutter", assigns.is_no_gutter},
-        {"pa-row--same-height", assigns.is_same_height},
-        {"pa-row--#{assigns.align}", assigns.align != nil},
-        {"pa-row--#{assigns.valign}", assigns.valign != nil}
+        {"pc-row--no-gutter", assigns.is_no_gutter},
+        {"pc-row--same-height", assigns.is_same_height},
+        {"pc-row--#{assigns.align}", assigns.align != nil},
+        {"pc-row--#{assigns.valign}", assigns.valign != nil}
       ],
       assigns.class
     )
@@ -91,20 +91,20 @@ defmodule PureAdmin.Components.Grid do
   defp col_classes(assigns) do
     classes =
       [
-        assigns.size && "pa-col-#{assigns.size}",
-        assigns.sm && "pa-col-sm-#{assigns.sm}",
-        assigns.md && "pa-col-md-#{assigns.md}",
-        assigns.lg && "pa-col-lg-#{assigns.lg}",
-        assigns.xl && "pa-col-xl-#{assigns.xl}",
-        assigns.offset && "pa-offset-#{assigns.offset}",
-        assigns.is_no_padding && "pa-col--no-padding",
-        assigns.is_grow && "pa-col--grow",
-        assigns.is_shrink && "pa-col--shrink",
+        assigns.size && "pc-col-#{assigns.size}",
+        assigns.sm && "pc-col-sm-#{assigns.sm}",
+        assigns.md && "pc-col-md-#{assigns.md}",
+        assigns.lg && "pc-col-lg-#{assigns.lg}",
+        assigns.xl && "pc-col-xl-#{assigns.xl}",
+        assigns.offset && "pc-offset-#{assigns.offset}",
+        assigns.is_no_padding && "pc-col--no-padding",
+        assigns.is_grow && "pc-col--grow",
+        assigns.is_shrink && "pc-col--shrink",
         assigns.class
       ]
       |> Enum.reject(&is_nil/1)
       |> Enum.join(" ")
 
-    if classes == "", do: "pa-col", else: classes
+    if classes == "", do: "pc-col", else: classes
   end
 end

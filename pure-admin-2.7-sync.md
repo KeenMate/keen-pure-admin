@@ -76,7 +76,7 @@ Both constraints inform the API shape, so they should be addressed in the
 - [ ] **Document text-contrast tiers**: `--pa-text-strong` (85%) /
   `--pa-text-secondary` (70%) / `--pa-text-tertiary` (55%). Note that
   themes must emit these at every mode-switching scope (`:root`,
-  `.pa-mode-light`, `.pa-mode-dark`) — the framework already does this, but
+  `.pc-mode-light`, `.pc-mode-dark`) — the framework already does this, but
   any custom theme overriding the tiers needs the same pattern.
 - [ ] **Document surface tints**: `--pa-surface-hover` (4%) /
   `--pa-surface-track` (12%).

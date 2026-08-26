@@ -124,14 +124,14 @@ defmodule DemoWeb.Live.KpiSparklineListLive do
 
     <%!-- 2. 1×3 page-grid --%>
 
-    <h3>1×3 · <code>.pa-col-1-3</code> columns</h3>
+    <h3>1×3 · <code>.pc-col-1-3</code> columns</h3>
     <p>
-      Each card holds two rows in its own <code>.pa-col-1-3</code>. Container queries collapse the row
+      Each card holds two rows in its own <code>.pc-col-1-3</code>. Container queries collapse the row
       template to a 2-row stack at mid-narrow widths — same markup, different layout per card.
     </p>
 
-    <div class="pa-row">
-      <div :for={pair <- rows() |> Enum.chunk_every(2) |> Enum.take(3)} class="pa-col-100 pa-col-md-1-3">
+    <div class="pc-row">
+      <div :for={pair <- rows() |> Enum.chunk_every(2) |> Enum.take(3)} class="pc-col-100 pc-col-md-1-3">
         <.kpi_sparkline_list>
           <.row :for={r <- pair} {row_assigns(r, "c13-")} />
         </.kpi_sparkline_list>
@@ -149,18 +149,18 @@ defmodule DemoWeb.Live.KpiSparklineListLive do
       and third cards side-by-side.
     </p>
 
-    <div class="pa-row">
-      <div class="pa-col-100 pa-col-md-25">
+    <div class="pc-row">
+      <div class="pc-col-100 pc-col-md-25">
         <.kpi_sparkline_list>
           <.row :for={r <- Enum.take(rows(), 2)} {row_assigns(r, "asym1-")} />
         </.kpi_sparkline_list>
       </div>
-      <div class="pa-col-100 pa-col-md-45">
+      <div class="pc-col-100 pc-col-md-45">
         <.kpi_sparkline_list>
           <.row :for={r <- rows() |> Enum.drop(2) |> Enum.take(2)} {row_assigns(r, "asym2-")} />
         </.kpi_sparkline_list>
       </div>
-      <div class="pa-col-100 pa-col-md-25">
+      <div class="pc-col-100 pc-col-md-25">
         <.kpi_sparkline_list is_chart_first>
           <.row :for={r <- Enum.take(rows(), 2)} {row_assigns(r, "asym3-")} />
         </.kpi_sparkline_list>

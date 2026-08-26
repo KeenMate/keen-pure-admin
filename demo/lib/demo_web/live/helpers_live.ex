@@ -11,12 +11,12 @@ defmodule DemoWeb.Live.HelpersLive do
 
     <.card title_text="Visibility">
       <.table rows={[
-        %{class: ".pa-hide", desc: "Always hidden"},
-        %{class: ".pa-show", desc: "Always visible"},
-        %{class: ".pa-hide-&#123;bp&#125;", desc: "Hidden at breakpoint and up"},
-        %{class: ".pa-show-&#123;bp&#125;", desc: "Visible at breakpoint and up"},
-        %{class: ".pa-hide-below-&#123;bp&#125;", desc: "Hidden below breakpoint"},
-        %{class: ".pa-show-below-&#123;bp&#125;", desc: "Visible below breakpoint"}
+        %{class: ".pc-hide", desc: "Always hidden"},
+        %{class: ".pc-show", desc: "Always visible"},
+        %{class: ".pc-hide-&#123;bp&#125;", desc: "Hidden at breakpoint and up"},
+        %{class: ".pc-show-&#123;bp&#125;", desc: "Visible at breakpoint and up"},
+        %{class: ".pc-hide-below-&#123;bp&#125;", desc: "Hidden below breakpoint"},
+        %{class: ".pc-show-below-&#123;bp&#125;", desc: "Visible below breakpoint"}
       ]} is_striped>
         <:col :let={row} label="Class"><code>{row.class}</code></:col>
         <:col :let={row} label="Description">{row.desc}</:col>

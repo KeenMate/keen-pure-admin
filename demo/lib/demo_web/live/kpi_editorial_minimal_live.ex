@@ -71,11 +71,11 @@ defmodule DemoWeb.Live.KpiEditorialMinimalLive do
 
     <%!-- 5. 1×3 page-grid --%>
 
-    <h3>1×3 · <code>.pa-col-1-3</code> columns</h3>
+    <h3>1×3 · <code>.pc-col-1-3</code> columns</h3>
     <p>Each card holds 4 tiles in 2 columns. Tests how the extra-light numerals scale at narrow widths via the per-tile container query.</p>
 
-    <div class="pa-row">
-      <div :for={i <- 1..3} class="pa-col-100 pa-col-md-1-3">
+    <div class="pc-row">
+      <div :for={i <- 1..3} class="pc-col-100 pc-col-md-1-3">
         <.kpi_editorial is_2_columns>
           <.tile :for={t <- Enum.take(tiles(), 4)} {tile_assigns(t, "c13-#{i}-")} />
         </.kpi_editorial>

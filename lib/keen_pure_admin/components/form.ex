@@ -690,8 +690,8 @@ defmodule PureAdmin.Components.Form do
       {@rest}
     >
       <%= render_slot(@inner_block) %>
-      <div :for={actions <- @actions} class="pa-row">
-        <div class="pa-col-100 text-end">
+      <div :for={actions <- @actions} class="pc-row">
+        <div class="pc-col-100 text-end">
           <%= render_slot(actions) %>
         </div>
       </div>

@@ -336,7 +336,7 @@ defmodule DemoWeb.Live.DataDisplayLive do
          ============================================================ --%>
 
     <.card title_text="Real-World: Invoice Layout">
-      <:description>Customer (full width) + Receipt/Delivery addresses (50/50). Combines <code>pa-field-group</code> with <code>pa-row</code>/<code>pa-col-*</code>.</:description>
+      <:description>Customer (full width) + Receipt/Delivery addresses (50/50). Combines <code>pa-field-group</code> with <code>pc-row</code>/<code>pc-col-*</code>.</:description>
 
       <.field_group title="Customer">
         <.fields cols="3">

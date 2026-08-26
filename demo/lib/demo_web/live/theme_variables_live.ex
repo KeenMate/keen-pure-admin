@@ -124,7 +124,7 @@ defmodule DemoWeb.Live.ThemeVariablesLive do
 
     <.callout variant="info">
       <:title>Overriding Variables</:title>
-      Create a custom theme by overriding these variables in your CSS. Use <code>:root</code> for global overrides or scope to <code>.pa-mode-light</code> / <code>.pa-mode-dark</code> for mode-specific values.
+      Create a custom theme by overriding these variables in your CSS. Use <code>:root</code> for global overrides or scope to <code>.pc-mode-light</code> / <code>.pc-mode-dark</code> for mode-specific values.
     </.callout>
     """
   end

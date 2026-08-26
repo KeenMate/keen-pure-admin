@@ -16,8 +16,8 @@ Drop-in replacement for Phoenix `CoreComponents` -- provides `button/1`, `badge/
 
 Maintenance sync to `@keenmate/pure-admin-core` `^2.9.0-rc08`. Highlights:
 
-- **Peer-dep bumped `^2.9.0-rc07` → `^2.9.0-rc08`.** rc08 is an internal upstream SCSS restructuring (the variable system, utilities, and the `.pa-row`/`.pa-col` grid moved into the shared `@keenmate/pure-css` package) — public import paths and every emitted class name are unchanged, so no component, hook, or emitted DOM changed. Reinstall themes (`npx @keenmate/pureadmin themes install`) to pick up the rc08 CSS.
-- **Verified no impact** from rc08's breaking-looking changes: the removed legacy PureCSS `.pure-g`/`.pure-u-*` grid isn't used (we already emit `.pa-row`/`.pa-col-*`), and the new SCSS `--load-path=node_modules` build requirement is internal to upstream theme compilation.
+- **Peer-dep bumped `^2.9.0-rc07` → `^2.9.0-rc08`.** rc08 is an internal upstream SCSS restructuring (the variable system, utilities, and the `.pc-row`/`.pc-col` grid moved into the shared `@keenmate/pure-css` package) — public import paths and every emitted class name are unchanged, so no component, hook, or emitted DOM changed. Reinstall themes (`npx @keenmate/pureadmin themes install`) to pick up the rc08 CSS.
+- **Verified no impact** from rc08's breaking-looking changes: the removed legacy PureCSS `.pure-g`/`.pure-u-*` grid isn't used (we already emit `.pc-row`/`.pc-col-*`), and the new SCSS `--load-path=node_modules` build requirement is internal to upstream theme compilation.
 - **Docs** — corrected the downloaded theme-zip structure (`css/`, not `dist/`) and documented both theme-install paths (pureadmin CLI + manual download) in getting-started.
 
 See the full [CHANGELOG](CHANGELOG.md) for details.

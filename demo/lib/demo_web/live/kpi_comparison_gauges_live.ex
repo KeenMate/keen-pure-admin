@@ -106,14 +106,14 @@ defmodule DemoWeb.Live.KpiComparisonGaugesLive do
 
     <%!-- 2. 1×3 page-grid (each card with --2col) --%>
 
-    <h3>1×3 · <code>.pa-col-1-3</code> columns, each card <code>--2col</code></h3>
+    <h3>1×3 · <code>.pc-col-1-3</code> columns, each card <code>--2col</code></h3>
     <p>
       Each card carries two gauges in a deterministic 2-col grid. Useful at moderate viewport widths where
       auto-fit would still pack only 1 col per card.
     </p>
 
-    <div class="pa-row">
-      <div :for={pair <- gauges() |> Enum.chunk_every(2) |> Enum.take(3)} class="pa-col-100 pa-col-md-1-3">
+    <div class="pc-row">
+      <div :for={pair <- gauges() |> Enum.chunk_every(2) |> Enum.take(3)} class="pc-col-100 pc-col-md-1-3">
         <.kpi_gauge_list grid_layout="2col">
           <.gauge_tile :for={g <- pair} {gauge_assigns(g, "c13-")} />
         </.kpi_gauge_list>
@@ -124,24 +124,24 @@ defmodule DemoWeb.Live.KpiComparisonGaugesLive do
 
     <%!-- 3. Asymmetric 25/45/30 --%>
 
-    <h3>Asymmetric · <code>.pa-col-25</code> + <code>.pa-col-45</code> + <code>.pa-col-30</code></h3>
+    <h3>Asymmetric · <code>.pc-col-25</code> + <code>.pc-col-45</code> + <code>.pc-col-30</code></h3>
     <p>
       Mixed-width cells: narrow 25% uses <code>cell_min_width="16rem"</code> to keep 1 col; the mid 45%
       auto-fits 2 cols; the 30% caps at 2 columns via <code>--max-2</code>.
     </p>
 
-    <div class="pa-row">
-      <div class="pa-col-100 pa-col-md-25">
+    <div class="pc-row">
+      <div class="pc-col-100 pc-col-md-25">
         <.kpi_gauge_list cell_min_width="16rem">
           <.gauge_tile :for={g <- Enum.take(gauges(), 3)} {gauge_assigns(g, "asym1-")} />
         </.kpi_gauge_list>
       </div>
-      <div class="pa-col-100 pa-col-md-45">
+      <div class="pc-col-100 pc-col-md-45">
         <.kpi_gauge_list>
           <.gauge_tile :for={g <- Enum.take(gauges(), 4)} {gauge_assigns(g, "asym2-")} />
         </.kpi_gauge_list>
       </div>
-      <div class="pa-col-100 pa-col-md-30">
+      <div class="pc-col-100 pc-col-md-30">
         <.kpi_gauge_list grid_layout="max_2">
           <.gauge_tile :for={g <- Enum.take(gauges(), 2)} {gauge_assigns(g, "asym3-")} />
         </.kpi_gauge_list>

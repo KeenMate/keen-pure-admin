@@ -164,15 +164,15 @@ defmodule DemoWeb.Live.KpiTerminalGridLive do
 
     <%!-- 2. Layout test — 1×3 page-grid columns --%>
 
-    <h3>1×3 · <code>.pa-col-1-3</code> columns</h3>
+    <h3>1×3 · <code>.pc-col-1-3</code> columns</h3>
     <p>
-      Each tile in its own <code>.pa-col-1-3</code> (33% page-grid column) as a <em>standalone</em> mini-card
+      Each tile in its own <code>.pc-col-1-3</code> (33% page-grid column) as a <em>standalone</em> mini-card
       — no shared terminal-grid chrome, no tabs. Tests how a single tile renders at one-third of the viewport
       width, the typical "stat strip" placement.
     </p>
 
-    <div class="pa-row">
-      <div :for={t <- tiles_overview() |> Enum.take(3) |> Enum.with_index()} class="pa-col-100 pa-col-md-1-3">
+    <div class="pc-row">
+      <div :for={t <- tiles_overview() |> Enum.take(3) |> Enum.with_index()} class="pc-col-100 pc-col-md-1-3">
         <.tile {tile_assigns(elem(t, 0), "col13-")} is_standalone />
       </div>
     </div>
@@ -181,21 +181,21 @@ defmodule DemoWeb.Live.KpiTerminalGridLive do
 
     <%!-- 3. Layout test — 25 / 45 asymmetric --%>
 
-    <h3>Asymmetric · <code>.pa-col-25</code> + <code>.pa-col-45</code> + <code>.pa-col-30</code></h3>
+    <h3>Asymmetric · <code>.pc-col-25</code> + <code>.pc-col-45</code> + <code>.pc-col-30</code></h3>
     <p>
-      Mixed-width page-grid: a narrow <code>.pa-col-25</code> (25%), a mid <code>.pa-col-45</code> (45%),
-      and a <code>.pa-col-30</code> (30%) all carrying standalone tiles. Surfaces how the typography + layout
+      Mixed-width page-grid: a narrow <code>.pc-col-25</code> (25%), a mid <code>.pc-col-45</code> (45%),
+      and a <code>.pc-col-30</code> (30%) all carrying standalone tiles. Surfaces how the typography + layout
       handles narrow vs wide cells in the same row.
     </p>
 
-    <div class="pa-row">
-      <div class="pa-col-100 pa-col-md-25">
+    <div class="pc-row">
+      <div class="pc-col-100 pc-col-md-25">
         <.tile {tile_assigns(Enum.at(tiles_overview(), 0), "asym-")} is_standalone />
       </div>
-      <div class="pa-col-100 pa-col-md-45">
+      <div class="pc-col-100 pc-col-md-45">
         <.tile {tile_assigns(Enum.at(tiles_overview(), 1), "asym-")} is_standalone />
       </div>
-      <div class="pa-col-100 pa-col-md-30">
+      <div class="pc-col-100 pc-col-md-30">
         <.tile {tile_assigns(Enum.at(tiles_overview(), 4), "asym-")} is_standalone />
       </div>
     </div>
@@ -316,7 +316,7 @@ defmodule DemoWeb.Live.KpiTerminalGridLive do
       <h4 class="mt-4">is_standalone modifier</h4>
       <p>
         Tiles inside a <code>kpi_terminal</code> share grid-bookkeeping borders. A tile placed directly
-        inside a <code>.pa-col-*</code> outside a grid needs <code>is_standalone</code> to draw its own
+        inside a <code>.pc-col-*</code> outside a grid needs <code>is_standalone</code> to draw its own
         full border + card-bg + bottom margin so it doesn't look orphaned.
       </p>
 
@@ -364,7 +364,7 @@ defmodule DemoWeb.Live.KpiTerminalGridLive do
       <h4 class="mt-4">Tile structure</h4>
       <ul class="pa-list-basic pa-list-basic--compact">
         <li><code>pa-kpi-tile</code> — single tile.</li>
-        <li><code>pa-kpi-tile--standalone</code> — for tiles directly in a <code>.pa-col-*</code> outside a grid.</li>
+        <li><code>pa-kpi-tile--standalone</code> — for tiles directly in a <code>.pc-col-*</code> outside a grid.</li>
         <li><code>pa-kpi-tile--up-strong</code> / <code>--up</code> / <code>--flat</code> / <code>--down</code> / <code>--down-strong</code> — sparkline-direction sentiment.</li>
       </ul>
 

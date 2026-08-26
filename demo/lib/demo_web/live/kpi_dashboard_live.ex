@@ -59,8 +59,8 @@ defmodule DemoWeb.Live.KpiDashboardLive do
 
     <%!-- Row 2: Terminal grid + Editorial minimal side by side --%>
 
-    <div class="pa-row">
-      <div class="pa-col-100 pa-col-md-50">
+    <div class="pc-row">
+      <div class="pc-col-100 pc-col-md-50">
         <.kpi_terminal title_text="Operations" is_live>
           <.kpi_tile id="cd-t1" id_text="OPS.01" status_text="GOOD" status_variant="good" label_text="Uptime" value_text="99.97" unit_text="%" variant="up" delta_text="▲ 0.04pp" delta_variant="positive">
             <:chart>
@@ -85,7 +85,7 @@ defmodule DemoWeb.Live.KpiDashboardLive do
         </.kpi_terminal>
       </div>
 
-      <div class="pa-col-100 pa-col-md-50">
+      <div class="pc-col-100 pc-col-md-50">
         <.kpi_editorial title_text="Executive Summary" is_2_columns>
           <.kpi_editorial_tile label_text="REVENUE" prefix_text="$" value_text="847" unit_text="K" delta_text="+13.3%" delta_variant="positive" target_text="$900K" />
           <.kpi_editorial_tile label_text="ARPU" prefix_text="$" value_text="34.20" delta_text="+7.5%" delta_variant="positive" target_text="$36" />

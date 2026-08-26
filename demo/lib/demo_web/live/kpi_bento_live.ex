@@ -82,10 +82,10 @@ defmodule DemoWeb.Live.KpiBentoLive do
     <%!-- 4. 1×3 page-grid · row_height bump --%>
 
     <h3>1×3 · <code>row_height="14rem"</code></h3>
-    <p>Each card holds a 5-tile bento in its own <code>.pa-col-1-3</code>. <code>row_height</code> bumped to 14rem so the narrow tiles don't compress.</p>
+    <p>Each card holds a 5-tile bento in its own <code>.pc-col-1-3</code>. <code>row_height</code> bumped to 14rem so the narrow tiles don't compress.</p>
 
-    <div class="pa-row">
-      <div :for={i <- 1..3} class="pa-col-100 pa-col-md-1-3">
+    <div class="pc-row">
+      <div :for={i <- 1..3} class="pc-col-100 pc-col-md-1-3">
         <.kpi_bento bento_layout="5_tile" row_height="14rem">
           <.bento_tile :for={t <- Enum.take(tiles_default("c13-#{i}-"), 5)} {t} />
         </.kpi_bento>
