@@ -93,7 +93,7 @@ defmodule DemoWeb.Live.InputsLive do
 
         <%!-- Theme Color Variants --%>
         <.column size="100" class="mt-4">
-          <.form_label class="mb-2"><strong>Theme Color Variants</strong> (using --pa-color-* CSS variables)</.form_label>
+          <.form_label class="mb-2"><strong>Theme Color Variants</strong> (using --pc-color-* CSS variables)</.form_label>
         </.column>
         <.column size="100" md="1-3">
           <.form_group>

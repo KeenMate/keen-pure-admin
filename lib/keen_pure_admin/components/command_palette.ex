@@ -62,7 +62,7 @@ defmodule PureAdmin.Components.CommandPalette do
 
   # Size preset (rc15): sets container width + results height together. For an
   # arbitrary size, leave this nil and override the runtime CSS variables
-  # (`--pa-command-palette-width` / `-offset-top` / `-results-max-height`) at
+  # (`--pc-command-palette-width` / `-offset-top` / `-results-max-height`) at
   # `:root`, inline, or per-instance instead — no recompile needed.
   attr(:size, :string,
     default: nil,

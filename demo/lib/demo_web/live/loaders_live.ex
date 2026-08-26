@@ -76,7 +76,7 @@ defmodule DemoWeb.Live.LoadersLive do
 
     <%!-- Centered Loaders --%>
     <.card title_text="Centered Loaders" class="mb-6">
-      <div class="h-20x position-relative border border-dashed rounded">
+      <div class="hr-20 position-relative border border-dashed rounded">
         <.loader_overlay>
           <.spinner variant="primary" />
         </.loader_overlay>
@@ -87,13 +87,13 @@ defmodule DemoWeb.Live.LoadersLive do
     <.card title_text="Loaders with Text" class="mb-6">
       <.grid>
         <.column size="100" md="1-2" class="mb-4">
-          <.loader_center class="h-15x border border-dashed rounded">
+          <.loader_center class="hr-15 border border-dashed rounded">
             <.spinner variant="primary" />
             <.paragraph class="mt-4 text-secondary">Loading data...</.paragraph>
           </.loader_center>
         </.column>
         <.column size="100" md="1-2" class="mb-4">
-          <.loader_center class="h-15x border border-dashed rounded">
+          <.loader_center class="hr-15 border border-dashed rounded">
             <.spinner variant="success" />
             <.paragraph class="mt-4 text-secondary">Processing...</.paragraph>
           </.loader_center>
@@ -107,7 +107,7 @@ defmodule DemoWeb.Live.LoadersLive do
         <.column size="100" md="1-3" class="mb-4">
           <.card>
             <:header><.heading level={4}>Loading Card</.heading></:header>
-            <div class="h-15x position-relative">
+            <div class="hr-15 position-relative">
               <.loader_overlay>
                 <.spinner variant="primary" />
               </.loader_overlay>
@@ -117,7 +117,7 @@ defmodule DemoWeb.Live.LoadersLive do
         <.column size="100" md="1-3" class="mb-4">
           <.card>
             <:header><.heading level={4}>Loading with Text</.heading></:header>
-            <.loader_center class="h-15x">
+            <.loader_center class="hr-15">
               <.spinner variant="info" />
               <.paragraph class="mt-4 text-secondary">Fetching data...</.paragraph>
             </.loader_center>

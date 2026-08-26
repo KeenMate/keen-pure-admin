@@ -59,15 +59,15 @@ defmodule DemoWeb.Live.ThemeVariablesLive do
 
     <.card title_text="Layout & Structure">
       <.table rows={[
-        %{var: "--pa-header-bg", desc: "Navbar background"},
-        %{var: "--pa-header-text", desc: "Navbar text color"},
-        %{var: "--pa-sidebar-bg", desc: "Sidebar background"},
-        %{var: "--pa-sidebar-text", desc: "Sidebar text color"},
-        %{var: "--pa-sidebar-width", desc: "Sidebar width (default: 26rem)"},
-        %{var: "--pa-sidebar-collapsed-width", desc: "Sidebar icon-only width"},
-        %{var: "--pa-footer-bg", desc: "Footer background"},
-        %{var: "--pa-footer-text", desc: "Footer text color"},
-        %{var: "--pa-bg-light", desc: "Subtle tinted background for panels"}
+        %{var: "--pc-header-bg", desc: "Navbar background"},
+        %{var: "--pc-header-text", desc: "Navbar text color"},
+        %{var: "--pc-sidebar-bg", desc: "Sidebar background"},
+        %{var: "--pc-sidebar-text", desc: "Sidebar text color"},
+        %{var: "--pc-sidebar-width", desc: "Sidebar width (default: 26rem)"},
+        %{var: "--pc-sidebar-collapsed-width", desc: "Sidebar icon-only width"},
+        %{var: "--pc-footer-bg", desc: "Footer background"},
+        %{var: "--pc-footer-text", desc: "Footer text color"},
+        %{var: "--pc-bg-light", desc: "Subtle tinted background for panels"}
       ]} is_striped>
         <:col :let={row} label="Variable"><code>{row.var}</code></:col>
         <:col :let={row} label="Description">{row.desc}</:col>
@@ -103,19 +103,19 @@ defmodule DemoWeb.Live.ThemeVariablesLive do
 
     <.card title_text="Component Variables">
       <.table rows={[
-        %{var: "--pa-card-bg", desc: "Card background"},
-        %{var: "--pa-card-border", desc: "Card border color"},
-        %{var: "--pa-card-shadow", desc: "Card box shadow"},
-        %{var: "--pa-card-radius", desc: "Card border radius"},
-        %{var: "--pa-input-bg", desc: "Input background"},
-        %{var: "--pa-input-border", desc: "Input border color"},
-        %{var: "--pa-input-focus-border", desc: "Input focus border color"},
-        %{var: "--pa-table-border", desc: "Table border color"},
-        %{var: "--pa-table-stripe-bg", desc: "Table striped row background"},
-        %{var: "--pa-table-hover-bg", desc: "Table hover row background"},
-        %{var: "--pa-modal-bg", desc: "Modal backdrop color"},
-        %{var: "--pa-tooltip-bg", desc: "Tooltip background"},
-        %{var: "--pa-tooltip-text", desc: "Tooltip text color"}
+        %{var: "--pc-card-bg", desc: "Card background"},
+        %{var: "--pc-card-border", desc: "Card border color"},
+        %{var: "--pc-card-shadow", desc: "Card box shadow"},
+        %{var: "--pc-card-radius", desc: "Card border radius"},
+        %{var: "--pc-input-bg", desc: "Input background"},
+        %{var: "--pc-input-border", desc: "Input border color"},
+        %{var: "--pc-input-focus-border", desc: "Input focus border color"},
+        %{var: "--pc-table-border", desc: "Table border color"},
+        %{var: "--pc-table-stripe-bg", desc: "Table striped row background"},
+        %{var: "--pc-table-hover-bg", desc: "Table hover row background"},
+        %{var: "--pc-modal-bg", desc: "Modal backdrop color"},
+        %{var: "--pc-tooltip-bg", desc: "Tooltip background"},
+        %{var: "--pc-tooltip-text", desc: "Tooltip text color"}
       ]} is_striped>
         <:col :let={row} label="Variable"><code>{row.var}</code></:col>
         <:col :let={row} label="Description">{row.desc}</:col>

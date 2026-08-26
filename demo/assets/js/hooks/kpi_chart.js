@@ -7,7 +7,7 @@
  * scan).
  *
  * Mount on `<canvas data-kpi-chart>`. The hook reads the canvas's resolved
- * `color` (the KPI sentiment cascade sets `color: var(--pa-positive)`
+ * `color` (the KPI sentiment cascade sets `color: var(--pc-positive)`
  * etc. on the chart wrapper) and renders a Chart.js bar or line chart in
  * that colour. Re-renders on the `pa:theme-change` window event.
  *

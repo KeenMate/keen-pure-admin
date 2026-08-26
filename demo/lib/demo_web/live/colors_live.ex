@@ -64,7 +64,7 @@ defmodule DemoWeb.Live.ColorsLive do
             %{var: "--base-warning-color", desc: "Warning state"},
             %{var: "--base-danger-color", desc: "Danger state"},
             %{var: "--base-info-color", desc: "Info state"},
-            %{var: "--pa-bg-light", desc: "Subtle background"}
+            %{var: "--pc-bg-light", desc: "Subtle background"}
           ]} is_striped>
             <:col :let={row} label="Variable"><code>{row.var}</code></:col>
             <:col :let={row} label="Description">{row.desc}</:col>

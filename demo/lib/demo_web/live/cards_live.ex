@@ -703,7 +703,7 @@ defmodule DemoWeb.Live.CardsLive do
 
     <.card title_text="Live-data direction · live_state">
       <:description>
-        <code>live_state="up"</code> / <code>"down"</code> tint the card background to reflect the latest tick direction. v2.7.0 migrated the internal SCSS from <code>rgba(--pa-success-bg, X)</code> to <code>color-mix()</code> over the 5-step sentiment scale — wrapper API unchanged. Direction-of-change indicators, distinct from status (<code>--success</code> / etc.).
+        <code>live_state="up"</code> / <code>"down"</code> tint the card background to reflect the latest tick direction. v2.7.0 migrated the internal SCSS from <code>rgba(--pc-success-bg, X)</code> to <code>color-mix()</code> over the 5-step sentiment scale — wrapper API unchanged. Direction-of-change indicators, distinct from status (<code>--success</code> / etc.).
       </:description>
       <.grid>
         <.column size="1-3">

@@ -98,13 +98,13 @@ defmodule DemoWeb.Live.SplitterLive do
       <.splitter
         id="demo-horizontal"
         orientation="horizontal"
-        style="height: 360px; border: 1px solid var(--pa-border-color); border-radius: var(--pa-border-radius);"
+        style="height: 360px; border: 1px solid var(--pc-border-color); border-radius: var(--pc-border-radius);"
       >
         <:pane
           size="280px"
           min="200px"
           max="60%"
-          style="background: var(--pa-subtle-bg); padding: 1.6rem;"
+          style="background: var(--pc-subtle-bg); padding: 1.6rem;"
         >
           <.heading level="4" class="mb-3" style="margin-top: 0;">Files</.heading>
           <.basic_list>
@@ -143,13 +143,13 @@ defmodule DemoWeb.Live.SplitterLive do
       <.splitter
         id="demo-vertical"
         orientation="vertical"
-        style="height: 420px; border: 1px solid var(--pa-border-color); border-radius: var(--pa-border-radius);"
+        style="height: 420px; border: 1px solid var(--pc-border-color); border-radius: var(--pc-border-radius);"
       >
         <:pane size="60%" min="80px" max="80%" style="padding: 1.6rem;">
           <.heading level="4" class="mb-3" style="margin-top: 0;">Editor</.heading>
           <.code_block language="javascript">{@vertical_code}</.code_block>
         </:pane>
-        <:pane style="background: var(--pa-subtle-bg); padding: 1.6rem; font-family: var(--pa-font-mono, monospace); font-size: 1.3rem;">
+        <:pane style="background: var(--pc-subtle-bg); padding: 1.6rem; font-family: var(--pc-font-mono, monospace); font-size: 1.3rem;">
           <%!-- Console mockup with custom font + blinking cursor — no wrapper
                covers a custom-styled terminal-mock layout. --%>
           <div class="mb-2" style="opacity: 0.6;">$ node demo.js</div>
@@ -174,13 +174,13 @@ defmodule DemoWeb.Live.SplitterLive do
         Use native <.code>gap</.code> on the splitter root to add space between the panes
         and the gutter — the JS subtracts it from the available space so percent
         constraints stay accurate. A thicker gutter is opt-in via
-        <.code>--pa-splitter-gutter-size</.code>.
+        <.code>--pc-splitter-gutter-size</.code>.
       </.paragraph>
 
       <.splitter
         id="demo-spaced"
         orientation="horizontal"
-        style="height: 280px; gap: 1.6rem; --pa-splitter-gutter-size: 1rem;"
+        style="height: 280px; gap: 1.6rem; --pc-splitter-gutter-size: 1rem;"
       >
         <:pane size="40%" min="25%" max="75%" style="padding: 0;">
           <.card title_text="Left card" style="height: 100%; margin: 0;">
@@ -194,7 +194,7 @@ defmodule DemoWeb.Live.SplitterLive do
           <.card title_text="Right card" style="height: 100%; margin: 0;">
             <.paragraph class="mb-0">
               Drag the gutter — both cards reflow. The 10px gutter is set inline via
-              <.code>--pa-splitter-gutter-size</.code>; the default is 6px.
+              <.code>--pc-splitter-gutter-size</.code>; the default is 6px.
             </.paragraph>
           </.card>
         </:pane>
@@ -420,7 +420,7 @@ defmodule DemoWeb.Live.SplitterLive do
           </.card>
         </:pane>
         <:pane style="padding: 0;">
-          <.card style="height: 100%; margin: 0; background: var(--pa-subtle-bg);">
+          <.card style="height: 100%; margin: 0; background: var(--pc-subtle-bg);">
             <.paragraph class="text-sm text-secondary mb-0">
               Drag the gutter left/right to shrink and grow the editor card. Watch the
               action row in its header.
@@ -519,7 +519,7 @@ defmodule DemoWeb.Live.SplitterLive do
         id={"demo-multi-pane-#{@multi_pane_count}"}
         orientation="horizontal"
         is_minimize_mirror
-        style="height: 420px; border: 1px solid var(--pa-border-color); border-radius: var(--pa-border-radius); column-gap: 0.8rem; padding: 0.8rem; background: var(--pa-subtle-bg);"
+        style="height: 420px; border: 1px solid var(--pc-border-color); border-radius: var(--pc-border-radius); column-gap: 0.8rem; padding: 0.8rem; background: var(--pc-subtle-bg);"
       >
         <:pane
           :for={i <- 0..(@multi_pane_count - 1)}
@@ -741,7 +741,7 @@ defmodule DemoWeb.Live.SplitterLive do
 
 :root {
   @include output-base-css-variables;
-  @include output-pa-css-variables;
+  @include output-pc-css-variables;
 }|
   end
 

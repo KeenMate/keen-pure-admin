@@ -94,7 +94,7 @@ defmodule DemoWeb.Live.StatsLive do
 
     <.card title_text="5-step sentiment scale · v2.7.0">
       <:description>
-        The hero delta scale grew from 3 (<code>positive</code> / <code>negative</code> / <code>neutral</code>) to 5 with the addition of <code>very_positive</code> and <code>very_negative</code> for outlier deltas. Neutral colour shifted from <code>--pa-text-color-2</code> (grey) to <code>--pa-neutral</code>. Compare the five deltas side-by-side below.
+        The hero delta scale grew from 3 (<code>positive</code> / <code>negative</code> / <code>neutral</code>) to 5 with the addition of <code>very_positive</code> and <code>very_negative</code> for outlier deltas. Neutral colour shifted from <code>--pc-text-color-2</code> (grey) to <code>--pc-neutral</code>. Compare the five deltas side-by-side below.
       </:description>
       <.grid>
         <.column size="1-5">

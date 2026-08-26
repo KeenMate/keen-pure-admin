@@ -38,14 +38,14 @@ defmodule DemoWeb.Live.CodeLive do
        """,
        css_code: """
        .pa-card {
-         border-radius: var(--pa-border-radius);
-         background: var(--pa-card-bg);
-         box-shadow: var(--pa-card-shadow);
+         border-radius: var(--pc-border-radius);
+         background: var(--pc-card-bg);
+         box-shadow: var(--pc-card-shadow);
        }
 
        .pa-card__header {
-         padding: var(--pa-card-header-padding);
-         border-bottom: 1px solid var(--pa-border-color);
+         padding: var(--pc-card-header-padding);
+         border-bottom: 1px solid var(--pc-border-color);
        }\
        """
      )}

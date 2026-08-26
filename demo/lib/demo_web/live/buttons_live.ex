@@ -528,7 +528,7 @@ defmodule DemoWeb.Live.ButtonsLive do
         own options, nothing foreign mixes in. The "Members" split button's rows carry inline delete
         buttons that survive the collapse and still fire.
       </.paragraph>
-      <div style="overflow: auto; resize: horizontal; min-width: 64px; max-width: 100%; padding: 1rem; border: 1px dashed var(--pa-border-color); border-radius: var(--pa-border-radius);">
+      <div style="overflow: auto; resize: horizontal; min-width: 64px; max-width: 100%; padding: 1rem; border: 1px dashed var(--pc-border-color); border-radius: var(--pc-border-radius);">
         <.overflow id="overflow-demo-end">
           <.button variant="secondary" phx-click="split_action" phx-value-action="save">
             <:icon><i class="fas fa-floppy-disk"></i></:icon>
@@ -612,7 +612,7 @@ defmodule DemoWeb.Live.ButtonsLive do
         the leftmost child first instead. This bar also uses <code>trigger="ghost"</code> for the
         chromeless <code>[⋮]</code> look.
       </.paragraph>
-      <div style="overflow: auto; resize: horizontal; min-width: 64px; max-width: 100%; padding: 1rem; border: 1px dashed var(--pa-border-color); border-radius: var(--pa-border-radius);">
+      <div style="overflow: auto; resize: horizontal; min-width: 64px; max-width: 100%; padding: 1rem; border: 1px dashed var(--pc-border-color); border-radius: var(--pc-border-radius);">
         <.overflow id="overflow-demo-start" overflow_from="start" trigger="ghost">
           <.button variant="info" is_outline>
             <:icon><i class="fas fa-filter"></i></:icon>

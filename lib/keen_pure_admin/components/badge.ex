@@ -36,7 +36,7 @@ defmodule PureAdmin.Components.Badge do
     default: nil,
     values: [nil, "1", "2", "3", "4", "5", "6", "7", "8", "9"],
     doc:
-      "Theme colour slot 1-9. Emits `pa-badge--color-N` (v2.9.0-rc15+), which paints `--pa-color-N` with a guaranteed-contrasting `--pa-color-N-text` label — unlike the old generic `pa-bg-color-N` utility that only set the background and could land dark-text-on-dark."
+      "Theme colour slot 1-9. Emits `pa-badge--color-N` (v2.9.0-rc15+), which paints `--pc-color-N` with a guaranteed-contrasting `--pc-color-N-text` label — unlike the old generic `pa-bg-color-N` utility that only set the background and could land dark-text-on-dark."
   )
 
   attr(:class, :string, default: nil)

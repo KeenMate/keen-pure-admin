@@ -49,7 +49,7 @@ defmodule PureAdmin.Components.RangeGroup do
   ## Theming caveat
 
   The `__panel` reparents to `<body>` while open, so per-instance
-  `--pa-range-*` token overrides must sit on the panel (via `panel_style`) or
+  `--pc-range-*` token overrides must sit on the panel (via `panel_style`) or
   the `.pa-range` rows — NOT on the `.pa-range-group` root.
 
   ## Examples
@@ -190,7 +190,7 @@ defmodule PureAdmin.Components.RangeGroup do
   becomes one `.pa-range-group__row` (head + slider) inside the panel. The
   toggle summary and each row's value readout are populated by the JS.
 
-  Per-instance `--pa-range-*` token overrides go on `panel_style` (the panel
+  Per-instance `--pc-range-*` token overrides go on `panel_style` (the panel
   reparents to `<body>` when open, so tokens on the root wouldn't reach the
   sliders).
 
@@ -207,7 +207,7 @@ defmodule PureAdmin.Components.RangeGroup do
   """
   attr(:id, :string, required: true, doc: "DOM id — required to wire the hook")
   attr(:panel_aria_label, :string, default: "Numeric filters", doc: "aria-label on the panel dialog")
-  attr(:panel_style, :string, default: nil, doc: "Inline style on the __panel (place --pa-range-* here)")
+  attr(:panel_style, :string, default: nil, doc: "Inline style on the __panel (place --pc-range-* here)")
   attr(:reset_text, :string, default: "Reset", doc: "Reset button label")
   attr(:apply_text, :string, default: "Apply", doc: "Apply button label")
   attr(:has_actions, :boolean, default: true, doc: "Render the Reset / Apply footer")

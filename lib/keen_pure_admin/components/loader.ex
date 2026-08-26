@@ -68,7 +68,7 @@ defmodule PureAdmin.Components.Loader do
     values: [nil, "primary", "secondary", "success", "danger", "warning", "info"],
     doc:
       "Loader color. Loaders paint from `currentColor`, so this emits an inline " <>
-        "`style=\"color: var(--pa-…)\"` on the wrapper (there is no `pa-loader-{type}--{color}` " <>
+        "`style=\"color: var(--pc-…)\"` on the wrapper (there is no `pa-loader-{type}--{color}` " <>
         "class in core). Pass your own `style` via `class`/a wrapper instead of combining with `color`."
   )
 
@@ -90,11 +90,11 @@ defmodule PureAdmin.Components.Loader do
   end
 
   # Core themes loaders via `currentColor` on the wrapper, not a modifier class.
-  # Map the semantic color name to the matching --pa-* custom property.
+  # Map the semantic color name to the matching --pc-* custom property.
   defp color_style(nil), do: nil
-  defp color_style("primary"), do: "color: var(--pa-accent)"
-  defp color_style("secondary"), do: "color: var(--pa-text-color-2)"
-  defp color_style(color), do: "color: var(--pa-#{color}-bg)"
+  defp color_style("primary"), do: "color: var(--pc-accent)"
+  defp color_style("secondary"), do: "color: var(--pc-text-color-2)"
+  defp color_style(color), do: "color: var(--pc-#{color}-bg)"
 
   @doc "Renders a centered loader container (flexbox centering)."
   attr(:class, :string, default: nil)

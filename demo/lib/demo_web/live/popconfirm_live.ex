@@ -45,7 +45,7 @@ defmodule DemoWeb.Live.PopconfirmLive do
       <.grid>
         <.column size="100" md="1-2">
           <.heading level={4}>Basic Popconfirms</.heading>
-          <div class="min-h-12x">
+          <div class="minhr-12">
             <div style="display: flex; gap: 8px; flex-wrap: wrap;">
               <.popconfirm
                 id="popconfirm-delete"
@@ -86,7 +86,7 @@ defmodule DemoWeb.Live.PopconfirmLive do
 
         <.column size="100" md="1-2">
           <.heading level={4}>Compact Variant</.heading>
-          <div class="min-h-12x">
+          <div class="minhr-12">
             <div style="display: flex; gap: 8px; flex-wrap: wrap;">
               <.popconfirm
                 id="popconfirm-compact"

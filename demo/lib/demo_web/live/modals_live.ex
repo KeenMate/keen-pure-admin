@@ -35,7 +35,7 @@ defmodule DemoWeb.Live.ModalsLive do
         <.column size="100">
           <.heading level={4}>Banded Modals · v2.7.0</.heading>
           <p class="pa-text--secondary mb-2">
-            <code>is_banded</code> emits <code>pa-modal--banded</code> alongside the role variant. Both header AND footer get filled bands using the alert tokens (15% role-mix in light mode, 45% in dark). Buttons inside the bands auto-invert via <code>--pa-text-color-1</code> for cross-theme contrast.
+            <code>is_banded</code> emits <code>pa-modal--banded</code> alongside the role variant. Both header AND footer get filled bands using the alert tokens (15% role-mix in light mode, 45% in dark). Buttons inside the bands auto-invert via <code>--pc-text-color-1</code> for cross-theme contrast.
           </p>
           <div style="display: flex; gap: 8px; flex-wrap: wrap;">
             <.button variant="success" phx-click={show_modal("modal-banded-success")}>Banded Success</.button>
@@ -432,7 +432,7 @@ defmodule DemoWeb.Live.ModalsLive do
 
     <.modal id="modal-banded-success" variant="success" is_banded title_text="✓ Backup completed">
       <p>All 2.4 GB of data has been backed up successfully. The archive is available in your cloud storage.</p>
-      <p>Buttons inside the header and footer auto-invert (<code>--pa-text-color-1</code>) for cross-theme contrast — light theme renders dark-on-pale, dark theme renders light-on-muted.</p>
+      <p>Buttons inside the header and footer auto-invert (<code>--pc-text-color-1</code>) for cross-theme contrast — light theme renders dark-on-pale, dark theme renders light-on-muted.</p>
       <:footer>
         <.button variant="success" phx-click={hide_modal("modal-banded-success")}>Got it</.button>
       </:footer>

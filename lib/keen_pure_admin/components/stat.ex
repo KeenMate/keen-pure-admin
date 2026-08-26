@@ -71,7 +71,7 @@ defmodule PureAdmin.Components.Stat do
     doc:
       "Sentiment direction colouring the hero __change. v2.7.0 extended the previous 3-step scale " <>
         "to 5 by adding `very_positive` / `very_negative` for outlier deltas. Neutral colour shifted " <>
-        "from `--pa-text-color-2` to `--pa-neutral`."
+        "from `--pc-text-color-2` to `--pc-neutral`."
   )
 
   attr(:symbol_text, :string, default: nil, doc: "Symbol text for square variant (e.g. `%`, `°C`, `$`, `¥`)")

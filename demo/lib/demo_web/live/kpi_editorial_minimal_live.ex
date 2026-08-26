@@ -97,8 +97,8 @@ defmodule DemoWeb.Live.KpiEditorialMinimalLive do
 
       <h4 class="mt-4">Hairline rules</h4>
       <p>
-        Dividers are <code>gap: 1px</code> over <code>background: var(--pa-border-color)</code>, with each
-        tile painting <code>background: var(--pa-card-bg)</code> on top. The gap shows through, giving
+        Dividers are <code>gap: 1px</code> over <code>background: var(--pc-border-color)</code>, with each
+        tile painting <code>background: var(--pc-card-bg)</code> on top. The gap shows through, giving
         single-pixel hairlines on every interior boundary regardless of column count.
       </p>
 
@@ -153,7 +153,7 @@ defmodule DemoWeb.Live.KpiEditorialMinimalLive do
 
       <h4 class="mt-4">Layout CSS variables</h4>
       <ul class="pa-list-basic pa-list-basic--compact">
-        <li><code>--pa-kpi-edit-cell-min</code> — min cell width for auto-fit (default <code>14rem</code>).</li>
+        <li><code>--pc-kpi-edit-cell-min</code> — min cell width for auto-fit (default <code>14rem</code>).</li>
       </ul>
 
       <h4 class="mt-4">Tile</h4>

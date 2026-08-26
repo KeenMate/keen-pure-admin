@@ -406,9 +406,9 @@ defmodule DemoWeb.Live.KpiTerminalGridLive do
 
       <h4 class="mt-4">Framework tokens used by this showcase</h4>
       <ul class="pa-list-basic pa-list-basic--compact">
-        <li><code>--pa-very-positive</code> / <code>--pa-positive</code> / <code>--pa-neutral</code> / <code>--pa-negative</code> / <code>--pa-very-negative</code> — 5-step sentiment.</li>
-        <li><code>--pa-warning</code> — orange "off-target / approaching limit" signal.</li>
-        <li><code>--pa-detail-bg</code> / <code>-text</code> / <code>-row-label</code> / <code>-title</code> / <code>-shadow</code> — popover chrome.</li>
+        <li><code>--pc-very-positive</code> / <code>--pc-positive</code> / <code>--pc-neutral</code> / <code>--pc-negative</code> / <code>--pc-very-negative</code> — 5-step sentiment.</li>
+        <li><code>--pc-warning</code> — orange "off-target / approaching limit" signal.</li>
+        <li><code>--pc-detail-bg</code> / <code>-text</code> / <code>-row-label</code> / <code>-title</code> / <code>-shadow</code> — popover chrome.</li>
       </ul>
     </.card>
     """
