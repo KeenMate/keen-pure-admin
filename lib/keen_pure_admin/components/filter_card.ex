@@ -101,7 +101,7 @@ defmodule PureAdmin.Components.FilterCard do
               disabled={@is_disabled}
               phx-click={@on_clear}
             >
-              <i class="fa fa-times" />
+              <span class="pa-icon pa-icon--x" aria-hidden="true"></span>
             </button>
 
             <button

@@ -1,55 +1,73 @@
 <.layout>
   <.navbar>
+    <:burger><.navbar_burger /></:burger>
     <:start>
-      <.navbar_burger />
-      <.navbar_brand />
-      <.navbar_nav>
-        <.navbar_nav_item href="/">Dashboard</.navbar_nav_item>
-        <.navbar_nav_item href="/components/buttons" has_dropdown>
+      <%!-- rc14 app-identity block; the wordmark degrades wordmark → monogram
+            (fit_slot steps) and the version tag drops first (fit_slot hide). --%>
+      <.app_header>
+        <h1>
+          <.fit_slot strategy="steps" priority={30} class="pc-app-header__name">
+            <.fit_step index={0}>PureAdmin</.fit_step>
+            <.fit_step index={1}>PA</.fit_step>
+          </.fit_slot><.fit_slot strategy="hide" priority={10} class="pc-app-header__version">v2.9.0-rc14</.fit_slot>
+        </h1>
+      </.app_header>
+      <.nav_menu>
+        <.nav_item href="/">Dashboard</.nav_item>
+        <.nav_item href="/components/buttons" has_dropdown>
           Components
           <:dropdown>
-            <.navbar_dropdown>
-              <.navbar_nav_item href="/components/buttons">Buttons</.navbar_nav_item>
-              <.navbar_nav_item href="/components/cards">Cards</.navbar_nav_item>
-              <.navbar_nav_item href="/components/tabs">Tabs</.navbar_nav_item>
-              <.navbar_nav_item has_dropdown>
+            <.nav_dropdown>
+              <.nav_item href="/components/buttons">Buttons</.nav_item>
+              <.nav_item href="/components/cards">Cards</.nav_item>
+              <.nav_item href="/components/tabs">Tabs</.nav_item>
+              <.nav_item has_dropdown>
                 More ›
                 <:dropdown>
-                  <.navbar_dropdown is_level2>
-                    <.navbar_nav_item href="/components/badges">Badges</.navbar_nav_item>
-                    <.navbar_nav_item href="/components/modals">Modals</.navbar_nav_item>
-                    <.navbar_nav_item href="/components/modal-dialogs">Modal Dialogs</.navbar_nav_item>
-                    <.navbar_nav_item href="/components/popconfirm">Popconfirm</.navbar_nav_item>
-                    <.navbar_nav_item href="/components/command-palette">Command Palette</.navbar_nav_item>
-                    <.navbar_nav_item href="/components/data-display">Data Display</.navbar_nav_item>
-                    <.navbar_nav_item href="/components/data-display-2">Data Display 2</.navbar_nav_item>
-                    <.navbar_nav_item href="/components/data-visualization">Data Visualization</.navbar_nav_item>
-                    <.navbar_nav_item href="/components/detail-panel">Detail Panel</.navbar_nav_item>
-                    <.navbar_nav_item href="/components/loaders">Loaders</.navbar_nav_item>
-                    <.navbar_nav_item href="/components/lists">Lists</.navbar_nav_item>
-                    <.navbar_nav_item href="/components/code">Code</.navbar_nav_item>
-                    <.navbar_nav_item href="/components/callouts">Callouts</.navbar_nav_item>
-                    <.navbar_nav_item href="/components/typography">Typography</.navbar_nav_item>
-                    <.navbar_nav_item href="/components/stats">Stats</.navbar_nav_item>
-                  </.navbar_dropdown>
+                  <.nav_dropdown is_level2>
+                    <.nav_item href="/components/badges">Badges</.nav_item>
+                    <.nav_item href="/components/modals">Modals</.nav_item>
+                    <.nav_item href="/components/modal-dialogs">Modal Dialogs</.nav_item>
+                    <.nav_item href="/components/popconfirm">Popconfirm</.nav_item>
+                    <.nav_item href="/components/command-palette">Command Palette</.nav_item>
+                    <.nav_item href="/components/data-display">Data Display</.nav_item>
+                    <.nav_item href="/components/data-display-2">Data Display 2</.nav_item>
+                    <.nav_item href="/components/data-visualization">Data Visualization</.nav_item>
+                    <.nav_item href="/components/detail-panel">Detail Panel</.nav_item>
+                    <.nav_item href="/components/loaders">Loaders</.nav_item>
+                    <.nav_item href="/components/lists">Lists</.nav_item>
+                    <.nav_item href="/components/code">Code</.nav_item>
+                    <.nav_item href="/components/callouts">Callouts</.nav_item>
+                    <.nav_item href="/components/typography">Typography</.nav_item>
+                    <.nav_item href="/components/stats">Stats</.nav_item>
+                  </.nav_dropdown>
                 </:dropdown>
-              </.navbar_nav_item>
-            </.navbar_dropdown>
+              </.nav_item>
+            </.nav_dropdown>
           </:dropdown>
-        </.navbar_nav_item>
-        <.navbar_nav_item href="/forms">Forms</.navbar_nav_item>
-      </.navbar_nav>
+        </.nav_item>
+        <.nav_item href="/forms">Forms</.nav_item>
+      </.nav_menu>
+      <%!-- rc12 search entry point A — inline live field. Hidden until chosen in
+            Settings → Search Box; it then takes the centre slot (swaps the title). --%>
+      <.navbar_search_field id="navbarSearchInline" is_hidden placeholder="Search products, orders, users…" />
     </:start>
     <:center>
-      <.navbar_title>
+      <.page_header>
         <h2>{assigns[:page_title] || "Dashboard"}</h2>
-      </.navbar_title>
+      </.page_header>
     </:center>
     <:end_>
-      <.navbar_nav position="end">
-        <.navbar_nav_item href="/components/alerts">Alerts</.navbar_nav_item>
-        <.navbar_nav_item href="/tables/standard">Tables</.navbar_nav_item>
-      </.navbar_nav>
+      <.nav_menu>
+        <.nav_item href="/components/alerts">Alerts</.nav_item>
+        <.nav_item href="/tables/standard">Tables</.nav_item>
+      </.nav_menu>
+      <%!-- rc12 search entry point B — compact trigger that opens the palette
+            (fullscreen sheet on phones). Hidden until chosen in Settings. --%>
+      <.navbar_search id="navbarSearchTrigger" is_hidden phx-click={show_command_palette()} />
+      <%!-- rc15 search entry point D — type-and-go: a real input in a <form> whose
+            native GET submit navigates to /search on Enter. Hidden until chosen. --%>
+      <.navbar_search_input id="navbarSearchGo" is_hidden action="/search" placeholder="Search…" />
       <.notifications count={3}>
         <.notification_item variant="primary" icon="fa-solid fa-file-pen" is_unread>
           <:title>New task assigned</:title>
@@ -70,12 +88,17 @@
           <a href="#">View all notifications</a>
         </:footer_>
       </.notifications>
-      <.navbar_profile_btn name="John Doe" phx-click={toggle_profile_panel()} />
+      <.profile_button name="John Doe" phx-click={toggle_profile_panel()} />
     </:end_>
   </.navbar>
 
   <.layout_inner>
     <.sidebar>
+      <%!-- rc12 search entry point C — sidebar trigger that opens the palette. --%>
+      <.sidebar_search id="sidebarSearchTrigger" is_hidden phx-click={show_command_palette()} />
+      <%!-- rc15 search entry point E — sidebar type-and-go form; Enter (or the submit
+            magnifier from the collapsed icon-rail) navigates to /search. --%>
+      <.sidebar_search id="sidebarSearchGo" is_hidden action="/search" placeholder="Search…" />
       <.sidebar_item
         label="Getting Started"
         icon="fa-solid fa-rocket"
@@ -134,6 +157,7 @@
         <.sidebar_item label="Sizing" href="/components/sizing" is_active={@current_path == "/components/sizing"} />
         <.sidebar_item label="Splitter" href="/components/splitter" is_active={@current_path == "/components/splitter"} />
         <.sidebar_item label="Range Group" href="/components/range-group" is_active={@current_path == "/components/range-group"} />
+        <.sidebar_item label="Container Breakpoint" href="/components/container-breakpoint" is_active={@current_path == "/components/container-breakpoint"} />
         <.sidebar_item label="Typography" href="/components/typography" is_active={@current_path == "/components/typography"} />
       </.sidebar_submenu>
 

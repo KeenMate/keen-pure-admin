@@ -133,7 +133,7 @@ defmodule PureAdmin.Components.Alert do
         phx-click={dismiss_alert(@id)}
         aria-label={t("pureAdmin.a11y.close")}
       >
-        <span aria-hidden="true">&times;</span>
+        <span class="pa-icon pa-icon--x" aria-hidden="true"></span>
       </button>
     </div>
     """

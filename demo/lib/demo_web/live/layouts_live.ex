@@ -41,13 +41,13 @@ defmodule DemoWeb.Live.LayoutsLive do
 
     <.card title_text="Layout CSS Classes">
       <.table rows={[
-        %{class: "pa-layout", desc: "Root layout container (100vh flex column)"},
-        %{class: "pa-layout__inner", desc: "Content area below navbar (flex row)"},
-        %{class: "pa-layout__sidebar", desc: "Sidebar container (fixed width)"},
-        %{class: "pa-layout__sidebar--icon-collapse", desc: "Sidebar shows icons only when collapsed"},
-        %{class: "pa-layout__sidebar--resizable", desc: "Enable drag-to-resize sidebar"},
-        %{class: "pa-layout__content", desc: "Main content + footer wrapper (flex grow)"},
-        %{class: "pa-layout--sticky", desc: "Sticky sidebar (doesn't scroll with content)"}
+        %{class: "pc-layout", desc: "Root layout container (100vh flex column)"},
+        %{class: "pc-layout__inner", desc: "Content area below navbar (flex row)"},
+        %{class: "pc-layout__sidebar", desc: "Sidebar container (fixed width)"},
+        %{class: "pc-layout__sidebar--icon-collapse", desc: "Sidebar shows icons only when collapsed"},
+        %{class: "pc-layout__sidebar--resizable", desc: "Enable drag-to-resize sidebar"},
+        %{class: "pc-layout__content", desc: "Main content + footer wrapper (flex grow)"},
+        %{class: "pc-layout--sticky", desc: "Sticky sidebar (doesn't scroll with content)"}
       ]} is_striped>
         <:col :let={row} label="Class"><code>.{row.class}</code></:col>
         <:col :let={row} label="Description">{row.desc}</:col>
@@ -56,15 +56,15 @@ defmodule DemoWeb.Live.LayoutsLive do
 
     <.card title_text="Navbar Structure">
       <.table rows={[
-        %{class: "pa-navbar", desc: "Top navigation bar (3-section flex layout)"},
-        %{class: "pa-navbar__start", desc: "Left section: burger + brand + nav items"},
-        %{class: "pa-navbar__center", desc: "Center section: page title"},
-        %{class: "pa-navbar__end", desc: "Right section: nav + notifications + profile"},
-        %{class: "pa-navbar__brand", desc: "Brand/logo container"},
-        %{class: "pa-navbar__nav", desc: "Navigation link group"},
-        %{class: "pa-navbar__nav-item", desc: "Individual nav link"},
-        %{class: "pa-navbar__dropdown", desc: "CSS dropdown menu"},
-        %{class: "pa-navbar__title", desc: "Page title in center section"}
+        %{class: "pc-navbar", desc: "Top navigation bar (3-section flex layout)"},
+        %{class: "pc-navbar__start", desc: "Left section: burger + brand + nav items"},
+        %{class: "pc-navbar__center", desc: "Center section: page title"},
+        %{class: "pc-navbar__end", desc: "Right section: nav + notifications + profile"},
+        %{class: "pc-navbar__brand", desc: "Brand/logo container"},
+        %{class: "pc-navbar__nav", desc: "Navigation link group"},
+        %{class: "pc-navbar__nav-item", desc: "Individual nav link"},
+        %{class: "pc-navbar__dropdown", desc: "CSS dropdown menu"},
+        %{class: "pc-navbar__title", desc: "Page title in center section"}
       ]} is_striped>
         <:col :let={row} label="Class"><code>.{row.class}</code></:col>
         <:col :let={row} label="Description">{row.desc}</:col>
@@ -85,9 +85,9 @@ defmodule DemoWeb.Live.LayoutsLive do
           <.heading level={4}>Sidebar Behavior</.heading>
           <.basic_list spacing="compact">
             <li><strong>Hide</strong> - <code>sidebar-hidden</code> on body hides completely</li>
-            <li><strong>Icon collapse</strong> - <code>pa-layout__sidebar--icon-collapse</code> shows icons only</li>
-            <li><strong>Resizable</strong> - <code>pa-layout__sidebar--resizable</code> enables drag handle</li>
-            <li><strong>Sticky</strong> - <code>pa-layout--sticky</code> on body fixes sidebar position</li>
+            <li><strong>Icon collapse</strong> - <code>pc-layout__sidebar--icon-collapse</code> shows icons only</li>
+            <li><strong>Resizable</strong> - <code>pc-layout__sidebar--resizable</code> enables drag handle</li>
+            <li><strong>Sticky</strong> - <code>pc-layout--sticky</code> on body fixes sidebar position</li>
             <li><strong>Submenu persistence</strong> - <code>PureAdminSidebarSubmenu</code> hook saves open/closed state to localStorage</li>
           </.basic_list>
         </.column>
@@ -98,11 +98,11 @@ defmodule DemoWeb.Live.LayoutsLive do
       <:description>Control the maximum width of the content area</:description>
       <.table rows={[
         %{class: "(none)", width: "100%", desc: "Fluid - full width (default)"},
-        %{class: "pa-container-sm", width: "768px", desc: "Small"},
-        %{class: "pa-container-md", width: "1024px", desc: "Medium"},
-        %{class: "pa-container-lg", width: "1280px", desc: "Large"},
-        %{class: "pa-container-xl", width: "1600px", desc: "Extra large"},
-        %{class: "pa-container-2xl", width: "1920px", desc: "2X large"}
+        %{class: "pc-container-sm", width: "768px", desc: "Small"},
+        %{class: "pc-container-md", width: "1024px", desc: "Medium"},
+        %{class: "pc-container-lg", width: "1280px", desc: "Large"},
+        %{class: "pc-container-xl", width: "1600px", desc: "Extra large"},
+        %{class: "pc-container-2xl", width: "1920px", desc: "2X large"}
       ]} is_striped>
         <:col :let={row} label="Class"><code>.{row.class}</code></:col>
         <:col :let={row} label="Max Width">{row.width}</:col>

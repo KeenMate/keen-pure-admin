@@ -376,20 +376,25 @@ defmodule DemoWeb.Live.TablesLive do
     <%!-- Panel Tables                                              --%>
     <%!-- ═══════════════════════════════════════════════════════════ --%>
     <.card title_text="Panel Tables">
-      <.paragraph class="mb-4">Tables with card-like visual containment using the <.code>--panel</.code> modifier. Use when tables need to stand alongside cards without being wrapped in one.</.paragraph>
+      <.callout variant="warning" class="mb-4">
+        The <.code>--panel</.code> shape (<.code>&lt;.table_container is_panel&gt;</.code>) was
+        deprecated in pure-admin-core 2.9.0-rc10 as a near-duplicate of the table card. Use
+        <.code>&lt;.table_card&gt;</.code> for any table that needs a header, actions, or footer —
+        the examples below now use it.
+      </.callout>
 
-      <.heading level={4}>Basic Panel Table (no header)</.heading>
-      <.table_container is_panel>
+      <.heading level={4}>Basic Table Card (no header)</.heading>
+      <.table_card>
         <.table rows={@panel_products}>
           <:col :let={p} label="Product">{p.name}</:col>
           <:col :let={p} label="SKU">{p.sku}</:col>
           <:col :let={p} label="Price">{p.price}</:col>
           <:col :let={p} label="Stock">{p.stock}</:col>
         </.table>
-      </.table_container>
+      </.table_card>
 
-      <.heading level={4}>Panel Table with Header</.heading>
-      <.table_container is_panel title_text="Recent Orders">
+      <.heading level={4}>Table Card with Header</.heading>
+      <.table_card title_text="Recent Orders">
         <:actions>
           <.button variant="secondary" size="sm">Export</.button>
           <.button variant="primary" size="sm">Add Order</.button>
@@ -403,29 +408,29 @@ defmodule DemoWeb.Live.TablesLive do
             <.badge variant={order_variant(o.status)} size="sm">{o.status}</.badge>
           </:col>
         </.table>
-      </.table_container>
+      </.table_card>
 
-      <.heading level={4}>Panel Tables in Grid (75/25 split)</.heading>
-      <.paragraph class="mb-4">Panel tables work inside grid just like cards.</.paragraph>
+      <.heading level={4}>Table Cards in Grid (75/25 split)</.heading>
+      <.paragraph class="mb-4">Table cards work inside grid just like cards.</.paragraph>
     </.card>
 
     <.grid>
       <.column size="75">
-        <.table_container is_panel title_text="Activity Log (75%)">
+        <.table_card title_text="Activity Log (75%)">
           <.table rows={@activity_log} size="sm">
             <:col :let={row} label="Time">{row.time}</:col>
             <:col :let={row} label="User">{row.user}</:col>
             <:col :let={row} label="Action">{row.action}</:col>
           </.table>
-        </.table_container>
+        </.table_card>
       </.column>
       <.column size="25">
-        <.table_container is_panel title_text="Stats (25%)">
+        <.table_card title_text="Stats (25%)">
           <.table rows={@stats_data} size="sm">
             <:col :let={row} label="Metric">{row.metric}</:col>
             <:col :let={row} label="Value">{row.value}</:col>
           </.table>
-        </.table_container>
+        </.table_card>
       </.column>
     </.grid>
 
@@ -603,7 +608,7 @@ defmodule DemoWeb.Live.TablesLive do
       </.column>
     </.grid>
 
-    <.table_container is_panel title_text="Order Items">
+    <.table_card title_text="Order Items">
       <.table rows={@order_items}>
         <:col :let={item} label="Product">{item.product}</:col>
         <:col :let={item} label="SKU">{item.sku}</:col>
@@ -629,7 +634,7 @@ defmodule DemoWeb.Live.TablesLive do
           </tr>
         </:foot>
       </.table>
-    </.table_container>
+    </.table_card>
 
     <%!-- ═══════════════════════════════════════════════════════════ --%>
     <%!-- CSS Classes Reference                                     --%>
@@ -637,11 +642,11 @@ defmodule DemoWeb.Live.TablesLive do
     <.card title_text="CSS Classes Reference">
       <.heading level={4}>Tables</.heading>
       <.basic_list spacing="compact">
-        <li><.code>pa-table-container</.code> — Scrollable table wrapper with border</li>
-        <li><.code>pa-table-container--panel</.code> — Card-like containment with shadow and margin</li>
-        <li><.code>pa-table-container__header</.code> — Header row for panel tables</li>
-        <li><.code>pa-table-container__title</.code> — Title text in header</li>
-        <li><.code>pa-table-container__actions</.code> — Actions container in header</li>
+        <li><.code>pa-table-container</.code> — Bare framed + scrollable wrapper (no header)</li>
+        <li><.code>pa-table-card</.code> — Full card with header/body/footer/actions (blessed shape for tables with chrome)</li>
+        <li><.code>pa-table-card__body--scrollable</.code> — Horizontal scroll for wide tables inside the card</li>
+        <li><.code>pa-table-card--plain</.code> — Table card without the card chrome</li>
+        <li><del><.code>pa-table-container--panel</.code></del> — Deprecated (rc10); use <.code>pa-table-card</.code></li>
         <li><.code>pa-table</.code> — Base table class</li>
         <li><.code>pa-table--striped</.code> — Zebra striping on rows</li>
         <li><.code>pa-table--xs</.code> — Extra small padding</li>

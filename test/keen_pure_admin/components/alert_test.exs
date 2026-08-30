@@ -60,6 +60,9 @@ defmodule PureAdmin.Components.AlertTest do
       assert_class(html, "pa-alert--dismissible")
       assert_class(html, "pa-alert--sm")
       assert_class(html, "pa-alert__close")
+      # rc11: dismiss affordance is the masked .pa-icon--x, not a text glyph
+      assert html =~ ~s(<span class="pa-icon pa-icon--x")
+      refute html =~ "&times;"
       assert html =~ ~s(id="my-alert")
     end
 

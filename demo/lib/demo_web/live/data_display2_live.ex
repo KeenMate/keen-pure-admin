@@ -1028,7 +1028,7 @@ defmodule DemoWeb.Live.DataDisplay2Live do
 
           <tr><td colspan="2"><strong>Utilities</strong></td></tr>
           <tr>
-            <td><code>.pa-cq</code></td>
+            <td><code>.pc-cq</code></td>
             <td>General-purpose container query wrapper (<code>container-type: inline-size</code>)</td>
           </tr>
         </tbody>

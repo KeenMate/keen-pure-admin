@@ -14,15 +14,15 @@ defmodule PureAdmin.Config do
         default_icon_size: "1.25rem",
         toast_position: "top-right"
 
-  Components like `navbar_brand/1` and `footer/1` read from this config
+  Components like `app_header/1` and `footer/1` read from this config
   automatically when no explicit content is provided.
 
   ## Available Keys
 
   | Key | Default | Used by |
   |-----|---------|---------|
-  | `:app_name` | `"PureAdmin"` | `navbar_brand/1` |
-  | `:app_logo` | `nil` | `navbar_brand/1` |
+  | `:app_name` | `"PureAdmin"` | `app_header/1` |
+  | `:app_logo` | `nil` | `app_header/1` |
   | `:app_version` | `nil` | `footer/1` |
   | `:copyright` | `nil` | `footer/1` |
   | `:font_class` | `nil` | `root_html_attrs/0` |

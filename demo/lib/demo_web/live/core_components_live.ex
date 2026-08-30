@@ -97,7 +97,7 @@ defmodule DemoWeb.Live.CoreComponentsLive do
             </tr>
             <tr>
               <td><code>header/1</code></td>
-              <td>Page title via <code>@page_title</code> in <code>&lt;.navbar_title&gt;</code> (layout renders it, LiveView sets it)</td>
+              <td>Page title via <code>@page_title</code> in <code>&lt;.page_header&gt;</code> (layout renders it, LiveView sets it)</td>
               <td><.badge variant="info">Not needed</.badge></td>
             </tr>
             <tr>

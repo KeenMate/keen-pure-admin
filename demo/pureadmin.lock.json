@@ -3,92 +3,92 @@
   "themes": {
     "audi": {
       "version": "2.9.0",
-      "content_sha": "sha256:69c223c07073102378625fa0a7da379f39ac5de1ea6c09a231e77611d015f722",
-      "fetched_at": "2026-07-30T19:20:26.341Z",
+      "content_sha": "sha256:e953b70adc27c3ca73c7939e1b6a360bb77a4237146317f721d69b2494fad2ac",
+      "fetched_at": "2026-08-20T21:52:50.717Z",
       "source": "remote"
     },
     "ayu": {
       "version": "2.9.0",
-      "content_sha": "sha256:1af92412c3885cc444d430eeedfe83aac8947cd97161488a7418c83c8de556ee",
-      "fetched_at": "2026-07-30T19:20:26.370Z",
+      "content_sha": "sha256:acb225bd05760c2cfa064d6545ec42a124a5e887e2bd5353e4660fc4f4c0581c",
+      "fetched_at": "2026-08-20T21:52:50.745Z",
       "source": "remote"
     },
     "cafeindustrial": {
       "version": "2.9.0",
-      "content_sha": "sha256:8293fb7877a16d4c09ea86942421dfd8d116eaffb1e32841d241f994532604fe",
-      "fetched_at": "2026-07-30T19:20:26.399Z",
+      "content_sha": "sha256:08ecd5a648c2a002eae38d7c2fa35632078601b7d8316ac65563365959eb3a83",
+      "fetched_at": "2026-08-20T21:52:50.775Z",
       "source": "remote"
     },
     "cobalt2": {
       "version": "2.9.0",
-      "content_sha": "sha256:2eefdeb7745c435bd7b6265979b48cacbcf7476e6f5d9124fd74d3e16882025f",
-      "fetched_at": "2026-07-30T19:20:26.429Z",
+      "content_sha": "sha256:d843b360fe2b84a9edc5d50d7bcc76da0ed6263db526d07d0cd815ab8fe08ff7",
+      "fetched_at": "2026-08-20T21:52:50.806Z",
       "source": "remote"
     },
     "corporate": {
       "version": "2.9.0",
-      "content_sha": "sha256:44654b2c6d0ccf67eb68b4e4a8f352835d8f7774179e2ae8aa5aefe48d94ece0",
-      "fetched_at": "2026-07-30T19:20:26.458Z",
+      "content_sha": "sha256:1ecde1299327cc91c8c962d4811b4747e7ed59b883cb3cd4a9e461f1f98ed235",
+      "fetched_at": "2026-08-20T21:52:50.836Z",
       "source": "remote"
     },
     "dark": {
       "version": "2.9.0",
-      "content_sha": "sha256:c39e94340a229a7e75fc06adb868b18b107c9c4918caeb18f8c995713949f458",
-      "fetched_at": "2026-07-30T19:20:26.486Z",
+      "content_sha": "sha256:74def45b03396d49c770a20840ade0e66baa20f735dc67491c92de35d23084f5",
+      "fetched_at": "2026-08-20T21:52:50.864Z",
       "source": "remote"
     },
     "darkmatter": {
       "version": "2.9.0",
-      "content_sha": "sha256:d4f37feb38195d59366bcf32dae7db817fd3683d622b260c436a53af699404f8",
-      "fetched_at": "2026-07-30T19:20:26.527Z",
+      "content_sha": "sha256:84d47de4724adefa00cdb192b983e57a79a4dc19642c9e031111e338b542af76",
+      "fetched_at": "2026-08-20T21:52:50.894Z",
       "source": "remote"
     },
     "dracula": {
       "version": "2.9.0",
-      "content_sha": "sha256:e28fb75da4adafb3047e63b2eade3a2b839757705476f4025facc6fbb579a8f7",
-      "fetched_at": "2026-07-30T19:20:26.554Z",
+      "content_sha": "sha256:11fbb464f796eec8ecfe18a5547b2cc2d6b3fb067e57616e6cd5ea9fbf7f1157",
+      "fetched_at": "2026-08-20T21:52:50.923Z",
       "source": "remote"
     },
     "express": {
       "version": "2.9.0",
-      "content_sha": "sha256:7cc3d07867d35346c8b4b2c6cecbff33e700697b1c5e1f7816b7121ee41ffc85",
-      "fetched_at": "2026-07-30T19:20:26.601Z",
+      "content_sha": "sha256:45b670250abdef4541a079cc630cd85b98905d7c7e5c19ed9362fc131b415deb",
+      "fetched_at": "2026-08-20T21:52:50.955Z",
       "source": "remote"
     },
     "gruvbox": {
       "version": "2.9.0",
-      "content_sha": "sha256:5593c7be6ef108bcd7636e351035395e240ed60fcfd7b160ce7099a2ab548665",
-      "fetched_at": "2026-07-30T19:20:26.632Z",
+      "content_sha": "sha256:30ceec1f09c9e99abeaaeab33678b9afde1a7388c991752322ef095cdfce021e",
+      "fetched_at": "2026-08-20T21:52:50.984Z",
       "source": "remote"
     },
     "minimal": {
       "version": "2.9.0",
-      "content_sha": "sha256:ca5470ad6f6b6a7d68d5ab93e29665576d4810a16aad7397d38bdb0b9feb02cb",
-      "fetched_at": "2026-07-30T19:20:26.659Z",
+      "content_sha": "sha256:696c9591dd1ba9dd0ed45327284101a008a0b3605aa4a6c704794ffa810ea8be",
+      "fetched_at": "2026-08-20T21:52:51.016Z",
       "source": "remote"
     },
     "nato": {
       "version": "2.9.0",
-      "content_sha": "sha256:17e0c96ffc316b8fc51ba223705b5552e5a8a45ef04b6e8d6ff466ef711bbc48",
-      "fetched_at": "2026-07-30T19:20:26.686Z",
+      "content_sha": "sha256:630bac01681abcc7245d953ca763e5027a5f5f84604bb359784ddf0657f5419e",
+      "fetched_at": "2026-08-20T21:52:51.046Z",
       "source": "remote"
     },
     "night-owl": {
       "version": "2.9.0",
-      "content_sha": "sha256:3bbc51802d2bb60b3c78c2f8b1bef80839b5094891cf5acc0f1819d283e788e6",
-      "fetched_at": "2026-07-30T19:20:26.716Z",
+      "content_sha": "sha256:c68c585a9ae48f241cc4841d86a4a6836584bafa695e34207f8bf5796b7195b9",
+      "fetched_at": "2026-08-20T21:52:51.078Z",
       "source": "remote"
     },
     "one-dark": {
       "version": "2.9.0",
-      "content_sha": "sha256:5cacfc40c87ca1566ce4c58205857468b575efe12704ae45c3af3b52d91eddbd",
-      "fetched_at": "2026-07-30T19:20:26.758Z",
+      "content_sha": "sha256:6c150958119f6c002108836c92332334f13d5f2f858590df8d64662725a91357",
+      "fetched_at": "2026-08-20T21:52:51.109Z",
       "source": "remote"
     },
     "tokyo-night": {
       "version": "2.9.0",
-      "content_sha": "sha256:d84643ac3d4e509a146879fb99748c1ebe3c094da07887103060a42b9590437b",
-      "fetched_at": "2026-07-30T19:20:26.789Z",
+      "content_sha": "sha256:6cba624bf62200876de8c55276f46c046c7f805c955deabea45fdefa06f6d178",
+      "fetched_at": "2026-08-20T21:52:51.138Z",
       "source": "remote"
     }
   }

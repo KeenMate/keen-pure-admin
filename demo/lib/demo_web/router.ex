@@ -56,6 +56,7 @@ defmodule DemoWeb.Router do
       live("/components/sizing", Live.SizingLive, :index)
       live("/components/splitter", Live.SplitterLive, :index)
       live("/components/range-group", Live.RangeGroupLive, :index)
+      live("/components/container-breakpoint", Live.ContainerBreakpointLive, :index)
 
       # Design
       live("/design/colors", Live.ColorsLive, :index)

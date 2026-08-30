@@ -69,7 +69,7 @@ defmodule PureAdmin.Components.Profile do
             phx-click={close_profile_panel(@id)}
             aria-label="Close profile"
           >
-            <i class="fa-solid fa-xmark"></i>
+            <span class="pa-icon pa-icon--x" aria-hidden="true"></span>
           </button>
         </div>
 

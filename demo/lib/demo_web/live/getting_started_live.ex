@@ -18,9 +18,9 @@ defmodule DemoWeb.Live.GettingStartedLive do
 
   @setup_layout ~S"""
   <.navbar>
+    <:burger><.navbar_burger /></:burger>
     <:start>
-      <.navbar_burger />
-      <.navbar_brand>My App</.navbar_brand>
+      <.app_header>My App</.app_header>
     </:start>
   </.navbar>
 

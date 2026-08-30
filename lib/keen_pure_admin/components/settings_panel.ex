@@ -93,6 +93,23 @@ defmodule PureAdmin.Components.SettingsPanel do
           </select>
         </div>
 
+        <%!-- Search Box position (rc12 + rc15) — previews the five search placements --%>
+        <div class="pa-settings-panel__section">
+          <label class="pa-settings-panel__label" for={"#{@id}-search-position"}>Search Box</label>
+          <select
+            id={"#{@id}-search-position"}
+            class="pa-settings-panel__select"
+            data-setting="search-position"
+          >
+            <option value="">Off</option>
+            <option value="navbar-inline">Navbar — inline search (A)</option>
+            <option value="navbar-compact">Navbar — compact, opens palette (B)</option>
+            <option value="sidebar">Sidebar — opens palette (C)</option>
+            <option value="navbar-input">Navbar — type-and-go form (D)</option>
+            <option value="sidebar-input">Sidebar — type-and-go form (E)</option>
+          </select>
+        </div>
+
         <%!-- Sidebar Mode --%>
         <div class="pa-settings-panel__section">
           <label class="pa-settings-panel__label" for={"#{@id}-sidebar-mode"}><%= t("pureAdmin.settings.sidebarMode") %></label>
