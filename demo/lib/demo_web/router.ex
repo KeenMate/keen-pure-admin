@@ -58,6 +58,10 @@ defmodule DemoWeb.Router do
       live("/components/range-group", Live.RangeGroupLive, :index)
       live("/components/container-breakpoint", Live.ContainerBreakpointLive, :index)
 
+      # Responsivity
+      live("/responsivity", Live.ResponsivityLive, :index)
+      live("/components/fit-to-size", Live.FitToSizeLive, :index)
+
       # Design
       live("/design/colors", Live.ColorsLive, :index)
       live("/design/helpers", Live.HelpersLive, :index)

@@ -1,4 +1,26 @@
-.PHONY: help setup dev build publish publish-dry deps test format quality docs docs-serve clean themes-install themes-clear podman-build podman-run podman-stop podman-restart podman-logs podman-clean podman-deploy podman-push
+# --- Windows recipe-shell fix -------------------------------------------------
+# When make is launched from PowerShell / cmd.exe, GNU make picks cmd.exe as the
+# recipe shell — which has no grep/awk/xargs, so the bash pipelines in these
+# targets (kill-port, themes-install, the podman-* checks) die with "The system
+# cannot find the file specified". Pinning the recipe shell to Git's full bash
+# launcher makes every recipe run under Git Bash regardless of the launching
+# shell. Guarded by $(wildcard) so it's a no-op when Git isn't at the default
+# location (falls back to make's normal shell selection).
+ifeq ($(OS),Windows_NT)
+  # NB: the existence check uses `?` for the space in "Program Files" — a literal
+  # space would make $(wildcard) split it into two patterns that never match.
+  # The SHELL assignment itself keeps the real (spaced) path.
+  ifneq ($(wildcard C:/Program?Files/Git/bin/bash.exe),)
+    SHELL := C:/Program Files/Git/bin/bash.exe
+  endif
+endif
+# -----------------------------------------------------------------------------
+
+.PHONY: help setup dev kill-port build publish publish-dry deps test format quality docs docs-serve clean themes-install themes-clear podman-build podman-run podman-stop podman-restart podman-logs podman-clean podman-deploy podman-push
+
+# Demo server port (config/runtime.exs reads PORT, default 18700).
+# Override: make kill-port PORT=xxxx
+PORT ?= 18700
 
 help: ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-20s\033[0m %s\n", $$1, $$2}'
@@ -24,6 +46,19 @@ themes-install: ## Snapshot themes into demo/priv/static/themes/
 
 dev: themes-install ## Snapshot themes and start demo app with iex
 	cd demo && iex -S mix phx.server
+
+# Free the demo server port (e.g. after a crashed/orphaned `make dev` leaves the
+# port held). Override the port with: make kill-port PORT=18701
+# Uses netstat|awk|taskkill on Windows (run under Git Bash) rather than cmd.exe
+# `for /f`; lsof elsewhere. The leading `-` ignores "nothing to kill" as success.
+kill-port: ## Free the demo server port (default 18700; override with PORT=xxxx)
+	@echo "Freeing port $(PORT)..."
+ifeq ($(OS),Windows_NT)
+	-@netstat -ano | grep LISTENING | grep ":$(PORT) " | awk '{print $$5}' | sort -u | xargs -r -I{} taskkill //F //PID {}
+else
+	-@lsof -ti tcp:$(PORT) | xargs -r kill -9
+endif
+	@echo "Port $(PORT) is free"
 
 build: ## Build hex package
 	mix hex.build

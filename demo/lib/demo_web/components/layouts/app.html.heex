@@ -48,14 +48,21 @@
         </.nav_item>
         <.nav_item href="/forms">Forms</.nav_item>
       </.nav_menu>
-      <%!-- rc12 search entry point A — inline live field. Hidden until chosen in
-            Settings → Search Box; it then takes the centre slot (swaps the title). --%>
-      <.navbar_search_field id="navbarSearchInline" is_hidden placeholder="Search products, orders, users…" />
     </:start>
     <:center>
       <.page_header>
         <h2>{assigns[:page_title] || "Dashboard"}</h2>
       </.page_header>
+      <%!-- rc12 search entry point A — inline live field. Hidden until chosen in
+            Settings → Search Box; it takes the CENTRE slot, swapping with the title
+            (settings-panel JS hides .pc-page-header and shows .pc-navbar-search--field),
+            matching pure-admin's navbar. --%>
+      <.navbar_search_field
+        id="navbarSearchInline"
+        is_hidden
+        placeholder="Search products, orders, users…"
+        phx-hook="NavbarSearchDemo"
+      />
     </:center>
     <:end_>
       <.nav_menu>
@@ -125,6 +132,11 @@
         <.sidebar_item label="Flash Messages" href="/phoenix/flash" is_active={@current_path == "/phoenix/flash"} />
         <.sidebar_item label="Form Demo" href="/phoenix/form-demo" is_active={@current_path == "/phoenix/form-demo"} />
         <.sidebar_item label="Icons" href="/phoenix/icons" is_active={@current_path == "/phoenix/icons"} />
+      </.sidebar_submenu>
+
+      <.sidebar_submenu id="responsivity" label="Responsivity" icon="fa-solid fa-arrows-left-right" is_open={@current_path in ["/responsivity", "/components/fit-to-size"]}>
+        <.sidebar_item label="How It Works" href="/responsivity" is_active={@current_path == "/responsivity"} />
+        <.sidebar_item label="Fit to Size" href="/components/fit-to-size" is_active={@current_path == "/components/fit-to-size"} />
       </.sidebar_submenu>
 
       <.sidebar_submenu id="components" label="Components" icon="fa-solid fa-puzzle-piece" is_open={String.starts_with?(@current_path, "/components")}>

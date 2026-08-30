@@ -143,12 +143,21 @@ defmodule PureAdmin.Components.Stat do
     # on any phx-hook element).
     is_fit = assigns.is_fit && assigns.variant == "square"
 
+    # `inner_block` is the "custom layout" override, but a WHITESPACE-only
+    # inner_block — the newlines HEEX captures around a named `<:icon>` slot —
+    # must not count as custom content, or passing an icon silently blanks the
+    # stat (it renders the whitespace and skips the number/label/icon cond).
+    # Treat inner_block as an override only when the caller supplied no
+    # structured inputs (number/value or an icon slot).
+    custom_layout? = assigns.inner_block != [] and number == nil and assigns.icon == []
+
     assigns =
       assigns
       |> assign(:resolved_number, number)
       |> assign(:resolved_label, label_text)
       |> assign(:resolved_change, change_text)
       |> assign(:resolved_direction, change_direction)
+      |> assign(:custom_layout?, custom_layout?)
       |> assign(:fit?, is_fit)
       # Only auto-derive an id when fit mode is on AND the caller didn't already
       # supply one via `:rest` — otherwise `{@rest}` renders the id and we'd emit
@@ -163,8 +172,9 @@ defmodule PureAdmin.Components.Stat do
       phx-hook={(@fit? && "PureAdminStatFit") || nil}
       {@rest}
     >
-      <%!-- Custom content via inner_block --%>
-      <%= if @inner_block != [] do %>
+      <%!-- Custom content via inner_block (only when it's real content, not the
+           whitespace HEEX captures around a named slot — see custom_layout?). --%>
+      <%= if @custom_layout? do %>
         <%= render_slot(@inner_block) %>
       <% else %>
         <%= cond do %>

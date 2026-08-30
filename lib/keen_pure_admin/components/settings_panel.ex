@@ -110,6 +110,23 @@ defmodule PureAdmin.Components.SettingsPanel do
           </select>
         </div>
 
+        <%!-- Command Palette size (rc15) — sets the --sm/--lg/--xl width preset on
+             the palette. Default (no modifier) is 608px. Press Ctrl+K to preview. --%>
+        <div class="pa-settings-panel__section">
+          <label class="pa-settings-panel__label" for={"#{@id}-command-palette-size"}>Command Palette</label>
+          <select
+            id={"#{@id}-command-palette-size"}
+            class="pa-settings-panel__select"
+            data-setting="command-palette-size"
+          >
+            <option value="">Default (608px)</option>
+            <option value="sm">Small (480px)</option>
+            <option value="lg">Large (768px)</option>
+            <option value="xl">Extra Large (896px)</option>
+          </select>
+          <small class="pa-settings-panel__hint">Press Ctrl+K to preview the palette.</small>
+        </div>
+
         <%!-- Sidebar Mode --%>
         <div class="pa-settings-panel__section">
           <label class="pa-settings-panel__label" for={"#{@id}-sidebar-mode"}><%= t("pureAdmin.settings.sidebarMode") %></label>
@@ -142,10 +159,9 @@ defmodule PureAdmin.Components.SettingsPanel do
         <div class="pa-settings-panel__section">
           <span class="pa-settings-panel__label"><%= t("pureAdmin.settings.sidebar") %></span>
           <div class="pa-settings-panel__checkbox-group">
-            <label class="pa-settings-panel__checkbox">
-              <input type="checkbox" data-setting="sidebar-hidden" />
-              <span><%= t("pureAdmin.settings.collapsed") %></span>
-            </label>
+            <%!-- No "Collapsed" toggle here: the sidebar hide/show STATE is owned by
+                 the navbar burger (sidebar.js persists `sidebar-hidden`), matching
+                 pure-admin's panel which exposes only "Resizable". --%>
             <label class="pa-settings-panel__checkbox">
               <input type="checkbox" data-setting="sidebar-resizable" />
               <span><%= t("pureAdmin.settings.resizable") %></span>
