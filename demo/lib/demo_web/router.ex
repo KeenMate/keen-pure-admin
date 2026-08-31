@@ -61,6 +61,7 @@ defmodule DemoWeb.Router do
       # Responsivity
       live("/responsivity", Live.ResponsivityLive, :index)
       live("/components/fit-to-size", Live.FitToSizeLive, :index)
+      live("/components/responsive-form", Live.ResponsiveFormLive, :index)
 
       # Design
       live("/design/colors", Live.ColorsLive, :index)

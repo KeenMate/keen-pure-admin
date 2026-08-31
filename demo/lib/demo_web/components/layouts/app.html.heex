@@ -134,9 +134,10 @@
         <.sidebar_item label="Icons" href="/phoenix/icons" is_active={@current_path == "/phoenix/icons"} />
       </.sidebar_submenu>
 
-      <.sidebar_submenu id="responsivity" label="Responsivity" icon="fa-solid fa-arrows-left-right" is_open={@current_path in ["/responsivity", "/components/fit-to-size"]}>
+      <.sidebar_submenu id="responsivity" label="Responsivity" icon="fa-solid fa-arrows-left-right" is_open={@current_path in ["/responsivity", "/components/fit-to-size", "/components/responsive-form"]}>
         <.sidebar_item label="How It Works" href="/responsivity" is_active={@current_path == "/responsivity"} />
         <.sidebar_item label="Fit to Size" href="/components/fit-to-size" is_active={@current_path == "/components/fit-to-size"} />
+        <.sidebar_item label="Responsive Form" href="/components/responsive-form" is_active={@current_path == "/components/responsive-form"} />
       </.sidebar_submenu>
 
       <.sidebar_submenu id="components" label="Components" icon="fa-solid fa-puzzle-piece" is_open={String.starts_with?(@current_path, "/components")}>
