@@ -253,6 +253,41 @@ IntersectionObserver-based infinite scroll. Fires a LiveView event when a sentin
 </div>
 ```
 
+### PureAdminContainerBreakpoint
+
+The JS counterpart to a CSS `@container` query: measures an element's **own** inline width, maps it to a named `mode` from declared thresholds, reflects it as `[data-mode]`, and toggles the shared `.d-none` on `[data-pc-show]` descendants. Fires a `pc:breakpoint` event on each flip (for mount-on-demand). Thresholds are rem by default (root 10px → `34` = 340px, `64` = 640px); add `data-pc-breakpoint-unit="px"` for pixels; a small hysteresis dead-band stops flicker at a boundary.
+
+**Prefer the declarative components** (`PureAdmin.Components.Responsive`) over the raw hook — so you never hand-write `data-pc-show` / `.d-none`:
+
+```heex
+<.breakpoint_container id="card" steps={%{compact: 0, comfy: 34, wide: 64}} initial="comfy" class="pa-card">
+  <div class="pa-card__body">
+    <p>Always visible.</p>
+    <.breaker show="comfy wide"><p>Hidden only when cramped.</p></.breaker>
+    <.breaker show="wide"><p>Only when there's room.</p></.breaker>
+  </div>
+</.breakpoint_container>
+```
+
+`<.breakpoint_container>` emits the hook + `data-pc-breakpoints` + a scoped pre-paint `<style>` (keyed on `[data-mode]`) so out-of-mode blocks don't flash before JS runs; `<.breaker show="…">` emits `data-pc-show`. Layout that changes with size (a two-up row, a grid) keys off the reflected `[data-mode]`, **not** a viewport media query. Live demos: `/components/container-breakpoint`, `/components/fit-to-size`, `/components/responsive-form`.
+
+**Raw hook** (when you need the low level, or server-side mount-on-demand):
+
+```heex
+<div
+  id="card"
+  phx-hook="PureAdminContainerBreakpoint"
+  data-pc-breakpoints={Jason.encode!(%{compact: 0, comfy: 34, wide: 64})}
+  data-pc-breakpoint-initial="comfy"
+  data-pc-breakpoint-event="mode_changed"
+>
+  <div data-pc-show="wide">…rich…</div>
+  <div data-pc-show="comfy wide">…summary…</div>
+</div>
+```
+
+Without `data-pc-breakpoint-event` the hook is purely client-side (CSS `[data-mode]` + `.d-none`); with it, each flip is pushed to the LiveView so `handle_event("mode_changed", %{"mode" => m}, socket)` can render only the branch for the current mode.
+
 ## Page Context
 
 Server-rendered JSON available to JS synchronously via a hidden input. Avoids API fetches on page load.
