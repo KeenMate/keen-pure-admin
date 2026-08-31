@@ -28,13 +28,14 @@ import {PureAdminKpiChart} from "./hooks/kpi_chart"
 import {SplitterStorageClear} from "./hooks/splitter_storage_clear"
 import {StageWidth, FitSparkline, CardTabs, FitToSizeEx4} from "./hooks/responsivity"
 import {NavbarSearchDemo} from "./hooks/navbar_search_demo"
+import {MeasureFormSizes, FormsTristate} from "./hooks/forms"
 import topbar from "../vendor/topbar"
 
 const csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 const liveSocket = new LiveSocket("/live", Socket, {
   longPollFallbackMs: 2500,
   params: {_csrf_token: csrfToken},
-  hooks: {...colocatedHooks, ...PureAdminHooks, PureAdminKpiChart, SplitterStorageClear, StageWidth, FitSparkline, CardTabs, FitToSizeEx4, NavbarSearchDemo},
+  hooks: {...colocatedHooks, ...PureAdminHooks, PureAdminKpiChart, SplitterStorageClear, StageWidth, FitSparkline, CardTabs, FitToSizeEx4, NavbarSearchDemo, MeasureFormSizes, FormsTristate},
 })
 
 // Show progress bar on live navigation and form submits
